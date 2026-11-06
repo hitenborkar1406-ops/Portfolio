@@ -1,0 +1,217 @@
+/* base.css — Hallmark scaffold: floor rules + shared elements */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  overflow-x: clip;
+  scroll-behavior: smooth;
+}
+
+body {
+  overflow-x: clip;
+  font-family: var(--font-body);
+  font-size: var(--text-md);
+  line-height: 1.6;
+  color: var(--color-ink);
+  background: var(--color-paper);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Container */
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Type */
+h1, h2, h3 {
+  font-family: var(--font-display);
+  font-weight: var(--display-weight);
+  letter-spacing: var(--tracking-display);
+  line-height: 1.02;
+  color: var(--color-ink);
+  overflow-wrap: break-word;
+  min-width: 0;
+}
+
+h1 { font-size: var(--text-display); }
+h2 { font-size: var(--text-section); }
+h3 { font-size: var(--text-title); font-weight: 500; }
+
+.lead {
+  font-size: var(--text-lead);
+  line-height: 1.5;
+  color: var(--color-ink-2);
+}
+
+p {
+  line-height: 1.6;
+  color: var(--color-ink-2);
+}
+
+small, figcaption, .label {
+  font-family: var(--font-body);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration-color: var(--color-rule-2);
+  text-underline-offset: 0.2em;
+  transition: text-decoration-color var(--dur-short) var(--ease-out);
+}
+a:hover {
+  text-decoration-color: var(--color-accent);
+}
+a:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+/* Keys (Cobalt buttons) */
+.key {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-sm);
+  border: var(--rule-hair) solid var(--color-rule-2);
+  border-radius: var(--radius-input);
+  padding: 0 var(--space-lg);
+  min-height: 48px;
+  background: var(--color-key-face);
+  color: var(--color-ink);
+  font: 500 var(--text-md)/1 var(--font-display);
+  box-shadow: var(--shadow-key);
+  cursor: pointer;
+  text-decoration: none;
+  transition: transform var(--dur-micro) var(--ease-out), box-shadow var(--dur-micro) var(--ease-out);
+}
+.key:hover {
+  transform: translateY(-1px);
+}
+.key:active {
+  transform: translateY(3px);
+  box-shadow: var(--shadow-key-press);
+}
+.key:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+.key--primary {
+  background: var(--color-accent);
+  border-color: var(--color-accent-edge);
+  color: var(--color-accent-ink);
+  box-shadow: var(--shadow-key-accent);
+}
+.key--primary:hover {
+  transform: translateY(-1px);
+}
+.key--primary:active {
+  transform: translateY(3px);
+  box-shadow: var(--shadow-key-press);
+}
+
+.key--sm {
+  min-height: 36px;
+  padding: 0 var(--space-md);
+  font-size: var(--text-sm);
+}
+
+/* Cut-corner panels */
+.cut {
+  border: var(--rule-hair) solid var(--color-rule);
+  border-radius: var(--radius-card);
+  background: var(--color-paper);
+  box-shadow: var(--shadow-card);
+}
+@supports (corner-shape: bevel) {
+  .cut {
+    border-radius: var(--cut-l) 4px var(--cut-l) 4px;
+    corner-shape: bevel round bevel round;
+  }
+}
+
+/* Graphite surfaces */
+.graphite {
+  background: var(--color-graphite);
+  color: var(--color-graphite-ink);
+  border: var(--rule-hair) solid oklch(27% 0.028 262);
+}
+.graphite .token,
+.graphite .accent {
+  color: var(--color-accent-2);
+}
+.graphite .muted {
+  color: var(--color-graphite-muted);
+}
+
+/* Images */
+img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Grid helpers */
+.grid-12 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: var(--gap-columns);
+}
+
+/* Section spacing */
+section {
+  padding-block: var(--section-gap-s);
+}
+
+/* Hairline rules */
+.rule {
+  border: 0;
+  border-top: var(--rule-hair) solid var(--color-rule);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Responsive gutter */
+@media (max-width: 1024px) {
+  :root {
+    --gutter: 40px;
+    --gap-columns: 24px;
+    --section-gap-s: 5rem;
+    --section-gap: 6rem;
+    --section-gap-l: 7rem;
+  }
+}
+
+@media (max-width: 640px) {
+  :root {
+    --gutter: 20px;
+    --gap-columns: 16px;
+    --section-gap-s: 3.5rem;
+    --section-gap: 4rem;
+    --section-gap-l: 5rem;
+  }
+}
