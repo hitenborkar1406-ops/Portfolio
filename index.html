@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hiten Borkar — Developer</title>
+  <meta name="description" content="CSE undergrad at Ramdeobaba University building real-world solutions in cloud, IoT, and AI.">
+
+  <!-- Cobalt theme fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="tokens.css">
+  <link rel="stylesheet" href="base.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- ── Nav ──────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <div class="container nav__inner">
+      <a href="#" class="nav__wordmark">Hiten Borkar</a>
+      <ul class="nav__links">
+        <li><a href="#projects" class="nav__link">Projects</a></li>
+        <li><a href="#skills" class="nav__link">Skills</a></li>
+        <li><a href="#achievements" class="nav__link">Achievements</a></li>
+        <li><a href="#about" class="nav__link">About</a></li>
+        <li><a href="#contact" class="key key--primary key--sm">Get in Touch</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <main>
+
+    <!-- ── Hero (Stage) ────────────────────────────── -->
+    <section class="hero" id="hero">
+      <div class="container hero__grid">
+        <div class="hero__text">
+          <h1 class="hero__headline">I build things that work.</h1>
+          <p class="hero__sentence">CSE undergrad at Ramdeobaba University, turning ideas into real-world solutions across cloud, IoT, and AI.</p>
+          <div class="hero__actions">
+            <a href="#contact" class="key key--primary">Get in Touch</a>
+            <a href="#projects" class="key">View Projects</a>
+          </div>
+        </div>
+        <div class="hero__visual">
+          <div class="hero__dot-grid" aria-hidden="true"></div>
+          <div class="hero__avatar-frame graphite cut">
+            <div class="hero__avatar-glow" aria-hidden="true"></div>
+            <img src="assets/avatar.jpg" alt="Hiten Borkar" width="420" height="420">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Projects ────────────────────────────────── -->
+    <section class="projects" id="projects">
+      <div class="container">
+        <div class="section__head">
+          <h2>Projects</h2>
+          <p class="lead">Full-stack applications built to solve real problems.</p>
+        </div>
+
+        <!-- Project 1: Smart IV Monitor -->
+        <article class="project-card">
+          <div class="project-card__info">
+            <h3>Smart IV Monitoring</h3>
+            <p class="project-card__desc">Full-stack web platform for real-time monitoring of IoT healthcare data. Doctors and patients track vitals, IV status, and alerts through a centralized dashboard.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">HTML</span>
+              <span class="project-card__tag">CSS</span>
+              <span class="project-card__tag">JavaScript</span>
+              <span class="project-card__tag">IoT</span>
+            </div>
+            <a href="https://clever-halva-75f827.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
+          </div>
+          <div class="project-card__panel graphite cut">
+            <div class="project-card__panel-title">// smart-iv-monitor</div>
+            <div class="project-card__panel-line"><span class="accent">const</span> patient = <span class="accent">await</span> getPatientData(id);</div>
+            <div class="project-card__panel-line"><span class="accent">const</span> vitals = patient.<span class="accent">vitals</span>;</div>
+            <div class="project-card__panel-line muted">// real-time IV status tracking</div>
+            <div class="project-card__panel-line"><span class="accent">if</span> (vitals.ivLevel &lt; threshold) {'{'}</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;sendAlert(<span class="accent">patient.doctor</span>);</div>
+            <div class="project-card__panel-line">{'}'}</div>
+          </div>
+        </article>
+
+        <!-- Project 2: CarbonTrack SME -->
+        <article class="project-card project-card--reverse">
+          <div class="project-card__info">
+            <h3>CarbonTrack SME</h3>
+            <p class="project-card__desc">Converts SME operational data into carbon emission insights with actionable reduction strategies, ROI analysis, and progress tracking through an interactive dashboard.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">Full-stack</span>
+              <span class="project-card__tag">Analytics</span>
+              <span class="project-card__tag">Dashboard</span>
+            </div>
+            <a href="https://sparkling-brigadeiros-265737.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
+          </div>
+          <div class="project-card__panel graphite cut">
+            <div class="project-card__panel-title">// carbon-track-sme</div>
+            <div class="project-card__panel-line"><span class="accent">function</span> calculateFootprint(data) {'{'}</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">const</span> emissions = data.<span class="accent">map</span>(</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;&nbsp;&nbsp;d =&gt; d.consumption * <span class="accent">factors</span>[d.type]</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;);</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> { total, breakdown, roi };</div>
+            <div class="project-card__panel-line">{'}'}</div>
+          </div>
+        </article>
+
+        <!-- GitHub link -->
+        <div style="margin-top: var(--space-2xl); text-align: center;">
+          <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="key">View all on GitHub</a>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ── Skills ──────────────────────────────────── -->
+    <section class="skills" id="skills">
+      <div class="container">
+        <div class="section__head">
+          <h2>Technical skills</h2>
+        </div>
+
+        <div class="skills__grid">
+          <div class="skills__group">
+            <div class="skills__group-label">Languages</div>
+            <div class="skills__keys">
+              <span class="key key--sm">C</span>
+              <span class="key key--sm">C++</span>
+              <span class="key key--sm">Python</span>
+              <span class="key key--sm">Java</span>
+              <span class="key key--sm">JavaScript</span>
+              <span class="key key--sm">HTML</span>
+              <span class="key key--sm">CSS</span>
+              <span class="key key--sm">Kotlin</span>
+              <span class="key key--sm">XML</span>
+              <span class="key key--sm">SQL</span>
+            </div>
+          </div>
+
+          <div class="skills__group">
+            <div class="skills__group-label">Tools and platforms</div>
+            <div class="skills__keys">
+              <span class="key key--sm">Git / GitHub</span>
+              <span class="key key--sm">Figma</span>
+              <span class="key key--sm">Ubuntu</span>
+              <span class="key key--sm">Linux</span>
+              <span class="key key--sm">Android Studio</span>
+              <span class="key key--sm">Cisco Packet Tracer</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Achievements ────────────────────────────── -->
+    <section class="achievements" id="achievements">
+      <div class="container">
+        <div class="section__head">
+          <h2>Achievements</h2>
+        </div>
+
+        <div class="achievements__grid">
+          <div class="achievement">
+            <div class="achievement__place">2nd place</div>
+            <div class="achievement__event">Hacksagon 2026</div>
+            <p class="achievement__detail">Among 2,100+ participants</p>
+          </div>
+
+          <div class="achievement">
+            <div class="achievement__place">2nd runner up</div>
+            <div class="achievement__event">Ideathon</div>
+            <p class="achievement__detail">RCOEM TBI</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── About ───────────────────────────────────── -->
+    <section class="about" id="about">
+      <div class="container">
+        <div class="section__head">
+          <h2>About</h2>
+        </div>
+
+        <div class="about__grid">
+          <div class="about__education">
+            <div class="about__sub-label">Education</div>
+
+            <div class="about__item">
+              <div class="about__item-period">2024 – 2028</div>
+              <div class="about__item-title">Ramdeobaba University, Nagpur</div>
+              <p class="about__item-detail">B.Tech in Computer Science and Engineering<br>CGPA: 8.53</p>
+            </div>
+
+            <div class="about__item">
+              <div class="about__item-period">2022 – 2024</div>
+              <div class="about__item-title">G.H. Raisoni Public School</div>
+              <p class="about__item-detail">12th grade: 81.2%</p>
+            </div>
+          </div>
+
+          <div class="about__experience">
+            <div class="about__sub-label">Experience and research</div>
+
+            <div class="about__item">
+              <div class="about__item-period">In progress</div>
+              <div class="about__item-title">6G Security Research Paper</div>
+              <p class="about__item-detail">Authoring research paper on security in 6G networks.</p>
+            </div>
+
+            <div class="about__item">
+              <div class="about__item-period">Active</div>
+              <div class="about__item-title">Smart IV Drip Monitoring System</div>
+              <p class="about__item-detail">Automating fluid level tracking to improve patient safety.</p>
+            </div>
+
+            <div class="about__item">
+              <div class="about__item-period">Member</div>
+              <div class="about__item-title">Blockchain Students Chapter</div>
+              <p class="about__item-detail">Ramdeobaba University</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Contact ─────────────────────────────────── -->
+    <section class="contact" id="contact">
+      <div class="container">
+        <div class="contact__grid">
+          <div class="contact__text">
+            <h2>Let's talk</h2>
+            <p class="lead">Open to internships, collaborations, and interesting projects.</p>
+          </div>
+
+          <div class="contact__channels">
+            <a href="mailto:hitenborkar@gmail.com" class="contact__item">
+              <div>
+                <div class="contact__item-label">Email</div>
+                <div class="contact__item-value">hitenborkar@gmail.com</div>
+              </div>
+            </a>
+
+            <a href="tel:+919356597783" class="contact__item">
+              <div>
+                <div class="contact__item-label">Phone</div>
+                <div class="contact__item-value">+91 93565 97783</div>
+              </div>
+            </a>
+
+            <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="contact__item">
+              <div>
+                <div class="contact__item-label">GitHub</div>
+                <div class="contact__item-value">hitenborkar1406-ops</div>
+              </div>
+            </a>
+
+            <div class="contact__item">
+              <div>
+                <div class="contact__item-label">Location</div>
+                <div class="contact__item-value">Kashi Nagar, Nagpur</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ── Footer (Mast) ─────────────────────────────── -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <a href="#" class="footer__wordmark">Hiten Borkar</a>
+        <ul class="footer__links">
+          <li><a href="#projects" class="footer__link">Projects</a></li>
+          <li><a href="#skills" class="footer__link">Skills</a></li>
+          <li><a href="#about" class="footer__link">About</a></li>
+          <li><a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="footer__link">GitHub</a></li>
+        </ul>
+      </div>
+      <p class="footer__copy">Kashi Nagar, Nagpur</p>
+    </div>
+  </footer>
+
+</body>
+</html>
