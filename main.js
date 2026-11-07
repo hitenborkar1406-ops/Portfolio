@@ -1,11 +1,11 @@
 /* Mobile nav toggle */
 (function () {
-  const nav = document.querySelector('.nav');
-  const links = document.querySelector('.nav__links');
+  var nav = document.querySelector('.nav');
+  var links = document.querySelector('.nav__links');
   if (!links) return;
 
   /* Create burger */
-  const burger = document.createElement('button');
+  var burger = document.createElement('button');
   burger.className = 'nav__burger';
   burger.setAttribute('aria-label', 'Open menu');
   burger.setAttribute('aria-expanded', 'false');
@@ -13,7 +13,7 @@
   nav.querySelector('.nav__inner').appendChild(burger);
 
   burger.addEventListener('click', function () {
-    const open = links.classList.toggle('nav__links--open');
+    var open = links.classList.toggle('nav__links--open');
     burger.classList.toggle('nav__burger--open', open);
     burger.setAttribute('aria-expanded', String(open));
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
@@ -68,3 +68,17 @@
   });
 })();
 
+/* Back-to-top visibility */
+(function () {
+  var btn = document.getElementById('backToTop');
+  if (!btn) return;
+
+  var visible = false;
+  window.addEventListener('scroll', function () {
+    var show = window.scrollY > 600;
+    if (show !== visible) {
+      visible = show;
+      btn.classList.toggle('back-to-top--visible', show);
+    }
+  }, { passive: true });
+})();
