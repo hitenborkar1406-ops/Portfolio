@@ -92,14 +92,38 @@
   align-items: center;
 }
 
+/* ── Hero entrance (page load) ────────────────────── */
+
+@keyframes hero-in {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
 .hero__text {
   grid-column: 1 / 6;
+  animation: hero-in 600ms var(--ease-out) both;
 }
 
 .hero__headline {
   font-size: var(--text-display);
   line-height: 1.02;
   margin-bottom: var(--space-lg);
+}
+
+/* Blinking cursor after headline */
+.hero__headline::after {
+  content: "";
+  display: inline-block;
+  width: 3px;
+  height: 0.85em;
+  background: var(--color-accent);
+  margin-left: 0.15em;
+  vertical-align: baseline;
+  animation: blink 1s steps(1) 5;
+}
+
+@keyframes blink {
+  50% { opacity: 0; }
 }
 
 .hero__sentence {
@@ -119,6 +143,13 @@
 .hero__visual {
   grid-column: 7 / 13;
   position: relative;
+  animation: hero-in 600ms var(--ease-out) 150ms both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero__text,
+  .hero__visual { animation: none; }
+  .hero__headline::after { animation: none; opacity: 1; }
 }
 
 .hero__avatar-frame {
