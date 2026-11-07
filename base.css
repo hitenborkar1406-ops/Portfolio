@@ -11,6 +11,7 @@
 html {
   overflow-x: clip;
   scroll-behavior: smooth;
+  scroll-padding-top: 80px;
 }
 
 body {
