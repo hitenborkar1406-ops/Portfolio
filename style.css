@@ -72,6 +72,10 @@
   color: var(--color-ink);
 }
 
+.nav__link--active {
+  color: var(--color-accent);
+}
+
 /* ── Hero (Stage) ────────────────────────────────── */
 
 .hero {
