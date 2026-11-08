@@ -1,6 +1,5 @@
-/* hallmark: aubergine-silver · v2.1.0 · custom-palette · genre: modern-minimal · job: hire · hero: stage · nav: edge · footer: mast */
-/* critique: floor-clean · reflex-clean · finish: active */
-/* Primary Palette: Ice Silver (#DDE3E8) & Deep Aubergine (#3A0F34) · Minor Accent: Marigold (#EAAA00) */
+/* hallmark: editorial-aubergine · v2.2.0 · screenshot-inspired */
+/* Palette: Ice Silver (#DDE3E8) · Deep Aubergine (#3A0F34) · Glowing Marigold (#EAAA00) */
 
 :root {
   /* Brand Constants */
@@ -8,85 +7,74 @@
   --brand-deep-aubergine: #3A0F34;
   --brand-marigold: #EAAA00;
 
-  /* Paper (Ice Silver family) */
-  --color-paper: #EBF0F4;
-  --color-paper-2: #DDE3E8; /* Exact Ice Silver */
-  --color-paper-3: #CAD2D9;
-  --color-nav-bg: rgba(235, 240, 244, 0.92);
+  /* Paper / Canvas Grounds (Ice Silver family) */
+  --color-paper: #DFE5EA; /* Rich tactile Ice Silver base */
+  --color-paper-light: #EBF0F4;
+  --color-paper-2: #D3DAE0; /* Slightly deeper Ice Silver for section contrast */
+  --color-paper-3: #C4CCD4;
+  --color-nav-bg: rgba(223, 229, 234, 0.88);
 
-  /* Ink (Deep Aubergine family) */
+  /* Ink / Typography (Deep Aubergine family) */
   --color-ink: #3A0F34; /* Exact Deep Aubergine */
-  --color-ink-2: #52224B;
+  --color-ink-deep: #250721; /* Velvet Aubergine black */
+  --color-ink-2: #54224D;
   --color-muted: #7E4F76;
 
-  /* Rules */
-  --color-rule: #C6CED5;
-  --color-rule-2: #A8B3BD;
+  /* Architectural Hairlines */
+  --color-rule: rgba(58, 15, 52, 0.12); /* Delicate aubergine hairline */
+  --color-rule-strong: rgba(58, 15, 52, 0.24);
+  --color-grid-line: rgba(58, 15, 52, 0.07); /* Full-bleed column grid line */
 
   /* Graphite (Dark Aubergine for terminal panels and code blocks) */
-  --color-graphite: #2A0925;
+  --color-graphite: #240820;
   --color-graphite-2: #3A0F34;
   --color-graphite-ink: #DDE3E8; /* Ice Silver on Aubergine */
-  --color-graphite-muted: #B38BAE;
-  --color-graphite-border: #4D1A46;
+  --color-graphite-muted: #B890B3;
+  --color-graphite-border: rgba(234, 170, 0, 0.25);
 
-  /* Accent (Marigold as minor/highlight signal) */
+  /* Radiant Marigold Accent (The Glowing Flame) */
   --color-accent: #EAAA00; /* Exact Marigold */
-  --color-accent-2: #FFC024;
-  --color-accent-wash: rgba(234, 170, 0, 0.12);
-  --color-accent-ink: #200B1D; /* Deep dark aubergine for WCAG AAA contrast */
+  --color-accent-bright: #FFB300;
+  --color-accent-warm: #FF9400;
+  --color-accent-wash: rgba(234, 170, 0, 0.14);
+  --color-accent-glow: rgba(234, 170, 0, 0.45);
+  --color-accent-ink: #1F071B; /* Deep Aubergine on gold for maximum contrast */
   --color-focus: #EAAA00;
-  --color-accent-deep: #C78B00;
   --color-accent-edge: #A87500;
 
-  /* Glyph field */
-  --color-glyph-1: #CBD3DA;
-  --color-glyph-2: #B0BAC3;
-  --color-glyph-3: #929EA9;
-  --color-glyph-4: #6F7D89;
-  --color-graphite-glyph-1: #41143B;
-  --color-graphite-glyph-2: #5B2153;
-  --color-graphite-glyph-3: #7D3473;
-
-  /* Keys */
-  --color-key-face: #F4F7F9;
-  --color-key-edge: #B8C2CA;
-
   /* Fonts */
-  --font-display: "Familjen Grotesk", system-ui, sans-serif;
+  --font-display: "Playfair Display", "Cinzel", Georgia, serif;
   --font-body: "IBM Plex Sans", system-ui, sans-serif;
   --font-outlier: "JetBrains Mono", ui-monospace, monospace;
 
   /* Radii */
-  --radius-card: 8px;
-  --radius-input: 6px;
+  --radius-card: 4px;
+  --radius-input: 4px;
+  --radius-circle: 50%;
   --radius-pill: 999px;
 
-  /* Grid cells */
-  --cell-w: 8px;
-  --cell-h: 16px;
+  /* Grid & Layout */
+  --container: 1380px;
+  --gutter: 56px;
+  --gap-columns: 28px;
   --cut: 8px;
   --cut-l: 16px;
-
-  /* Rules and shadows */
   --rule-hair: 1px;
-  --shadow-card: 0 1px 3px rgba(58, 15, 52, 0.08);
-  --shadow-key: 0 3px 0 0 var(--color-key-edge), 0 6px 8px -4px rgba(58, 15, 52, 0.22), inset 0 1px 0 rgba(255, 255, 255, 0.85);
-  --shadow-key-accent: 0 3px 0 0 var(--color-accent-edge), 0 6px 12px -3px rgba(234, 170, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
-  --shadow-key-press: inset 0 1px 2px rgba(58, 15, 52, 0.2);
 
-  /* Type tracking */
-  --tracking-display: -0.028em;
-  --display-weight: 600;
+  /* Shadows & Atmospheric Lighting */
+  --shadow-card: 0 4px 20px -4px rgba(58, 15, 52, 0.08);
+  --shadow-card-hover: 0 16px 36px -8px rgba(58, 15, 52, 0.2), 0 0 30px -4px rgba(234, 170, 0, 0.15);
+  --shadow-glow: 0 0 50px 10px rgba(234, 170, 0, 0.35);
 
   /* Type scale */
-  --text-display: clamp(3rem, 2.2rem + 2.5vw, 5.25rem);
-  --text-display-s: clamp(2.25rem, 1.7rem + 1.7vw, 3.75rem);
-  --text-section: clamp(2rem, 1.5rem + 1.5vw, 3.25rem);
+  --text-display: clamp(3.2rem, 2.4rem + 3.8vw, 6.5rem);
+  --text-display-s: clamp(2.4rem, 1.8rem + 2.2vw, 4.2rem);
+  --text-section: clamp(2.1rem, 1.6rem + 1.8vw, 3.4rem);
   --text-title: clamp(1.25rem, 1.1rem + 0.5vw, 1.5625rem);
-  --text-lead: clamp(1.125rem, 1rem + 0.3vw, 1.3125rem);
+  --text-lead: clamp(1.125rem, 1rem + 0.3vw, 1.35rem);
   --text-md: 1rem;
-  --text-sm: 0.875rem;
+  --text-sm: 0.8125rem;
+  --text-xs: 0.6875rem;
 
   /* Spacing */
   --space-xs: 0.25rem;
@@ -95,22 +83,17 @@
   --space-lg: 1.5rem;
   --space-xl: 2rem;
   --space-2xl: 3rem;
-  --space-3xl: 4rem;
+  --space-3xl: 4.5rem;
 
   /* Section gaps */
-  --section-gap-s: 7.5rem;
-  --section-gap: 9rem;
+  --section-gap-s: 6rem;
+  --section-gap: 8.5rem;
   --section-gap-l: 11rem;
 
-  /* Layout */
-  --container: 1440px;
-  --gutter: 64px;
-  --gap-columns: 32px;
-
   /* Motion */
-  --dur-micro: 100ms;
-  --dur-short: 200ms;
-  --dur-mid: 400ms;
+  --dur-micro: 120ms;
+  --dur-short: 240ms;
+  --dur-mid: 450ms;
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }

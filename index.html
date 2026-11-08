@@ -15,10 +15,10 @@
 
   <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
-  <!-- Cobalt theme fonts -->
+  <!-- Editorial Serif and Sans Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:wght@500;600&family=IBM+Plex+Sans:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="tokens.css">
   <link rel="stylesheet" href="base.css">
@@ -26,10 +26,29 @@
 </head>
 <body>
 
+  <!-- Full-bleed Architectural Column Lines -->
+  <div class="architectural-grid" aria-hidden="true">
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+  </div>
+
   <!-- ── Nav ──────────────────────────────────────── -->
   <nav class="nav" role="navigation" aria-label="Main">
     <div class="container nav__inner">
-      <a href="#" class="nav__wordmark">Hiten Borkar</a>
+      <a href="#" class="nav__wordmark">
+        <span class="wordmark-title">Hiten Borkar</span>
+        <span class="wordmark-sub">STUDENT &middot; DEVELOPER</span>
+      </a>
       <ul class="nav__links">
         <li><a href="#projects" class="nav__link">Projects</a></li>
         <li><a href="#skills" class="nav__link">Skills</a></li>
@@ -43,22 +62,64 @@
 
   <main>
 
-    <!-- ── Hero (Stage) ────────────────────────────── -->
+    <!-- ── Hero (Editorial Stage) ────────────────────── -->
     <section class="hero" id="hero">
-      <div class="container hero__grid">
-        <div class="hero__text">
-          <h1 class="hero__headline">I build things that work.</h1>
-          <p class="hero__sentence">CSE undergrad at Ramdeobaba University, turning ideas into real-world solutions across cloud, IoT, and AI.</p>
-          <div class="hero__actions">
-            <a href="#contact" class="key key--primary">Get in Touch</a>
-            <a href="#projects" class="key">View Projects</a>
+      <div class="hero__flame-glow" aria-hidden="true"></div>
+
+      <div class="container hero__stage">
+        <!-- Top Editorial Meta -->
+        <div class="hero__meta-top">
+          <div class="hero__kicker-left">
+            <span class="editorial-caps">PORTFOLIO &middot; 2024–2028</span>
+            <span class="editorial-line"></span>
+            <span class="editorial-sub">CSE &middot; RAMDEOBABA UNIVERSITY, NAGPUR</span>
+          </div>
+
+          <div class="hero__kicker-right">
+            <div class="hero__disciplines">
+              <span>CLOUD</span>
+              <span>IOT</span>
+              <span>MACHINE LEARNING</span>
+              <span>6G RESEARCH</span>
+            </div>
+            <div class="hero__edition">
+              <span class="hero__edition-num">01</span>
+              <span class="hero__edition-bars" aria-hidden="true">
+                <i></i><i></i><i></i><i></i>
+              </span>
+            </div>
           </div>
         </div>
-        <div class="hero__visual">
-          <div class="hero__dot-grid" aria-hidden="true"></div>
-          <div class="hero__avatar-frame graphite cut">
-            <div class="hero__avatar-glow" aria-hidden="true"></div>
-            <img src="assets/avatar.jpg" alt="Hiten Borkar" width="420" height="420">
+
+        <!-- Center Editorial Layout -->
+        <div class="hero__centerpiece">
+          <div class="hero__title-wrap">
+            <h1 class="hero__headline">
+              <span class="headline-row">I build things</span>
+              <span class="headline-row">that work<span class="headline-period">.</span></span>
+            </h1>
+            <p class="hero__sentence">Computer Science undergraduate turning ideas into real-world solutions across cloud, IoT, and AI.</p>
+
+            <div class="hero__cta-editorial">
+              <a href="#projects" class="editorial-circle-cta">
+                <span class="circle-icon">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <polyline points="12 5 19 12 12 19"></polyline>
+                  </svg>
+                </span>
+                <span class="circle-label">EXPLORE THE WORK</span>
+              </a>
+              <a href="#contact" class="key key--primary key--sm">Get in Touch</a>
+            </div>
+          </div>
+
+          <div class="hero__visual-editorial">
+            <div class="flame-aura-bloom" aria-hidden="true"></div>
+            <div class="hero__avatar-frame graphite cut">
+              <div class="hero__avatar-glow" aria-hidden="true"></div>
+              <img src="assets/avatar.jpg" alt="Hiten Borkar" width="440" height="440">
+            </div>
           </div>
         </div>
       </div>
