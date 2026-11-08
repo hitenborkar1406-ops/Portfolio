@@ -24,11 +24,12 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 ## Sections
 
 - **Hero** — headline, one-liner, CTA
-- **Projects** — Smart IV Monitoring, CarbonTrack SME (live links)
-- **Skills** — languages and tools as keycap buttons
+- **Projects** — Smart City Traffic Optimization, Smart IV Monitoring, CarbonTrack SME
+- **Skills** — Languages, Core Concepts, Tools & Platforms, AI/ML & Simulation as keycaps
+- **Profiles** — GitHub, LinkedIn, LeetCode, Codeforces, CodeChef, Kaggle
 - **Achievements** — Hacksagon 2026 (2nd/2100+), Ideathon (2nd runner up)
-- **About** — education, research, blockchain chapter
-- **Contact** — email, phone, GitHub, location
+- **About** — Education (Ramdeobaba University, CGPA 8.53/10), 6G Security Research, Blockchain Chapter
+- **Contact** — Email, Phone, GitHub, LinkedIn, LeetCode, Location
 
 ## Built with
 
