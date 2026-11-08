@@ -71,11 +71,33 @@
           <p class="lead">Full-stack applications built to solve real problems.</p>
         </div>
 
-        <!-- Project 1: Smart IV Monitor -->
+        <!-- Project 1: Smart City Traffic -->
+        <article class="project-card reveal">
+          <div class="project-card__info">
+            <h3>Smart City Traffic Optimization</h3>
+            <p class="project-card__desc">Traffic prediction workflow using SUMO simulation data and OpenStreetMap for a Nagpur road corridor. ML pipelines predict congestion 15 minutes ahead, supporting intelligent alternate-route recommendations.</p>
+            <div class="project-card__tags">
+              <span class="project-card__tag">Python</span>
+              <span class="project-card__tag">Scikit-learn</span>
+              <span class="project-card__tag">SUMO</span>
+              <span class="project-card__tag">OpenStreetMap</span>
+            </div>
+          </div>
+          <div class="project-card__panel graphite cut">
+            <div class="project-card__panel-title">// traffic-route-optimizer</div>
+            <div class="project-card__panel-line"><span class="accent">from</span> sklearn.ensemble <span class="accent">import</span> RandomForest</div>
+            <div class="project-card__panel-line muted"># predict congestion 15 min ahead</div>
+            <div class="project-card__panel-line"><span class="accent">def</span> predict_route(corridor, t):</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;data = sumo.<span class="accent">simulate</span>(corridor, t)</div>
+            <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> model.predict(data)</div>
+          </div>
+        </article>
+
+        <!-- Project 2: Smart IV Monitor -->
         <article class="project-card reveal">
           <div class="project-card__info">
             <h3>Smart IV Monitoring</h3>
-            <p class="project-card__desc">Full-stack web platform for real-time monitoring of IoT healthcare data. Doctors and patients track vitals, IV status, and alerts through a centralized dashboard.</p>
+            <p class="project-card__desc">IoT-based IV fluid monitoring system for patient safety. Features IV fluid level monitoring, blood backflow detection, automatic valve control, vital-sign monitoring, and real-time alerts through a centralized dashboard.</p>
             <div class="project-card__tags">
               <span class="project-card__tag">HTML</span>
               <span class="project-card__tag">CSS</span>
