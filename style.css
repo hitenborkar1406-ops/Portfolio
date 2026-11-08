@@ -321,6 +321,7 @@
 
 .skills__group {
   grid-column: span 6;
+  margin-bottom: var(--space-xl);
 }
 
 .skills__group-label {
