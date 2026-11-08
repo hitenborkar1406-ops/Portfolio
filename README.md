@@ -1,12 +1,14 @@
 # Hiten Borkar — Portfolio
 
-Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/hallmark) design system (Cobalt theme).
+Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/hallmark) design system.
 
 **Live:** [View Portfolio](https://hitenborkar1406-ops.github.io/Portfolio/)
 
-## Theme
+## Theme & Palette
 
-**Cobalt** — cool near-white paper, blue-grey hairlines, Familjen Grotesk + IBM Plex Sans + JetBrains Mono, keycap buttons, one electric cobalt signal.
+- **Ice Silver (`#DDE3E8`)** — Main paper, light grounds, card contrast, subtle borders.
+- **Deep Aubergine (`#3A0F34`)** — Primary ink, deep headings, terminal/graphite panels, dark brand accents.
+- **Marigold (`#EAAA00`)** — Radiant minor accent for buttons, signals, hover highlights, active states.
 
 ## Structure
 

@@ -31,7 +31,7 @@
   position: sticky;
   top: 0;
   z-index: 100;
-  background: oklch(98.6% 0.005 250 / 0.92);
+  background: var(--color-nav-bg);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-bottom: var(--rule-hair) solid var(--color-rule);
@@ -278,7 +278,7 @@
 
 .project-card__panel:hover {
   transform: translateY(-4px);
-  box-shadow: 0 12px 32px -8px oklch(21% 0.028 262 / 0.18);
+  box-shadow: 0 12px 32px -8px rgba(58, 15, 52, 0.28);
 }
 
 @supports (corner-shape: bevel) {

@@ -149,7 +149,7 @@ a:focus-visible {
 .graphite {
   background: var(--color-graphite);
   color: var(--color-graphite-ink);
-  border: var(--rule-hair) solid oklch(27% 0.028 262);
+  border: var(--rule-hair) solid var(--color-graphite-border);
 }
 .graphite .token,
 .graphite .accent {
