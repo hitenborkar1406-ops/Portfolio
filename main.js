@@ -669,19 +669,24 @@
     {
       id: 'hacksagon-2026',
       title: 'Hacksagon 2026',
+      mainTitle: 'HACKSAGON',
+      yearText: '2026',
       author: '2nd Place Winner',
+      subtitle: '2ND PLACE WINNER',
+      team: 'Bandwidth Biotics',
       badge: '2nd Place Winner (₹ Cash Prize)',
+      headerOrnament: '★ NATIONAL LEVEL HACKATHON ★',
+      footerText: 'AI & IOT INFUSION SAFETY',
       source: 'National Level Hackathon',
       year: '2026',
       stars: 5,
       desc: 'Secured 2nd place nationwide among 2,100+ competitors with Team Bandwidth Biotics. Built an intelligent IV infusion safety monitoring system featuring optical droplet metering, automated pinch valve activation to prevent blood backflow, and real-time hospital ward telemetry.',
-      frontImage: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
       photos: [
         { title: 'Team Victory Podium', src: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg' },
         { title: 'Hardware Prototype Demo', src: 'HACKSAGON_SOLO_IMAGE.jpeg' }
       ],
-      backBg: '#20071C',
-      backInk: '234,170,0',
+      coverBg: '#280724',
+      backBg: '#1B0518',
       spineBg: '#20071C',
       spineInk: '#EAAA00',
       spineFont: '700 36px Georgia',
@@ -690,18 +695,23 @@
     {
       id: 'ideathon-cyberster',
       title: 'Ideathon RCOEM TBI',
+      mainTitle: 'IDEATHON',
+      yearText: '2025',
       author: '2nd Runner Up — Cyberster',
+      subtitle: '2ND RUNNER UP',
+      team: 'Team Cyberster',
       badge: '2nd Runner Up (₹5,000 Prize)',
+      headerOrnament: '★ RCOEM TBI STARTUP IDEATHON ★',
+      footerText: 'DEEP-TECH INNOVATION',
       source: 'RCOEM TBI Startup Ideathon',
       year: '2025',
       stars: 5,
       desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators, corporate mentors, and engineering faculty.',
-      frontImage: 'IDEATHON_IMAGE.jpeg',
       photos: [
         { title: 'Award Cheque Presentation', src: 'IDEATHON_IMAGE.jpeg' }
       ],
-      backBg: '#1B0617',
-      backInk: '234,170,0',
+      coverBg: '#21061D',
+      backBg: '#170414',
       spineBg: '#250820',
       spineInk: '#EAAA00',
       spineFont: '700 34px Georgia',
@@ -929,21 +939,147 @@
     return tex(c);
   }
 
-  function paintDefaultCover(title, author, bg) {
-    var c = mkCanvas(1024, 1536);
+  function paintBookCover(cfg) {
+    var w = 1024, h = 1536;
+    var c = mkCanvas(w, h);
     var x = c.getContext('2d');
-    x.fillStyle = bg || '#20071C';
-    x.fillRect(0, 0, 1024, 1536);
+
+    // 1. Rich Aubergine base with radial gradient
+    var grad = x.createRadialGradient(w / 2, h * 0.42, 80, w / 2, h / 2, h * 0.72);
+    grad.addColorStop(0, cfg.coverBg || '#2A0826');
+    grad.addColorStop(0.7, '#190416');
+    grad.addColorStop(1, '#0D020C');
+    x.fillStyle = grad;
+    x.fillRect(0, 0, w, h);
+
+    // 2. Elegant Outer Gold Frame
     x.strokeStyle = '#EAAA00';
-    x.lineWidth = 4;
-    x.strokeRect(60, 60, 904, 1416);
+    x.lineWidth = 6;
+    x.strokeRect(52, 52, w - 104, h - 104);
+
+    // Fine inner frame
+    x.strokeStyle = 'rgba(234, 170, 0, 0.55)';
+    x.lineWidth = 2;
+    x.strokeRect(68, 68, w - 136, h - 136);
+
+    // Corner diamond accents
+    function drawCornerDiamond(cx, cy, s) {
+      x.save();
+      x.translate(cx, cy);
+      x.rotate(Math.PI / 4);
+      x.fillStyle = '#EAAA00';
+      x.fillRect(-s / 2, -s / 2, s, s);
+      x.restore();
+    }
+    drawCornerDiamond(68, 68, 14);
+    drawCornerDiamond(w - 68, 68, 14);
+    drawCornerDiamond(68, h - 68, 14);
+    drawCornerDiamond(w - 68, h - 68, 14);
+
+    // 3. Top Header Ornament
     x.fillStyle = '#EAAA00';
+    x.font = '600 24px Georgia, serif';
+    drawSpaced(x, cfg.headerOrnament || '★ HONORS & ACHIEVEMENTS ★', w / 2, 190, 8);
+
+    // Gold divider rule
+    x.strokeStyle = 'rgba(234, 170, 0, 0.45)';
+    x.lineWidth = 2;
+    x.beginPath();
+    x.moveTo(220, 235);
+    x.lineTo(w - 220, 235);
+    x.stroke();
+    drawCornerDiamond(w / 2, 235, 12);
+
+    // 4. Main Title
+    x.fillStyle = '#EAAA00';
+    x.font = '700 86px Georgia, serif';
     x.textAlign = 'center';
-    x.font = '700 76px Georgia';
-    x.fillText(title, 512, 600);
-    x.font = 'italic 44px Georgia';
+    x.fillText(cfg.mainTitle || cfg.title, w / 2, 480);
+
+    x.font = '700 68px Georgia, serif';
+    x.fillStyle = 'rgba(234, 170, 0, 0.9)';
+    x.fillText(cfg.yearText || cfg.year, w / 2, 570);
+
+    // Center divider
+    x.strokeStyle = 'rgba(234, 170, 0, 0.4)';
+    x.beginPath();
+    x.moveTo(260, 660);
+    x.lineTo(w - 260, 660);
+    x.stroke();
+    drawCornerDiamond(w / 2, 660, 10);
+
+    // 5. Award & Team Subtitle
     x.fillStyle = '#DDE3E8';
-    x.fillText(author, 512, 720);
+    x.font = '700 36px Georgia, serif';
+    drawSpaced(x, (cfg.subtitle || cfg.author).toUpperCase(), w / 2, 780, 6);
+
+    x.fillStyle = 'rgba(221, 227, 232, 0.85)';
+    x.font = 'italic 34px Georgia, serif';
+    x.textAlign = 'center';
+    x.fillText(cfg.team || '', w / 2, 850);
+
+    // 6. Ornamental Gold Medallion in Lower Section
+    x.strokeStyle = 'rgba(234, 170, 0, 0.5)';
+    x.lineWidth = 2;
+    x.beginPath();
+    x.arc(w / 2, 1060, 68, 0, Math.PI * 2);
+    x.stroke();
+
+    x.beginPath();
+    x.arc(w / 2, 1060, 58, 0, Math.PI * 2);
+    x.stroke();
+
+    x.fillStyle = '#EAAA00';
+    x.font = '700 34px Georgia, serif';
+    x.textAlign = 'center';
+    x.fillText('★', w / 2, 1072);
+
+    // 7. Footer text
+    x.fillStyle = 'rgba(221, 227, 232, 0.7)';
+    x.font = '600 22px Georgia, serif';
+    drawSpaced(x, (cfg.footerText || 'PORTFOLIO EDITION').toUpperCase(), w / 2, 1260, 6);
+
+    x.strokeStyle = 'rgba(234, 170, 0, 0.4)';
+    x.beginPath();
+    x.moveTo(260, 1310);
+    x.lineTo(w - 260, 1310);
+    x.stroke();
+
+    return c;
+  }
+
+  function paintBookBack(cfg) {
+    var w = 1024, h = 1536;
+    var c = mkCanvas(w, h);
+    var x = c.getContext('2d');
+
+    x.fillStyle = cfg.backBg || '#180415';
+    x.fillRect(0, 0, w, h);
+
+    x.strokeStyle = 'rgba(234, 170, 0, 0.4)';
+    x.lineWidth = 4;
+    x.strokeRect(52, 52, w - 104, h - 104);
+
+    x.strokeStyle = 'rgba(234, 170, 0, 0.2)';
+    x.lineWidth = 1.5;
+    x.strokeRect(68, 68, w - 136, h - 136);
+
+    x.fillStyle = '#EAAA00';
+    x.font = '600 26px Georgia, serif';
+    drawSpaced(x, 'HITEN BORKAR', w / 2, 700, 8);
+
+    x.fillStyle = 'rgba(221, 227, 232, 0.75)';
+    x.font = 'italic 28px Georgia, serif';
+    x.textAlign = 'center';
+    x.fillText('Engineering & Innovation Records', w / 2, 760);
+
+    x.strokeStyle = 'rgba(234, 170, 0, 0.3)';
+    x.lineWidth = 2;
+    x.beginPath();
+    x.moveTo(340, 810);
+    x.lineTo(w - 340, 810);
+    x.stroke();
+
     return c;
   }
 
@@ -953,15 +1089,27 @@
     var x = c.getContext('2d');
     x.fillStyle = spineBg || '#20071C';
     x.fillRect(0, 0, w, h);
+
+    // Gold decorative bands across the spine
+    x.strokeStyle = 'rgba(234, 170, 0, 0.55)';
+    x.lineWidth = 4;
+    var bands = [120, 240, h - 240, h - 120];
+    bands.forEach(function (by) {
+      x.beginPath();
+      x.moveTo(20, by);
+      x.lineTo(w - 20, by);
+      x.stroke();
+    });
+
     x.save();
     x.translate(w / 2, h / 2);
     x.rotate(Math.PI / 2);
     x.fillStyle = spineInk || '#EAAA00';
-    x.font = spineFont || '700 38px Georgia';
-    drawSpaced(x, title.toUpperCase(), -h * 0.1, 15, 6);
-    x.font = '600 25px Arial';
+    x.font = spineFont || '700 38px Georgia, serif';
+    drawSpaced(x, title.toUpperCase(), -h * 0.1, 12, 6);
+    x.font = '600 24px Arial, sans-serif';
     x.fillStyle = '#DDE3E8';
-    drawSpaced(x, author.toUpperCase(), h * 0.32, 9, 4);
+    drawSpaced(x, author.toUpperCase(), h * 0.28, 10, 4);
     x.restore();
     return c;
   }
@@ -1006,19 +1154,12 @@
     var mBack = std({ bumpMap: laminateBump, bumpScale: 0.003, roughness: 0.58 });
     var mSpine = std({ bumpMap: clothBump, bumpScale: 0.006, roughness: 0.78 });
 
-    // Paint initial fallback then load image
-    mFront.map = tex(paintDefaultCover(cfg.title, cfg.author, cfg.spineBg));
+    // Paint normal published book cover and back
+    mFront.map = tex(paintBookCover(cfg));
     mFront.needsUpdate = true;
-    if (cfg.frontImage) {
-      new THREE.TextureLoader().load(cfg.frontImage, function (loadedTex) {
-        loadedTex.anisotropy = ANISO;
-        mFront.map = loadedTex;
-        mFront.needsUpdate = true;
-      });
-    }
 
-    mBack.map = tex(paintDefaultCover(cfg.title, cfg.author, cfg.backBg));
-    mSpine.map = tex(paintSpine(cfg.spineBg, cfg.spineInk, cfg.spineFont, cfg.title, cfg.author));
+    mBack.map = tex(paintBookBack(cfg));
+    mSpine.map = tex(paintSpine(cfg.spineBg, cfg.spineInk, cfg.spineFont, (cfg.mainTitle || cfg.title) + ' ' + (cfg.yearText || cfg.year), cfg.subtitle || cfg.author));
 
     // Back cover
     var backPivot = new THREE.Group();
@@ -1195,26 +1336,26 @@
 
   function computeSlots() {
     var a = dims.w / Math.max(1, dims.h);
-    var portrait = a < 0.85;
-    var fit = portrait ? clamp(a / 1.08, 0.42, 0.74) : clamp(a / 1.62, 0.55, 1);
+    var portrait = a < 0.95;
+    var fit = portrait ? clamp(a / 1.1, 0.45, 0.72) : clamp(a / 2.05, 0.52, 0.86);
     bookRoot.scale.setScalar(fit);
-    bookRoot.position.y = -(1 - fit) * 0.28;
+    bookRoot.position.y = -(1 - fit) * 0.16;
     SLOTS.portrait = portrait;
 
     SLOTS.hero = portrait
       ? [
-        { p: [-0.95, -0.42, 0.45], r: [-0.05, 0.22, 0.08], s: 1.25 },
-        { p: [0.95, -0.42, 0.45], r: [-0.05, -0.22, -0.08], s: 1.25 }
+        { p: [-0.95, -0.26, 0.4], r: [-0.05, 0.22, 0.08], s: 1.14 },
+        { p: [0.95, -0.26, 0.4], r: [-0.05, -0.22, -0.08], s: 1.14 }
       ]
       : [
-        { p: [-1.45, -0.38, 0.45], r: [-0.05, 0.2, 0.06], s: 1.34 },
-        { p: [1.45, -0.38, 0.45], r: [-0.05, -0.2, -0.06], s: 1.34 }
+        { p: [-1.28, -0.20, 0.4], r: [-0.05, 0.2, 0.06], s: 1.16 },
+        { p: [1.28, -0.20, 0.4], r: [-0.05, -0.2, -0.06], s: 1.16 }
       ];
 
     if (portrait) {
-      SLOTS.detail = { p: [0, 0.65, 0.8], r: [-0.02, -0.38, 0.06], s: 0.72 };
+      SLOTS.detail = { p: [0, 0.52, 0.8], r: [-0.02, -0.38, 0.06], s: 0.68 };
     } else {
-      SLOTS.detail = { p: [-2.15, 0.0, 0.95], r: [0.02, -0.44, 0.08], s: 1.05 };
+      SLOTS.detail = { p: [-1.75, 0.0, 0.9], r: [0.02, -0.44, 0.08], s: 0.94 };
     }
   }
 
@@ -1308,10 +1449,10 @@
 
   function camTo(mode) {
     if (mode === 'detail') {
-      camX.t = SLOTS.portrait ? 0 : -0.45;
+      camX.t = SLOTS.portrait ? 0 : -0.32;
       camZ.t = SLOTS.portrait ? 10.4 : 9.6;
-      lookX.t = SLOTS.portrait ? 0 : -0.55;
-      lookY.t = SLOTS.portrait ? 0 : 0.1;
+      lookX.t = SLOTS.portrait ? 0 : -0.42;
+      lookY.t = SLOTS.portrait ? 0 : 0.05;
     } else {
       camX.t = 0;
       camZ.t = 9.6;
@@ -1331,7 +1472,12 @@
     if (descEl) descEl.textContent = book.cfg.desc;
     if (yearEl) yearEl.textContent = book.cfg.year;
     if (sourceEl) sourceEl.textContent = book.cfg.source;
-    if (actionPrimary) actionPrimary.href = book.cfg.frontImage;
+    if (actionPrimary) actionPrimary.href = (book.cfg.photos && book.cfg.photos.length > 0) ? book.cfg.photos[0].src : '';
+
+    var previewImg = document.getElementById('showcasePreviewImg');
+    if (previewImg && book.cfg.photos && book.cfg.photos.length > 0) {
+      previewImg.src = book.cfg.photos[0].src;
+    }
 
     var galleryEl = document.getElementById('showcaseGallery');
     var galleryItemsEl = document.getElementById('showcaseGalleryItems');
@@ -1352,11 +1498,8 @@
             });
             btn.classList.add('book-showcase__thumb-btn--active');
             if (actionPrimary) actionPrimary.href = photo.src;
-            new THREE.TextureLoader().load(photo.src, function (loadedTex) {
-              loadedTex.anisotropy = ANISO;
-              book.mFront.map = loadedTex;
-              book.mFront.needsUpdate = true;
-            });
+            var currentPreview = document.getElementById('showcasePreviewImg');
+            if (currentPreview) currentPreview.src = photo.src;
           });
           galleryItemsEl.appendChild(btn);
         });
@@ -1409,13 +1552,6 @@
 
     var b = state.selected;
     if (b) {
-      if (b.cfg.frontImage && b.mFront) {
-        new THREE.TextureLoader().load(b.cfg.frontImage, function (loadedTex) {
-          loadedTex.anisotropy = ANISO;
-          b.mFront.map = loadedTex;
-          b.mFront.needsUpdate = true;
-        });
-      }
       b.orbTarget = Math.round(b.orbY / 6.2832) * 6.2832 + 6.2832;
       b.orbYv = Math.max(b.orbYv, 3);
       b.orbPhase = 'return';
