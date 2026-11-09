@@ -411,11 +411,6 @@
         </div>
 
         <div class="book-showcase" id="bookShowcase" tabindex="0" role="region" aria-label="Achievements 3D Showcase" data-state="hero">
-          <!-- Background watermark word -->
-          <div class="book-showcase__hero-word" id="showcaseHeroWord" aria-hidden="true">
-            <span>AWARDS</span>
-          </div>
-
           <!-- WebGL 3D Canvas -->
           <canvas id="showcaseCanvas" class="book-showcase__canvas" aria-hidden="true"></canvas>
 
@@ -442,6 +437,12 @@
             <p class="book-showcase__desc" id="showcaseDesc">
               Secured 2nd place among 2,100+ nationwide participants at Hacksagon 2026. Built and demonstrated Bandwidth Biotics — an AI &amp; IoT-powered smart IV infusion safety monitor.
             </p>
+
+            <!-- Both Winnings Photos Gallery (shown on open) -->
+            <div class="book-showcase__gallery" id="showcaseGallery">
+              <div class="book-showcase__gallery-label">Winnings &amp; Demonstration Photos:</div>
+              <div class="book-showcase__gallery-items" id="showcaseGalleryItems"></div>
+            </div>
             
             <div class="book-showcase__meta">
               <div class="book-showcase__stars" id="showcaseStars">

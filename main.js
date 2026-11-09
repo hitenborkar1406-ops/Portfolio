@@ -670,46 +670,36 @@
       id: 'hacksagon-2026',
       title: 'Hacksagon 2026',
       author: '2nd Place Winner',
-      badge: '2nd Place Winner',
-      source: 'National Hackathon',
+      badge: '2nd Place Winner (₹ Cash Prize)',
+      source: 'National Level Hackathon',
       year: '2026',
       stars: 5,
-      desc: 'Secured 2nd place among 2,100+ nationwide participants at Hacksagon 2026. Built and demonstrated Bandwidth Biotics — an AI-assisted and IoT-powered smart IV infusion safety monitoring system with automated pinch valves and backflow detection.',
+      desc: 'Secured 2nd place nationwide among 2,100+ competitors with Team Bandwidth Biotics. Built an intelligent IV infusion safety monitoring system featuring optical droplet metering, automated pinch valve activation to prevent blood backflow, and real-time hospital ward telemetry.',
       frontImage: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
+      photos: [
+        { title: 'Team Victory Podium', src: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg' },
+        { title: 'Hardware Prototype Demo', src: 'HACKSAGON_SOLO_IMAGE.jpeg' }
+      ],
       backBg: '#20071C',
       backInk: '234,170,0',
       spineBg: '#20071C',
       spineInk: '#EAAA00',
       spineFont: '700 36px Georgia',
-      chapters: ['Hacksagon 2026 Finale', '2,100+ Nationwide Competitors', 'Bandwidth Biotics Solution', 'Smart IV Hardware Demo', 'Dual ESP32 Telemetry', 'Podium & Trophy Win']
-    },
-    {
-      id: 'smart-iv-prototype',
-      title: 'Bandwidth Biotics',
-      author: 'Healthcare IoT Prototype',
-      badge: 'Hardware & IoT Prototype',
-      source: 'Assistive Tech Track',
-      year: '2026',
-      stars: 5,
-      desc: 'Live functional demonstration of the Smart IV Infusion Safety System. Features optical droplet counting, computer-vision blood backflow detection, automated pinch clamp activation, and real-time hospital ward telemetry dashboard.',
-      frontImage: 'HACKSAGON_SOLO_IMAGE.jpeg',
-      backBg: '#2D0A29',
-      backInk: '221,227,232',
-      spineBg: '#3A0F34',
-      spineInk: '#DDE3E8',
-      spineFont: '700 34px Georgia',
-      chapters: ['Hospital Infusion Risks', 'Optical Drip Sensor Box', 'Emergency Pinch Valve', 'ESP32-CAM Backflow Guard', 'Hospital Dashboard UI', 'Clinical Trial Plans']
+      chapters: ['Hacksagon 2026 Finale', '2,100+ Competitors', 'Bandwidth Biotics Solution', 'Smart IV Hardware Demo', 'Dual ESP32 Telemetry', 'Podium & Trophy Win']
     },
     {
       id: 'ideathon-cyberster',
       title: 'Ideathon RCOEM TBI',
       author: '2nd Runner Up — Cyberster',
-      badge: '2nd Runner Up (₹5,000)',
+      badge: '2nd Runner Up (₹5,000 Prize)',
       source: 'RCOEM TBI Startup Ideathon',
       year: '2025',
       stars: 5,
-      desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators and engineering faculty.',
+      desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators, corporate mentors, and engineering faculty.',
       frontImage: 'IDEATHON_IMAGE.jpeg',
+      photos: [
+        { title: 'Award Cheque Presentation', src: 'IDEATHON_IMAGE.jpeg' }
+      ],
       backBg: '#1B0617',
       backInk: '234,170,0',
       spineBg: '#250820',
@@ -1110,6 +1100,8 @@
       float: floatGroup,
       pivot: pivot,
       backPivot: backPivot,
+      frontMesh: frontMesh,
+      mFront: mFront,
       pages: pages,
       pageF: pageF,
       hit: hit,
@@ -1211,20 +1203,18 @@
 
     SLOTS.hero = portrait
       ? [
-        { p: [-1.36, -0.58, -0.12], r: [-0.045, 0.4, 0.185], s: 1.25 },
-        { p: [0.2, -0.22, 0.6], r: [-0.05, -0.1, -0.035], s: 1.35 },
-        { p: [1.62, -0.62, -0.34], r: [-0.045, -0.42, -0.17], s: 1.25 }
+        { p: [-0.95, -0.42, 0.45], r: [-0.05, 0.22, 0.08], s: 1.25 },
+        { p: [0.95, -0.42, 0.45], r: [-0.05, -0.22, -0.08], s: 1.25 }
       ]
       : [
-        { p: [-2.05, -0.58, -0.12], r: [-0.045, 0.4, 0.185], s: 1.22 },
-        { p: [0.25, -0.36, 0.6], r: [-0.05, -0.1, -0.035], s: 1.32 },
-        { p: [2.35, -0.64, -0.34], r: [-0.045, -0.42, -0.17], s: 1.22 }
+        { p: [-1.45, -0.38, 0.45], r: [-0.05, 0.2, 0.06], s: 1.34 },
+        { p: [1.45, -0.38, 0.45], r: [-0.05, -0.2, -0.06], s: 1.34 }
       ];
 
     if (portrait) {
-      SLOTS.detail = { p: [0, 0.5, 0.8], r: [-0.02, -0.4, 0.06], s: 0.78 };
+      SLOTS.detail = { p: [0, 0.65, 0.8], r: [-0.02, -0.38, 0.06], s: 0.72 };
     } else {
-      SLOTS.detail = { p: [-1.68, 0.0, 0.85], r: [0.02, -0.44, 0.08], s: 1.06 };
+      SLOTS.detail = { p: [-2.15, 0.0, 0.95], r: [0.02, -0.44, 0.08], s: 1.05 };
     }
   }
 
@@ -1318,10 +1308,10 @@
 
   function camTo(mode) {
     if (mode === 'detail') {
-      camX.t = SLOTS.portrait ? 0 : -0.25;
+      camX.t = SLOTS.portrait ? 0 : -0.45;
       camZ.t = SLOTS.portrait ? 10.4 : 9.6;
-      lookX.t = SLOTS.portrait ? 0 : -0.35;
-      lookY.t = SLOTS.portrait ? 0 : 0.15;
+      lookX.t = SLOTS.portrait ? 0 : -0.55;
+      lookY.t = SLOTS.portrait ? 0 : 0.1;
     } else {
       camX.t = 0;
       camZ.t = 9.6;
@@ -1342,6 +1332,38 @@
     if (yearEl) yearEl.textContent = book.cfg.year;
     if (sourceEl) sourceEl.textContent = book.cfg.source;
     if (actionPrimary) actionPrimary.href = book.cfg.frontImage;
+
+    var galleryEl = document.getElementById('showcaseGallery');
+    var galleryItemsEl = document.getElementById('showcaseGalleryItems');
+    if (galleryEl && galleryItemsEl) {
+      galleryItemsEl.innerHTML = '';
+      if (book.cfg.photos && book.cfg.photos.length > 1) {
+        galleryEl.style.display = 'block';
+        book.cfg.photos.forEach(function (photo, idx) {
+          var btn = document.createElement('button');
+          btn.type = 'button';
+          btn.className = 'book-showcase__thumb-btn' + (idx === 0 ? ' book-showcase__thumb-btn--active' : '');
+          btn.setAttribute('aria-label', photo.title);
+          btn.innerHTML = '<img class="book-showcase__thumb-img" src="' + photo.src + '" alt="' + photo.title + '" /><span>' + photo.title + '</span>';
+          btn.addEventListener('click', function (e) {
+            e.stopPropagation();
+            galleryItemsEl.querySelectorAll('.book-showcase__thumb-btn').forEach(function (b) {
+              b.classList.remove('book-showcase__thumb-btn--active');
+            });
+            btn.classList.add('book-showcase__thumb-btn--active');
+            if (actionPrimary) actionPrimary.href = photo.src;
+            new THREE.TextureLoader().load(photo.src, function (loadedTex) {
+              loadedTex.anisotropy = ANISO;
+              book.mFront.map = loadedTex;
+              book.mFront.needsUpdate = true;
+            });
+          });
+          galleryItemsEl.appendChild(btn);
+        });
+      } else {
+        galleryEl.style.display = 'none';
+      }
+    }
 
     computeSlots();
 
@@ -1387,6 +1409,13 @@
 
     var b = state.selected;
     if (b) {
+      if (b.cfg.frontImage && b.mFront) {
+        new THREE.TextureLoader().load(b.cfg.frontImage, function (loadedTex) {
+          loadedTex.anisotropy = ANISO;
+          b.mFront.map = loadedTex;
+          b.mFront.needsUpdate = true;
+        });
+      }
       b.orbTarget = Math.round(b.orbY / 6.2832) * 6.2832 + 6.2832;
       b.orbYv = Math.max(b.orbYv, 3);
       b.orbPhase = 'return';
