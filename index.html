@@ -63,14 +63,21 @@
     <section class="hero" id="hero">
       <div class="container hero__inner">
         <div class="hero__content">
-          <h1 class="hero__headline">I build things that work.</h1>
-          <p class="hero__sentence">CSE undergrad at Ramdeobaba University, turning ideas into real-world solutions across cloud, IoT, and AI.</p>
-          <div class="hero__actions">
+          <h1 class="hero__headline">
+            <span class="mask-line"><span>I build things</span></span>
+            <span class="mask-line"><span>that work.</span></span>
+          </h1>
+          <p class="hero__sentence" data-rv="up">CSE undergrad at Ramdeobaba University, turning ideas into real-world solutions across cloud, IoT, and AI.</p>
+          <div class="hero__actions" data-rv="up" style="--rv-delay: 100ms;">
             <a href="#contact" class="key key--primary">Get in Touch</a>
             <a href="#projects" class="key">View Projects</a>
           </div>
+          <div class="hero__cue" data-rv="fade" style="--rv-delay: 240ms;">
+            <span class="hero__cue-text">Scroll to explore</span>
+            <span class="hero__cue-track"><i class="hero__cue-beam" aria-hidden="true"></i></span>
+          </div>
         </div>
-        <div class="hero__visual">
+        <div class="hero__visual" data-rv="fade" style="--rv-delay: 150ms;">
           <figure class="hero__portrait">
             <img src="assets/avatar.jpg" alt="Hiten Borkar" width="420" height="420">
           </figure>
@@ -81,13 +88,15 @@
     <!-- ── Projects ────────────────────────────────── -->
     <section class="projects" id="projects">
       <div class="container">
-        <div class="section__head reveal">
-          <h2>Projects</h2>
-          <p class="lead">Full-stack applications built to solve real problems.</p>
+        <div class="section__head" data-rv="fade">
+          <h2>
+            <span class="mask-line"><span>Projects</span></span>
+          </h2>
+          <p class="lead" data-rv="up">Full-stack applications built to solve real problems.</p>
         </div>
 
         <!-- Project 1: Smart City Traffic -->
-        <article class="project-card reveal">
+        <article class="project-card" data-rv="up">
           <div class="project-card__info">
             <h3>Smart City Traffic Optimization</h3>
             <p class="project-card__desc">Traffic prediction workflow using SUMO simulation data and OpenStreetMap for a Nagpur road corridor. ML pipelines predict congestion 15 minutes ahead, supporting intelligent alternate-route recommendations.</p>
@@ -109,7 +118,7 @@
         </article>
 
         <!-- Project 2: Smart IV Monitor -->
-        <article class="project-card project-card--reverse reveal">
+        <article class="project-card project-card--reverse" data-rv="up">
           <div class="project-card__info">
             <h3>Smart IV Monitoring</h3>
             <p class="project-card__desc">IoT-based IV fluid monitoring system for patient safety. Features IV fluid level monitoring, blood backflow detection, automatic valve control, vital-sign monitoring, and real-time alerts through a centralized dashboard.</p>
@@ -133,7 +142,7 @@
         </article>
 
         <!-- Project 3: CarbonTrack SME -->
-        <article class="project-card reveal">
+        <article class="project-card" data-rv="up">
           <div class="project-card__info">
             <h3>CarbonTrack SME</h3>
             <p class="project-card__desc">Converts SME operational data into carbon emission insights with actionable reduction strategies, ROI analysis, and progress tracking through an interactive dashboard.</p>
@@ -166,12 +175,14 @@
     <!-- ── Skills ──────────────────────────────────── -->
     <section class="skills" id="skills">
       <div class="container">
-        <div class="section__head reveal">
-          <h2>Technical skills</h2>
+        <div class="section__head" data-rv="fade">
+          <h2>
+            <span class="mask-line"><span>Technical skills</span></span>
+          </h2>
         </div>
 
-        <div class="skills__grid reveal reveal--delay-1">
-          <div class="skills__group">
+        <div class="skills__grid">
+          <div class="skills__group cut" data-rv="up" style="--rv-delay: 0ms;">
             <div class="skills__group-label">Languages</div>
             <div class="skills__keys">
               <span class="key key--sm">C</span>
@@ -187,7 +198,7 @@
             </div>
           </div>
 
-          <div class="skills__group">
+          <div class="skills__group cut" data-rv="up" style="--rv-delay: 80ms;">
             <div class="skills__group-label">Core concepts</div>
             <div class="skills__keys">
               <span class="key key--sm">Data Structures</span>
@@ -199,7 +210,7 @@
             </div>
           </div>
 
-          <div class="skills__group">
+          <div class="skills__group cut" data-rv="up" style="--rv-delay: 160ms;">
             <div class="skills__group-label">Tools and platforms</div>
             <div class="skills__keys">
               <span class="key key--sm">Git / GitHub</span>
@@ -211,7 +222,7 @@
             </div>
           </div>
 
-          <div class="skills__group">
+          <div class="skills__group cut" data-rv="up" style="--rv-delay: 240ms;">
             <div class="skills__group-label">AI/ML and simulation</div>
             <div class="skills__keys">
               <span class="key key--sm">Scikit-learn</span>
@@ -227,33 +238,35 @@
     <!-- ── Profiles ─────────────────────────────────── -->
     <section class="profiles" id="profiles">
       <div class="container">
-        <div class="section__head reveal">
-          <h2>Profiles</h2>
-          <p class="lead">Where I practice and compete.</p>
+        <div class="section__head" data-rv="fade">
+          <h2>
+            <span class="mask-line"><span>Profiles</span></span>
+          </h2>
+          <p class="lead" data-rv="up">Where I practice and compete.</p>
         </div>
 
-        <div class="profiles__grid reveal reveal--delay-1">
-          <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="profiles__card cut">
+        <div class="profiles__grid">
+          <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="profiles__card cut" data-rv="up" style="--rv-delay: 0ms;">
             <div class="profiles__card-name">GitHub</div>
             <div class="profiles__card-handle">hitenborkar1406-ops</div>
           </a>
-          <a href="https://www.linkedin.com/in/hiten-borkar-153a29326" target="_blank" rel="noopener" class="profiles__card cut">
+          <a href="https://www.linkedin.com/in/hiten-borkar-153a29326" target="_blank" rel="noopener" class="profiles__card cut" data-rv="up" style="--rv-delay: 60ms;">
             <div class="profiles__card-name">LinkedIn</div>
             <div class="profiles__card-handle">Hiten Borkar</div>
           </a>
-          <a href="https://leetcode.com/u/Hiten-1406/" target="_blank" rel="noopener" class="profiles__card cut">
+          <a href="https://leetcode.com/u/Hiten-1406/" target="_blank" rel="noopener" class="profiles__card cut" data-rv="up" style="--rv-delay: 120ms;">
             <div class="profiles__card-name">LeetCode</div>
             <div class="profiles__card-handle">Hiten-1406</div>
           </a>
-          <a href="#" class="profiles__card cut">
+          <a href="#" class="profiles__card cut" data-rv="up" style="--rv-delay: 180ms;">
             <div class="profiles__card-name">Codeforces</div>
             <div class="profiles__card-handle">—</div>
           </a>
-          <a href="#" class="profiles__card cut">
+          <a href="#" class="profiles__card cut" data-rv="up" style="--rv-delay: 240ms;">
             <div class="profiles__card-name">CodeChef</div>
             <div class="profiles__card-handle">—</div>
           </a>
-          <a href="#" class="profiles__card cut">
+          <a href="#" class="profiles__card cut" data-rv="up" style="--rv-delay: 300ms;">
             <div class="profiles__card-name">Kaggle</div>
             <div class="profiles__card-handle">—</div>
           </a>
@@ -264,18 +277,20 @@
     <!-- ── Achievements ────────────────────────────── -->
     <section class="achievements" id="achievements">
       <div class="container">
-        <div class="section__head reveal">
-          <h2>Achievements</h2>
+        <div class="section__head" data-rv="fade">
+          <h2>
+            <span class="mask-line"><span>Achievements</span></span>
+          </h2>
         </div>
 
         <div class="achievements__grid">
-          <div class="achievement reveal">
+          <div class="achievement" data-rv="up" style="--rv-delay: 0ms;">
             <div class="achievement__place">2nd place</div>
             <div class="achievement__event">Hacksagon 2026</div>
             <p class="achievement__detail">Among 2,100+ participants</p>
           </div>
 
-          <div class="achievement reveal reveal--delay-1">
+          <div class="achievement" data-rv="up" style="--rv-delay: 100ms;">
             <div class="achievement__place">2nd runner up</div>
             <div class="achievement__event">Ideathon</div>
             <p class="achievement__detail">RCOEM TBI</p>
@@ -287,12 +302,14 @@
     <!-- ── About ───────────────────────────────────── -->
     <section class="about" id="about">
       <div class="container">
-        <div class="section__head reveal">
-          <h2>About</h2>
+        <div class="section__head" data-rv="fade">
+          <h2>
+            <span class="mask-line"><span>About</span></span>
+          </h2>
         </div>
 
         <div class="about__grid">
-          <div class="about__education reveal">
+          <div class="about__education" data-rv="up">
             <div class="about__sub-label">Education</div>
 
             <div class="about__item">
@@ -308,7 +325,7 @@
             </div>
           </div>
 
-          <div class="about__experience reveal reveal--delay-1">
+          <div class="about__experience" data-rv="up" style="--rv-delay: 100ms;">
             <div class="about__sub-label">Experience and research</div>
 
             <div class="about__item">
@@ -336,12 +353,14 @@
     <!-- ── Contact ─────────────────────────────────── -->
     <section class="contact" id="contact">
       <div class="container">
-        <div class="contact__text reveal">
-          <h2>Let's talk</h2>
-          <p class="lead">Open to internships, collaborations, and interesting projects.</p>
+        <div class="contact__text" data-rv="fade">
+          <h2>
+            <span class="mask-line"><span>Let's talk</span></span>
+          </h2>
+          <p class="lead" data-rv="up">Open to internships, collaborations, and interesting projects.</p>
 
           <!-- ── 3D Social Flip Button (C-O-N-T-A-C-T) ── -->
-          <div class="social-flip-wrapper">
+          <div class="social-flip-wrapper" data-rv="up" style="--rv-delay: 100ms;">
             <div class="social-flip" id="social-flip" role="group" aria-label="Interactive contact links">
               <!-- Animated Top & Bottom Border Beams -->
               <div class="social-flip__borders" aria-hidden="true">
@@ -465,6 +484,17 @@
       <p class="footer__copy">Kashi Nagar, Nagpur</p>
     </div>
   </footer>
+
+  <!-- ── Progress Rail (Fixed Minimalist Side Track) ── -->
+  <nav class="rail" id="rail" aria-label="Page sections">
+    <button type="button" data-target="hero" aria-label="Hero" class="rail__dot on"><i aria-hidden="true"></i></button>
+    <button type="button" data-target="projects" aria-label="Projects" class="rail__dot"><i aria-hidden="true"></i></button>
+    <button type="button" data-target="skills" aria-label="Skills" class="rail__dot"><i aria-hidden="true"></i></button>
+    <button type="button" data-target="profiles" aria-label="Profiles" class="rail__dot"><i aria-hidden="true"></i></button>
+    <button type="button" data-target="achievements" aria-label="Achievements" class="rail__dot"><i aria-hidden="true"></i></button>
+    <button type="button" data-target="about" aria-label="About" class="rail__dot"><i aria-hidden="true"></i></button>
+    <button type="button" data-target="contact" aria-label="Contact" class="rail__dot"><i aria-hidden="true"></i></button>
+  </nav>
 
   <!-- Back to top -->
   <a href="#" class="back-to-top" aria-label="Back to top" id="backToTop">
