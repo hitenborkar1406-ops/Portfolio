@@ -147,6 +147,120 @@
   });
 })();
 
+/* ── Stacked Scroll Animation (Projects & Skills One-by-One) ── */
+(function () {
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  function initStack(containerId, itemSelector) {
+    var container = document.getElementById(containerId);
+    if (!container) return;
+    var items = Array.from(container.querySelectorAll(itemSelector));
+    if (items.length < 2) return;
+
+    function updateStack() {
+      var vh = window.innerHeight;
+      items.forEach(function (item, index) {
+        if (index === items.length - 1) return;
+
+        var nextItem = items[index + 1];
+        var itemRect = item.getBoundingClientRect();
+        var nextRect = nextItem.getBoundingClientRect();
+
+        var diff = nextRect.top - itemRect.top;
+
+        if (diff <= vh && diff > 0) {
+          var progress = 1 - (diff / vh);
+          var scale = 1 - 0.05 * progress;
+          var opacity = 1 - 0.5 * progress;
+          var translateY = -14 * progress;
+          item.style.transform = 'translate3d(0, ' + translateY + 'px, 0) scale(' + scale + ')';
+          item.style.opacity = String(opacity);
+          item.style.filter = 'blur(' + (progress * 1.5) + 'px)';
+        } else if (diff <= 0) {
+          item.style.transform = 'translate3d(0, -14px, 0) scale(0.95)';
+          item.style.opacity = '0.5';
+          item.style.filter = 'blur(1.5px)';
+        } else {
+          item.style.transform = 'translate3d(0, 0, 0) scale(1)';
+          item.style.opacity = '1';
+          item.style.filter = 'none';
+        }
+      });
+    }
+
+    window.addEventListener('scroll', updateStack, { passive: true });
+    updateStack();
+  }
+
+  initStack('projectsStack', '.project-card');
+  initStack('skillsStack', '.skills__group');
+})();
+
+/* ── Creepy Eyes Button (Peeking & Pupil Tracking) ──── */
+(function () {
+  var buttons = document.querySelectorAll('.creepy-btn');
+  if (!buttons.length) return;
+
+  buttons.forEach(function (btn) {
+    var eyes = btn.querySelector('.creepy-btn__eyes');
+    var pupils = btn.querySelectorAll('.creepy-btn__pupil');
+    if (!eyes || !pupils.length) return;
+
+    function updateEyes(clientX, clientY) {
+      var rect = eyes.getBoundingClientRect();
+      var centerX = rect.left + rect.width / 2;
+      var centerY = rect.top + rect.height / 2;
+
+      var dx = clientX - centerX;
+      var dy = clientY - centerY;
+      var angle = Math.atan2(-dy, dx) + Math.PI / 2;
+
+      var visionRangeX = 180;
+      var visionRangeY = 75;
+      var distance = Math.hypot(dx, dy);
+
+      var x = (Math.sin(angle) * Math.min(distance, visionRangeX)) / visionRangeX;
+      var y = (Math.cos(angle) * Math.min(distance, visionRangeY)) / visionRangeY;
+
+      var transformStr = 'translate(calc(-50% + ' + (x * 50) + '%), calc(-50% + ' + (y * 50) + '%))';
+      pupils.forEach(function (pupil) {
+        pupil.style.transform = transformStr;
+      });
+    }
+
+    function resetEyes() {
+      pupils.forEach(function (pupil) {
+        pupil.style.transform = 'translate(-50%, -50%)';
+      });
+    }
+
+    btn.addEventListener('mousemove', function (e) {
+      updateEyes(e.clientX, e.clientY);
+    });
+
+    btn.addEventListener('touchmove', function (e) {
+      if (e.touches && e.touches[0]) {
+        updateEyes(e.touches[0].clientX, e.touches[0].clientY);
+      }
+    }, { passive: true });
+
+    btn.addEventListener('mouseleave', resetEyes);
+    btn.addEventListener('blur', resetEyes);
+
+    window.addEventListener('mousemove', function (e) {
+      var btnRect = btn.getBoundingClientRect();
+      var d = Math.hypot(
+        e.clientX - (btnRect.left + btnRect.width / 2),
+        e.clientY - (btnRect.top + btnRect.height / 2)
+      );
+      if (d < 300) {
+        updateEyes(e.clientX, e.clientY);
+      }
+    }, { passive: true });
+  });
+})();
+
 /* ── Back-to-top visibility ────────────────────────── */
 (function () {
   var btn = document.getElementById('backToTop');
@@ -168,7 +282,6 @@
   if (!flip) return;
 
   flip.addEventListener('touchstart', function (e) {
-    /* If tapping inside flip bar but not directly on a link node */
     if (!e.target.closest('.social-flip__node')) {
       flip.classList.toggle('is-flipped');
     }

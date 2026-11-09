@@ -52,7 +52,16 @@
         <li><a href="#profiles" class="nav__link">Profiles</a></li>
         <li><a href="#achievements" class="nav__link">Achievements</a></li>
         <li><a href="#about" class="nav__link">About</a></li>
-        <li><a href="#contact" class="key key--primary key--sm">Get in touch</a></li>
+        <li>
+          <a href="#contact" class="creepy-btn creepy-btn--sm" id="navCreepyBtn" role="button" aria-label="Get in Touch">
+            <span class="creepy-btn__eyes" aria-hidden="true">
+              <span class="creepy-btn__eye"><span class="creepy-btn__pupil"></span></span>
+              <span class="creepy-btn__eye"><span class="creepy-btn__pupil"></span></span>
+            </span>
+            <span class="creepy-btn__cover">Get in Touch</span>
+            <span class="creepy-btn__placeholder" aria-hidden="true">Get in Touch</span>
+          </a>
+        </li>
       </ul>
     </div>
   </nav>
@@ -69,7 +78,14 @@
           </h1>
           <p class="hero__sentence" data-rv="up">CSE undergrad at Ramdeobaba University, turning ideas into real-world solutions across cloud, IoT, and AI.</p>
           <div class="hero__actions" data-rv="up" style="--rv-delay: 100ms;">
-            <a href="#contact" class="key key--primary">Get in Touch</a>
+            <a href="#contact" class="creepy-btn" id="heroCreepyBtn" role="button" aria-label="Get in Touch">
+              <span class="creepy-btn__eyes" aria-hidden="true">
+                <span class="creepy-btn__eye"><span class="creepy-btn__pupil"></span></span>
+                <span class="creepy-btn__eye"><span class="creepy-btn__pupil"></span></span>
+              </span>
+              <span class="creepy-btn__cover">Get in Touch</span>
+              <span class="creepy-btn__placeholder" aria-hidden="true">Get in Touch</span>
+            </a>
             <a href="#projects" class="key">View Projects</a>
           </div>
           <div class="hero__cue" data-rv="fade" style="--rv-delay: 240ms;">
@@ -95,77 +111,94 @@
           <p class="lead" data-rv="up">Full-stack applications built to solve real problems.</p>
         </div>
 
-        <!-- Project 1: Smart City Traffic -->
-        <article class="project-card" data-rv="up">
-          <div class="project-card__info">
-            <h3>Smart City Traffic Optimization</h3>
-            <p class="project-card__desc">Traffic prediction workflow using SUMO simulation data and OpenStreetMap for a Nagpur road corridor. ML pipelines predict congestion 15 minutes ahead, supporting intelligent alternate-route recommendations.</p>
-            <div class="project-card__tags">
-              <span class="project-card__tag">Python</span>
-              <span class="project-card__tag">Scikit-learn</span>
-              <span class="project-card__tag">SUMO</span>
-              <span class="project-card__tag">OpenStreetMap</span>
+        <div class="projects__stack" id="projectsStack">
+          <!-- Project 1: Smart City Traffic -->
+          <article class="project-card cut" data-project="1" data-rv="up">
+            <div class="project-card__eyebrow">
+              <span class="project-card__idx">01</span>
+              <span class="project-card__total">/ 03</span>
+              <span class="project-card__category">Corridor ML Traffic Flow</span>
             </div>
-          </div>
-          <div class="project-card__panel graphite cut">
-            <div class="project-card__panel-title">// traffic-route-optimizer</div>
-            <div class="project-card__panel-line"><span class="accent">from</span> sklearn.ensemble <span class="accent">import</span> RandomForest</div>
-            <div class="project-card__panel-line muted"># predict congestion 15 min ahead</div>
-            <div class="project-card__panel-line"><span class="accent">def</span> predict_route(corridor, t):</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;data = sumo.<span class="accent">simulate</span>(corridor, t)</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> model.predict(data)</div>
-          </div>
-        </article>
+            <div class="project-card__info">
+              <h3>Smart City Traffic Optimization</h3>
+              <p class="project-card__desc">Traffic prediction workflow using SUMO simulation data and OpenStreetMap for a Nagpur road corridor. ML pipelines predict congestion 15 minutes ahead, supporting intelligent alternate-route recommendations.</p>
+              <div class="project-card__tags">
+                <span class="project-card__tag">Python</span>
+                <span class="project-card__tag">Scikit-learn</span>
+                <span class="project-card__tag">SUMO</span>
+                <span class="project-card__tag">OpenStreetMap</span>
+              </div>
+            </div>
+            <div class="project-card__panel graphite cut">
+              <div class="project-card__panel-title">// traffic-route-optimizer</div>
+              <div class="project-card__panel-line"><span class="accent">from</span> sklearn.ensemble <span class="accent">import</span> RandomForest</div>
+              <div class="project-card__panel-line muted"># predict congestion 15 min ahead</div>
+              <div class="project-card__panel-line"><span class="accent">def</span> predict_route(corridor, t):</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;data = sumo.<span class="accent">simulate</span>(corridor, t)</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> model.predict(data)</div>
+            </div>
+          </article>
 
-        <!-- Project 2: Smart IV Monitor -->
-        <article class="project-card project-card--reverse" data-rv="up">
-          <div class="project-card__info">
-            <h3>Smart IV Monitoring</h3>
-            <p class="project-card__desc">IoT-based IV fluid monitoring system for patient safety. Features IV fluid level monitoring, blood backflow detection, automatic valve control, vital-sign monitoring, and real-time alerts through a centralized dashboard.</p>
-            <div class="project-card__tags">
-              <span class="project-card__tag">HTML</span>
-              <span class="project-card__tag">CSS</span>
-              <span class="project-card__tag">JavaScript</span>
-              <span class="project-card__tag">IoT</span>
+          <!-- Project 2: Smart IV Monitor -->
+          <article class="project-card project-card--reverse cut" data-project="2" data-rv="up">
+            <div class="project-card__eyebrow">
+              <span class="project-card__idx">02</span>
+              <span class="project-card__total">/ 03</span>
+              <span class="project-card__category">Healthcare IoT & Telemetry</span>
             </div>
-            <a href="https://clever-halva-75f827.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
-          </div>
-          <div class="project-card__panel graphite cut">
-            <div class="project-card__panel-title">// smart-iv-monitor</div>
-            <div class="project-card__panel-line"><span class="accent">const</span> patient = <span class="accent">await</span> getPatientData(id);</div>
-            <div class="project-card__panel-line"><span class="accent">const</span> vitals = patient.<span class="accent">vitals</span>;</div>
-            <div class="project-card__panel-line muted">// real-time IV status tracking</div>
-            <div class="project-card__panel-line"><span class="accent">if</span> (vitals.ivLevel &lt; threshold) {'{'}</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;sendAlert(<span class="accent">patient.doctor</span>);</div>
-            <div class="project-card__panel-line">{'}'}</div>
-          </div>
-        </article>
+            <div class="project-card__info">
+              <h3>Smart IV Monitoring</h3>
+              <p class="project-card__desc">IoT-based IV fluid monitoring system for patient safety. Features IV fluid level monitoring, blood backflow detection, automatic valve control, vital-sign monitoring, and real-time alerts through a centralized dashboard.</p>
+              <div class="project-card__tags">
+                <span class="project-card__tag">HTML</span>
+                <span class="project-card__tag">CSS</span>
+                <span class="project-card__tag">JavaScript</span>
+                <span class="project-card__tag">IoT</span>
+              </div>
+              <a href="https://clever-halva-75f827.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
+            </div>
+            <div class="project-card__panel graphite cut">
+              <div class="project-card__panel-title">// smart-iv-monitor</div>
+              <div class="project-card__panel-line"><span class="accent">const</span> patient = <span class="accent">await</span> getPatientData(id);</div>
+              <div class="project-card__panel-line"><span class="accent">const</span> vitals = patient.<span class="accent">vitals</span>;</div>
+              <div class="project-card__panel-line muted">// real-time IV status tracking</div>
+              <div class="project-card__panel-line"><span class="accent">if</span> (vitals.ivLevel &lt; threshold) {'{'}</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;sendAlert(<span class="accent">patient.doctor</span>);</div>
+              <div class="project-card__panel-line">{'}'}</div>
+            </div>
+          </article>
 
-        <!-- Project 3: CarbonTrack SME -->
-        <article class="project-card" data-rv="up">
-          <div class="project-card__info">
-            <h3>CarbonTrack SME</h3>
-            <p class="project-card__desc">Converts SME operational data into carbon emission insights with actionable reduction strategies, ROI analysis, and progress tracking through an interactive dashboard.</p>
-            <div class="project-card__tags">
-              <span class="project-card__tag">Full-stack</span>
-              <span class="project-card__tag">Analytics</span>
-              <span class="project-card__tag">Dashboard</span>
+          <!-- Project 3: CarbonTrack SME -->
+          <article class="project-card cut" data-project="3" data-rv="up">
+            <div class="project-card__eyebrow">
+              <span class="project-card__idx">03</span>
+              <span class="project-card__total">/ 03</span>
+              <span class="project-card__category">Enterprise Sustainability SaaS</span>
             </div>
-            <a href="https://sparkling-brigadeiros-265737.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
-          </div>
-          <div class="project-card__panel graphite cut">
-            <div class="project-card__panel-title">// carbon-track-sme</div>
-            <div class="project-card__panel-line"><span class="accent">function</span> calculateFootprint(data) {'{'}</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">const</span> emissions = data.<span class="accent">map</span>(</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;&nbsp;&nbsp;d =&gt; d.consumption * <span class="accent">factors</span>[d.type]</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;);</div>
-            <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> { total, breakdown, roi };</div>
-            <div class="project-card__panel-line">{'}'}</div>
-          </div>
-        </article>
+            <div class="project-card__info">
+              <h3>CarbonTrack SME</h3>
+              <p class="project-card__desc">Converts SME operational data into carbon emission insights with actionable reduction strategies, ROI analysis, and progress tracking through an interactive dashboard.</p>
+              <div class="project-card__tags">
+                <span class="project-card__tag">Full-stack</span>
+                <span class="project-card__tag">Analytics</span>
+                <span class="project-card__tag">Dashboard</span>
+              </div>
+              <a href="https://sparkling-brigadeiros-265737.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
+            </div>
+            <div class="project-card__panel graphite cut">
+              <div class="project-card__panel-title">// carbon-track-sme</div>
+              <div class="project-card__panel-line"><span class="accent">function</span> calculateFootprint(data) {'{'}</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">const</span> emissions = data.<span class="accent">map</span>(</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;&nbsp;&nbsp;d =&gt; d.consumption * <span class="accent">factors</span>[d.type]</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;);</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> { total, breakdown, roi };</div>
+              <div class="project-card__panel-line">{'}'}</div>
+            </div>
+          </article>
+        </div>
 
         <!-- GitHub link -->
-        <div style="margin-top: var(--space-2xl); text-align: center;">
+        <div style="margin-top: var(--space-3xl); text-align: center;">
           <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="key">View all on GitHub</a>
         </div>
 
@@ -179,10 +212,16 @@
           <h2>
             <span class="mask-line"><span>Technical skills</span></span>
           </h2>
+          <p class="lead" data-rv="up">Categorized competencies & toolchains.</p>
         </div>
 
-        <div class="skills__grid">
-          <div class="skills__group cut" data-rv="up" style="--rv-delay: 0ms;">
+        <div class="skills__stack" id="skillsStack">
+          <div class="skills__group cut" data-skill="1" data-rv="up" style="--rv-delay: 0ms;">
+            <div class="skills__group-eyebrow">
+              <span class="skills__group-idx">01</span>
+              <span class="skills__group-total">/ 04</span>
+              <span class="skills__group-badge">Programming</span>
+            </div>
             <div class="skills__group-label">Languages</div>
             <div class="skills__keys">
               <span class="key key--sm">C</span>
@@ -198,7 +237,12 @@
             </div>
           </div>
 
-          <div class="skills__group cut" data-rv="up" style="--rv-delay: 80ms;">
+          <div class="skills__group cut" data-skill="2" data-rv="up" style="--rv-delay: 80ms;">
+            <div class="skills__group-eyebrow">
+              <span class="skills__group-idx">02</span>
+              <span class="skills__group-total">/ 04</span>
+              <span class="skills__group-badge">Foundations</span>
+            </div>
             <div class="skills__group-label">Core concepts</div>
             <div class="skills__keys">
               <span class="key key--sm">Data Structures</span>
@@ -210,7 +254,12 @@
             </div>
           </div>
 
-          <div class="skills__group cut" data-rv="up" style="--rv-delay: 160ms;">
+          <div class="skills__group cut" data-skill="3" data-rv="up" style="--rv-delay: 160ms;">
+            <div class="skills__group-eyebrow">
+              <span class="skills__group-idx">03</span>
+              <span class="skills__group-total">/ 04</span>
+              <span class="skills__group-badge">Infrastructure</span>
+            </div>
             <div class="skills__group-label">Tools and platforms</div>
             <div class="skills__keys">
               <span class="key key--sm">Git / GitHub</span>
@@ -222,7 +271,12 @@
             </div>
           </div>
 
-          <div class="skills__group cut" data-rv="up" style="--rv-delay: 240ms;">
+          <div class="skills__group cut" data-skill="4" data-rv="up" style="--rv-delay: 240ms;">
+            <div class="skills__group-eyebrow">
+              <span class="skills__group-idx">04</span>
+              <span class="skills__group-total">/ 04</span>
+              <span class="skills__group-badge">Intelligence</span>
+            </div>
             <div class="skills__group-label">AI/ML and simulation</div>
             <div class="skills__keys">
               <span class="key key--sm">Scikit-learn</span>
