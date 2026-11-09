@@ -290,14 +290,15 @@
 
 .glass-dock__tooltip {
   position: absolute;
-  top: 0;
+  top: 100%;
   left: 0;
   pointer-events: none;
-  z-index: 50;
+  z-index: 999;
   opacity: 0;
-  transform: translate3d(0, 8px, 0) scale(0.92);
-  transition: opacity 0.2s var(--ease-out), transform 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translate3d(0, -6px, 0) scale(0.92);
+  transition: opacity 0.2s var(--ease-out), transform 0.26s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   will-change: transform, opacity;
+  margin-top: 10px;
 }
 
 .glass-dock__tooltip--visible {
@@ -306,20 +307,34 @@
 
 .glass-dock__tooltip-track {
   position: relative;
-  min-width: 72px;
+  min-width: 80px;
   padding: 6px 14px;
   background: #20071C;
   color: #DDE3E8;
-  border: 1px solid rgba(234, 170, 0, 0.35);
+  border: 1px solid rgba(234, 170, 0, 0.4);
   border-radius: 9999px;
   box-shadow: 
-    0 10px 24px -4px rgba(32, 7, 28, 0.35),
-    0 0 10px -2px rgba(234, 170, 0, 0.18);
+    0 12px 28px -4px rgba(32, 7, 28, 0.45),
+    0 0 12px -2px rgba(234, 170, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
-  overflow: hidden;
+  overflow: visible;
   height: 30px;
+}
+
+/* Caret pointing up toward the active dock icon */
+.glass-dock__tooltip-track::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  transform: translateX(-50%) rotate(45deg);
+  width: 8px;
+  height: 8px;
+  background: #20071C;
+  border-left: 1px solid rgba(234, 170, 0, 0.4);
+  border-top: 1px solid rgba(234, 170, 0, 0.4);
 }
 
 .glass-dock__tooltip-text {
@@ -333,6 +348,8 @@
   opacity: 1;
   filter: blur(0px);
   transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, filter 0.2s ease;
+  position: relative;
+  z-index: 1;
 }
 
 .glass-dock__tooltip-text--slide-in-right {

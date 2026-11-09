@@ -74,13 +74,11 @@
       // Compute exact position relative to dock
       var dockRect = dock.getBoundingClientRect();
       var itemRect = item.getBoundingClientRect();
-      var tooltipWidth = tooltip.offsetWidth || 80;
-      var tooltipHeight = tooltip.offsetHeight || 30;
+      var tooltipWidth = tooltip.offsetWidth || 84;
 
       var x = (itemRect.left - dockRect.left) + (itemRect.width / 2) - (tooltipWidth / 2);
-      var y = -tooltipHeight - 10;
 
-      tooltip.style.transform = 'translate3d(' + Math.round(x) + 'px, ' + Math.round(y) + 'px, 0) scale(1)';
+      tooltip.style.transform = 'translate3d(' + Math.round(x) + 'px, 0, 0) scale(1)';
       tooltip.classList.add('glass-dock__tooltip--visible');
 
       lastIndex = index;
@@ -90,8 +88,9 @@
   dock.addEventListener('mouseleave', function () {
     hideTimeout = setTimeout(function () {
       tooltip.classList.remove('glass-dock__tooltip--visible');
+      tooltip.style.transform = tooltip.style.transform.replace(/scale\(1\)/, 'scale(0.92)');
       lastIndex = null;
-    }, 120);
+    }, 100);
   });
 })();
 
