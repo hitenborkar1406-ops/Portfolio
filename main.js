@@ -1474,11 +1474,6 @@
     if (sourceEl) sourceEl.textContent = book.cfg.source;
     if (actionPrimary) actionPrimary.href = (book.cfg.photos && book.cfg.photos.length > 0) ? book.cfg.photos[0].src : '';
 
-    var previewImg = document.getElementById('showcasePreviewImg');
-    if (previewImg && book.cfg.photos && book.cfg.photos.length > 0) {
-      previewImg.src = book.cfg.photos[0].src;
-    }
-
     var galleryEl = document.getElementById('showcaseGallery');
     var galleryItemsEl = document.getElementById('showcaseGalleryItems');
     if (galleryEl && galleryItemsEl) {
@@ -1498,8 +1493,6 @@
             });
             btn.classList.add('book-showcase__thumb-btn--active');
             if (actionPrimary) actionPrimary.href = photo.src;
-            var currentPreview = document.getElementById('showcasePreviewImg');
-            if (currentPreview) currentPreview.src = photo.src;
           });
           galleryItemsEl.appendChild(btn);
         });
