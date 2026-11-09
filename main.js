@@ -293,3 +293,293 @@
     }
   }, { passive: true });
 })();
+
+/* ── ShareSheet Dialog Controller ──────────────────── */
+(function () {
+  var root = document.getElementById('shareSheetRoot');
+  var backdrop = document.getElementById('shareSheetBackdrop');
+  var dialog = document.getElementById('shareSheetDialog');
+  var closeBtn = document.getElementById('shareSheetClose');
+  var backBtn = document.getElementById('shareSheetBack');
+  var titleEl = document.getElementById('shareSheetTitle');
+  var subtitleEl = document.getElementById('shareSheetSubtitle');
+  var feedbackEl = document.getElementById('shareSheetFeedback');
+  var doneBtn = document.getElementById('shareSheetDone');
+  var qrContainer = document.getElementById('shareSheetQrContainer');
+  var downloadQrBtn = document.getElementById('shareSheetDownloadQr');
+
+  var viewShare = document.getElementById('kssViewShare');
+  var viewCopied = document.getElementById('kssViewCopied');
+  var viewMore = document.getElementById('kssViewMore');
+  var viewQr = document.getElementById('kssViewQr');
+
+  var triggers = document.querySelectorAll('#shareSheetTrigger, #footerShareBtn');
+
+  if (!root || !dialog) return;
+
+  var currentQrSvg = '';
+  var returnFocusEl = null;
+  var bodyScrollLocks = 0;
+  var previousBodyOverflow = '';
+
+  function lockScroll() {
+    if (bodyScrollLocks === 0) {
+      previousBodyOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
+    }
+    bodyScrollLocks++;
+  }
+
+  function unlockScroll() {
+    bodyScrollLocks = Math.max(0, bodyScrollLocks - 1);
+    if (bodyScrollLocks === 0) {
+      document.body.style.overflow = previousBodyOverflow;
+    }
+  }
+
+  function getShareUrl() {
+    var u = window.location.href;
+    if (!u || u.startsWith('file:') || u.includes('localhost') || u.includes('127.0.0.1')) {
+      return 'https://hitenborkar1406-ops.github.io/Portfolio/';
+    }
+    return u;
+  }
+
+  function getShareTitle() {
+    return document.title || 'Hiten Borkar — Portfolio';
+  }
+
+  function setView(viewName) {
+    if (feedbackEl) {
+      feedbackEl.textContent = '';
+      feedbackEl.style.display = 'none';
+    }
+
+    viewShare.style.display = viewName === 'share' ? 'block' : 'none';
+    viewCopied.style.display = viewName === 'copied' ? 'block' : 'none';
+    viewMore.style.display = viewName === 'more' ? 'block' : 'none';
+    viewQr.style.display = viewName === 'qr' ? 'block' : 'none';
+
+    if (viewName === 'share') {
+      backBtn.style.display = 'none';
+      titleEl.textContent = 'Share';
+      subtitleEl.textContent = 'Choose where to share';
+    } else if (viewName === 'copied') {
+      backBtn.style.display = 'none';
+      titleEl.textContent = 'Link copied!';
+      subtitleEl.textContent = 'You can now paste it anywhere';
+    } else if (viewName === 'more') {
+      backBtn.style.display = 'inline-flex';
+      titleEl.textContent = 'More Options';
+      subtitleEl.textContent = 'Additional ways to share';
+    } else if (viewName === 'qr') {
+      backBtn.style.display = 'inline-flex';
+      titleEl.textContent = 'Share via QR';
+      subtitleEl.textContent = 'Scan the QR code to open the link';
+      generateQr();
+    }
+  }
+
+  function showFeedback(msg) {
+    if (!feedbackEl) return;
+    feedbackEl.textContent = msg;
+    feedbackEl.style.display = 'block';
+  }
+
+  function openSheet(triggerEl) {
+    returnFocusEl = triggerEl || document.activeElement;
+    lockScroll();
+    setView('share');
+    root.style.display = 'flex';
+    void root.offsetHeight;
+    root.classList.add('is-open');
+
+    var focusable = dialog.querySelector('button:not(:disabled)');
+    if (focusable) focusable.focus();
+  }
+
+  function closeSheet() {
+    root.classList.remove('is-open');
+    unlockScroll();
+    setTimeout(function () {
+      root.style.display = 'none';
+      if (returnFocusEl && typeof returnFocusEl.focus === 'function') {
+        returnFocusEl.focus();
+      }
+    }, 250);
+  }
+
+  triggers.forEach(function (btn) {
+    btn.addEventListener('click', function (e) {
+      e.preventDefault();
+      openSheet(btn);
+    });
+  });
+
+  if (closeBtn) closeBtn.addEventListener('click', closeSheet);
+  if (doneBtn) doneBtn.addEventListener('click', closeSheet);
+  if (backdrop) backdrop.addEventListener('click', closeSheet);
+  if (backBtn) backBtn.addEventListener('click', function () { setView('share'); });
+
+  /* Escape key and tab trapping */
+  document.addEventListener('keydown', function (e) {
+    if (!root.classList.contains('is-open')) return;
+
+    if (e.key === 'Escape') {
+      e.preventDefault();
+      closeSheet();
+      return;
+    }
+
+    if (e.key === 'Tab') {
+      var nodes = Array.from(dialog.querySelectorAll('button:not(:disabled), a[href]')).filter(function (el) {
+        return el.offsetParent !== null;
+      });
+      if (!nodes.length) return;
+      var first = nodes[0];
+      var last = nodes[nodes.length - 1];
+
+      if (e.shiftKey && document.activeElement === first) {
+        e.preventDefault();
+        last.focus();
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault();
+        first.focus();
+      }
+    }
+  });
+
+  /* Copy Link Function */
+  function copyLink() {
+    var url = getShareUrl();
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(url).then(function () {
+        setView('copied');
+      }).catch(function () {
+        fallbackCopy(url);
+      });
+    } else {
+      fallbackCopy(url);
+    }
+  }
+
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try {
+      var ok = document.execCommand('copy');
+      if (ok) {
+        setView('copied');
+      } else {
+        showFeedback('Could not copy link automatically.');
+      }
+    } catch (err) {
+      showFeedback('Could not copy link automatically.');
+    } finally {
+      document.body.removeChild(ta);
+    }
+  }
+
+  /* Channel Click Actions */
+  var channelButtons = dialog.querySelectorAll('.kss-dest');
+  channelButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var channel = btn.getAttribute('data-channel');
+      var url = getShareUrl();
+      var title = getShareTitle();
+      var encUrl = encodeURIComponent(url);
+      var encText = encodeURIComponent(title);
+
+      if (channel === 'link') {
+        copyLink();
+      } else if (channel === 'whatsapp') {
+        window.open('https://api.whatsapp.com/send?text=' + encodeURIComponent(title + ' ' + url), '_blank', 'noopener,noreferrer');
+      } else if (channel === 'telegram') {
+        window.open('https://t.me/share/url?url=' + encUrl + '&text=' + encText, '_blank', 'noopener,noreferrer');
+      } else if (channel === 'x') {
+        window.open('https://twitter.com/intent/tweet?url=' + encUrl + '&text=' + encText, '_blank', 'noopener,noreferrer');
+      } else if (channel === 'instagram') {
+        if (navigator.share) {
+          navigator.share({ title: title, url: url }).catch(function () {});
+        } else {
+          copyLink();
+          showFeedback('Link copied! Paste it in Instagram.');
+        }
+      } else if (channel === 'more') {
+        setView('more');
+      }
+    });
+  });
+
+  /* More List Actions */
+  var moreButtons = dialog.querySelectorAll('.kss-list button');
+  moreButtons.forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      var act = btn.getAttribute('data-action');
+      var url = getShareUrl();
+      var title = getShareTitle();
+
+      if (act === 'mail') {
+        window.location.assign('mailto:?subject=' + encodeURIComponent(title) + '&body=' + encodeURIComponent(title + '\n' + url));
+      } else if (act === 'sms') {
+        window.location.assign('sms:?body=' + encodeURIComponent(title + ' ' + url));
+      } else if (act === 'browser') {
+        window.open(url, '_blank', 'noopener,noreferrer');
+      } else if (act === 'qr') {
+        setView('qr');
+      }
+    });
+  });
+
+  /* Generate SVG QR Code using qrcode-generator */
+  function generateQr() {
+    if (!qrContainer) return;
+    try {
+      if (typeof window.qrcode !== 'function') {
+        qrContainer.innerHTML = '<p style="padding:12px;font-size:12px;color:#DDE3E8;">QR generator loading...</p>';
+        return;
+      }
+      var url = getShareUrl();
+      var qr = window.qrcode(0, 'M');
+      qr.addData(url);
+      qr.make();
+      var cells = qr.getModuleCount();
+      var margin = 4;
+      var n = cells + margin * 2;
+      var rects = '';
+      for (var y = 0; y < cells; y++) {
+        for (var x = 0; x < cells; x++) {
+          if (qr.isDark(y, x)) {
+            rects += '<rect x="' + (x + margin) + '" y="' + (y + margin) + '" width="1" height="1"/>';
+          }
+        }
+      }
+      currentQrSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + (n * 10) + '" height="' + (n * 10) + '" viewBox="0 0 ' + n + ' ' + n + '" shape-rendering="crispEdges"><path fill="#fff" d="M0 0h' + n + 'v' + n + 'H0z"/><g fill="#1F071B">' + rects + '</g></svg>';
+      qrContainer.innerHTML = currentQrSvg;
+    } catch (e) {
+      qrContainer.innerHTML = '<p style="padding:12px;font-size:12px;color:#DDE3E8;">Could not generate QR code.</p>';
+    }
+  }
+
+  /* Download QR SVG */
+  if (downloadQrBtn) {
+    downloadQrBtn.addEventListener('click', function () {
+      if (!currentQrSvg) return;
+      var blob = new Blob([currentQrSvg], { type: 'image/svg+xml;charset=utf-8' });
+      var href = URL.createObjectURL(blob);
+      var a = document.createElement('a');
+      a.href = href;
+      a.download = 'portfolio-qr.svg';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      setTimeout(function () {
+        URL.revokeObjectURL(href);
+      }, 1000);
+    });
+  }
+})();

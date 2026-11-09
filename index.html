@@ -87,6 +87,14 @@
               <span class="creepy-btn__placeholder" aria-hidden="true">Get in Touch</span>
             </a>
             <a href="#projects" class="key">View Projects</a>
+            <button type="button" class="key key--share" id="shareSheetTrigger" aria-haspopup="dialog" aria-label="Share this portfolio">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/>
+                <polyline points="16 6 12 2 8 6"/>
+                <line x1="12" y1="2" x2="12" y2="15"/>
+              </svg>
+              <span>Share</span>
+            </button>
           </div>
           <div class="hero__cue" data-rv="fade" style="--rv-delay: 240ms;">
             <span class="hero__cue-text">Scroll to explore</span>
@@ -533,6 +541,7 @@
           <li><a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="footer__link">GitHub</a></li>
           <li><a href="https://www.linkedin.com/in/hiten-borkar-153a29326" target="_blank" rel="noopener" class="footer__link">LinkedIn</a></li>
           <li><a href="https://leetcode.com/u/Hiten-1406/" target="_blank" rel="noopener" class="footer__link">LeetCode</a></li>
+          <li><button type="button" class="footer__link" id="footerShareBtn" style="background:none;border:none;cursor:pointer;padding:0;font:inherit;">Share</button></li>
         </ul>
       </div>
       <p class="footer__copy">Kashi Nagar, Nagpur</p>
@@ -550,6 +559,135 @@
     <button type="button" data-target="contact" aria-label="Contact" class="rail__dot"><i aria-hidden="true"></i></button>
   </nav>
 
+  <!-- ── ShareSheet Dialog ─────────────────────────── -->
+  <div class="kss-root" id="shareSheetRoot" role="region" aria-label="Share modal" style="display: none;">
+    <div class="kss-backdrop" id="shareSheetBackdrop" aria-hidden="true"></div>
+
+    <div class="kss-sheet" id="shareSheetDialog" role="dialog" aria-modal="true" aria-labelledby="shareSheetTitle">
+      <div class="kss-handle" aria-hidden="true"></div>
+
+      <!-- Heading -->
+      <div class="kss-heading">
+        <div class="kss-heading-text">
+          <button type="button" class="kss-back" id="shareSheetBack" aria-label="Back" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m14 5-7 7 7 7"/></svg>
+          </button>
+          <div>
+            <h2 id="shareSheetTitle">Share</h2>
+            <p id="shareSheetSubtitle">Choose where to share</p>
+          </div>
+        </div>
+        <button type="button" class="kss-close" id="shareSheetClose" aria-label="Close share sheet">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6 6 18"/></svg>
+        </button>
+      </div>
+
+      <!-- View 1: Main Channels Grid -->
+      <div class="kss-view" id="kssViewShare">
+        <div class="kss-grid">
+          <!-- Copy Link -->
+          <button type="button" class="kss-dest" data-channel="link" aria-label="Copy Link">
+            <span class="kss-icon kss-link">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m10 13 4-4"/><path d="M8.5 16.3 6.6 18A3.2 3.2 0 0 1 2 13.4l4.4-4.5A3.2 3.2 0 0 1 11 9"/><path d="M15.5 7.7 17.4 6A3.2 3.2 0 0 1 22 10.6l-4.4 4.5A3.2 3.2 0 0 1 13 15"/></svg>
+            </span>
+            <span class="kss-label">Copy Link</span>
+          </button>
+
+          <!-- WhatsApp -->
+          <button type="button" class="kss-dest" data-channel="whatsapp" aria-label="WhatsApp">
+            <span class="kss-icon kss-whatsapp">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="none" aria-hidden="true"><path d="M7.4 24.5 4 28l1.2-5A12.1 12.1 0 1 1 10 27a12 12 0 0 1-2.6-2.5Z" stroke="white" stroke-width="2.2" stroke-linejoin="round"/><path d="M12.1 10.5c-.7-1.4-1.6-.7-2 .1-1.2 2.2 1.5 5.6 3.4 7.4 2.3 2.2 5.8 4.5 7.5 2.7 1 .1 1.6-1.2 1.5-2.3l-2.8-1.3c-.7-.3-1.2 1.2-2 1-2.1-.6-4.2-2.6-4.6-3.5-.5-.9.9-1.3.7-2l-1.1-2.5Z" fill="white"/></svg>
+            </span>
+            <span class="kss-label">WhatsApp</span>
+          </button>
+
+          <!-- Telegram -->
+          <button type="button" class="kss-dest" data-channel="telegram" aria-label="Telegram">
+            <span class="kss-icon kss-telegram">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="none" aria-hidden="true"><path fill="white" d="M27.6 6.2 4.9 15.1c-1.1.5-1 1.1-.1 1.4l5.8 1.8 2.2 6.7c.3.8.6 1 1.1.4l3.4-3.4 5.6 4c1 .6 1.8.3 2-1l3.7-17c.3-1.4-.2-2-1-1.8ZM11.7 17.8 24.6 9c.5-.3 1-.2.5.3L14.5 19.5l-.5 3.2-2.3-4.9Z"/></svg>
+            </span>
+            <span class="kss-label">Telegram</span>
+          </button>
+
+          <!-- X -->
+          <button type="button" class="kss-dest" data-channel="x" aria-label="X">
+            <span class="kss-icon kss-x">
+              <svg viewBox="0 0 32 32" width="20" height="20" fill="none" aria-hidden="true"><path d="M5.5 5.5h4.7l16.3 21h-4.8L5.5 5.5ZM26 5.5 6 26.5" stroke="white" stroke-width="2"/></svg>
+            </span>
+            <span class="kss-label">X</span>
+          </button>
+
+          <!-- Instagram -->
+          <button type="button" class="kss-dest" data-channel="instagram" aria-label="Instagram">
+            <span class="kss-icon kss-instagram">
+              <svg viewBox="0 0 32 32" width="22" height="22" fill="none" aria-hidden="true"><rect x="5" y="5" width="22" height="22" rx="7" stroke="white" stroke-width="2.2"/><circle cx="16" cy="16" r="5.1" stroke="white" stroke-width="2.2"/><circle cx="23" cy="9.2" r="1.4" fill="white"/></svg>
+            </span>
+            <span class="kss-label">Instagram</span>
+          </button>
+
+          <!-- More -->
+          <button type="button" class="kss-dest" data-channel="more" aria-label="More">
+            <span class="kss-icon kss-more">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><circle cx="5" cy="12" r="1.5"/><circle cx="12" cy="12" r="1.5"/><circle cx="19" cy="12" r="1.5"/></svg>
+            </span>
+            <span class="kss-label">More</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- View 2: Copied Success -->
+      <div class="kss-view" id="kssViewCopied" style="display: none;">
+        <div class="kss-success">
+          <span class="kss-check">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 4.5 4.5L19 7"/></svg>
+          </span>
+          <h2>Link copied!</h2>
+          <p>You can now paste it anywhere.</p>
+          <button type="button" class="kss-done" id="shareSheetDone">Done</button>
+        </div>
+      </div>
+
+      <!-- View 3: More Options -->
+      <div class="kss-view" id="kssViewMore" style="display: none;">
+        <div class="kss-list">
+          <button type="button" data-action="mail">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <span>Email</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+          <button type="button" data-action="sms">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 11.4A8 8 0 0 1 7.2 17.8L3 19l1.3-4.2A8 8 0 1 1 20 11.4Z"/></svg>
+            <span>Messages</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+          <button type="button" data-action="browser">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m15 9-2 4-4 2 2-4 4-2Z"/></svg>
+            <span>Open in Browser</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+          <button type="button" data-action="qr">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3h7v7H3zM14 3h7v7h-7zM3 14h7v7H3zM14 14h2m3 0h2m-7 3h4m3 0v4m-7 0h4"/><path d="M5.5 5.5h2M16.5 5.5h2M5.5 16.5h2"/></svg>
+            <span>Share via QR</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m9 5 7 7-7 7"/></svg>
+          </button>
+        </div>
+      </div>
+
+      <!-- View 4: QR Code -->
+      <div class="kss-view" id="kssViewQr" style="display: none;">
+        <div class="kss-qr-wrap">
+          <div id="shareSheetQrContainer"></div>
+          <button type="button" class="kss-download" id="shareSheetDownloadQr">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m0 0 4-4m-4 4-4-4M4 17v3h16v-3"/></svg>
+            <span>Download QR</span>
+          </button>
+        </div>
+      </div>
+
+      <p class="kss-feedback" id="shareSheetFeedback" role="status" style="display: none;"></p>
+    </div>
+  </div>
+
   <!-- Back to top -->
   <a href="#" class="back-to-top" aria-label="Back to top" id="backToTop">
     <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -557,6 +695,7 @@
     </svg>
   </a>
 
+  <script src="qrcode.min.js"></script>
   <script src="main.js" defer></script>
 </body>
 </html>
