@@ -696,7 +696,7 @@
       id: 'ideathon-cyberster',
       title: 'Ideathon RCOEM TBI',
       mainTitle: 'IDEATHON',
-      yearText: '2025',
+      yearText: '2026',
       author: '2nd Runner Up — Cyberster',
       subtitle: '2ND RUNNER UP',
       team: 'Team Cyberster',
@@ -704,9 +704,9 @@
       headerOrnament: '★ RCOEM TBI STARTUP IDEATHON ★',
       footerText: 'DEEP-TECH INNOVATION',
       source: 'RCOEM TBI Startup Ideathon',
-      year: '2025',
+      year: '2026',
       stars: 5,
-      desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators, corporate mentors, and engineering faculty.',
+      desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon 2026 with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators, corporate mentors, and engineering faculty.',
       photos: [
         { title: 'Award Cheque Presentation', src: 'IDEATHON_IMAGE.jpeg' }
       ],
@@ -715,7 +715,7 @@
       spineBg: '#250820',
       spineInk: '#EAAA00',
       spineFont: '700 34px Georgia',
-      chapters: ['Ideathon 2025 Challenge', 'Team Cyberster Formation', 'Deep-Tech Feasibility Pitch', 'Financial & Market Model', '₹5,000 Cash Prize Victory', 'Incubation Support']
+      chapters: ['Ideathon 2026 Challenge', 'Team Cyberster Formation', 'Deep-Tech Feasibility Pitch', 'Financial & Market Model', '₹5,000 Cash Prize Victory', 'Incubation Support']
     }
   ];
 
@@ -1353,9 +1353,9 @@
       ];
 
     if (portrait) {
-      SLOTS.detail = { p: [0, 0.52, 0.8], r: [-0.02, -0.38, 0.06], s: 0.68 };
+      SLOTS.detail = { p: [0, 0.45, 0.85], r: [0, -0.06, 0], s: 0.72 };
     } else {
-      SLOTS.detail = { p: [-1.75, 0.0, 0.9], r: [0.02, -0.44, 0.08], s: 0.94 };
+      SLOTS.detail = { p: [0, 0.0, 0.95], r: [0, -0.08, 0], s: 0.95 };
     }
   }
 
@@ -1449,10 +1449,10 @@
 
   function camTo(mode) {
     if (mode === 'detail') {
-      camX.t = SLOTS.portrait ? 0 : -0.32;
+      camX.t = 0;
       camZ.t = SLOTS.portrait ? 10.4 : 9.6;
-      lookX.t = SLOTS.portrait ? 0 : -0.42;
-      lookY.t = SLOTS.portrait ? 0 : 0.05;
+      lookX.t = 0;
+      lookY.t = SLOTS.portrait ? 0.08 : 0;
     } else {
       camX.t = 0;
       camZ.t = 9.6;
