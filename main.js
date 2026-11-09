@@ -82,3 +82,22 @@
     }
   }, { passive: true });
 })();
+
+/* Social Flip Button Mobile Touch Support */
+(function () {
+  var flip = document.getElementById('social-flip');
+  if (!flip) return;
+
+  flip.addEventListener('touchstart', function (e) {
+    /* If tapping inside flip bar but not directly on a link node */
+    if (!e.target.closest('.social-flip__node')) {
+      flip.classList.toggle('is-flipped');
+    }
+  }, { passive: true });
+
+  document.addEventListener('touchstart', function (e) {
+    if (!flip.contains(e.target)) {
+      flip.classList.remove('is-flipped');
+    }
+  }, { passive: true });
+})();
