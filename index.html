@@ -400,26 +400,72 @@
       </div>
     </section>
 
-    <!-- ── Achievements ────────────────────────────── -->
+    <!-- ── Achievements (Interactive 3D Books Showcase) ── -->
     <section class="achievements" id="achievements">
       <div class="container">
         <div class="section__head" data-rv="fade">
           <h2>
             <span class="mask-line"><span>Achievements</span></span>
           </h2>
+          <p class="section__lead">Interactive 3D volumes commemorating hackathon podiums and startup victories. Click any volume to open its record, inspect prototype details, and examine the 3D model.</p>
         </div>
 
-        <div class="achievements__grid">
-          <div class="achievement" data-rv="up" style="--rv-delay: 0ms;">
-            <div class="achievement__place">2nd place</div>
-            <div class="achievement__event">Hacksagon 2026</div>
-            <p class="achievement__detail">Among 2,100+ participants</p>
+        <div class="book-showcase" id="bookShowcase" tabindex="0" role="region" aria-label="Achievements 3D Showcase" data-state="hero">
+          <!-- Background watermark word -->
+          <div class="book-showcase__hero-word" id="showcaseHeroWord" aria-hidden="true">
+            <span>AWARDS</span>
           </div>
 
-          <div class="achievement" data-rv="up" style="--rv-delay: 100ms;">
-            <div class="achievement__place">2nd runner up</div>
-            <div class="achievement__event">Ideathon</div>
-            <p class="achievement__detail">RCOEM TBI</p>
+          <!-- WebGL 3D Canvas -->
+          <canvas id="showcaseCanvas" class="book-showcase__canvas" aria-hidden="true"></canvas>
+
+          <!-- Top Navigation Header -->
+          <div class="book-showcase__nav" id="showcaseNav" aria-hidden="false">
+            <div class="book-showcase__nav-title">Honors &amp; Hackathon Victories</div>
+            <div class="book-showcase__nav-hint">Click volume to open &bull; Drag to inspect in 3D</div>
+          </div>
+
+          <!-- Trailing "Open" badge following cursor -->
+          <div class="book-showcase__open-btn" id="showcaseOpenBtn" aria-hidden="true">
+            Open
+          </div>
+
+          <!-- Close button for detail view -->
+          <button type="button" class="book-showcase__close-btn" id="showcaseCloseBtn" aria-label="Close detail view">
+            &#10005;
+          </button>
+
+          <!-- Side Detail Panel (slides in on detail view) -->
+          <div class="book-showcase__detail-panel" id="showcaseDetailPanel" aria-live="polite">
+            <div class="book-showcase__badge" id="showcaseBadge">2nd Place Winner</div>
+            <h3 class="book-showcase__title" id="showcaseTitle">Hacksagon 2026</h3>
+            <p class="book-showcase__desc" id="showcaseDesc">
+              Secured 2nd place among 2,100+ nationwide participants at Hacksagon 2026. Built and demonstrated Bandwidth Biotics — an AI &amp; IoT-powered smart IV infusion safety monitor.
+            </p>
+            
+            <div class="book-showcase__meta">
+              <div class="book-showcase__stars" id="showcaseStars">
+                <svg viewBox="0 0 24 24" class="star"><path d="M12 2.6l2.8 6 6.6.6-5 4.4 1.5 6.5L12 16.7 6.1 20.1l1.5-6.5-5-4.4 6.6-.6z"/></svg>
+                <svg viewBox="0 0 24 24" class="star"><path d="M12 2.6l2.8 6 6.6.6-5 4.4 1.5 6.5L12 16.7 6.1 20.1l1.5-6.5-5-4.4 6.6-.6z"/></svg>
+                <svg viewBox="0 0 24 24" class="star"><path d="M12 2.6l2.8 6 6.6.6-5 4.4 1.5 6.5L12 16.7 6.1 20.1l1.5-6.5-5-4.4 6.6-.6z"/></svg>
+                <svg viewBox="0 0 24 24" class="star"><path d="M12 2.6l2.8 6 6.6.6-5 4.4 1.5 6.5L12 16.7 6.1 20.1l1.5-6.5-5-4.4 6.6-.6z"/></svg>
+                <svg viewBox="0 0 24 24" class="star"><path d="M12 2.6l2.8 6 6.6.6-5 4.4 1.5 6.5L12 16.7 6.1 20.1l1.5-6.5-5-4.4 6.6-.6z"/></svg>
+              </div>
+              <div class="book-showcase__meta-divider"></div>
+              <div class="book-showcase__meta-source" id="showcaseSource">National Hackathon</div>
+              <div class="book-showcase__meta-year" id="showcaseYear">2026</div>
+            </div>
+
+            <div class="book-showcase__rule"></div>
+
+            <div class="book-showcase__actions">
+              <a href="HACKSAGON_TEAM_MAIN_IMAGE.jpeg" target="_blank" rel="noopener" class="book-showcase__btn book-showcase__btn--primary" id="showcaseActionPrimary">
+                <span>View Full Photo</span>
+              </a>
+              <button type="button" class="book-showcase__btn book-showcase__btn--secondary" id="showcaseActionClose">
+                Back to Shelf
+              </button>
+            </div>
           </div>
         </div>
       </div>
@@ -786,6 +832,7 @@
     </svg>
   </a>
 
+  <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
   <script src="main.js" defer></script>
 </body>
