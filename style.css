@@ -175,6 +175,184 @@
   color: var(--color-ink-deep);
 }
 
+/* ── GlassDock Component ─────────────────────────── */
+
+.glass-dock {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+
+.glass-dock__items {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 10px;
+  background: rgba(221, 227, 232, 0.75);
+  backdrop-filter: blur(20px) saturate(180%);
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(58, 15, 52, 0.14);
+  border-radius: 9999px;
+  box-shadow: 
+    0 8px 24px -4px rgba(32, 7, 28, 0.12),
+    0 1px 2px rgba(32, 7, 28, 0.06),
+    inset 0 1px 1px rgba(255, 255, 255, 0.7);
+  transition: box-shadow var(--dur-normal) var(--ease-out), border-color var(--dur-normal) var(--ease-out);
+}
+
+.glass-dock:hover .glass-dock__items {
+  border-color: rgba(58, 15, 52, 0.22);
+  box-shadow: 
+    0 12px 32px -6px rgba(32, 7, 28, 0.18),
+    0 1px 3px rgba(32, 7, 28, 0.08),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9);
+}
+
+.glass-dock__item {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: var(--color-ink-2);
+  text-decoration: none;
+  background: transparent;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), color 0.2s ease, background-color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.glass-dock__item:hover {
+  transform: translateY(-4px) scale(1.18);
+  color: var(--color-ink-deep);
+  background: rgba(58, 15, 52, 0.07);
+}
+
+.glass-dock__item:active {
+  transform: translateY(-1px) scale(0.96);
+}
+
+.glass-dock__item--active {
+  color: var(--color-ink-deep);
+  background: rgba(58, 15, 52, 0.08);
+}
+
+.glass-dock__item--active::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--color-accent);
+  box-shadow: 0 0 6px var(--color-accent);
+}
+
+.glass-dock__icon {
+  width: 20px;
+  height: 20px;
+  display: block;
+  stroke: currentColor;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.glass-dock__label {
+  display: none;
+}
+
+.glass-dock__divider {
+  width: 1px;
+  height: 22px;
+  background: rgba(58, 15, 52, 0.16);
+  margin-inline: 4px;
+  display: inline-block;
+}
+
+.glass-dock__item--cta {
+  width: auto;
+  height: auto;
+  border-radius: var(--radius-pill);
+  padding: 0;
+  margin-left: 2px;
+  background: transparent;
+}
+
+.glass-dock__item--cta:hover {
+  transform: translateY(-2px) scale(1.04);
+  background: transparent;
+}
+
+/* ── GlassDock Floating Magnetic Tooltip ─────────── */
+
+.glass-dock__tooltip {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0;
+  transform: translate3d(0, 8px, 0) scale(0.92);
+  transition: opacity 0.2s var(--ease-out), transform 0.28s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  will-change: transform, opacity;
+}
+
+.glass-dock__tooltip--visible {
+  opacity: 1;
+}
+
+.glass-dock__tooltip-track {
+  position: relative;
+  min-width: 72px;
+  padding: 6px 14px;
+  background: #20071C;
+  color: #DDE3E8;
+  border: 1px solid rgba(234, 170, 0, 0.35);
+  border-radius: 9999px;
+  box-shadow: 
+    0 10px 24px -4px rgba(32, 7, 28, 0.35),
+    0 0 10px -2px rgba(234, 170, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  height: 30px;
+}
+
+.glass-dock__tooltip-text {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.025em;
+  white-space: nowrap;
+  display: inline-block;
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  filter: blur(0px);
+  transition: transform 0.22s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, filter 0.2s ease;
+}
+
+.glass-dock__tooltip-text--slide-in-right {
+  transform: translate3d(28px, 0, 0);
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.glass-dock__tooltip-text--slide-in-left {
+  transform: translate3d(-28px, 0, 0);
+  opacity: 0;
+  filter: blur(4px);
+}
+
+.glass-dock__tooltip-text--active {
+  transform: translate3d(0, 0, 0);
+  opacity: 1;
+  filter: blur(0px);
+}
+
 /* ── Hero (Hallmark Stage Posture) ─────────────── */
 
 .hero {
@@ -1418,6 +1596,59 @@
 
   .nav__links--open { display: flex; }
   .nav__burger { display: flex; }
+
+  /* GlassDock Mobile Adaptation */
+  .glass-dock {
+    position: static;
+  }
+  .glass-dock__tooltip {
+    display: none !important;
+  }
+  .glass-dock__items {
+    display: none;
+    position: absolute;
+    top: 68px;
+    left: 0;
+    right: 0;
+    background: var(--color-paper);
+    border-radius: 0;
+    border-top: none;
+    border-inline: none;
+    border-bottom: var(--rule-hair) solid var(--color-rule);
+    flex-direction: column;
+    align-items: stretch;
+    padding: var(--space-lg) var(--gutter);
+    gap: var(--space-xs);
+    box-shadow: 0 16px 32px rgba(32, 7, 28, 0.1);
+  }
+  .glass-dock__items--open {
+    display: flex;
+  }
+  .glass-dock__item {
+    width: 100%;
+    height: 44px;
+    border-radius: var(--radius-sm);
+    justify-content: flex-start;
+    padding-inline: 14px;
+    gap: 12px;
+  }
+  .glass-dock__item:hover {
+    transform: none;
+  }
+  .glass-dock__label {
+    display: inline-block;
+    font-size: var(--text-base);
+    font-weight: 500;
+    color: var(--color-ink);
+  }
+  .glass-dock__divider {
+    display: none;
+  }
+  .glass-dock__item--cta {
+    width: 100%;
+    margin-top: var(--space-sm);
+    margin-left: 0;
+  }
 
   .project-card {
     grid-template-columns: 1fr;

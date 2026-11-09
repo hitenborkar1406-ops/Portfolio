@@ -3,8 +3,10 @@
 /* ── Mobile nav toggle ─────────────────────────────── */
 (function () {
   var nav = document.querySelector('.nav');
-  var links = document.querySelector('.nav__links');
+  var links = document.querySelector('.glass-dock__items') || document.querySelector('.nav__links');
   if (!nav || !links) return;
+
+  var openClass = links.classList.contains('glass-dock__items') ? 'glass-dock__items--open' : 'nav__links--open';
 
   /* Create burger */
   var burger = document.createElement('button');
@@ -15,7 +17,7 @@
   nav.querySelector('.nav__inner').appendChild(burger);
 
   burger.addEventListener('click', function () {
-    var open = links.classList.toggle('nav__links--open');
+    var open = links.classList.toggle(openClass);
     burger.classList.toggle('nav__burger--open', open);
     burger.setAttribute('aria-expanded', String(open));
     burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
@@ -24,10 +26,72 @@
   /* Close on link click */
   links.querySelectorAll('a').forEach(function (a) {
     a.addEventListener('click', function () {
-      links.classList.remove('nav__links--open');
+      links.classList.remove(openClass);
       burger.classList.remove('nav__burger--open');
       burger.setAttribute('aria-expanded', 'false');
     });
+  });
+})();
+
+/* ── GlassDock Interactive Magnetic Tooltip System ── */
+(function () {
+  var dock = document.getElementById('glassDock');
+  var tooltip = document.getElementById('dockTooltip');
+  var tooltipText = document.getElementById('dockTooltipText');
+  if (!dock || !tooltip || !tooltipText) return;
+
+  var items = dock.querySelectorAll('.glass-dock__item');
+  var lastIndex = null;
+  var hideTimeout = null;
+
+  items.forEach(function (item, index) {
+    item.addEventListener('mouseenter', function () {
+      if (hideTimeout) {
+        clearTimeout(hideTimeout);
+        hideTimeout = null;
+      }
+
+      var title = item.getAttribute('data-title');
+      if (!title) return;
+
+      var direction = 0;
+      if (lastIndex !== null && lastIndex !== index) {
+        direction = index > lastIndex ? 1 : -1;
+      }
+
+      // Set text first so tooltip dynamically sizes itself
+      tooltipText.textContent = title;
+
+      // Animate text transition if direction changed
+      if (direction !== 0) {
+        tooltipText.className = 'glass-dock__tooltip-text ' + (direction > 0 ? 'glass-dock__tooltip-text--slide-in-right' : 'glass-dock__tooltip-text--slide-in-left');
+        void tooltipText.offsetWidth; // Force reflow
+        tooltipText.className = 'glass-dock__tooltip-text glass-dock__tooltip-text--active';
+      } else {
+        tooltipText.className = 'glass-dock__tooltip-text glass-dock__tooltip-text--active';
+      }
+
+      // Compute exact position relative to dock
+      var dockRect = dock.getBoundingClientRect();
+      var itemRect = item.getBoundingClientRect();
+      var tooltipWidth = tooltip.offsetWidth || 80;
+      var tooltipHeight = tooltip.offsetHeight || 30;
+
+      var x = (itemRect.left - dockRect.left) + (itemRect.width / 2) - (tooltipWidth / 2);
+      var y = -tooltipHeight - 10;
+
+      tooltip.style.transform = 'translate3d(' + Math.round(x) + 'px, ' + Math.round(y) + 'px, 0) scale(1)';
+      tooltip.classList.add('glass-dock__tooltip--visible');
+
+      lastIndex = index;
+    });
+  });
+
+  dock.addEventListener('mouseleave', function () {
+    hideTimeout = setTimeout(function () {
+      tooltip.classList.remove('glass-dock__tooltip--visible');
+      lastIndex = null;
+    }, 120);
   });
 })();
 
@@ -62,7 +126,7 @@
 /* ── Active Nav Links & Progress Rail Tracker ──────── */
 (function () {
   var sections = document.querySelectorAll('section[id], header[id]');
-  var navLinks = document.querySelectorAll('.nav__link');
+  var navLinks = document.querySelectorAll('.nav__link, .glass-dock__item');
   var rail = document.getElementById('rail');
   var railDots = rail ? rail.querySelectorAll('.rail__dot') : [];
 
@@ -87,7 +151,9 @@
     if (currentId) {
       navLinks.forEach(function (link) {
         var href = link.getAttribute('href');
-        link.classList.toggle('nav__link--active', href === '#' + currentId);
+        var isActive = href === '#' + currentId;
+        link.classList.toggle('nav__link--active', isActive);
+        link.classList.toggle('glass-dock__item--active', isActive);
       });
 
       if (railDots.length) {
