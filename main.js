@@ -1519,7 +1519,8 @@
           img.className = 'image-reveal__img';
           img.src = photo.image || photo.src;
           img.alt = photo.title;
-          img.loading = 'lazy';
+          img.loading = 'eager';
+          img.decoding = 'async';
 
           var numSpan = document.createElement('span');
           numSpan.className = 'image-reveal__num';
