@@ -1371,26 +1371,12 @@
   background: #180515;
 }
 
-/* Active item displays its photo by default */
-.image-reveal__item--active .image-reveal__img {
+.image-reveal__item:hover .image-reveal__img,
+.image-reveal__item:focus-visible .image-reveal__img {
   opacity: 1;
   transform: translateY(-50%) scale(1);
   left: -270px;
-}
-
-/* When another item is hovered, hovered item overrides */
-.image-reveal__list:hover .image-reveal__item--active:not(:hover) .image-reveal__img {
-  opacity: 0;
-  transform: translateY(-50%) scale(0.92);
-  left: -285px;
-}
-
-.image-reveal__item:hover .image-reveal__img,
-.image-reveal__item:focus-visible .image-reveal__img {
-  opacity: 1 !important;
-  transform: translateY(-50%) scale(1) !important;
-  left: -270px !important;
-  z-index: 102 !important;
+  z-index: 102;
 }
 
 .book-showcase__meta {
@@ -1524,17 +1510,18 @@
     left: auto;
     right: 10px;
     top: 50%;
-    transform: translateY(-50%) scale(1);
+    transform: translateY(-50%) scale(0.92);
     width: 72px;
     height: 54px;
     border-radius: 8px;
-    opacity: 0.95;
-    pointer-events: auto;
+    opacity: 0;
+    pointer-events: none;
   }
-  .image-reveal__item:hover .image-reveal__img {
+  .image-reveal__item:hover .image-reveal__img,
+  .image-reveal__item:focus-visible .image-reveal__img {
     left: auto;
     right: 10px;
-    transform: translateY(-50%) scale(1.06);
+    transform: translateY(-50%) scale(1);
     opacity: 1;
   }
   .image-reveal__sub {
