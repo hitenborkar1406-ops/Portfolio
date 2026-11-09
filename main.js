@@ -682,8 +682,24 @@
       stars: 5,
       desc: 'Secured 2nd place nationwide among 2,100+ competitors with Team Bandwidth Biotics. Built an intelligent IV infusion safety monitoring system featuring optical droplet metering, automated pinch valve activation to prevent blood backflow, and real-time hospital ward telemetry.',
       photos: [
-        { title: 'Team Victory Podium', src: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg' },
-        { title: 'Hardware Prototype Demo', src: 'HACKSAGON_SOLO_IMAGE.jpeg' }
+        {
+          id: 'hacksagon-podium',
+          number: '01',
+          title: 'Team Victory Podium',
+          subtitle: '2nd Place Nationwide',
+          image: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
+          src: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
+          href: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg'
+        },
+        {
+          id: 'hacksagon-demo',
+          number: '02',
+          title: 'Hardware Prototype Demo',
+          subtitle: 'Smart IV System',
+          image: 'HACKSAGON_SOLO_IMAGE.jpeg',
+          src: 'HACKSAGON_SOLO_IMAGE.jpeg',
+          href: 'HACKSAGON_SOLO_IMAGE.jpeg'
+        }
       ],
       coverBg: '#280724',
       backBg: '#1B0518',
@@ -708,7 +724,15 @@
       stars: 5,
       desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon 2026 with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators, corporate mentors, and engineering faculty.',
       photos: [
-        { title: 'Award Cheque Presentation', src: 'IDEATHON_IMAGE.jpeg' }
+        {
+          id: 'ideathon-award',
+          number: '01',
+          title: 'Award Cheque Presentation',
+          subtitle: '2nd Runner Up (₹5,000 Prize)',
+          image: 'IDEATHON_IMAGE.jpeg',
+          src: 'IDEATHON_IMAGE.jpeg',
+          href: 'IDEATHON_IMAGE.jpeg'
+        }
       ],
       coverBg: '#21061D',
       backBg: '#170414',
@@ -1478,23 +1502,60 @@
     var galleryItemsEl = document.getElementById('showcaseGalleryItems');
     if (galleryEl && galleryItemsEl) {
       galleryItemsEl.innerHTML = '';
-      if (book.cfg.photos && book.cfg.photos.length > 1) {
+      if (book.cfg.photos && book.cfg.photos.length > 0) {
         galleryEl.style.display = 'block';
         book.cfg.photos.forEach(function (photo, idx) {
-          var btn = document.createElement('button');
-          btn.type = 'button';
-          btn.className = 'book-showcase__thumb-btn' + (idx === 0 ? ' book-showcase__thumb-btn--active' : '');
-          btn.setAttribute('aria-label', photo.title);
-          btn.innerHTML = '<img class="book-showcase__thumb-img" src="' + photo.src + '" alt="' + photo.title + '" /><span>' + photo.title + '</span>';
-          btn.addEventListener('click', function (e) {
-            e.stopPropagation();
-            galleryItemsEl.querySelectorAll('.book-showcase__thumb-btn').forEach(function (b) {
-              b.classList.remove('book-showcase__thumb-btn--active');
+          var li = document.createElement('li');
+          li.className = 'image-reveal__li';
+
+          var a = document.createElement('a');
+          a.className = 'image-reveal__item' + (idx === 0 ? ' image-reveal__item--active' : '');
+          a.href = photo.href || photo.src || '#';
+          a.target = '_blank';
+          a.rel = 'noopener noreferrer';
+          a.setAttribute('aria-label', photo.title);
+
+          var img = document.createElement('img');
+          img.className = 'image-reveal__img';
+          img.src = photo.image || photo.src;
+          img.alt = photo.title;
+          img.loading = 'lazy';
+
+          var numSpan = document.createElement('span');
+          numSpan.className = 'image-reveal__num';
+          numSpan.textContent = photo.number || String(idx + 1).padStart(2, '0');
+
+          var titleSpan = document.createElement('span');
+          titleSpan.className = 'image-reveal__title';
+          titleSpan.textContent = photo.title;
+
+          a.appendChild(img);
+          a.appendChild(numSpan);
+          a.appendChild(titleSpan);
+
+          if (photo.subtitle) {
+            var subSpan = document.createElement('span');
+            subSpan.className = 'image-reveal__sub';
+            subSpan.textContent = photo.subtitle;
+            a.appendChild(subSpan);
+          }
+
+          function activate() {
+            galleryItemsEl.querySelectorAll('.image-reveal__item').forEach(function (el) {
+              el.classList.remove('image-reveal__item--active');
             });
-            btn.classList.add('book-showcase__thumb-btn--active');
-            if (actionPrimary) actionPrimary.href = photo.src;
+            a.classList.add('image-reveal__item--active');
+            if (actionPrimary) actionPrimary.href = photo.href || photo.src;
+          }
+
+          a.addEventListener('mouseenter', activate);
+          a.addEventListener('focus', activate);
+          a.addEventListener('click', function () {
+            activate();
           });
-          galleryItemsEl.appendChild(btn);
+
+          li.appendChild(a);
+          galleryItemsEl.appendChild(li);
         });
       } else {
         galleryEl.style.display = 'none';
