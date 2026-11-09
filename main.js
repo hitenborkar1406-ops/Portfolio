@@ -1816,7 +1816,6 @@
   var clock = new THREE.Clock();
   var isInViewport = true;
   var rafId = 0;
-  var firstFrameRendered = false;
 
   function animate() {
     if (!isInViewport || document.hidden) {
@@ -1849,21 +1848,6 @@
     }
 
     renderer.render(scene, camera);
-
-    if (!firstFrameRendered) {
-      firstFrameRendered = true;
-      var loaderEl = document.getElementById('showcaseLoader');
-      if (loaderEl) {
-        setTimeout(function () {
-          loaderEl.classList.add('styled-loader-wrapper--hidden');
-          setTimeout(function () {
-            if (loaderEl && loaderEl.parentNode) {
-              loaderEl.parentNode.removeChild(loaderEl);
-            }
-          }, 460);
-        }, 120);
-      }
-    }
   }
 
   function relayout() {
@@ -1903,4 +1887,32 @@
   observer.observe(root);
 
   window.addEventListener('resize', relayout);
+})();
+
+/* ── Offline Connection Detector ─────────────────── */
+(function () {
+  var overlay = document.getElementById('offlineOverlay');
+  var statusText = document.getElementById('offlineStatusText');
+  if (!overlay) return;
+
+  function setOffline() {
+    overlay.classList.add('offline-overlay--active');
+    overlay.setAttribute('aria-hidden', 'false');
+    if (statusText) statusText.textContent = 'Attempting to reconnect...';
+  }
+
+  function setOnline() {
+    if (statusText) statusText.textContent = 'Connection restored!';
+    setTimeout(function () {
+      overlay.classList.remove('offline-overlay--active');
+      overlay.setAttribute('aria-hidden', 'true');
+    }, 700);
+  }
+
+  window.addEventListener('offline', setOffline);
+  window.addEventListener('online', setOnline);
+
+  if (typeof navigator.onLine === 'boolean' && !navigator.onLine) {
+    setOffline();
+  }
 })();
