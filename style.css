@@ -311,6 +311,50 @@
   }
 }
 
+/* ── Resume Action Group ─────────────────────────── */
+
+.resume-cta-wrap {
+  display: inline-flex;
+  align-items: stretch;
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+}
+
+.key--resume {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}
+
+.key--resume-dl {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 12px;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 1px solid var(--color-rule-strong);
+  color: var(--color-ink-2);
+}
+
+.key--resume-dl:hover {
+  color: var(--color-accent-ink);
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+.about__resume-cta {
+  margin-top: var(--space-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-md);
+  flex-wrap: wrap;
+}
+
 /* ── Creepy Eyes "Get in Touch" Button ───────────── */
 
 .creepy-btn {
