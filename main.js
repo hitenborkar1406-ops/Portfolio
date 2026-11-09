@@ -1353,9 +1353,9 @@
       ];
 
     if (portrait) {
-      SLOTS.detail = { p: [0, 0.45, 0.85], r: [0, -0.06, 0], s: 0.72 };
+      SLOTS.detail = { p: [0, 0.45, 0.85], r: [0, 0, 0], s: 0.72 };
     } else {
-      SLOTS.detail = { p: [0, 0.0, 0.95], r: [0, -0.08, 0], s: 0.95 };
+      SLOTS.detail = { p: [-1.35, 0.0, 0.95], r: [0, -0.06, 0], s: 0.95 };
     }
   }
 
@@ -1502,25 +1502,23 @@
     }
 
     computeSlots();
+    applyMode();
+    camTo('detail');
 
     var out = 0;
     books.forEach(function (b, i) {
       if (b !== book) sendOut(b, i, out++ * 0.08);
     });
 
-    setTimeout(function () {
-      book.orbY = RM ? 0 : -6.2832;
-      book.orbYv = RM ? 0 : 3;
-      book.orbPhase = 'return';
-      book.orbTarget = 0;
-      book.orbXs.set(0);
-      applyMode();
-      camTo('detail');
-    }, 760);
+    book.orbY = 0;
+    book.orbYv = 0;
+    book.orbPhase = 'idle';
+    book.orbTarget = 0;
+    book.orbXs.set(0);
 
     setTimeout(function () {
       leaves.activate(book);
-    }, 1000);
+    }, 400);
 
     setTimeout(function () {
       if (state.mode === 'opening') {
@@ -1533,7 +1531,7 @@
         state.mode = 'detail';
         root.setAttribute('data-state', 'detail');
       }
-    }, 1400);
+    }, 850);
   }
 
   function closeBook() {
@@ -1545,9 +1543,10 @@
 
     var b = state.selected;
     if (b) {
-      b.orbTarget = Math.round(b.orbY / 6.2832) * 6.2832 + 6.2832;
-      b.orbYv = Math.max(b.orbYv, 3);
-      b.orbPhase = 'return';
+      b.orbTarget = 0;
+      b.orbY = 0;
+      b.orbYv = 0;
+      b.orbPhase = 'idle';
       b.orbXs.t = 0;
     }
 
@@ -1556,9 +1555,9 @@
       camTo('hero');
       var back = 0;
       books.forEach(function (bk, i) {
-        if (bk !== b) bringBack(bk, i, 0.85 + back++ * 0.1);
+        if (bk !== b) bringBack(bk, i, 0.3 + back++ * 0.08);
       });
-    }, 250);
+    }, 120);
 
     setTimeout(function () {
       if (state.mode === 'closing') {
@@ -1566,7 +1565,7 @@
         root.setAttribute('data-state', 'hero');
         state.selected = null;
       }
-    }, 1600);
+    }, 950);
   }
 
   if (closeBtn) closeBtn.addEventListener('click', closeBook);
@@ -1673,7 +1672,7 @@
           if (Math.abs(b.orbYv) > 0.6) b.orbPhase = 'spin';
           else {
             b.orbPhase = 'return';
-            b.orbTarget = Math.round((b.orbY + b.orbYv * 1.2) / Math.PI) * Math.PI;
+            b.orbTarget = Math.round((b.orbY + b.orbYv * 1.2) / (Math.PI * 2)) * (Math.PI * 2);
           }
         }
         if (b.orbPhase === 'spin') {
@@ -1681,7 +1680,7 @@
           b.orbY += b.orbYv * dt;
           if (Math.abs(b.orbYv) < 0.5) {
             b.orbPhase = 'return';
-            b.orbTarget = Math.round((b.orbY + b.orbYv * 1.2) / Math.PI) * Math.PI;
+            b.orbTarget = Math.round((b.orbY + b.orbYv * 1.2) / (Math.PI * 2)) * (Math.PI * 2);
           }
         } else if (b.orbPhase === 'return') {
           var acc = 16 * (b.orbTarget - b.orbY) - 8 * b.orbYv;
@@ -1699,8 +1698,9 @@
     }
     b.orbXs.update(dt);
 
+    var inDetailOrOpening = (state.mode === 'detail' || state.mode === 'opening') && state.selected === b;
     var coverBase = 0;
-    if (inDetail) coverBase = 0.88 + Math.sin(t * 0.8 + b.phase) * 0.035;
+    if (inDetailOrOpening) coverBase = 1.65 + Math.sin(t * 0.8 + b.phase) * 0.035;
     var fan = orbitActive ? clamp(b.orbYv * 0.16, 0, 0.75) : 0;
     var fanB = orbitActive ? clamp(-b.orbYv * 0.16, 0, 0.75) : 0;
 
