@@ -1816,6 +1816,7 @@
   var clock = new THREE.Clock();
   var isInViewport = true;
   var rafId = 0;
+  var firstFrameRendered = false;
 
   function animate() {
     if (!isInViewport || document.hidden) {
@@ -1848,6 +1849,21 @@
     }
 
     renderer.render(scene, camera);
+
+    if (!firstFrameRendered) {
+      firstFrameRendered = true;
+      var loaderEl = document.getElementById('showcaseLoader');
+      if (loaderEl) {
+        setTimeout(function () {
+          loaderEl.classList.add('styled-loader-wrapper--hidden');
+          setTimeout(function () {
+            if (loaderEl && loaderEl.parentNode) {
+              loaderEl.parentNode.removeChild(loaderEl);
+            }
+          }, 460);
+        }, 120);
+      }
+    }
   }
 
   function relayout() {
