@@ -106,7 +106,7 @@
             <span class="glass-dock__label">About</span>
           </a>
 
-          <a href="HITEN_RESUME.pdf" target="_blank" rel="noopener" class="glass-dock__item" data-title="Resume" title="Resume" aria-label="Resume">
+          <a href="HITEN_RESUME.pdf?v=20261110" target="_blank" rel="noopener" class="glass-dock__item" data-title="Resume" title="Resume" aria-label="Resume">
             <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -153,7 +153,7 @@
               <span class="creepy-btn__placeholder" aria-hidden="true">Get in Touch</span>
             </a>
             <div class="resume-cta-wrap">
-              <a href="HITEN_RESUME.pdf" target="_blank" rel="noopener" class="key key--resume" id="resumeReadBtn" aria-label="Read Resume in new tab">
+              <a href="HITEN_RESUME.pdf?v=20261110" target="_blank" rel="noopener" class="key key--resume" id="resumeReadBtn" aria-label="Read Resume in new tab">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
                   <polyline points="14 2 14 8 20 8"/>
@@ -162,7 +162,7 @@
                 </svg>
                 <span>Resume</span>
               </a>
-              <a href="HITEN_RESUME.pdf" download="HITEN_RESUME.pdf" class="key key--resume-dl" id="resumeDlBtn" aria-label="Download Resume PDF" title="Download Resume (PDF)">
+              <a href="HITEN_RESUME.pdf?v=20261110" download="HITEN_RESUME.pdf" class="key key--resume-dl" id="resumeDlBtn" aria-label="Download Resume PDF" title="Download Resume (PDF)">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
                   <polyline points="7 10 12 15 17 10"/>
@@ -205,25 +205,26 @@
             <div class="project-card__eyebrow">
               <span class="project-card__idx">01</span>
               <span class="project-card__total">/ 03</span>
-              <span class="project-card__category">Corridor ML Traffic Flow</span>
+              <span class="project-card__category">Nagpur GIS traffic</span>
             </div>
             <div class="project-card__info">
-              <h3>Smart City Traffic Optimization</h3>
-              <p class="project-card__desc">Traffic prediction workflow using SUMO simulation data and OpenStreetMap for a Nagpur road corridor. ML pipelines predict congestion 15 minutes ahead, supporting intelligent alternate-route recommendations.</p>
+              <h3>Smart City Traffic Management</h3>
+              <p class="project-card__desc">GIS traffic platform for Nagpur with congestion maps and route planning. An XGBoost classifier predicts Low, Medium, and High congestion 15 minutes ahead, and OpenStreetMap with OSRM compares alternate routes.</p>
               <div class="project-card__tags">
                 <span class="project-card__tag">Python</span>
-                <span class="project-card__tag">Scikit-learn</span>
-                <span class="project-card__tag">SUMO</span>
-                <span class="project-card__tag">OpenStreetMap</span>
+                <span class="project-card__tag">XGBoost</span>
+                <span class="project-card__tag">React</span>
+                <span class="project-card__tag">FastAPI</span>
+                <span class="project-card__tag">Leaflet</span>
               </div>
             </div>
             <div class="project-card__panel graphite cut">
-              <div class="project-card__panel-title">// traffic-route-optimizer</div>
-              <div class="project-card__panel-line"><span class="accent">from</span> sklearn.ensemble <span class="accent">import</span> RandomForest</div>
-              <div class="project-card__panel-line muted"># predict congestion 15 min ahead</div>
-              <div class="project-card__panel-line"><span class="accent">def</span> predict_route(corridor, t):</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;data = sumo.<span class="accent">simulate</span>(corridor, t)</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> model.predict(data)</div>
+              <div class="project-card__panel-title">// traffic-navigation</div>
+              <div class="project-card__panel-line"><span class="accent">from</span> xgboost <span class="accent">import</span> XGBClassifier</div>
+              <div class="project-card__panel-line muted"># Low, Medium, High — 15 min ahead</div>
+              <div class="project-card__panel-line"><span class="accent">def</span> recommend(origin, dest):</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;level = model.<span class="accent">predict</span>(features)</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> osrm.best_path(level)</div>
             </div>
           </article>
 
@@ -235,12 +236,9 @@
               <span class="project-card__category">Healthcare IoT & Telemetry</span>
             </div>
             <div class="project-card__info">
-              <h3>Smart IV Monitoring</h3>
-              <p class="project-card__desc">IoT-based IV fluid monitoring system for patient safety. Features IV fluid level monitoring, blood backflow detection, automatic valve control, vital-sign monitoring, and real-time alerts through a centralized dashboard.</p>
+              <h3>Smart IV Drip Monitoring</h3>
+              <p class="project-card__desc">IoT prototype for automated IV monitoring. Modules cover fluid-level sensing, blood backflow detection, automatic valve control, vital-sign monitoring, and real-time alerts.</p>
               <div class="project-card__tags">
-                <span class="project-card__tag">HTML</span>
-                <span class="project-card__tag">CSS</span>
-                <span class="project-card__tag">JavaScript</span>
                 <span class="project-card__tag">IoT</span>
               </div>
               <a href="https://clever-halva-75f827.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
@@ -261,15 +259,15 @@
             <div class="project-card__eyebrow">
               <span class="project-card__idx">03</span>
               <span class="project-card__total">/ 03</span>
-              <span class="project-card__category">Enterprise Sustainability SaaS</span>
+              <span class="project-card__category">SME carbon estimator</span>
             </div>
             <div class="project-card__info">
               <h3>CarbonTrack SME</h3>
-              <p class="project-card__desc">Converts SME operational data into carbon emission insights with actionable reduction strategies, ROI analysis, and progress tracking through an interactive dashboard.</p>
+              <p class="project-card__desc">Responsive frontend that helps small and medium businesses estimate and understand their carbon footprint.</p>
               <div class="project-card__tags">
-                <span class="project-card__tag">Full-stack</span>
-                <span class="project-card__tag">Analytics</span>
-                <span class="project-card__tag">Dashboard</span>
+                <span class="project-card__tag">HTML</span>
+                <span class="project-card__tag">CSS</span>
+                <span class="project-card__tag">JavaScript</span>
               </div>
               <a href="https://sparkling-brigadeiros-265737.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
             </div>
@@ -279,7 +277,7 @@
               <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">const</span> emissions = data.<span class="accent">map</span>(</div>
               <div class="project-card__panel-line">&nbsp;&nbsp;&nbsp;&nbsp;d =&gt; d.consumption * <span class="accent">factors</span>[d.type]</div>
               <div class="project-card__panel-line">&nbsp;&nbsp;);</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> { total, breakdown, roi };</div>
+              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> emissions.reduce((a, b) =&gt; a + b, 0);</div>
               <div class="project-card__panel-line">{'}'}</div>
             </div>
           </article>
@@ -339,8 +337,8 @@
                       <span class="devi-tooltip">JavaScript</span>
                     </div>
                     <div class="devi-badge" style="--tx: 61px; --ty: -49px; --delay: 200ms;">
-                      <svg viewBox="0 0 128 128" class="devi-badge-svg"><defs><linearGradient id="kg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#C757BC"/><stop offset="100%" stop-color="#F18E33"/></linearGradient></defs><path fill="url(#kg)" d="M128 0H0v128h128L64 64l64-64z"/></svg>
-                      <span class="devi-tooltip">Kotlin</span>
+                      <svg viewBox="0 0 128 128" class="devi-badge-svg"><rect width="128" height="128" rx="16" fill="#E34F26"/><text x="64" y="78" font-family="sans-serif" font-size="36" font-weight="700" fill="#fff" text-anchor="middle">HTML</text></svg>
+                      <span class="devi-tooltip">HTML</span>
                     </div>
                     <div class="devi-badge" style="--tx: 76px; --ty: -17px; --delay: 240ms;">
                       <svg viewBox="0 0 128 128" class="devi-badge-svg"><ellipse cx="64" cy="30" rx="46" ry="16" fill="#00758F"/><path fill="#00758F" opacity="0.8" d="M18 30v32c0 8.8 20.6 16 46 16s46-7.2 46-16V30H18z"/><path fill="#00758F" opacity="0.9" d="M18 62v32c0 8.8 20.6 16 46 16s46-7.2 46-16V62H18z"/><text x="64" y="84" font-family="monospace" font-size="28" font-weight="800" fill="#fff" text-anchor="middle">SQL</text></svg>
@@ -441,20 +439,20 @@
                       <span class="devi-tooltip">GitHub</span>
                     </div>
                     <div class="devi-badge" style="--tx: -20px; --ty: -75px; --delay: 80ms;">
-                      <svg viewBox="0 0 38 57" class="devi-badge-svg"><path fill="#1ABCFE" d="M19 28.5a9.5 9.5 0 1 1 19 0 9.5 9.5 0 0 1-19 0z"/><path fill="#0ACF83" d="M0 47.5A9.5 9.5 0 0 1 9.5 38H19v9.5a9.5 9.5 0 1 1-19 0z"/><path fill="#FF7262" d="M19 0v19h9.5a9.5 9.5 0 1 0 0-19H19z"/><path fill="#F24E1E" d="M0 9.5A9.5 9.5 0 0 0 9.5 19H19V0H9.5A9.5 9.5 0 0 0 0 9.5z"/><path fill="#A259FF" d="M0 28.5A9.5 9.5 0 0 0 9.5 38H19V19H9.5A9.5 9.5 0 0 0 0 28.5z"/></svg>
-                      <span class="devi-tooltip">Figma</span>
+                      <svg viewBox="0 0 128 128" class="devi-badge-svg"><rect width="128" height="128" rx="16" fill="#007ACC"/><text x="64" y="76" font-family="sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">VS</text></svg>
+                      <span class="devi-tooltip">VS Code</span>
                     </div>
                     <div class="devi-badge" style="--tx: 20px; --ty: -75px; --delay: 120ms;">
                       <svg viewBox="0 0 24 24" class="devi-badge-svg" fill="#E95420"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="4" fill="#fff"/><circle cx="12" cy="6" r="2" fill="#fff"/><circle cx="6.8" cy="15" r="2" fill="#fff"/><circle cx="17.2" cy="15" r="2" fill="#fff"/></svg>
-                      <span class="devi-tooltip">Ubuntu</span>
+                      <span class="devi-tooltip">Linux</span>
                     </div>
                     <div class="devi-badge" style="--tx: 55px; --ty: -55px; --delay: 160ms;">
-                      <svg viewBox="0 0 24 24" class="devi-badge-svg" fill="#3DDC84"><path d="M6 18c0 .55.45 1 1 1h1v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h2v3.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5V19h1c.55 0 1-.45 1-1V8H6v10zM3.5 8C2.67 8 2 8.67 2 9.5v7c0 .83.67 1.5 1.5 1.5S5 17.33 5 16.5v-7C5 8.67 4.33 8 3.5 8zm17 0c-.83 0-1.5.67-1.5 1.5v7c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5v-7c0-.83-.67-1.5-1.5-1.5zm-4.97-4.84l1.3-1.3c.2-.2.2-.51 0-.71a.495.495 0 0 0-.7 0l-1.48 1.48C13.62 2.24 12.59 2 11.5 2c-1.09 0-2.12.24-3.15.63L6.87 1.15a.495.495 0 0 0-.7 0c-.2.2-.2.51 0 .71l1.3 1.3C5.64 4.34 4.5 6.28 4.5 8.5h14c0-2.22-1.14-4.16-2.97-5.34zM9 6c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1zm5 0c-.55 0-1-.45-1-1s.45-1 1-1 1 .45 1 1-.45 1-1 1z"/></svg>
-                      <span class="devi-tooltip">Android Studio</span>
+                      <svg viewBox="0 0 128 128" class="devi-badge-svg"><rect width="128" height="128" rx="16" fill="#4285F4"/><text x="64" y="76" font-family="sans-serif" font-size="28" font-weight="700" fill="#fff" text-anchor="middle">GCP</text></svg>
+                      <span class="devi-tooltip">GCP</span>
                     </div>
                     <div class="devi-badge" style="--tx: 75px; --ty: -20px; --delay: 200ms;">
-                      <svg viewBox="0 0 24 24" class="devi-badge-svg" fill="#049FD9"><path d="M3 13h2v6H3zm4-4h2v10H7zm4-4h2v14h-2zm4 4h2v10h-2zm4 4h2v6h-2z"/></svg>
-                      <span class="devi-tooltip">Cisco Packet Tracer</span>
+                      <svg viewBox="0 0 128 128" class="devi-badge-svg"><rect width="128" height="128" rx="16" fill="#1A73E8"/><text x="64" y="78" font-family="sans-serif" font-size="32" font-weight="700" fill="#fff" text-anchor="middle">CSS</text></svg>
+                      <span class="devi-tooltip">CSS</span>
                     </div>
                   </div>
 
@@ -489,7 +487,7 @@
                   <div class="devi-folder__previews" aria-hidden="true">
                     <div class="devi-badge" style="--tx: -72px; --ty: -30px; --delay: 0ms;">
                       <svg viewBox="0 0 24 24" class="devi-badge-svg"><circle cx="8" cy="12" r="5" fill="#3499CD"/><circle cx="16" cy="12" r="5" fill="#F89939"/><path d="M12 8.5a5 5 0 0 1 0 7 5 5 0 0 1 0-7z" fill="#E67B22"/></svg>
-                      <span class="devi-tooltip">Scikit-learn</span>
+                      <span class="devi-tooltip">pandas</span>
                     </div>
                     <div class="devi-badge" style="--tx: -30px; --ty: -72px; --delay: 40ms;">
                       <svg viewBox="0 0 24 24" class="devi-badge-svg" fill="none" stroke="#8B5CF6" stroke-width="2"><path d="M12 2a4 4 0 0 1 4 4c0 1.1-.5 2.1-1.2 2.8.7.6 1.2 1.5 1.2 2.5 0 .8-.3 1.5-.8 2 .5.5.8 1.2.8 2a3 3 0 0 1-3 3h-2"/><path d="M12 2a4 4 0 0 0-4 4c0 1.1.5 2.1 1.2 2.8-.7.6-1.2 1.5-1.2 2.5 0 .8.3 1.5.8 2-.5.5-.8 1.2-.8 2a3 3 0 0 0 3 3h2"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
@@ -497,11 +495,11 @@
                     </div>
                     <div class="devi-badge" style="--tx: 30px; --ty: -72px; --delay: 80ms;">
                       <svg viewBox="0 0 24 24" class="devi-badge-svg" fill="none" stroke="#10B981" stroke-width="2"><rect x="3" y="11" width="18" height="8" rx="2"/><path d="M5 11l2-5h10l2 5"/><circle cx="7.5" cy="15.5" r="1.5"/><circle cx="16.5" cy="15.5" r="1.5"/></svg>
-                      <span class="devi-tooltip">SUMO Simulation</span>
+                      <span class="devi-tooltip">NumPy</span>
                     </div>
                     <div class="devi-badge" style="--tx: 72px; --ty: -30px; --delay: 120ms;">
                       <svg viewBox="0 0 24 24" class="devi-badge-svg" fill="none" stroke="#059669" stroke-width="2"><polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/></svg>
-                      <span class="devi-tooltip">OpenStreetMap</span>
+                      <span class="devi-tooltip">Matplotlib</span>
                     </div>
                   </div>
 
@@ -586,7 +584,7 @@
             <div class="book-showcase__badge" id="showcaseBadge">2nd Place Winner</div>
             <h3 class="book-showcase__title" id="showcaseTitle">Hacksagon 2026</h3>
             <p class="book-showcase__desc" id="showcaseDesc">
-              Secured 2nd place among 2,100+ nationwide participants at Hacksagon 2026. Built and demonstrated Bandwidth Biotics — an AI &amp; IoT-powered smart IV infusion safety monitor.
+              2nd place at Hacksagon 2026 among 2,100+ participants, for the Smart IV Drip Monitoring System.
             </p>
 
             <!-- Photographic Evidence (Image Reveal List) -->
@@ -646,15 +644,15 @@
             </div>
 
             <div class="about__item">
-              <div class="about__item-period">2022 – 2024</div>
-              <div class="about__item-title">G.H. Raisoni Public School</div>
-              <p class="about__item-detail">12th grade: 81.2%</p>
+              <div class="about__item-period">2024</div>
+              <div class="about__item-title">CBSE Class XII (AISSCE)</div>
+              <p class="about__item-detail">88.4%</p>
             </div>
 
             <div class="about__item">
               <div class="about__item-period">2022</div>
-              <div class="about__item-title">Montfort School</div>
-              <p class="about__item-detail">10th grade: 88.4%</p>
+              <div class="about__item-title">CBSE Class X (AISSE)</div>
+              <p class="about__item-detail">81.2%</p>
             </div>
           </div>
 
@@ -664,7 +662,7 @@
             <div class="about__item">
               <div class="about__item-period">In progress</div>
               <div class="about__item-title">6G Security Research Paper</div>
-              <p class="about__item-detail">Authoring research paper focused on security challenges and considerations in 6G networks.</p>
+              <p class="about__item-detail">Co-authoring a paper on security challenges and emerging threats in next-generation 6G networks.</p>
             </div>
 
             <div class="about__item">
@@ -682,7 +680,7 @@
         </div>
 
         <div class="about__resume-cta" data-rv="up">
-          <a href="HITEN_RESUME.pdf" target="_blank" rel="noopener" class="key key--primary">
+          <a href="HITEN_RESUME.pdf?v=20261110" target="_blank" rel="noopener" class="key key--primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
               <polyline points="14 2 14 8 20 8"/>
@@ -691,7 +689,7 @@
             </svg>
             <span>Read Full Resume</span>
           </a>
-          <a href="HITEN_RESUME.pdf" download="HITEN_RESUME.pdf" class="key">
+          <a href="HITEN_RESUME.pdf?v=20261110" download="HITEN_RESUME.pdf" class="key">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
               <polyline points="7 10 12 15 17 10"/>
@@ -832,7 +830,7 @@
           <li><a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="footer__link">GitHub</a></li>
           <li><a href="https://www.linkedin.com/in/hiten-borkar-153a29326" target="_blank" rel="noopener" class="footer__link">LinkedIn</a></li>
           <li><a href="https://leetcode.com/u/Hiten-1406/" target="_blank" rel="noopener" class="footer__link">LeetCode</a></li>
-          <li><a href="HITEN_RESUME.pdf" target="_blank" rel="noopener" class="footer__link">Resume</a></li>
+          <li><a href="HITEN_RESUME.pdf?v=20261110" target="_blank" rel="noopener" class="footer__link">Resume</a></li>
           <li><button type="button" class="footer__link" id="footerShareBtn" style="background:none;border:none;cursor:pointer;padding:0;font:inherit;">Share</button></li>
         </ul>
       </div>
@@ -1002,6 +1000,6 @@
 
   <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
-  <script src="main.js?v=2.3.2" defer></script>
+  <script src="main.js?v=2.3.4" defer></script>
 </body>
 </html>

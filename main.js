@@ -673,20 +673,20 @@
       yearText: '2026',
       author: '2nd Place Winner',
       subtitle: '2ND PLACE WINNER',
-      team: 'Bandwidth Biotics',
-      badge: '2nd Place Winner (₹ Cash Prize)',
-      headerOrnament: '★ NATIONAL LEVEL HACKATHON ★',
-      footerText: 'AI & IOT INFUSION SAFETY',
-      source: 'National Level Hackathon',
+      team: 'Smart IV Drip',
+      badge: '2nd Place',
+      headerOrnament: '★ HACKSAGON 2026 ★',
+      footerText: 'SMART IV DRIP MONITOR',
+      source: 'Hacksagon 2026',
       year: '2026',
       stars: 5,
-      desc: 'Secured 2nd place nationwide among 2,100+ competitors with Team Bandwidth Biotics. Built an intelligent IV infusion safety monitoring system featuring optical droplet metering, automated pinch valve activation to prevent blood backflow, and real-time hospital ward telemetry.',
+      desc: '2nd place at Hacksagon 2026 among 2,100+ participants, for the Smart IV Drip Monitoring System.',
       photos: [
         {
           id: 'hacksagon-podium',
           number: '01',
-          title: 'Team Victory Podium',
-          subtitle: '2nd Place Nationwide',
+          title: 'Team podium',
+          subtitle: '2nd place',
           image: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
           src: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
           href: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg'
@@ -706,29 +706,29 @@
       spineBg: '#20071C',
       spineInk: '#EAAA00',
       spineFont: '700 36px Georgia',
-      chapters: ['Hacksagon 2026 Finale', '2,100+ Competitors', 'Bandwidth Biotics Solution', 'Smart IV Hardware Demo', 'Dual ESP32 Telemetry', 'Podium & Trophy Win']
+      chapters: ['Hacksagon 2026', '2,100+ Participants', '2nd Place', 'Smart IV Drip Monitor', 'Fluid-level Sensing', 'Real-time Alerts']
     },
     {
       id: 'ideathon-cyberster',
       title: 'Ideathon RCOEM TBI',
       mainTitle: 'IDEATHON',
       yearText: '2026',
-      author: '2nd Runner Up — Cyberster',
-      subtitle: '2ND RUNNER UP',
-      team: 'Team Cyberster',
-      badge: '2nd Runner Up (₹5,000 Prize)',
-      headerOrnament: '★ RCOEM TBI STARTUP IDEATHON ★',
-      footerText: 'DEEP-TECH INNOVATION',
-      source: 'RCOEM TBI Startup Ideathon',
+      author: '2nd Runner-up',
+      subtitle: '2ND RUNNER-UP',
+      team: 'Smart IV Drip',
+      badge: '2nd Runner-up',
+      headerOrnament: '★ IDEATHON, RCOEM TBI ★',
+      footerText: 'SMART IV DRIP MONITOR',
+      source: 'Ideathon, RCOEM TBI',
       year: '2026',
       stars: 5,
-      desc: 'Awarded 2nd Runner Up and cash prize of ₹5,000 at the RCOEM TBI Ideathon 2026 with Team Cyberster. Pitched a scalable deep-tech innovation addressing critical infrastructure challenges before venture incubators, corporate mentors, and engineering faculty.',
+      desc: '2nd runner-up at the RCOEM TBI Ideathon for the Smart IV Drip Monitoring System.',
       photos: [
         {
           id: 'ideathon-award',
           number: '01',
-          title: 'Award Cheque Presentation',
-          subtitle: '2nd Runner Up (₹5,000 Prize)',
+          title: 'Award presentation',
+          subtitle: '2nd runner-up',
           image: 'IDEATHON_IMAGE.jpeg',
           src: 'IDEATHON_IMAGE.jpeg',
           href: 'IDEATHON_IMAGE.jpeg'
@@ -739,7 +739,7 @@
       spineBg: '#250820',
       spineInk: '#EAAA00',
       spineFont: '700 34px Georgia',
-      chapters: ['Ideathon 2026 Challenge', 'Team Cyberster Formation', 'Deep-Tech Feasibility Pitch', 'Financial & Market Model', '₹5,000 Cash Prize Victory', 'Incubation Support']
+      chapters: ['Ideathon', 'RCOEM TBI', '2nd Runner-up', 'Smart IV Drip Monitor', 'Patient Safety', 'Real-time Alerts']
     }
   ];
 
