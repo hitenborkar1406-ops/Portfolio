@@ -212,54 +212,266 @@
   });
 })();
 
-/* ── Stacked Scroll Animation (Projects & Skills One-by-One) ── */
+/* ── Scroll Motion Engine ───────────────────────────
+   One rAF loop, started by scroll/resize and stopped when everything
+   has settled. Drives: progress bar, hero parallax, section-head rules,
+   stacked Projects/Skills cards, and scrubbed (reversible) reveals.
+   Only transform / opacity / CSS variables are written per frame. */
 (function () {
-  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) return;
+  var root = document.documentElement;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  function initStack(containerId, itemSelector) {
-    var container = document.getElementById(containerId);
-    if (!container) return;
-    var items = Array.from(container.querySelectorAll(itemSelector));
-    if (items.length < 2) return;
+  try {
+    var clamp = function (v, a, b) { return Math.max(a, Math.min(b, v)); };
+    var smooth = function (t) { return t * t * (3 - 2 * t); };
 
-    function updateStack() {
-      var vh = window.innerHeight;
-      items.forEach(function (item, index) {
-        if (index === items.length - 1) return;
+    /* Smoothed value: t = target, v = eased current value */
+    function Sm(v) { this.v = v; this.t = v; }
+    Sm.prototype.step = function (k) {
+      this.v += (this.t - this.v) * k;
+      if (Math.abs(this.t - this.v) < 0.0006) this.v = this.t;
+      return this.v !== this.t;
+    };
 
-        var nextItem = items[index + 1];
-        var itemRect = item.getBoundingClientRect();
-        var nextRect = nextItem.getBoundingClientRect();
+    var vh = window.innerHeight;
+    var vw = window.innerWidth;
+    var sy = window.pageYOffset;
+    var compact = vw < 700;
 
-        var diff = nextRect.top - itemRect.top;
+    var bar = document.getElementById('scrollProgress');
+    var hero = document.getElementById('hero');
+    var heroContent = hero && hero.querySelector('.hero__content');
+    var heroHeadline = hero && hero.querySelector('.hero__headline');
+    var heroPortrait = hero && hero.querySelector('.hero__portrait');
+    var heroCue = hero && hero.querySelector('.hero__cue');
+    var heroH = hero ? hero.offsetHeight : 1;
+    var heroS = new Sm(0);
 
-        if (diff <= vh && diff > 0) {
-          var progress = 1 - (diff / vh);
-          var scale = 1 - 0.05 * progress;
-          var opacity = 1 - 0.5 * progress;
-          var translateY = -14 * progress;
-          item.style.transform = 'translate3d(0, ' + translateY + 'px, 0) scale(' + scale + ')';
-          item.style.opacity = String(opacity);
-          item.style.filter = 'blur(' + (progress * 1.5) + 'px)';
-        } else if (diff <= 0) {
-          item.style.transform = 'translate3d(0, -14px, 0) scale(0.95)';
-          item.style.opacity = '0.5';
-          item.style.filter = 'blur(1.5px)';
-        } else {
-          item.style.transform = 'translate3d(0, 0, 0) scale(1)';
-          item.style.opacity = '1';
-          item.style.filter = 'none';
-        }
+    var heads = Array.prototype.map.call(document.querySelectorAll('.section__head'), function (el) {
+      return { el: el, d: new Sm(0), last: -1 };
+    });
+
+    var stacks = ['projectsStack', 'skillsStack'].map(function (id) {
+      var box = document.getElementById(id);
+      if (!box) return [];
+      return Array.prototype.map.call(box.querySelectorAll('[data-stack]'), function (el) {
+        return { el: el, e: new Sm(0), r: new Sm(0), seen: false, top: 0 };
+      });
+    });
+
+    var scrubs = Array.prototype.map.call(document.querySelectorAll('[data-scrub]'), function (el) {
+      return {
+        el: el,
+        type: el.getAttribute('data-scrub') || 'rise',
+        stagger: parseFloat(el.getAttribute('data-stagger')) || 0,
+        e: new Sm(0),
+        top: 0,
+        done: false
+      };
+    });
+
+    /* Layout positions of scrubbed elements, measured with our own
+       transforms removed so the animation can't feed back into itself. */
+    function measure() {
+      vh = window.innerHeight;
+      vw = window.innerWidth;
+      compact = vw < 700;
+      if (hero) heroH = Math.max(1, hero.offsetHeight);
+
+      var saved = scrubs.map(function (s) {
+        var t = s.el.style.transform;
+        s.el.style.transform = 'none';
+        return t;
+      });
+      scrubs.forEach(function (s) {
+        s.top = s.el.getBoundingClientRect().top + window.pageYOffset;
+      });
+      scrubs.forEach(function (s, i) {
+        s.el.style.transform = saved[i];
       });
     }
 
-    window.addEventListener('scroll', updateStack, { passive: true });
-    updateStack();
-  }
+    function scrubTransform(type, k) {
+      var m = compact ? 0.6 : 1;
+      switch (type) {
+        case 'tilt':
+          return 'translate3d(0,' + (k * 60 * m).toFixed(2) + 'px,0) rotateX(' + (k * 14).toFixed(2) + 'deg)';
+        case 'left':
+          return 'translate3d(' + (k * -70 * m).toFixed(2) + 'px,0,0)';
+        case 'right':
+          return 'translate3d(' + (k * 70 * m).toFixed(2) + 'px,0,0)';
+        case 'scale':
+          return 'translate3d(0,' + (k * 36 * m).toFixed(2) + 'px,0) scale(' + (1 - k * 0.08).toFixed(4) + ')';
+        default:
+          return 'translate3d(0,' + (k * 56 * m).toFixed(2) + 'px,0)';
+      }
+    }
 
-  initStack('projectsStack', '.project-card');
-  initStack('skillsStack', '.skills__group');
+    var running = false;
+    var last = 0;
+    var snap = true;
+
+    function tick(now) {
+      var dt = Math.min(Math.max((now - last) / 1000, 0.001), 0.05);
+      last = now;
+      var k = snap ? 1 : 1 - Math.exp(-dt * 11);
+      sy = window.pageYOffset;
+      var moving = false;
+
+      /* ── Phase 1: reads ── */
+      var headTops = heads.map(function (h) { return h.el.getBoundingClientRect().top; });
+      var stackRects = stacks.map(function (list) {
+        return list.map(function (it) { return it.el.getBoundingClientRect().top; });
+      });
+      var maxScroll = root.scrollHeight - vh;
+
+      /* ── Targets ── */
+      heroS.t = clamp(sy / heroH, 0, 1);
+
+      heads.forEach(function (h, i) {
+        h.d.t = clamp((vh * 0.9 - headTops[i]) / (vh * 0.3), 0, 1);
+      });
+
+      stacks.forEach(function (list, si) {
+        var tops = stackRects[si];
+        list.forEach(function (it, i) {
+          it.top = tops[i];
+          it.e.t = clamp((vh * 0.99 - tops[i]) / (vh * 0.4), 0, 1);
+          if (i < list.length - 1) {
+            var diff = tops[i + 1] - tops[i];
+            it.r.t = diff <= vh ? clamp(1 - diff / vh, 0, 1) : 0;
+          } else {
+            it.r.t = 0;
+          }
+        });
+      });
+
+      scrubs.forEach(function (s) {
+        s.e.t = clamp((vh * 0.92 - (s.top - sy)) / (vh * 0.4) - s.stagger * 0.18, 0, 1);
+        /* At the very bottom nothing can scroll further, so let it finish */
+        if (maxScroll > 0 && sy >= maxScroll - 4) s.e.t = 1;
+      });
+
+      /* ── Phase 2: ease + writes ── */
+      if (bar) {
+        bar.style.transform = 'scaleX(' + (maxScroll > 0 ? clamp(sy / maxScroll, 0, 1) : 0).toFixed(4) + ')';
+      }
+
+      if (heroS.step(k)) moving = true;
+      if (hero) {
+        var hp = heroS.v;
+        if (heroContent) {
+          heroContent.style.transform = 'translate3d(0,' + (-hp * 70).toFixed(2) + 'px,0)';
+          heroContent.style.opacity = (1 - smooth(clamp((hp - 0.12) / 0.7, 0, 1))).toFixed(3);
+        }
+        if (heroHeadline) {
+          heroHeadline.style.transform = 'translate3d(0,' + (-hp * 36).toFixed(2) + 'px,0)';
+        }
+        if (heroPortrait) {
+          heroPortrait.style.transform =
+            'translate3d(0,' + (hp * 54).toFixed(2) + 'px,0) scale(' + (1 - hp * 0.14).toFixed(4) + ') rotate(' + (-hp * 4).toFixed(2) + 'deg)';
+          heroPortrait.style.opacity = (1 - hp * 0.55).toFixed(3);
+        }
+        if (heroCue) {
+          heroCue.style.opacity = clamp(1 - hp * 8, 0, 1).toFixed(3);
+        }
+      }
+
+      heads.forEach(function (h) {
+        if (h.d.step(k)) moving = true;
+        if (Math.abs(h.d.v - h.last) > 0.002 || (h.d.v === h.d.t && h.d.v !== h.last)) {
+          h.el.style.setProperty('--draw', h.d.v.toFixed(3));
+          h.last = h.d.v;
+        }
+      });
+
+      stacks.forEach(function (list) {
+        list.forEach(function (it) {
+          if (it.e.step(k)) moving = true;
+          if (it.r.step(k)) moving = true;
+          var ee = smooth(it.e.v);
+          var rr = smooth(it.r.v);
+          var ty = (1 - ee) * (compact ? 24 : 40) - rr * 22;
+          var sc = (0.96 + 0.04 * ee) * (1 - 0.055 * rr);
+          it.el.style.transform = 'translate3d(0,' + ty.toFixed(2) + 'px,0) scale(' + sc.toFixed(4) + ')';
+          it.el.style.opacity = clamp(ee * 1.4, 0, 1).toFixed(3);
+          it.el.style.setProperty('--dim', rr.toFixed(3));
+
+          if (!it.seen && ee > 0.85 && it.top < vh * 0.7) {
+            it.seen = true;
+            it.el.classList.add('is-seen');
+            if (it.el.classList.contains('skills__group')) it.el.classList.add('is-peek');
+          }
+        });
+      });
+
+      scrubs.forEach(function (s) {
+        if (s.e.step(k)) moving = true;
+        var ee = smooth(s.e.v);
+        var el = s.el;
+        if (ee >= 0.999) {
+          if (!s.done) {
+            s.done = true;
+            el.style.transform = '';
+            el.style.opacity = '';
+            el.style.transition = '';
+            el.classList.add('is-done');
+          }
+        } else {
+          if (s.done) {
+            s.done = false;
+            el.classList.remove('is-done');
+          }
+          el.style.transition = 'none';
+          el.style.opacity = ee.toFixed(3);
+          el.style.transform = scrubTransform(s.type, 1 - ee);
+        }
+      });
+
+      snap = false;
+      if (moving) {
+        requestAnimationFrame(tick);
+      } else {
+        running = false;
+      }
+    }
+
+    function kick() {
+      if (running) return;
+      running = true;
+      last = performance.now();
+      requestAnimationFrame(tick);
+    }
+
+    function remeasure() {
+      measure();
+      snap = true;
+      kick();
+    }
+
+    window.addEventListener('scroll', kick, { passive: true });
+    window.addEventListener('resize', remeasure);
+    window.addEventListener('load', remeasure);
+
+    if (window.ResizeObserver) {
+      var roPending = false;
+      new ResizeObserver(function () {
+        if (roPending) return;
+        roPending = true;
+        requestAnimationFrame(function () {
+          roPending = false;
+          remeasure();
+        });
+      }).observe(document.body);
+    }
+
+    measure();
+    kick();
+  } catch (err) {
+    /* Never leave content hidden if the engine fails */
+    root.classList.remove('js');
+    if (window.console) console.warn('Scroll engine disabled', err);
+  }
 })();
 
 /* ── Creepy Eyes Button (Peeking & Pupil Tracking) ──── */
@@ -1356,6 +1568,8 @@
   })();
 
   var state = { mode: 'hero', selected: null, hovered: null };
+  var entered = RM; /* books rise into place the first time the section is on screen */
+  var scrollTilt = 0;
   var SLOTS = { hero: [], detail: null, portrait: false };
 
   function computeSlots() {
@@ -1455,6 +1669,7 @@
   }
 
   function applyMode() {
+    if (!entered && state.mode === 'hero') return;
     if (state.mode === 'hero' || state.mode === 'closing') {
       books.forEach(function (b, i) {
         var slot = SLOTS.hero[i];
@@ -1835,6 +2050,16 @@
     books.forEach(function (b) { tickBook(b, dt, t); });
     leaves.update(dt, t);
 
+    /* Scroll-linked tilt: books lean gently as the section passes through the viewport */
+    if (!RM) {
+      var sr = root.getBoundingClientRect();
+      var nrm = clamp(((sr.top + sr.height / 2) - window.innerHeight / 2) / window.innerHeight, -1, 1);
+      var tiltTarget = nrm * (state.mode === 'hero' ? 1 : 0.3);
+      scrollTilt += (tiltTarget - scrollTilt) * Math.min(1, dt * 6);
+      bookRoot.rotation.x = scrollTilt * 0.12;
+      bookRoot.rotation.y = -scrollTilt * 0.07;
+    }
+
     camera.position.set(camX.update(dt), camY.update(dt), camZ.update(dt));
     camera.lookAt(lookX.update(dt), lookY.update(dt), 0);
 
@@ -1872,8 +2097,30 @@
     s.ry.set(slot.r[1]);
     s.rz.set(slot.r[2]);
     s.sc.set(slot.s);
-    setTimeout(function () { setTargets(b, slot); }, 200 + i * 150);
+    b.enterSlot = slot;
+    b.enterDelay = 200 + i * 150;
+    if (entered) setTimeout(function () { setTargets(b, slot); }, b.enterDelay);
   });
+
+  function enterShowcase() {
+    if (entered) return;
+    entered = true;
+    books.forEach(function (b) {
+      setTimeout(function () { setTargets(b, b.enterSlot); }, b.enterDelay);
+    });
+  }
+
+  if (!entered && 'IntersectionObserver' in window) {
+    var enterObserver = new IntersectionObserver(function (entries) {
+      if (entries[0].isIntersecting) {
+        enterObserver.disconnect();
+        enterShowcase();
+      }
+    }, { threshold: 0.3 });
+    enterObserver.observe(root);
+  } else {
+    enterShowcase();
+  }
 
   animate();
 
