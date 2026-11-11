@@ -213,15 +213,11 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
   border-color: rgba(234, 170, 0, 0.45);
 }
 
-.theme-toggle {
-  position: fixed;
-  z-index: 1001;
-  top: 13px;
-  right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+.glass-dock__item.theme-toggle {
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   border: 1px solid var(--color-rule-strong);
   border-radius: 50%;
@@ -230,20 +226,25 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
+  transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
 }
 
-.theme-toggle:hover {
-  transform: rotate(-12deg) scale(1.04);
+html[data-theme="dark"] .glass-dock__item.theme-toggle {
+  background: var(--color-paper-2);
+  border-color: var(--color-rule-strong);
+}
+
+.glass-dock__item.theme-toggle:hover {
   border-color: var(--color-ink);
 }
 
-.theme-toggle:active {
+.glass-dock__item.theme-toggle:active {
   transform: scale(0.94);
 }
 
-.theme-toggle:focus-visible {
+.glass-dock__item.theme-toggle:focus-visible {
   outline: 2px solid var(--color-focus);
-  outline-offset: 3px;
+  outline-offset: 2px;
 }
 
 .theme-toggle__icon {
