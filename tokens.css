@@ -97,3 +97,27 @@
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
+
+/* Dark mode keeps the same ice silver, aubergine, and marigold. Only the ground and ink swap. */
+html[data-theme="dark"] {
+  color-scheme: dark;
+  --color-paper: #160612;
+  --color-paper-light: #220818;
+  --color-paper-2: #2C0C24;
+  --color-paper-3: #3A0F34;
+  --color-nav-bg: rgba(22, 6, 18, 0.9);
+  --color-ink: #E7EDF1;
+  --color-ink-deep: #F5F7F8;
+  --color-ink-2: #D7C4D3;
+  --color-muted: #C4A3BE;
+  --color-rule: rgba(221, 227, 232, 0.14);
+  --color-rule-strong: rgba(221, 227, 232, 0.28);
+  --color-grid-line: rgba(221, 227, 232, 0.08);
+  --color-graphite: #10040E;
+  --color-graphite-2: #2A0A24;
+  --color-graphite-ink: #E7EDF1;
+  --color-graphite-muted: #C4A3BE;
+  --color-graphite-border: rgba(234, 170, 0, 0.35);
+  --shadow-card: 0 4px 20px -4px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 16px 36px -8px rgba(0, 0, 0, 0.55), 0 0 30px -4px rgba(234, 170, 0, 0.2);
+}

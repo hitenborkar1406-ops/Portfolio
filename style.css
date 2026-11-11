@@ -122,6 +122,7 @@
   align-items: center;
   justify-content: space-between;
   min-height: 68px;
+  padding-right: 52px;
 }
 
 .nav__wordmark {
@@ -198,6 +199,99 @@
     0 1px 2px rgba(32, 7, 28, 0.06),
     inset 0 1px 1px rgba(255, 255, 255, 0.7);
   transition: box-shadow var(--dur-normal) var(--ease-out), border-color var(--dur-normal) var(--ease-out);
+}
+
+html[data-theme="dark"] .glass-dock__items {
+  background: rgba(36, 8, 32, 0.82);
+  border-color: rgba(221, 227, 232, 0.16);
+  box-shadow:
+    0 8px 24px -4px rgba(0, 0, 0, 0.45),
+    inset 0 1px 1px rgba(255, 255, 255, 0.06);
+}
+
+html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
+  border-color: rgba(234, 170, 0, 0.45);
+}
+
+.theme-toggle {
+  position: fixed;
+  z-index: 1001;
+  top: 13px;
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  padding: 0;
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 50%;
+  background: var(--color-paper-light);
+  color: var(--color-ink);
+  cursor: pointer;
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.theme-toggle:hover {
+  transform: rotate(-12deg) scale(1.04);
+  border-color: var(--color-ink);
+}
+
+.theme-toggle:active {
+  transform: scale(0.94);
+}
+
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 3px;
+}
+
+.theme-toggle__icon {
+  overflow: visible;
+}
+
+.theme-toggle__body {
+  fill: currentColor;
+}
+
+.theme-toggle__rays {
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+}
+
+.ink-canvas {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  visibility: hidden;
+}
+
+.ink-canvas.is-active {
+  visibility: visible;
+}
+
+html.theme-fade,
+html.theme-fade *,
+html.theme-fade *::before,
+html.theme-fade *::after {
+  transition:
+    background-color var(--theme-fade, 0.45s) ease,
+    border-color var(--theme-fade, 0.45s) ease,
+    color var(--theme-fade, 0.45s) ease,
+    fill var(--theme-fade, 0.45s) ease,
+    stroke var(--theme-fade, 0.45s) ease,
+    box-shadow var(--theme-fade, 0.45s) ease !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .theme-toggle:hover,
+  .theme-toggle:active {
+    transform: none;
+  }
 }
 
 .glass-dock:hover .glass-dock__items {
