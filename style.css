@@ -391,7 +391,7 @@
 
 .hero__content {
   grid-column: 1 / 8;
-  animation: hero-in 600ms var(--ease-out) both;
+  animation: hero-in 600ms var(--ease-out) backwards;
 }
 
 .hero__headline {
@@ -472,7 +472,7 @@
   grid-column: 8 / 13;
   display: flex;
   justify-content: flex-end;
-  animation: hero-in 600ms var(--ease-out) 150ms both;
+  animation: hero-in 600ms var(--ease-out) 150ms backwards;
 }
 
 .hero__portrait {
@@ -750,7 +750,7 @@
   grid-template-columns: repeat(12, minmax(0, 1fr));
   gap: var(--gap-columns);
   align-items: center;
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: 50% 0;
   will-change: transform, opacity;
 }
 
@@ -899,7 +899,7 @@
   box-shadow: 0 16px 40px -10px rgba(58, 15, 52, 0.16), 0 0 1px rgba(58, 15, 52, 0.2);
   margin-bottom: 35vh;
   padding: var(--space-2xl) var(--space-xl);
-  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s cubic-bezier(0.16, 1, 0.3, 1), filter 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  transform-origin: 50% 0;
   will-change: transform, opacity;
 }
 
@@ -2996,4 +2996,146 @@
   .kss-root.is-open .kss-sheet {
     transform: translateY(0);
   }
+}
+
+/* ═══ Scroll Motion Engine (v2.4) ═══════════════════
+   Values below are driven per-frame by main.js.
+   Initial hidden states only apply under html.js, which is
+   added only when the visitor has not asked for reduced motion. */
+
+.scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  z-index: 120;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--color-accent-warm), var(--color-accent), var(--color-accent-bright));
+  box-shadow: 0 0 10px var(--color-accent-glow);
+  transform: scaleX(0);
+  transform-origin: 0 50%;
+  will-change: transform;
+}
+
+html.js [data-stack],
+html.js [data-scrub] {
+  opacity: 0;
+}
+
+html.js [data-scrub].is-done {
+  opacity: 1;
+}
+
+.hero__content,
+.hero__portrait {
+  will-change: transform, opacity;
+}
+
+/* Section heads: marigold rule draws in as the heading scrolls into view */
+html.js .section__head {
+  --draw: 0;
+}
+
+.section__head {
+  position: relative;
+}
+
+.section__head::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--color-accent) 0%, rgba(234, 170, 0, 0) 100%);
+  transform: scaleX(var(--draw, 1));
+  transform-origin: 0 50%;
+  pointer-events: none;
+}
+
+/* Stacked cards: darken as the next card slides over them (no blur, cheaper than filter) */
+.project-card::after,
+.skills__group::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  corner-shape: inherit;
+  background: var(--color-ink-deep);
+  opacity: calc(var(--dim, 0) * 0.55);
+  pointer-events: none;
+  z-index: 50;
+}
+
+/* Project cards: code panel and tags stagger in once the card settles */
+.project-card__panel-line:nth-child(2) { --li: 1; }
+.project-card__panel-line:nth-child(3) { --li: 2; }
+.project-card__panel-line:nth-child(4) { --li: 3; }
+.project-card__panel-line:nth-child(5) { --li: 4; }
+.project-card__panel-line:nth-child(6) { --li: 5; }
+.project-card__panel-line:nth-child(7) { --li: 6; }
+.project-card__panel-line:nth-child(8) { --li: 7; }
+.project-card__tag:nth-child(1) { --ti: 0; }
+.project-card__tag:nth-child(2) { --ti: 1; }
+.project-card__tag:nth-child(3) { --ti: 2; }
+.project-card__tag:nth-child(4) { --ti: 3; }
+.project-card__tag:nth-child(5) { --ti: 4; }
+.project-card__tag:nth-child(6) { --ti: 5; }
+
+html.js .project-card .project-card__panel-title,
+html.js .project-card .project-card__panel-line {
+  opacity: 0;
+  transform: translate3d(-14px, 0, 0);
+  transition: opacity 0.55s var(--ease-out), transform 0.55s var(--ease-out);
+  transition-delay: calc(var(--li, 0) * 70ms + 120ms);
+}
+
+html.js .project-card .project-card__tag {
+  opacity: 0;
+  transform: translate3d(0, 8px, 0);
+  transition: opacity 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+  transition-delay: calc(var(--ti, 0) * 60ms + 200ms);
+}
+
+html.js .project-card.is-seen .project-card__panel-title,
+html.js .project-card.is-seen .project-card__panel-line,
+html.js .project-card.is-seen .project-card__tag {
+  opacity: 1;
+  transform: none;
+}
+
+/* Skills: folder opens briefly and fans its badges when the card settles.
+   "backwards" fill so the normal hover interaction still works afterwards. */
+.skills__group.is-peek .devi-folder__cover {
+  animation: folder-peek-cover 2.4s var(--ease-out) 300ms backwards;
+}
+
+.skills__group.is-peek .devi-badge {
+  animation: folder-peek-badge 2.4s var(--ease-out) calc(var(--delay, 0ms) + 300ms) backwards;
+}
+
+@keyframes folder-peek-cover {
+  0%   { transform: rotateX(0deg); }
+  22%, 72% { transform: rotateX(-20deg); }
+  100% { transform: rotateX(0deg); }
+}
+
+@keyframes folder-peek-badge {
+  0%   { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  22%, 72% { opacity: 1; transform: translate(var(--tx, 0), var(--ty, 0)) scale(1); }
+  100% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+}
+
+/* Profiles: 3D tilt-in needs a perspective parent */
+.profiles__grid {
+  perspective: 1200px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-progress { display: none; }
+  .project-card::after,
+  .skills__group::after { display: none; }
+  .skills__group.is-peek .devi-folder__cover,
+  .skills__group.is-peek .devi-badge { animation: none; }
 }

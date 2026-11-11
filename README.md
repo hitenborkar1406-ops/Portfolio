@@ -17,7 +17,7 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 ├── tokens.css      # Cobalt theme design tokens
 ├── base.css        # Scaffold: floor rules, keys, cuts, graphite
 ├── style.css       # Page-specific styles + responsive
-├── main.js         # Mobile nav toggle
+├── main.js         # Nav, share sheet, 3D achievements, scroll motion engine
 ├── favicon.svg     # SVG favicon
 └── assets/
     └── avatar.jpg  # Profile image
@@ -38,3 +38,15 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 - HTML, CSS, JavaScript (vanilla)
 - Hallmark v2.0.0 design skill (Cobalt theme)
 - No frameworks, no build tools
+
+## Scroll motion
+
+`main.js` contains a single scroll engine (one `requestAnimationFrame` loop that sleeps when nothing is moving):
+
+- **Progress bar** across the top of the page
+- **Hero parallax** — headline, portrait and scroll cue move at different speeds
+- **Section rules** that draw in under each heading
+- **Stacked cards** (`data-stack`) for Projects and Skills, with depth dimming and staggered code/tag reveals
+- **Scrubbed reveals** (`data-scrub="rise|tilt|left|right|scale"`, optional `data-stagger`) that reverse when scrolling back up
+
+Everything is skipped when the visitor prefers reduced motion.

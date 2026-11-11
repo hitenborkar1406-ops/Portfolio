@@ -25,11 +25,17 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 
+  <!-- Enables scroll-motion initial states only when motion is allowed -->
+  <script>try{if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js")}catch(e){}</script>
+
   <link rel="stylesheet" href="tokens.css?v=2.3.2">
   <link rel="stylesheet" href="base.css?v=2.3.2">
-  <link rel="stylesheet" href="style.css?v=2.3.5">
+  <link rel="stylesheet" href="style.css?v=2.4.0">
 </head>
 <body>
+
+  <!-- Scroll progress -->
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
 
   <!-- Full-bleed Architectural Column Lines -->
   <div class="architectural-grid" aria-hidden="true">
@@ -180,6 +186,10 @@
               <span>Share</span>
             </button>
           </div>
+          <div class="hero__cue" aria-hidden="true">
+            <span class="hero__cue-text">Scroll</span>
+            <span class="hero__cue-track"><span class="hero__cue-beam"></span></span>
+          </div>
         </div>
         <div class="hero__visual" data-rv="fade" style="--rv-delay: 150ms;">
           <figure class="hero__portrait">
@@ -201,7 +211,7 @@
 
         <div class="projects__stack" id="projectsStack">
           <!-- Project 1: Smart City Traffic -->
-          <article class="project-card cut" data-project="1" data-rv="up">
+          <article class="project-card cut" data-project="1" data-stack>
             <div class="project-card__eyebrow">
               <span class="project-card__idx">01</span>
               <span class="project-card__total">/ 03</span>
@@ -229,7 +239,7 @@
           </article>
 
           <!-- Project 2: Smart IV Monitor -->
-          <article class="project-card project-card--reverse cut" data-project="2" data-rv="up">
+          <article class="project-card project-card--reverse cut" data-project="2" data-stack>
             <div class="project-card__eyebrow">
               <span class="project-card__idx">02</span>
               <span class="project-card__total">/ 03</span>
@@ -255,7 +265,7 @@
           </article>
 
           <!-- Project 3: CarbonTrack SME -->
-          <article class="project-card cut" data-project="3" data-rv="up">
+          <article class="project-card cut" data-project="3" data-stack>
             <div class="project-card__eyebrow">
               <span class="project-card__idx">03</span>
               <span class="project-card__total">/ 03</span>
@@ -303,7 +313,7 @@
 
         <div class="skills__stack" id="skillsStack">
           <!-- 01: Programming Languages -->
-          <div class="skills__group cut" data-skill="1" data-rv="up" style="--rv-delay: 0ms;">
+          <div class="skills__group cut" data-skill="1" data-stack>
             <div class="skills__group-eyebrow">
               <span class="skills__group-idx">01</span>
               <span class="skills__group-total">/ 04</span>
@@ -363,7 +373,7 @@
           </div>
 
           <!-- 02: Core Concepts -->
-          <div class="skills__group cut" data-skill="2" data-rv="up" style="--rv-delay: 80ms;">
+          <div class="skills__group cut" data-skill="2" data-stack>
             <div class="skills__group-eyebrow">
               <span class="skills__group-idx">02</span>
               <span class="skills__group-total">/ 04</span>
@@ -418,7 +428,7 @@
           </div>
 
           <!-- 03: Tools and Platforms -->
-          <div class="skills__group cut" data-skill="3" data-rv="up" style="--rv-delay: 160ms;">
+          <div class="skills__group cut" data-skill="3" data-stack>
             <div class="skills__group-eyebrow">
               <span class="skills__group-idx">03</span>
               <span class="skills__group-total">/ 04</span>
@@ -473,7 +483,7 @@
           </div>
 
           <!-- 04: AI/ML and Simulation -->
-          <div class="skills__group cut" data-skill="4" data-rv="up" style="--rv-delay: 240ms;">
+          <div class="skills__group cut" data-skill="4" data-stack>
             <div class="skills__group-eyebrow">
               <span class="skills__group-idx">04</span>
               <span class="skills__group-total">/ 04</span>
@@ -533,15 +543,15 @@
         </div>
 
         <div class="profiles__grid">
-          <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="profiles__card cut" data-rv="up" style="--rv-delay: 0ms;">
+          <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="profiles__card cut" data-scrub="tilt" data-stagger="0">
             <div class="profiles__card-name">GitHub</div>
             <div class="profiles__card-handle">hitenborkar1406-ops</div>
           </a>
-          <a href="https://www.linkedin.com/in/hiten-borkar-153a29326" target="_blank" rel="noopener" class="profiles__card cut" data-rv="up" style="--rv-delay: 60ms;">
+          <a href="https://www.linkedin.com/in/hiten-borkar-153a29326" target="_blank" rel="noopener" class="profiles__card cut" data-scrub="tilt" data-stagger="1">
             <div class="profiles__card-name">LinkedIn</div>
             <div class="profiles__card-handle">Hiten Borkar</div>
           </a>
-          <a href="https://leetcode.com/u/Hiten-1406/" target="_blank" rel="noopener" class="profiles__card cut" data-rv="up" style="--rv-delay: 120ms;">
+          <a href="https://leetcode.com/u/Hiten-1406/" target="_blank" rel="noopener" class="profiles__card cut" data-scrub="tilt" data-stagger="2">
             <div class="profiles__card-name">LeetCode</div>
             <div class="profiles__card-handle">Hiten-1406</div>
           </a>
@@ -634,7 +644,7 @@
         </div>
 
         <div class="about__grid">
-          <div class="about__education" data-rv="up">
+          <div class="about__education" data-scrub="left">
             <div class="about__sub-label">Education</div>
 
             <div class="about__item">
@@ -656,7 +666,7 @@
             </div>
           </div>
 
-          <div class="about__experience" data-rv="up" style="--rv-delay: 100ms;">
+          <div class="about__experience" data-scrub="right">
             <div class="about__sub-label">Research and activities</div>
 
             <div class="about__item">
@@ -672,7 +682,7 @@
             </div>
           </div>
 
-          <div class="about__certs" data-rv="up">
+          <div class="about__certs" data-scrub="rise">
             <div class="about__sub-label">Certifications</div>
             <div class="about__cert-list">
               <div class="about__item">
@@ -695,7 +705,7 @@
           </div>
         </div>
 
-        <div class="about__resume-cta" data-rv="up">
+        <div class="about__resume-cta" data-scrub="rise">
           <a href="HITEN_RESUME.pdf?v=20261110" target="_blank" rel="noopener" class="key key--primary">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
               <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -727,7 +737,7 @@
           <p class="lead" data-rv="up">Seeking an SDE internship, and open to collaborations.</p>
 
           <!-- ── 3D Social Flip Button (C-O-N-T-A-C-T) ── -->
-          <div class="social-flip-wrapper" data-rv="up" style="--rv-delay: 100ms;">
+          <div class="social-flip-wrapper" data-scrub="scale">
             <div class="social-flip" id="social-flip" role="group" aria-label="Interactive contact links">
               <!-- Animated Top & Bottom Border Beams -->
               <div class="social-flip__borders" aria-hidden="true">
@@ -1016,6 +1026,6 @@
 
   <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
-  <script src="main.js?v=2.3.4" defer></script>
+  <script src="main.js?v=2.4.0" defer></script>
 </body>
 </html>
