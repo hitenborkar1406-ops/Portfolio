@@ -133,22 +133,6 @@
 
           <span class="glass-dock__divider" aria-hidden="true"></span>
 
-          <button class="glass-dock__item theme-toggle" id="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" data-title="Toggle theme" title="Toggle theme" data-ink-live>
-            <svg class="theme-toggle__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-              <path class="theme-toggle__body" d="M12 7a5 5 0 1 1 0 10a5 5 0 1 1 0-10z" />
-              <g class="theme-toggle__rays">
-                <line x1="12" y1="1.5" x2="12" y2="3.5" />
-                <line x1="12" y1="20.5" x2="12" y2="22.5" />
-                <line x1="1.5" y1="12" x2="3.5" y2="12" />
-                <line x1="20.5" y1="12" x2="22.5" y2="12" />
-                <line x1="4.58" y1="4.58" x2="6" y2="6" />
-                <line x1="18" y1="18" x2="19.42" y2="19.42" />
-                <line x1="4.58" y1="19.42" x2="6" y2="18" />
-                <line x1="18" y1="6" x2="19.42" y2="4.58" />
-              </g>
-            </svg>
-          </button>
-
           <a href="#contact" class="glass-dock__item glass-dock__item--cta creepy-btn creepy-btn--sm" id="navCreepyBtn" role="button" aria-label="Get in Touch" data-title="Get in Touch" title="Get in Touch">
             <span class="creepy-btn__eyes" aria-hidden="true">
               <span class="creepy-btn__eye"><span class="creepy-btn__pupil"></span></span>
@@ -1047,6 +1031,22 @@
       <polyline points="5 12 10 7 15 12"/>
     </svg>
   </a>
+
+  <button class="theme-toggle" id="theme-toggle" type="button" aria-label="Dark mode" aria-pressed="false" data-ink-live>
+    <svg class="theme-toggle__icon" viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
+      <path class="theme-toggle__body" d="M12 7a5 5 0 1 1 0 10a5 5 0 1 1 0-10z" />
+      <g class="theme-toggle__rays">
+        <line x1="12" y1="1.5" x2="12" y2="3.5" />
+        <line x1="12" y1="20.5" x2="12" y2="22.5" />
+        <line x1="1.5" y1="12" x2="3.5" y2="12" />
+        <line x1="20.5" y1="12" x2="22.5" y2="12" />
+        <line x1="4.58" y1="4.58" x2="6" y2="6" />
+        <line x1="18" y1="18" x2="19.42" y2="19.42" />
+        <line x1="4.58" y1="19.42" x2="6" y2="18" />
+        <line x1="18" y1="6" x2="19.42" y2="4.58" />
+      </g>
+    </svg>
+  </button>
 
   <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
