@@ -213,7 +213,7 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
   border-color: rgba(234, 170, 0, 0.45);
 }
 
-.glass-dock__item.theme-toggle {
+.glass-dock__items .glass-dock__item.theme-toggle {
   display: grid;
   place-items: center;
   width: 40px;
@@ -221,28 +221,35 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
   padding: 0;
   border: 1px solid var(--color-rule-strong);
   border-radius: 50%;
-  background: var(--color-paper-light);
-  color: var(--color-ink);
+  background: var(--color-paper-light) !important;
+  color: var(--color-ink) !important;
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out);
+  transition: background-color var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), transform var(--dur-short) var(--ease-out);
+  transform: none !important;
 }
 
-html[data-theme="dark"] .glass-dock__item.theme-toggle {
-  background: var(--color-paper-2);
+html[data-theme="dark"] .glass-dock__items .glass-dock__item.theme-toggle {
+  background: var(--color-paper-2) !important;
   border-color: var(--color-rule-strong);
 }
 
-.glass-dock__item.theme-toggle:hover {
+.glass-dock__items .glass-dock__item.theme-toggle:hover {
   border-color: var(--color-ink);
+  transform: none !important;
+  background: var(--color-paper-light) !important;
 }
 
-.glass-dock__item.theme-toggle:active {
-  transform: scale(0.94);
+html[data-theme="dark"] .glass-dock__items .glass-dock__item.theme-toggle:hover {
+  background: var(--color-paper-2) !important;
 }
 
-.glass-dock__item.theme-toggle:focus-visible {
+.glass-dock__items .glass-dock__item.theme-toggle:active {
+  transform: scale(0.94) !important;
+}
+
+.glass-dock__items .glass-dock__item.theme-toggle:focus-visible {
   outline: 2px solid var(--color-focus);
   outline-offset: 2px;
 }
