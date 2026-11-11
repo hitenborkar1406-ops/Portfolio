@@ -216,12 +216,12 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
 .theme-toggle {
   position: fixed;
   z-index: 1001;
-  bottom: 24px;
-  left: 24px;
+  top: 13px;
+  right: max(var(--gutter), calc((100vw - var(--container)) / 2 + var(--gutter)));
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   padding: 0;
   border: 1px solid var(--color-rule-strong);
   border-radius: 50%;
@@ -230,7 +230,6 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
   cursor: pointer;
   touch-action: manipulation;
   -webkit-tap-highlight-color: transparent;
-  box-shadow: 0 4px 16px rgba(32, 7, 28, 0.15);
 }
 
 html[data-theme="dark"] .theme-toggle {
