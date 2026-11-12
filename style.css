@@ -122,7 +122,6 @@
   align-items: center;
   justify-content: space-between;
   min-height: 68px;
-  padding-right: 52px;
 }
 
 .nav__wordmark {
@@ -216,8 +215,8 @@ html[data-theme="dark"] .glass-dock:hover .glass-dock__items {
 .theme-toggle {
   position: fixed;
   z-index: 1001;
-  top: 13px;
-  right: var(--gutter);
+  bottom: max(var(--space-lg), calc(env(safe-area-inset-bottom, 0px) + var(--space-md)));
+  left: max(var(--space-lg), calc(env(safe-area-inset-left, 0px) + var(--space-md)));
   display: grid;
   place-items: center;
   width: 42px;
