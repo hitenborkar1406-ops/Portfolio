@@ -2423,13 +2423,20 @@ html.theme-fade *::after {
   display: block;
 }
 
+.footer__avatar .avatar-face {
+  fill: var(--color-ink-deep);
+  transform-origin: center center;
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
 .footer__avatar .avatar-eye {
+  fill: var(--color-paper);
   transform-origin: center center;
   transition: transform 0.15s ease-out;
 }
 
-.footer__avatar .avatar-face {
-  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+.footer__avatar .avatar-mouth {
+  stroke: var(--color-paper);
 }
 
 @media (prefers-reduced-motion: reduce) {
