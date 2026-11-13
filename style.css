@@ -2409,8 +2409,8 @@ html.theme-fade *::after {
 }
 
 .footer__avatar {
-  width: 64px;
-  height: 64px;
+  width: 72px;
+  height: 72px;
   margin-left: var(--space-lg);
   flex-shrink: 0;
   pointer-events: auto;
@@ -2423,26 +2423,39 @@ html.theme-fade *::after {
   display: block;
 }
 
-.footer__avatar .gummy-body {
+.footer__avatar .gummy-body,
+.footer__avatar .gummy-shine,
+.footer__avatar .gummy-rim {
   transform-origin: center center;
-  transition: transform 0.12s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition: transform 0.18s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 
-.footer__avatar .gummy-highlight {
+.footer__avatar .gummy-pupil,
+.footer__avatar .gummy-eye-shine {
   transform-origin: center center;
 }
 
 .footer__avatar .gummy-eye {
   transform-origin: center center;
-  transition: transform 0.08s ease;
+  transition: transform 0.06s ease, opacity 0.06s ease;
 }
 
 .footer__avatar .gummy-mouth {
   transform-origin: center center;
 }
 
+.footer__avatar .gummy-cheek {
+  transform-origin: center center;
+}
+
+.footer__avatar .gummy-shadow {
+  transform-origin: center bottom;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .footer__avatar .gummy-body,
+  .footer__avatar .gummy-shine,
+  .footer__avatar .gummy-rim,
   .footer__avatar .gummy-eye {
     transition: none !important;
   }
