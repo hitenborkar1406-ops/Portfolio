@@ -18,9 +18,12 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 ├── base.css        # Scaffold: floor rules, keys, cuts, graphite
 ├── style.css       # Page-specific styles + responsive
 ├── main.js         # Nav, share sheet, 3D achievements, scroll motion engine
+├── ribbon-cursor.js# Ribbon trails cursor effect (fine pointers only)
 ├── favicon.svg     # SVG favicon
 └── assets/
-    └── avatar.jpg  # Profile image
+    ├── avatar.jpg  # Profile image
+    ├── fonts.css   # Self-hosted Playfair Display / IBM Plex Sans / JetBrains Mono
+    └── fonts/      # WOFF2 subsets (no external font requests)
 ```
 
 ## Sections

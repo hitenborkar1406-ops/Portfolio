@@ -29,9 +29,8 @@
   <meta http-equiv="Expires" content="0">
 
   <!-- Editorial Serif and Sans Fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;0,800;0,900;1,700&family=IBM+Plex+Sans:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="preload" href="assets/fonts.css" as="style">
+  <link rel="stylesheet" href="assets/fonts.css">
 
   <!-- Enables scroll-motion initial states only when motion is allowed -->
   <script>try{if(!window.matchMedia("(prefers-reduced-motion: reduce)").matches)document.documentElement.classList.add("js")}catch(e){}</script>
@@ -1048,7 +1047,7 @@
     </svg>
   </button>
 
-  <script src="assets/ink-theme.js?v=1" defer></script>
+  <script src="assets/ink-theme.js?v=2" defer></script>
   <script>
     window.addEventListener('load', () => {
       const btn = document.getElementById('theme-toggle');
@@ -1061,6 +1060,6 @@
   <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
   <script src="main.js?v=2.4.0" defer></script>
-  <script src="velocity-cursor.js?v=1.0.0" defer></script>
+  <script src="ribbon-cursor.js?v=1.0.0" defer></script>
 </body>
 </html>
