@@ -1053,14 +1053,41 @@
       var a=document.getElementById("footerAvatar");
       if(!a)return;
       var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var s="<svg viewBox='0 0 56 56' fill='none' xmlns='http://www.w3.org/2000/svg'><circle class='avatar-ring' cx='28' cy='28' r='26' stroke-width='1.5'/><text class='avatar-initials' x='28' y='34' text-anchor='middle' font-family='var(--font-display)' font-size='22' font-weight='600'>HB</text></svg>";
+      var s="<svg class='gummy' viewBox='0 0 64 64' fill='none' xmlns='http://www.w3.org/2000/svg'>"
+        +"<defs>"
+        +"<radialGradient id='gummyBody' cx='50%' cy='35%' r='60%'><stop offset='0%' stop-color='var(--color-ink-deep)'/><stop offset='100%' stop-color='var(--color-ink-2)'/></radialGradient>"
+        +"<radialGradient id='gummyHighlight' cx='30%' cy='30%' r='40%'><stop offset='0%' stop-color='var(--color-paper)' stop-opacity='0.35'/><stop offset='100%' stop-color='var(--color-paper)' stop-opacity='0'/></radialGradient>"
+        +"</defs>"
+        +"<circle class='gummy-body' cx='32' cy='34' r='24' fill='url(#gummyBody)' stroke='var(--color-ink-2)' stroke-width='1'/>"
+        +"<circle class='gummy-highlight' cx='22' cy='22' r='10' fill='url(#gummyHighlight)'/>"
+        +"<g class='gummy-eyes'>"
+        +"<circle class='gummy-eye' cx='22' cy='28' r='4' fill='var(--color-paper)'/>"
+        +"<circle class='gummy-eye' cx='42' cy='28' r='4' fill='var(--color-paper)'/>"
+        +"</g>"
+        +"<path class='gummy-mouth' d='M22 42 Q32 38 42 42' stroke='var(--color-paper)' stroke-width='2' stroke-linecap='round' fill='none'/>"
+        +"</svg>";
       a.innerHTML=s;
       if(r)return;
-      var el=a.querySelector(".avatar-ring"),tx=a.querySelector(".avatar-initials");
-      var px=0,py=0,txOff=0,tyOff=0;
-      function tick(){requestAnimationFrame(tick);txOff+=(px-txOff)*0.08;tyOff+=(py-tyOff)*0.08;if(el)el.style.transform="translate("+txOff*0.3+"px,"+tyOff*0.3+"px)";if(tx)tx.style.transform="translate("+txOff*0.15+"px,"+tyOff*0.15+"px)";}tick();
-      document.addEventListener("mousemove",function(e){var b=a.getBoundingClientRect();px=e.clientX-b.left-b.width/2;py=e.clientY-b.top-b.height/2;});
-      a.addEventListener("click",function(){if(el&&!r){el.style.transition="transform 0.12s cubic-bezier(0.25,0.46,0.45,0.94)";el.style.transform+=" scale(0.92)";setTimeout(function(){el.style.transition="";el.style.transform=el.style.transform.replace(" scale(0.92)","");},120);}});
+      var body=a.querySelector(".gummy-body"),eyes=a.querySelectorAll(".gummy-eye"),mouth=a.querySelector(".gummy-mouth"),hl=a.querySelector(".gummy-highlight");
+      var tx=0,ty=0,cx=0,cy=0,mouthPhase=0;
+      function tick(){
+        requestAnimationFrame(tick);
+        cx+=(tx-cx)*0.12;
+        cy+=(ty-cy)*0.12;
+        if(body){body.style.transform="translate("+cx*0.35+"px,"+cy*0.35+"px) scaleX("+(1+Math.abs(cx)*0.0015)+") scaleY("+(1-Math.abs(cy)*0.001)+")";}
+        if(hl){hl.style.transform="translate("+cx*0.15+"px,"+cy*0.15+"px)";}
+        eyes.forEach(function(e){e.style.transform="translate("+cx*0.25+"px,"+cy*0.25+"px)";});
+        mouthPhase+=0.003;
+        if(mouth){mouth.style.transform="translateY("+Math.sin(mouthPhase)*1.5+"px)";}
+      }tick();
+      document.addEventListener("mousemove",function(e){var b=a.getBoundingClientRect();tx=e.clientX-b.left-b.width/2;ty=e.clientY-b.top-b.height/2;});
+      var squish=0;
+      function squishTick(){
+        requestAnimationFrame(squishTick);
+        if(squish>0){squish*=0.88;if(body)body.style.transform+=" scale("+(1-squish*0.25)+","+(1+squish*0.15)+")";if(mouth)mouth.style.transform+=" scaleY("+(1-squish*0.5)+")";}
+      }squishTick();
+      a.addEventListener("click",function(){squish=1;});
+      var blinkI=0;function blink(){if(!r){var idx=blinkI%eyes.length;eyes[idx].style.transition="transform 0.08s ease";eyes[idx].style.transform+=" scaleY(0.08)";setTimeout(function(){eyes[idx].style.transition="";eyes[idx].style.transform=eyes[idx].style.transform.replace(" scaleY(0.08)","");},80);}blinkI++;setTimeout(blink,3500+Math.random()*2500);}blink();
     })();
   </script>
 
