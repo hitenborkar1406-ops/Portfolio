@@ -2408,6 +2408,37 @@ html.theme-fade *::after {
   text-decoration: none;
 }
 
+.footer__avatar {
+  width: 36px;
+  height: 36px;
+  margin-left: var(--space-lg);
+  flex-shrink: 0;
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.footer__avatar svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.footer__avatar .avatar-eye {
+  transform-origin: center center;
+  transition: transform 0.15s ease-out;
+}
+
+.footer__avatar .avatar-face {
+  transition: transform 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .footer__avatar .avatar-eye,
+  .footer__avatar .avatar-face {
+    transition: none !important;
+  }
+}
+
 .footer__links {
   display: flex;
   gap: var(--space-xl);
