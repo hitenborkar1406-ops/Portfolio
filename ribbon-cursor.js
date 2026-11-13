@@ -5,7 +5,7 @@
   if (prefersReduced.matches || !isFinePointer.matches) return;
 
   const DEFAULTS = {
-    colors: ['#FFFFFF', '#FF6F00', '#EE2456'],
+    colors: ['#0036c3', '#FF6F00', '#EE2456'],
     colorShift: 1,
     opacity: 50,
     thickness: 2,
