@@ -474,6 +474,159 @@
   }
 })();
 
+/* ── Frame Dividers ─────────────────────────────────
+   Scroll position -> frame index. Frames are shared by all bands,
+   load only once a band is near the viewport, and the nearest
+   loaded frame is drawn while the rest stream in. */
+(function () {
+  var bands = Array.prototype.slice.call(document.querySelectorAll('.frame-divider'));
+  if (!bands.length) return;
+
+  var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var cache = {};     /* prefix -> { imgs: [], loaded: 0, started: false } */
+  var items = [];
+  var running = false;
+
+  function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+
+  function getSet(prefix, count) {
+    if (!cache[prefix]) cache[prefix] = { imgs: new Array(count), loaded: 0, started: false, failed: false };
+    return cache[prefix];
+  }
+
+  function loadSet(set, prefix, count, onFirst) {
+    if (set.started) return;
+    set.started = true;
+    /* Load the peak frame first, then everything else in order */
+    var order = [Math.floor(count / 2)];
+    for (var i = 0; i < count; i++) if (i !== order[0]) order.push(i);
+    var next = 0, active = 0;
+    function pump() {
+      while (active < 6 && next < order.length) {
+        (function (idx) {
+          active++;
+          var img = new Image();
+          img.decoding = 'async';
+          img.fetchPriority = 'low';
+          img.onload = function () {
+            set.imgs[idx] = img; set.loaded++; active--;
+            if (onFirst) { onFirst(); onFirst = null; }
+            kick(); pump();
+          };
+          img.onerror = function () {
+            active--;
+            if (!set.loaded && idx === order[0]) set.failed = true;
+            pump();
+          };
+          img.src = prefix + String(idx).padStart(3, '0') + '.webp';
+        })(order[next++]);
+      }
+    }
+    pump();
+  }
+
+  function nearest(set, f, count) {
+    var i = Math.round(f), d = 0;
+    while (d < count) {
+      if (set.imgs[i - d]) return set.imgs[i - d];
+      if (set.imgs[i + d]) return set.imgs[i + d];
+      d++;
+    }
+    return null;
+  }
+
+  function size(it) {
+    var dpr = Math.min(window.devicePixelRatio || 1, 2);
+    var w = Math.min(Math.round(it.el.clientWidth * dpr), 1280);
+    var h = Math.round(it.el.clientHeight * (w / Math.max(1, it.el.clientWidth)));
+    if (it.canvas.width !== w || it.canvas.height !== h) { it.canvas.width = w; it.canvas.height = h; it.lastDrawn = -1; }
+  }
+
+  function draw(it, f) {
+    var img = nearest(it.set, f, it.count);
+    if (!img) return;
+    var key = Math.round(f) + ':' + img.src;
+    if (key === it.lastDrawn) return;
+    it.lastDrawn = key;
+    var cw = it.canvas.width, ch = it.canvas.height;
+    var s = Math.max(cw / img.naturalWidth, ch / img.naturalHeight);
+    var dw = img.naturalWidth * s, dh = img.naturalHeight * s;
+    it.ctx.drawImage(img, (cw - dw) / 2, (ch - dh) / 2, dw, dh);
+  }
+
+  bands.forEach(function (el) {
+    var prefix = el.getAttribute('data-frames');
+    var count = parseInt(el.getAttribute('data-count'), 10) || 60;
+    var canvas = el.querySelector('canvas');
+    if (!prefix || !canvas || !canvas.getContext) { el.classList.add('is-broken'); return; }
+    items.push({
+      el: el, canvas: canvas, ctx: canvas.getContext('2d'), prefix: prefix, count: count,
+      set: getSet(prefix, count), cur: (count - 1) / 2, visible: false, lastDrawn: ''
+    });
+  });
+
+  function tick() {
+    var vh = window.innerHeight, moving = false;
+    items.forEach(function (it) {
+      if (!it.visible) return;
+      size(it);
+      var f;
+      if (reduced) {
+        f = (it.count - 1) / 2;
+      } else {
+        var r = it.el.getBoundingClientRect();
+        var p = clamp((vh - r.top) / (vh + r.height), 0, 1);
+        var target = p * (it.count - 1);
+        it.cur += (target - it.cur) * 0.22;
+        if (Math.abs(target - it.cur) > 0.05) moving = true; else it.cur = target;
+        f = it.cur;
+      }
+      draw(it, f);
+    });
+    if (moving) requestAnimationFrame(tick); else running = false;
+  }
+
+  function kick() {
+    if (running) return;
+    running = true;
+    requestAnimationFrame(tick);
+  }
+
+  function start(it) {
+    loadSet(it.set, it.prefix, it.count, function () { it.lastDrawn = ''; kick(); });
+  }
+
+  /* Each band wakes up 1.5 screens before it is visible */
+  if ('IntersectionObserver' in window) {
+    var near = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var it = items.filter(function (x) { return x.el === e.target; })[0];
+        if (!it) return;
+        if (e.isIntersecting) start(it);
+      });
+    }, { rootMargin: '150% 0px' });
+    var vis = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        var it = items.filter(function (x) { return x.el === e.target; })[0];
+        if (!it) return;
+        it.visible = e.isIntersecting;
+        if (it.visible) { it.lastDrawn = ''; kick(); }
+      });
+    }, { rootMargin: '10% 0px' });
+    items.forEach(function (it) { near.observe(it.el); vis.observe(it.el); });
+  } else {
+    items.forEach(function (it) { it.visible = true; start(it); });
+  }
+
+  window.addEventListener('scroll', kick, { passive: true });
+  window.addEventListener('resize', function () { items.forEach(function (it) { it.lastDrawn = ''; }); kick(); });
+
+  /* If the first frame can't load, drop the band instead of showing an empty box */
+  setInterval(function () {
+    items.forEach(function (it) { if (it.set.failed) it.el.classList.add('is-broken'); });
+  }, 2000);
+})();
+
 /* ── Creepy Eyes Button (Peeking & Pupil Tracking) ──── */
 (function () {
   var buttons = document.querySelectorAll('.creepy-btn');
@@ -1736,6 +1889,7 @@
           img.alt = photo.title;
           img.loading = 'eager';
           img.decoding = 'async';
+          img.fetchPriority = 'low';
 
           var numSpan = document.createElement('span');
           numSpan.className = 'image-reveal__num';

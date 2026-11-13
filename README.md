@@ -50,3 +50,7 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 - **Scrubbed reveals** (`data-scrub="rise|tilt|left|right|scale"`, optional `data-stagger`) that reverse when scrolling back up
 
 Everything is skipped when the visitor prefers reduced motion.
+
+## Frame dividers
+
+Three dark bands between sections (`.frame-divider`) play a 3D animation as you scroll past them. The animation is a 60-frame WebP sequence in `assets/frames/` drawn onto a canvas by `main.js`; scroll position picks the frame, so scrolling up plays it backward. Frames load only when a band is near the screen and are shared by all bands. With reduced motion on, a single still frame is shown.
