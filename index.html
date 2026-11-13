@@ -1053,7 +1053,7 @@
       var a=document.getElementById("footerAvatar");
       if(!a)return;
       var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var s="<svg viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'><circle class='avatar-face' cx='24' cy='24' r='22'/><circle class='avatar-eye' cx='17' cy='19' r='3'/><circle class='avatar-eye' cx='31' cy='19' r='3'/><path class='avatar-mouth' d='M18 32 Q24 36 30 32' stroke-width='2.5' stroke-linecap='round' fill='none'/></svg>";
+      var s="<svg viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'><circle class='avatar-face' cx='24' cy='24' r='22'/><circle class='avatar-eye' cx='17' cy='18' r='3.5'/><circle class='avatar-eye' cx='31' cy='18' r='3.5'/><path class='avatar-mouth' d='M16 30 Q24 26 32 30' stroke-width='2.5' stroke-linecap='round'/></svg>";
       a.innerHTML=s;
       if(r)return;
       var f=a.querySelector(".avatar-face"),e=a.querySelectorAll(".avatar-eye"),x=24,y=24;
