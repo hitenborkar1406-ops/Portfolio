@@ -1053,14 +1053,14 @@
       var a=document.getElementById("footerAvatar");
       if(!a)return;
       var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var s="<svg viewBox='0 0 48 48' fill='none' xmlns='http://www.w3.org/2000/svg'><circle class='avatar-face' cx='24' cy='24' r='22'/><circle class='avatar-eye' cx='17' cy='18' r='3.5'/><circle class='avatar-eye' cx='31' cy='18' r='3.5'/><path class='avatar-mouth' d='M16 30 Q24 26 32 30' stroke-width='2.5' stroke-linecap='round'/></svg>";
+      var s="<svg viewBox='0 0 56 56' fill='none' xmlns='http://www.w3.org/2000/svg'><circle class='avatar-ring' cx='28' cy='28' r='26' stroke-width='1.5'/><text class='avatar-initials' x='28' y='34' text-anchor='middle' font-family='var(--font-display)' font-size='22' font-weight='600'>HB</text></svg>";
       a.innerHTML=s;
       if(r)return;
-      var f=a.querySelector(".avatar-face"),e=a.querySelectorAll(".avatar-eye"),x=24,y=24;
-      function k(){requestAnimationFrame(k);if(f){f.style.transform="translate("+(x-24)*0.15+"px,"+(y-24)*0.15+"px)";}e.forEach(function(c){c.style.transform="translate("+(x-24)*0.08+"px,"+(y-24)*0.08+"px)";});}k();
-      document.addEventListener("mousemove",function(c){var b=a.getBoundingClientRect();x=c.clientX-b.left-b.width/2;y=c.clientY-b.top-b.height/2;});
-      var i=0;function b(){if(!r){var c=e[i%e.length];c.style.transform+=" scaleY(0.1)";setTimeout(function(){c.style.transform=c.style.transform.replace(" scaleY(0.1)","");},120);}i++;setTimeout(b,3000+Math.random()*2000);}b();
-      a.addEventListener("click",function(){if(f&&!r){f.style.transform+=" scale(0.9)";setTimeout(function(){f.style.transform=f.style.transform.replace(" scale(0.9)","");},150);}});
+      var el=a.querySelector(".avatar-ring"),tx=a.querySelector(".avatar-initials");
+      var px=0,py=0,txOff=0,tyOff=0;
+      function tick(){requestAnimationFrame(tick);txOff+=(px-txOff)*0.08;tyOff+=(py-tyOff)*0.08;if(el)el.style.transform="translate("+txOff*0.3+"px,"+tyOff*0.3+"px)";if(tx)tx.style.transform="translate("+txOff*0.15+"px,"+tyOff*0.15+"px)";}tick();
+      document.addEventListener("mousemove",function(e){var b=a.getBoundingClientRect();px=e.clientX-b.left-b.width/2;py=e.clientY-b.top-b.height/2;});
+      a.addEventListener("click",function(){if(el&&!r){el.style.transition="transform 0.12s cubic-bezier(0.25,0.46,0.45,0.94)";el.style.transform+=" scale(0.92)";setTimeout(function(){el.style.transition="";el.style.transform=el.style.transform.replace(" scale(0.92)","");},120);}});
     })();
   </script>
 
