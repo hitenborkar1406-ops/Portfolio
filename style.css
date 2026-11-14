@@ -3346,6 +3346,104 @@ html.js .project-card.is-seen .project-card__tag {
   .skills__group.is-peek .devi-badge { animation: none; }
 }
 
+/* ── Projects Bridge Callout Banner (Hero -> Projects) ──── */
+.projects-callout-banner {
+  padding-block: var(--space-xl) var(--space-2xl);
+  position: relative;
+  z-index: 3;
+}
+
+.projects-callout-card {
+  background: var(--color-paper-light);
+  border: 1px solid var(--color-rule-strong);
+  border-radius: 14px;
+  padding: var(--space-xl) var(--space-2xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-xl);
+  box-shadow: var(--shadow-card);
+  transition: border-color var(--dur-short) var(--ease-out),
+              box-shadow var(--dur-short) var(--ease-out),
+              transform var(--dur-short) var(--ease-out);
+}
+
+.projects-callout-card:hover {
+  border-color: var(--color-accent);
+  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-2px);
+}
+
+.projects-callout-card__content {
+  max-width: 65ch;
+}
+
+.projects-callout-card__eyebrow {
+  display: inline-block;
+  font-family: var(--font-sans);
+  font-size: var(--text-2xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  margin-bottom: var(--space-xs);
+}
+
+.projects-callout-card__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+  font-weight: 700;
+  color: var(--color-ink-deep);
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
+}
+
+.projects-callout-card__desc {
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  color: var(--color-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.projects-callout-card__btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--color-accent);
+  color: var(--color-accent-ink);
+  font-family: var(--font-sans);
+  font-size: var(--text-sm);
+  font-weight: 700;
+  padding: 0.85rem 1.6rem;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px var(--color-accent-wash);
+  transition: transform var(--dur-short) var(--ease-out),
+              box-shadow var(--dur-short) var(--ease-out),
+              background var(--dur-short) var(--ease-out);
+  flex-shrink: 0;
+}
+
+.projects-callout-card__btn:hover {
+  background: var(--color-accent-bright);
+  box-shadow: 0 6px 20px var(--color-accent-glow);
+  transform: translateX(4px);
+}
+
+@media (max-width: 768px) {
+  .projects-callout-card {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-lg);
+  }
+  .projects-callout-card__btn {
+    width: 100%;
+    justify-content: center;
+  }
+}
+
 /* ── Dedicated Projects Page ──────────────────────────── */
 .projects-page {
   padding-top: calc(var(--space-2xl) + 64px);
