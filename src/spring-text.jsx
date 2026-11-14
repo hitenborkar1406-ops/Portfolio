@@ -94,6 +94,12 @@ function mountSpringTextOnElement(el) {
   const originalText = el.textContent.trim();
   const charCount = typeof content === 'string' ? content.length : originalText.length;
 
+  // Lock height to prevent any layout shift during mounting
+  const rect = el.getBoundingClientRect();
+  if (rect.height > 0) {
+    el.style.minHeight = rect.height + 'px';
+  }
+
   // Prepare container
   el.innerHTML = '';
   const root = createRoot(el);
@@ -134,6 +140,7 @@ function mountSpringTextOnElement(el) {
       const renderedHTML = el.innerHTML;
       root.unmount();
       el.innerHTML = renderedHTML;
+      el.style.minHeight = '';
     } catch (_) {}
   }, duration);
 }

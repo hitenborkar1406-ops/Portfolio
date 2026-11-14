@@ -9,8 +9,8 @@
     colorShift: 1,
     opacity: 50,
     thickness: 2,
-    trails: 24,
-    trailLength: 26,
+    trails: 12,
+    trailLength: 18,
   };
 
   const MAX_COLORS = 5;

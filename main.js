@@ -453,18 +453,6 @@
     window.addEventListener('resize', remeasure);
     window.addEventListener('load', remeasure);
 
-    if (window.ResizeObserver) {
-      var roPending = false;
-      new ResizeObserver(function () {
-        if (roPending) return;
-        roPending = true;
-        requestAnimationFrame(function () {
-          roPending = false;
-          remeasure();
-        });
-      }).observe(document.body);
-    }
-
     measure();
     kick();
   } catch (err) {
@@ -2211,7 +2199,7 @@
     image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
     imageOffsetY: 0,
     size: 270,
-    ropeLength: 18,
+    ropeLength: 26,
     gravity: 40,
     damping: 55,
     speed: 45,
