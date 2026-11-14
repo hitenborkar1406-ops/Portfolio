@@ -1,0 +1,35 @@
+{
+  "name": "portfolio",
+  "version": "1.0.0",
+  "description": "Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/hallmark) design system.",
+  "main": "main.js",
+  "directories": {
+    "doc": "docs"
+  },
+  "scripts": {
+    "build": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify",
+    "dev": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --watch",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/hitenborkar1406-ops/Portfolio.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/hitenborkar1406-ops/Portfolio/issues"
+  },
+  "homepage": "https://github.com/hitenborkar1406-ops/Portfolio#readme",
+  "dependencies": {
+    "@react-spring/web": "^10.1.2",
+    "esbuild": "^0.28.2",
+    "react": "^19.3.1",
+    "react-dom": "^19.3.1",
+    "spring-text-engine": "^0.1.5"
+  },
+  "devDependencies": {
+    "jsdom": "^31.0.1"
+  }
+}

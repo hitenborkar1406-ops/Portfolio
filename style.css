@@ -63,25 +63,34 @@
   transform: translate3d(0, 0, 0);
 }
 
-/* Masked typography lines rising on reveal */
+/* Typography alignment & spring text helpers */
+.justify-center {
+  justify-content: center !important;
+}
+
+.spring-text-break {
+  flex-basis: 100% !important;
+  width: 100% !important;
+  height: 0 !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: block !important;
+}
+
+/* Masked typography lines (legacy fallback rendered visible, motion driven by spring-text-engine) */
 .mask-line {
   display: block;
-  overflow: hidden;
   line-height: 1.15;
-  padding-bottom: 0.08em;
 }
 
 .mask-line > span {
   display: inline-block;
-  transform: translate3d(0, 110%, 0);
-  opacity: 0;
-  transition: transform 0.9s var(--ease-out), opacity 0.75s var(--ease-out);
-  transition-delay: var(--mask-delay, 0ms);
-  will-change: transform, opacity;
+  transform: none;
+  opacity: 1;
 }
 
 .mask-line.rv-in > span {
-  transform: translate3d(0, 0, 0);
+  transform: none;
   opacity: 1;
 }
 
