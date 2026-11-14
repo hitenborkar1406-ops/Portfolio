@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify && esbuild src/clay-robot.jsx --bundle --outfile=assets/clay-robot.bundle.js --format=iife --minify",
+    "build": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify && esbuild src/clay-robot.jsx --bundle --outfile=assets/clay-robot.bundle.js --format=iife --minify && esbuild src/money-rain-entry.tsx --bundle --outfile=assets/money-rain.bundle.js --format=iife --target=es2020 --minify",
     "dev": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
