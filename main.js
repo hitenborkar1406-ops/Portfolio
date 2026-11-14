@@ -2210,8 +2210,8 @@
     cardColor: tokens.cardColor,
     image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
     imageOffsetY: 0,
-    size: 300,
-    ropeLength: 12,
+    size: 310,
+    ropeLength: 26,
     gravity: 40,
     damping: 55,
     speed: 45,
@@ -2223,7 +2223,7 @@
       dragStiffness: 60,
       ropeWeight: 20,
       iterations: 8,
-      anchorY: -8,
+      anchorY: 0,
       strapSpread: 85,
       strapWidth: 12,
       strapSheen: 25,
@@ -2384,7 +2384,7 @@
   function advOf(v) {
     var base = {
       hover: 100, grain: 0, vignette: 0, stretch: 50, dragStiffness: 50,
-      ropeWeight: 30, iterations: 12, anchorY: -5, strapSpread: 95,
+      ropeWeight: 30, iterations: 12, anchorY: 0, strapSpread: 95,
       strapWidth: 14, strapSheen: 30, clipLength: 82, clipColor: tokens.clipColor,
       holderWidth: 62, holderColor: tokens.holderColor, holderOpacity: 94,
       holderRadius: 9, borderColor: tokens.borderColor, insertTop: 64,
