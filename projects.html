@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <script>
+    try {
+      var storedTheme = localStorage.getItem('portfolio-theme');
+      if (storedTheme === 'dark' || storedTheme === 'light') {
+        document.documentElement.dataset.theme = storedTheme;
+      }
+    } catch (e) {}
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Projects — Hiten Borkar</title>
+  <meta name="description" content="Featured software, GIS platforms, IoT prototypes, and systems built by Hiten Borkar.">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Projects — Hiten Borkar">
+  <meta property="og:description" content="Featured software, GIS platforms, IoT prototypes, and systems built by Hiten Borkar.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://hitenborkar1406-ops.github.io/Portfolio/projects.html">
+
+  <link rel="icon" type="image/png" href="favicon.png?v=20261114">
+  <link rel="shortcut icon" href="favicon.ico?v=20261114">
+  <link rel="apple-touch-icon" href="favicon.png?v=20261114">
+
+  <!-- Editorial Serif and Sans Fonts -->
+  <link rel="preload" href="assets/fonts.css" as="style">
+  <link rel="stylesheet" href="assets/fonts.css">
+
+  <link rel="stylesheet" href="tokens.css?v=2.4.1">
+  <link rel="stylesheet" href="base.css?v=2.3.2">
+  <link rel="stylesheet" href="style.css?v=2.4.6">
+</head>
+<body>
+
+  <!-- Full-bleed Architectural Column Lines -->
+  <div class="architectural-grid" aria-hidden="true">
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+    <div class="grid-col"></div>
+  </div>
+
+  <!-- ── Nav ──────────────────────────────────────── -->
+  <nav class="nav" role="navigation" aria-label="Main">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__wordmark">Hiten Borkar</a>
+
+      <!-- GlassDock Navigation Component -->
+      <div class="glass-dock" id="glassDock" role="toolbar" aria-label="Main Navigation">
+        <div class="glass-dock__items" id="dockItems">
+          <a href="index.html" class="glass-dock__item" data-title="Home" title="Home" aria-label="Home">
+            <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+              <polyline points="9 22 9 12 15 12 15 22"/>
+            </svg>
+            <span class="glass-dock__label">Home</span>
+          </a>
+
+          <a href="projects.html" class="glass-dock__item is-active" data-title="Projects" title="Projects" aria-label="Projects">
+            <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polyline points="16 18 22 12 16 6"/>
+              <polyline points="8 6 2 12 8 18"/>
+              <line x1="10" y1="19" x2="14" y2="5"/>
+            </svg>
+            <span class="glass-dock__label">Projects</span>
+          </a>
+
+          <a href="index.html#skills" class="glass-dock__item" data-title="Technical Skills" title="Technical Skills" aria-label="Technical Skills">
+            <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"/>
+              <polyline points="2 17 12 22 22 17"/>
+              <polyline points="2 12 12 17 22 12"/>
+            </svg>
+            <span class="glass-dock__label">Skills</span>
+          </a>
+
+          <a href="index.html#about" class="glass-dock__item" data-title="About" title="About" aria-label="About">
+            <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span class="glass-dock__label">About</span>
+          </a>
+
+          <a href="assets/downloads/HITEN_RESUME.pdf?v=20261110" target="_blank" rel="noopener" class="glass-dock__item" data-title="Resume" title="Resume" aria-label="Resume">
+            <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+              <polyline points="14 2 14 8 20 8"/>
+              <line x1="16" y1="13" x2="8" y2="13"/>
+              <line x1="16" y1="17" x2="8" y2="17"/>
+            </svg>
+            <span class="glass-dock__label">Resume</span>
+          </a>
+
+          <span class="glass-dock__divider" aria-hidden="true"></span>
+
+          <a href="index.html#contact" class="glass-dock__item glass-dock__item--cta creepy-btn creepy-btn--sm" role="button" aria-label="Get in Touch" data-title="Get in Touch" title="Get in Touch">
+            <span class="creepy-btn__cover">Get in Touch</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="projects-page">
+    <div class="container">
+
+      <!-- ── Hero Section with Clay Robot ─────────── -->
+      <section class="projects-page__hero">
+        <div class="projects-page__hero-text">
+          <a href="index.html" class="projects-page__back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="19" y1="12" x2="5" y2="12"></line>
+              <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Home
+          </a>
+          <h1 class="projects-page__headline" data-spring-text>
+            Featured Projects & Systems
+          </h1>
+          <p class="projects-page__lead" data-spring-text>
+            Full-stack platforms, GIS routing systems, and IoT prototypes built during my computer science undergrad. Designed for reliability, clean architecture, and real civic utility.
+          </p>
+        </div>
+
+        <div class="projects-page__robot-wrap">
+          <div id="clayRobotMount" class="projects-page__robot-stage" aria-label="Interactive 3D mascot"></div>
+          <div class="projects-page__robot-caption">
+            Interactive Mascot • Hover to lead, click to hop
+          </div>
+        </div>
+      </section>
+
+      <!-- ── Filters ──────────────────────────────── -->
+      <div class="projects-page__filters" role="tablist" aria-label="Filter projects">
+        <button type="button" class="filter-btn is-active" data-filter="all">All Projects (5)</button>
+        <button type="button" class="filter-btn" data-filter="gis-web">GIS & Web</button>
+        <button type="button" class="filter-btn" data-filter="iot">IoT & Hardware</button>
+        <button type="button" class="filter-btn" data-filter="ml-data">ML & Data</button>
+      </div>
+
+      <!-- ── Projects Grid ────────────────────────── -->
+      <div class="projects-page__grid" id="projectsGrid">
+
+        <!-- Project 1: Smart City Traffic Management -->
+        <article class="detailed-card" data-category="gis-web ml-data">
+          <div>
+            <div class="detailed-card__eyebrow">
+              <span>01 / 05</span>
+              <span class="detailed-card__badge">Hacksagon 2nd Place</span>
+            </div>
+            <h3 data-spring-text>Smart City Traffic Management</h3>
+            <p class="detailed-card__summary" data-spring-text>
+              Deployed GIS traffic platform for Nagpur, delivering dynamic routing, congestion heatmaps, and civic alerts. Compares real-time route alternatives via OpenStreetMap and OSRM.
+            </p>
+            <ul class="detailed-card__highlights">
+              <li>XGBoost classifier predicts congestion 15 minutes ahead with high precision</li>
+              <li>Interactive geospatial routing engine utilizing Leaflet & FastAPI microservices</li>
+              <li>Multi-modal routing tested with 2,100+ competitors at Hacksagon 2026</li>
+            </ul>
+          </div>
+          <div class="detailed-card__footer">
+            <div class="detailed-card__tags">
+              <span class="tag">React</span>
+              <span class="tag">FastAPI</span>
+              <span class="tag">Leaflet</span>
+              <span class="tag">XGBoost</span>
+              <span class="tag">OSRM</span>
+            </div>
+            <div class="detailed-card__links">
+              <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
+                <span>GitHub</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 2: Smart IV Drip Monitoring -->
+        <article class="detailed-card" data-category="iot">
+          <div>
+            <div class="detailed-card__eyebrow">
+              <span>02 / 05</span>
+              <span class="detailed-card__badge">IoT Hardware Prototype</span>
+            </div>
+            <h3 data-spring-text>Smart IV Drip Monitoring</h3>
+            <p class="detailed-card__summary" data-spring-text>
+              IoT prototype for hospital patient care that automates intravenous fluid telemetry, preventing air embolism and fluid overflow through real-time load sensor calibration.
+            </p>
+            <ul class="detailed-card__highlights">
+              <li>Continuous weight & flow tracking via ESP32 microcontroller and load cells</li>
+              <li>Automated nurse station buzzer alerts and threshold notification pipeline</li>
+              <li>Web monitoring dashboard with live telemetry graph visualization</li>
+            </ul>
+          </div>
+          <div class="detailed-card__footer">
+            <div class="detailed-card__tags">
+              <span class="tag">C++ / Arduino</span>
+              <span class="tag">ESP32</span>
+              <span class="tag">Node.js</span>
+              <span class="tag">MQTT</span>
+              <span class="tag">Hardware</span>
+            </div>
+            <div class="detailed-card__links">
+              <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
+                <span>GitHub</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 3: CarbonTrack SME -->
+        <article class="detailed-card" data-category="gis-web ml-data">
+          <div>
+            <div class="detailed-card__eyebrow">
+              <span>03 / 05</span>
+              <span class="detailed-card__badge">Web Dashboard</span>
+            </div>
+            <h3 data-spring-text>CarbonTrack SME</h3>
+            <p class="detailed-card__summary" data-spring-text>
+              Responsive web platform designed for small and medium enterprises to estimate, audit, and systematically reduce their carbon footprint across Scope 1, 2, and 3 emissions.
+            </p>
+            <ul class="detailed-card__highlights">
+              <li>Interactive calculators with dynamic emission factor benchmarking</li>
+              <li>Visual analytics breakdowns for electricity, supply chain, and transport</li>
+              <li>Exportable compliance audit reports for green certification readiness</li>
+            </ul>
+          </div>
+          <div class="detailed-card__footer">
+            <div class="detailed-card__tags">
+              <span class="tag">React</span>
+              <span class="tag">Chart.js</span>
+              <span class="tag">Tailwind</span>
+              <span class="tag">REST API</span>
+            </div>
+            <div class="detailed-card__links">
+              <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
+                <span>GitHub</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 4: Edge Telemetry Pipeline -->
+        <article class="detailed-card" data-category="iot ml-data">
+          <div>
+            <div class="detailed-card__eyebrow">
+              <span>04 / 05</span>
+              <span class="detailed-card__badge">Systems Architecture</span>
+            </div>
+            <h3 data-spring-text>Edge Telemetry & Anomaly Detector</h3>
+            <p class="detailed-card__summary" data-spring-text>
+              Lightweight stream processing agent for edge sensor nodes that detects drift and anomalies locally before streaming compressed summaries to cloud storage.
+            </p>
+            <ul class="detailed-card__highlights">
+              <li>Embedded isolation forest algorithm for real-time anomaly detection</li>
+              <li>Bandwidth optimization through delta compression and local buffer queues</li>
+              <li>Zero data loss during intermittent network disconnects</li>
+            </ul>
+          </div>
+          <div class="detailed-card__footer">
+            <div class="detailed-card__tags">
+              <span class="tag">Python</span>
+              <span class="tag">C++</span>
+              <span class="tag">SQLite</span>
+              <span class="tag">WebSockets</span>
+            </div>
+            <div class="detailed-card__links">
+              <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
+                <span>GitHub</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+        <!-- Project 5: Hallmark Design System Implementation -->
+        <article class="detailed-card" data-category="gis-web">
+          <div>
+            <div class="detailed-card__eyebrow">
+              <span>05 / 05</span>
+              <span class="detailed-card__badge">Interactive WebGL & Physics</span>
+            </div>
+            <h3 data-spring-text>Hallmark Interactive Portfolio</h3>
+            <p class="detailed-card__summary" data-spring-text>
+              This website itself — engineered with a custom WebGL 2 raymarched SDF clay robot mascot, Verlet physics swinging lanyard badge, WebGL ink diffusion theme transitions, and spring text physics.
+            </p>
+            <ul class="detailed-card__highlights">
+              <li>Custom GLSL 3.0 ES fragment shader raymarching signed distance fields</li>
+              <li>Critically damped spring physics for interactive mouse tracking & waddling</li>
+              <li>Zero runtime lag with requestIdleCallback scheduling and VSync pacing</li>
+            </ul>
+          </div>
+          <div class="detailed-card__footer">
+            <div class="detailed-card__tags">
+              <span class="tag">WebGL 2.0</span>
+              <span class="tag">GLSL</span>
+              <span class="tag">React</span>
+              <span class="tag">esbuild</span>
+              <span class="tag">Physics</span>
+            </div>
+            <div class="detailed-card__links">
+              <a href="https://github.com/hitenborkar1406-ops/Portfolio" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Source on GitHub">
+                <span>GitHub</span>
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </div>
+
+      <!-- ── Footer CTA ───────────────────────────── -->
+      <section class="projects-page__footer-cta">
+        <h2 data-spring-text>Interested in collaborating?</h2>
+        <p data-spring-text>I am actively seeking an SDE internship or junior engineering role.</p>
+        <div style="display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
+          <a href="index.html#contact" class="creepy-btn" role="button" aria-label="Get in Touch">
+            <span class="creepy-btn__cover">Get in Touch</span>
+          </a>
+          <a href="index.html" class="key">Back to Main Portfolio</a>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Theme Toggle Floating Button -->
+  <button type="button" class="theme-toggle" id="themeToggleBtn" aria-label="Toggle dark/light theme" title="Toggle theme">
+    <svg class="theme-toggle__icon theme-toggle__icon--sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <circle cx="12" cy="12" r="5" />
+      <line x1="12" y1="1" x2="12" y2="3" />
+      <line x1="12" y1="21" x2="12" y2="23" />
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64" />
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78" />
+      <line x1="1" y1="12" x2="3" y2="12" />
+      <line x1="21" y1="12" x2="23" y2="12" />
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36" />
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22" />
+    </svg>
+    <svg class="theme-toggle__icon theme-toggle__icon--moon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+    </svg>
+  </button>
+
+  <!-- Filter Logic Script -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const cards = document.querySelectorAll('.detailed-card');
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          filterBtns.forEach(b => b.classList.remove('is-active'));
+          btn.classList.add('is-active');
+
+          const filter = btn.dataset.filter;
+          cards.forEach(card => {
+            if (filter === 'all') {
+              card.style.display = 'flex';
+            } else {
+              const categories = card.dataset.category.split(' ');
+              if (categories.includes(filter)) {
+                card.style.display = 'flex';
+              } else {
+                card.style.display = 'none';
+              }
+            }
+          });
+        });
+      });
+
+      // Theme toggle support
+      const toggle = document.getElementById('themeToggleBtn');
+      if (toggle) {
+        toggle.addEventListener('click', function() {
+          const current = document.documentElement.dataset.theme;
+          const target = current === 'dark' ? 'light' : 'dark';
+          document.documentElement.dataset.theme = target;
+          try { localStorage.setItem('portfolio-theme', target); } catch (e) {}
+        });
+      }
+    });
+  </script>
+
+  <script src="assets/ink-theme.js?v=5" defer></script>
+  <script src="assets/clay-robot.bundle.js?v=1.0.0" defer></script>
+  <script src="assets/spring-text.bundle.js?v=1.0.0" defer></script>
+  <script src="ribbon-cursor.js?v=1.0.0" defer></script>
+</body>
+</html>

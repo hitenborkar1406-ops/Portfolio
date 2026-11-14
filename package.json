@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify",
+    "build": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify && esbuild src/clay-robot.jsx --bundle --outfile=assets/clay-robot.bundle.js --format=iife --minify",
     "dev": "esbuild src/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
