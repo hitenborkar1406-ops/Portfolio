@@ -40,7 +40,7 @@
   <link rel="stylesheet" href="base.css?v=2.3.3">
   <link rel="stylesheet" href="style.css?v=2.5.3">
   <link rel="stylesheet" href="intro-loader.css?v=2">
-  <!-- Intro: lock scroll right away (only when the intro will show) + failsafe so it can never get stuck -->
+  <!-- Lock scroll for the intro; dispose the renderer if the failsafe fires. -->
   <script>
     try {
       var h = document.documentElement;
