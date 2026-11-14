@@ -2204,7 +2204,7 @@
       dragStiffness: 50,
       ropeWeight: 30,
       iterations: 12,
-      anchorY: -5,
+anchorY: 0,
       strapSpread: 95,
       strapWidth: 14,
       strapSheen: 30,
