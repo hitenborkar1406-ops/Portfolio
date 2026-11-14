@@ -591,8 +591,9 @@ html.theme-fade *::after {
   justify-content: center;
   align-items: flex-start;
   position: relative;
-  min-height: 600px;
-  height: 600px;
+  margin-top: calc(-1 * var(--space-2xl) - 68px);
+  min-height: 780px;
+  height: 780px;
   pointer-events: none;
   z-index: 5;
   animation: hero-in 600ms var(--ease-out) 150ms backwards;
@@ -601,7 +602,7 @@ html.theme-fade *::after {
 .hero__visual .badge-canvas {
   width: 100%;
   max-width: 440px;
-  height: 600px;
+  height: 780px;
   display: block;
   touch-action: none;
   pointer-events: auto;
@@ -610,10 +611,12 @@ html.theme-fade *::after {
 @media (max-width: 1024px) {
   .hero__visual {
     grid-column: 7 / 13;
-    min-height: 560px;
+    margin-top: calc(-1 * var(--space-2xl) - 68px);
+    min-height: 720px;
+    height: 720px;
   }
   .hero__visual .badge-canvas {
-    height: 560px;
+    height: 720px;
   }
 }
 
