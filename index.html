@@ -48,6 +48,7 @@
         h.classList.add("intro-lock");
         setTimeout(function () {
           var el = document.getElementById("introLoader");
+          if (typeof window.__introGenesisUnmount === "function") window.__introGenesisUnmount();
           if (el) el.parentNode.removeChild(el);
           h.classList.remove("intro-lock");
         }, 9000);
