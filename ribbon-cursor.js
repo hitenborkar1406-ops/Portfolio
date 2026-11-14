@@ -9,8 +9,8 @@
     colorShift: 1,
     opacity: 50,
     thickness: 2,
-    trails: 60,
-    trailLength: 30,
+    trails: 24,
+    trailLength: 26,
   };
 
   const MAX_COLORS = 5;
@@ -233,9 +233,16 @@
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   }
 
+  let idleCount = 0;
+  let lastTargetX = 0, lastTargetY = 0;
+
   function updatePosition(e) {
     target.x = e.clientX;
     target.y = e.clientY;
+    idleCount = 0;
+    if (started && running && !rafId) {
+      rafId = window.requestAnimationFrame(loop);
+    }
   }
 
   function onFirstMove(e) {
@@ -257,12 +264,29 @@
     ctx.strokeStyle = strokes[held % strokes.length];
     ctx.lineWidth = Math.max(0.1, DEFAULTS.thickness);
 
+    let maxVelocity = 0;
     for (let i = 0; i < count; i++) {
       const line = lines[i];
       if (!line) continue;
       line.update();
       line.draw(ctx);
+      if (line.nodes && line.nodes[0]) {
+        maxVelocity = Math.max(maxVelocity, Math.abs(line.nodes[0].vx) + Math.abs(line.nodes[0].vy));
+      }
     }
+
+    if (Math.abs(target.x - lastTargetX) < 0.5 && Math.abs(target.y - lastTargetY) < 0.5 && maxVelocity < 0.05) {
+      idleCount++;
+      if (idleCount > 45) {
+        rafId = 0;
+        return; // sleep until mouse moves
+      }
+    } else {
+      idleCount = 0;
+    }
+    lastTargetX = target.x;
+    lastTargetY = target.y;
+
     rafId = window.requestAnimationFrame(loop);
   }
 

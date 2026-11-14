@@ -2210,8 +2210,8 @@
     cardColor: tokens.cardColor,
     image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
     imageOffsetY: 0,
-    size: 280,
-    ropeLength: 16,
+    size: 270,
+    ropeLength: 14,
     gravity: 40,
     damping: 55,
     speed: 45,
@@ -2223,11 +2223,11 @@
       dragStiffness: 60,
       ropeWeight: 20,
       iterations: 8,
-      anchorY: -15,
+      anchorY: -5,
       strapSpread: 85,
       strapWidth: 12,
       strapSheen: 25,
-      clipLength: 70,
+      clipLength: 68,
       clipColor: tokens.clipColor,
       holderWidth: 60,
       holderColor: tokens.holderColor,
@@ -2384,8 +2384,8 @@
   function advOf(v) {
     var base = {
       hover: 100, grain: 0, vignette: 0, stretch: 50, dragStiffness: 50,
-      ropeWeight: 30, iterations: 12, anchorY: -15, strapSpread: 95,
-      strapWidth: 14, strapSheen: 30, clipLength: 70, clipColor: tokens.clipColor,
+      ropeWeight: 30, iterations: 12, anchorY: -5, strapSpread: 95,
+      strapWidth: 14, strapSheen: 30, clipLength: 68, clipColor: tokens.clipColor,
       holderWidth: 62, holderColor: tokens.holderColor, holderOpacity: 94,
       holderRadius: 9, borderColor: tokens.borderColor, insertTop: 64,
       insertMargin: 14, holeSize: 21, gloss: 35,
@@ -2484,7 +2484,10 @@
         var cy = P.y + uy * t * len - ux * side * hw;
         var dx = 0, dy = 0;
         if (xOk) dx = Math.max(0, vx0 + pad - cx) + Math.min(0, vx1 - pad - cx);
-        if (yOk) dy = Math.max(0, vy0 + pad - cy) + Math.min(0, vy1 - pad - cy);
+        if (yOk && tIdx === 0) {
+          // Keep top of card from rising past ceiling
+          dy = Math.max(0, vy0 + pad - cy);
+        }
         if (!dx && !dy) continue;
         var den = (1 - t) * (1 - t) + t * t;
         P.x += (dx * (1 - t)) / den; P.y += (dy * (1 - t)) / den;
@@ -2555,7 +2558,7 @@
       satisfy(pts[iJ], pts[iP], G.clipLen);
       satisfy(pts[iP], pts[iB], G.stick);
       keepIn(G);
-      if (pts[iB].y < pts[iP].y + 20) {
+      if (pts[iB].y < pts[iP].y + G.stick * 0.7) {
         pts[iB].y = pts[iP].y + G.stick;
         pts[iB].x = pts[iP].x;
       }
@@ -2842,7 +2845,10 @@
   function draw(v, adv, G, hoverAmt) {
     ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
     var s = G.s, P = pts[iP], B = pts[iB];
-    var ang = Math.atan2(B.y - P.y, B.x - P.x) - Math.PI / 2;
+    var dx = B.x - P.x;
+    var dy = Math.max(10, B.y - P.y);
+    var ang = Math.atan2(dy, dx) - Math.PI / 2;
+    ang = Math.max(-0.85, Math.min(0.85, ang));
     var left = leftIdx.map(function(i){return pts[i];});
     var right = rightIdx.map(function(i){return pts[i];});
     var strapW = adv.strapWidth * s;

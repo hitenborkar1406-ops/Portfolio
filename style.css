@@ -589,9 +589,10 @@ html.theme-fade *::after {
   grid-column: 8 / 13;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start;
   position: relative;
   min-height: 600px;
+  height: 600px;
   pointer-events: none;
   z-index: 5;
   animation: hero-in 600ms var(--ease-out) 150ms backwards;
