@@ -574,56 +574,34 @@ html.theme-fade *::after {
 }
 
 .hero__visual {
-  grid-column: 8 / 13;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-start;
+  grid-column: 6 / 13;
+  display: block;
   animation: hero-in 600ms var(--ease-out) 150ms backwards;
-  padding-top: 0;
 }
 
-.hero__badge-anchor {
-  position: relative;
-  width: 360px;
-  height: 420px;
-  display: flex;
-  align-items: flex-start;
-  justify-content: center;
-  pointer-events: none;
-  margin-top: 20px;
-}
-
-.hero__badge-anchor .badge-canvas {
+.hero__visual .badge-canvas {
   width: 100%;
-  height: 100%;
+  height: auto;
+  aspect-ratio: 1 / 1.3;
+  max-height: 65vh;
   display: block;
   touch-action: none;
-  pointer-events: auto;
 }
 
 @media (max-width: 1024px) {
   .hero__visual {
     grid-column: 2 / 13;
-    justify-content: center;
     margin-top: var(--space-xl);
   }
-  .hero__badge-anchor {
-    width: 320px;
-    height: 420px;
-    margin-top: 0;
+  .hero__visual .badge-canvas {
+    max-height: 55vh;
   }
 }
 
 @media (max-width: 768px) {
-  .hero__badge-anchor {
-    width: 280px;
-    height: 380px;
+  .hero__visual .badge-canvas {
+    max-height: 45vh;
   }
-}
-
-@keyframes hero-in {
-  from { opacity: 0; transform: translateY(24px); }
-  to   { opacity: 1; transform: translateY(0); }
 }
 
 @keyframes hero-in {

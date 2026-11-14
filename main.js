@@ -2164,13 +2164,12 @@
   }
 })();
 
-/* ── Swinging Lanyard Badge (Hero) — Full Port from Originkit ────────────────── */
+/* ── Swinging Lanyard Badge (Hero) — Hallmark compliant ─────────────────────── */
 (function () {
   var canvas = document.getElementById('badgeCanvas');
   if (!canvas) return;
 
   var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (prefersReduced) return;
 
   var ctx = canvas.getContext('2d');
   if (!ctx) return;
@@ -2184,11 +2183,31 @@
   var MAX_SLOT_BEND = (32 * Math.PI) / 180;
   var MIN_CRIMP_ANGLE = (105 * Math.PI) / 180;
 
+  // ─── Read tokens from CSS ───
+  function getToken(name) {
+    return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  }
+
+  var tokens = {
+    strapColor: getToken('--brand-marigold') || '#EAAA00',
+    cardColor: getToken('--color-ink-deep') || '#1A0615',
+    strapColorMuted: getToken('--color-ink-2') || '#AAA88E',
+    clipColor: getToken('--color-ink-2') || '#A6A5AD',
+    holderColor: getToken('--color-paper') || '#F7F7F7',
+    borderColor: getToken('--color-rule-strong') || '#D0D0D2',
+    shadowColor: getToken('--color-ink') || '#000000',
+    accent: getToken('--color-accent') || '#EAAA00',
+    accentWarm: getToken('--color-accent-warm') || '#FF9400',
+    paper: getToken('--color-paper') || '#DFE5EA',
+    ink: getToken('--color-ink') || '#3A0F34',
+    inkDeep: getToken('--color-ink-deep') || '#250721',
+  };
+
   // ─── Default Props — tuned for hero: card aligns with headline ───
   var props = {
     background: 'transparent',
-    strapColor: '#AAA88E',
-    cardColor: '#1A0615',
+    strapColor: tokens.strapColor,
+    cardColor: tokens.cardColor,
     image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
     imageOffsetY: 0,
     size: 300,
@@ -2209,23 +2228,51 @@
       strapWidth: 12,
       strapSheen: 25,
       clipLength: 70,
-      clipColor: '#A6A5AD',
+      clipColor: tokens.clipColor,
       holderWidth: 60,
-      holderColor: '#F7F7F7',
+      holderColor: tokens.holderColor,
       holderOpacity: 94,
       holderRadius: 9,
-      borderColor: '#D0D0D2',
+      borderColor: tokens.borderColor,
       insertTop: 64,
       insertMargin: 14,
       holeSize: 21,
       gloss: 35,
-      shadowColor: '#000000',
+      shadowColor: tokens.shadowColor,
       shadowOpacity: 45,
       shadowBlur: 20,
       shadowX: 15,
       shadowY: 20,
     }
   };
+
+  // ─── Update tokens on theme change ───
+  function refreshTokens() {
+    tokens.strapColor = getToken('--brand-marigold') || '#EAAA00';
+    tokens.cardColor = getToken('--color-ink-deep') || '#1A0615';
+    tokens.strapColorMuted = getToken('--color-ink-2') || '#AAA88E';
+    tokens.clipColor = getToken('--color-ink-2') || '#A6A5AD';
+    tokens.holderColor = getToken('--color-paper') || '#F7F7F7';
+    tokens.borderColor = getToken('--color-rule-strong') || '#D0D0D2';
+    tokens.shadowColor = getToken('--color-ink') || '#000000';
+    tokens.accent = getToken('--color-accent') || '#EAAA00';
+    tokens.accentWarm = getToken('--color-accent-warm') || '#FF9400';
+    tokens.paper = getToken('--color-paper') || '#DFE5EA';
+    tokens.ink = getToken('--color-ink') || '#3A0F34';
+    tokens.inkDeep = getToken('--color-ink-deep') || '#250721';
+
+    props.strapColor = tokens.strapColor;
+    props.cardColor = tokens.cardColor;
+    props.advanced.clipColor = tokens.clipColor;
+    props.advanced.holderColor = tokens.holderColor;
+    props.advanced.borderColor = tokens.borderColor;
+    props.advanced.shadowColor = tokens.shadowColor;
+  }
+
+  if (!prefersReduced) {
+    var themeObserver = new MutationObserver(function() { refreshTokens(); });
+    themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  }
 
   // ─── Helpers ───
   function parseColor(c) {
@@ -2338,11 +2385,11 @@
     var base = {
       hover: 100, grain: 0, vignette: 0, stretch: 50, dragStiffness: 50,
       ropeWeight: 30, iterations: 12, anchorY: -5, strapSpread: 95,
-      strapWidth: 14, strapSheen: 30, clipLength: 82, clipColor: '#A6A5AD',
-      holderWidth: 62, holderColor: '#F7F7F7', holderOpacity: 94,
-      holderRadius: 9, borderColor: '#D0D0D2', insertTop: 64,
+      strapWidth: 14, strapSheen: 30, clipLength: 82, clipColor: tokens.clipColor,
+      holderWidth: 62, holderColor: tokens.holderColor, holderOpacity: 94,
+      holderRadius: 9, borderColor: tokens.borderColor, insertTop: 64,
       insertMargin: 14, holeSize: 21, gloss: 35,
-      shadowColor: '#000000', shadowOpacity: 45, shadowBlur: 20,
+      shadowColor: tokens.shadowColor, shadowOpacity: 45, shadowBlur: 20,
       shadowX: 15, shadowY: 20
     };
     return Object.assign({}, base, v.advanced || {});
@@ -2538,7 +2585,7 @@
     ctx.shadowOffsetX = (SHADOW_OFF + adv.shadowX * s) * dpr;
     ctx.shadowOffsetY = adv.shadowY * s * dpr;
     ctx.translate(-SHADOW_OFF, 0);
-    ctx.fillStyle = '#000'; ctx.strokeStyle = '#000';
+    ctx.fillStyle = tokens.ink; ctx.strokeStyle = tokens.ink;
     draw();
     ctx.restore();
   }
@@ -2699,7 +2746,7 @@
     rr(ctx, -30 * s, -6.5 * s, 60 * s, 13 * s, 6.5 * s); ctx.stroke();
     ctx.lineWidth = 1 * s; ctx.strokeStyle = adv.borderColor;
     ctx.beginPath(); ctx.moveTo(left + 3 * s, top + 48 * s); ctx.lineTo(-left - 3 * s, top + 48 * s); ctx.stroke();
-    ctx.strokeStyle = '#A6A5AD';
+    ctx.strokeStyle = tokens.clipColor;
     ctx.beginPath(); ctx.moveTo(left + 3 * s, top + 51 * s); ctx.lineTo(-left - 3 * s, top + 51 * s); ctx.stroke();
 
     var gl = adv.gloss / 100;
@@ -2723,7 +2770,7 @@
 
     ctx.lineWidth = 2 * s; ctx.strokeStyle = adv.borderColor;
     rr(ctx, left, top, G.hW, G.hH, r); ctx.stroke();
-    ctx.lineWidth = 1 * s; ctx.strokeStyle = 'rgba(228,228,230,0.8)';
+    ctx.lineWidth = 1 * s; ctx.strokeStyle = tokens.inkDeep + 'CC';
     rr(ctx, left + 5 * s, top + 5 * s, G.hW - 10 * s, G.hH - 10 * s, Math.max(0, r - 4 * s)); ctx.stroke();
     ctx.restore();
   }
@@ -2734,11 +2781,11 @@
     var s = G.s, L = Math.hypot(P.x - J.x, P.y - J.y) || 1;
     var ux = (P.x - J.x) / L, uy = (P.y - J.y) / L;
     var ang = Math.atan2(uy, ux) - Math.PI / 2;
-    var silver = adv.clipColor, light = mix(silver, '#FFFFFF', 0.7), dark = mix(silver, '#000000', 0.5);
+    var silver = adv.clipColor, light = mix(silver, tokens.paper, 0.7), dark = mix(silver, tokens.ink, 0.5);
     var metal = function(x0, x1) {
       var g = ctx.createLinearGradient(x0, 0, x1, 0);
       g.addColorStop(0, light); g.addColorStop(0.35, silver);
-      g.addColorStop(0.75, mix(silver, '#000000', 0.2)); g.addColorStop(1, dark);
+      g.addColorStop(0.75, mix(silver, tokens.ink, 0.2)); g.addColorStop(1, dark);
       return g;
     };
 
@@ -2751,9 +2798,9 @@
     var ringArc = function(a0, a1) { ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, a0, a1); };
     var wire = function(a0, a1, shade) {
       ctx.lineCap = 'round'; ringArc(a0, a1);
-      ctx.strokeStyle = mix(dark, '#000000', shade); ctx.lineWidth = ringW; ctx.stroke();
+      ctx.strokeStyle = mix(dark, tokens.ink, shade); ctx.lineWidth = ringW; ctx.stroke();
       ringArc(a0, a1);
-      ctx.strokeStyle = mix(silver, '#000000', shade); ctx.lineWidth = ringW * 0.62; ctx.stroke();
+      ctx.strokeStyle = mix(silver, tokens.ink, shade); ctx.lineWidth = ringW * 0.62; ctx.stroke();
       ringArc(a0 + 0.12, a1 - 0.12);
       ctx.strokeStyle = 'rgba(255,255,255,' + (0.75 * (1 - shade)) + ')'; ctx.lineWidth = ringW * 0.2; ctx.stroke();
     };
@@ -2782,7 +2829,7 @@
 
     var cw = strapW * 1.55, ch = 0.22 * L;
     ctx.fillStyle = metal(-cw/2, cw/2); rr(ctx, -cw/2, -0.03 * L, cw, ch, 0.05 * L); ctx.fill();
-    ctx.strokeStyle = mix(dark, '#000000', 0.25); ctx.lineWidth = 0.016 * L; ctx.stroke();
+    ctx.strokeStyle = mix(dark, tokens.ink, 0.25); ctx.lineWidth = 0.016 * L; ctx.stroke();
     ctx.strokeStyle = 'rgba(255,255,255,0.45)'; ctx.lineWidth = 0.012 * L;
     rr(ctx, -cw/2 + 0.03 * L, -0.03 * L + 0.03 * L, cw - 0.06 * L, ch - 0.06 * L, 0.03 * L); ctx.stroke();
     ctx.restore();
