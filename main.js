@@ -2164,7 +2164,7 @@
   }
 })();
 
-/* ── Swinging Lanyard Badge (Hero) ────────────────── */
+/* ── Swinging Lanyard Badge (Hero) — Full Port from Originkit ────────────────── */
 (function () {
   var canvas = document.getElementById('badgeCanvas');
   if (!canvas) return;
@@ -2173,286 +2173,106 @@
   if (prefersReduced) return;
 
   var ctx = canvas.getContext('2d');
+  if (!ctx) return;
+
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
-  var avatar = new Image();
-  avatar.src = 'assets/avatar.jpg';
-  var avatarLoaded = false;
-  avatar.onload = function () { avatarLoaded = true; };
 
-  var W = 0, H = 0;
-  var rect = { x: 0, y: 0, w: 0, h: 0 };
+  // ─── Constants (matching IDEA exactly) ───
+  var N = 12;
+  var SUB = 1 / 240;
+  var SLOT_Y = 27;
+  var MAX_SLOT_BEND = (32 * Math.PI) / 180;
+  var MIN_CRIMP_ANGLE = (105 * Math.PI) / 180;
 
-  var N = 16;
-  var points = [];
-  for (var i = 0; i <= N; i++) points.push({ x: 0, y: 0, px: 0, py: 0, im: 1 });
-  var anchor = { x: 0, y: 0 };
-  var card = { x: 0, y: 0, px: 0, py: 0, angle: 0, w: 140, h: 190 };
+  // ─── Default Props (adapted for portfolio theme) ───
+  var props = {
+    background: 'transparent',
+    strapColor: '#AAA88E',
+    cardColor: '#1A0615',
+    image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
+    imageOffsetY: 0,
+    size: 400,
+    ropeLength: 24,
+    gravity: 50,
+    damping: 50,
+    speed: 50,
+    advanced: {
+      hover: 100,
+      grain: 0,
+      vignette: 0,
+      stretch: 50,
+      dragStiffness: 50,
+      ropeWeight: 30,
+      iterations: 12,
+      anchorY: -5,
+      strapSpread: 95,
+      strapWidth: 14,
+      strapSheen: 30,
+      clipLength: 82,
+      clipColor: '#A6A5AD',
+      holderWidth: 62,
+      holderColor: '#F7F7F7',
+      holderOpacity: 94,
+      holderRadius: 9,
+      borderColor: '#D0D0D2',
+      insertTop: 64,
+      insertMargin: 14,
+      holeSize: 21,
+      gloss: 35,
+      shadowColor: '#000000',
+      shadowOpacity: 45,
+      shadowBlur: 20,
+      shadowX: 15,
+      shadowY: 20,
+    }
+  };
 
-  var mouse = { x: 0, y: 0, inside: false };
-  var dragging = false;
-  var dragPoint = null;
-  var time = 0;
-
-  var gravity = 0.35;
-  var damping = 0.93;
-  var segmentLength = 0;
-  var initialized = false;
-
-  function resize() {
-    var container = canvas.parentElement;
-    if (!container) return;
-    var r = container.getBoundingClientRect();
-    W = r.width;
-    H = r.height;
-    if (W === 0 || H === 0) return;
-
-    canvas.width = Math.round(W * dpr);
-    canvas.height = Math.round(H * dpr);
-    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-    rect.w = Math.min(180, W * 0.85);
-    rect.h = rect.w * 1.35;
-    card.w = rect.w;
-    card.h = rect.h;
-
-    anchor.x = W / 2;
-    anchor.y = 30;
-
-    var availableH = H - anchor.y - rect.h - 30;
-    if (availableH < 60) availableH = 60;
-    segmentLength = availableH / N;
-
-    resetPositions();
-    initialized = true;
+  // ─── Helpers ───
+  function parseColor(c) {
+    if (!c || typeof c !== 'string') return [0, 0, 0, 1];
+    var s = c.trim();
+    if (s[0] === '#') {
+      var h = s.slice(1);
+      if (h.length === 3 || h.length === 4) h = h.split('').map(function(x){return x+x;}).join('');
+      var n = parseInt(h.slice(0, 6), 16);
+      var a = h.length === 8 ? parseInt(h.slice(6, 8), 16) / 255 : 1;
+      return [(n >> 16) & 255, (n >> 8) & 255, n & 255, a];
+    }
+    var m = s.match(/rgba?\(([^)]+)\)/);
+    if (m) {
+      var p = m[1].split(/[\s,/]+/).filter(Boolean).map(parseFloat);
+      return [p[0] || 0, p[1] || 0, p[2] || 0, p[3] ?? 1];
+    }
+    return [0, 0, 0, 1];
   }
 
-  function resetPositions() {
-    var strapBottomY = anchor.y + N * segmentLength;
-    for (var i = 0; i <= N; i++) {
-      var t = i / N;
-      points[i].x = anchor.x;
-      points[i].y = anchor.y + t * (strapBottomY - anchor.y);
-      points[i].px = points[i].x;
-      points[i].py = points[i].y;
-      points[i].im = 1;
-    }
-    points[0].im = 0;
-    points[0].x = anchor.x;
-    points[0].y = anchor.y;
-    points[0].px = anchor.x;
-    points[0].py = anchor.y;
-
-    card.x = points[N].x;
-    card.y = points[N].y + rect.h / 2;
-    card.px = card.x;
-    card.py = card.y;
-    card.angle = 0;
+  function rgba(c, a) {
+    var _parseColor = parseColor(c), r = _parseColor[0], g = _parseColor[1], b = _parseColor[2], al = _parseColor[3];
+    return 'rgba(' + (r|0) + ',' + (g|0) + ',' + (b|0) + ',' + (al * (a || 1)) + ')';
   }
 
-  function satisfy(a, b, rest) {
-    var dx = b.x - a.x;
-    var dy = b.y - a.y;
-    var d = Math.hypot(dx, dy) || 1e-6;
-    var w = a.im + b.im;
-    if (!w) return;
-    var diff = (d - rest) / (d * w);
-    a.x += dx * diff * a.im;
-    a.y += dy * diff * a.im;
-    b.x -= dx * diff * b.im;
-    b.y -= dy * diff * b.im;
+  function mix(c1, c2, t) {
+    var a = parseColor(c1), b = parseColor(c2);
+    var k = Math.max(0, Math.min(1, t));
+    return 'rgba(' +
+      ((a[0] + (b[0] - a[0]) * k) | 0) + ',' +
+      ((a[1] + (b[1] - a[1]) * k) | 0) + ',' +
+      ((a[2] + (b[2] - a[2]) * k) | 0) + ',' +
+      (a[3] + (b[3] - a[3]) * k) + ')';
   }
 
-  function tether(a, b, maxD) {
-    var dx = b.x - a.x;
-    var dy = b.y - a.y;
-    var d = Math.hypot(dx, dy);
-    if (d > maxD && d > 0) {
-      b.x = a.x + (dx / d) * maxD;
-      b.y = a.y + (dy / d) * maxD;
-    }
+  function imageSrc(v) {
+    if (!v) return undefined;
+    if (typeof v === 'string') return v;
+    if (typeof v.src === 'string' && v.src) return v.src;
+    return undefined;
   }
 
-  function step() {
-    if (!initialized) return;
-
-    for (var i = 0; i <= N; i++) {
-      var p = points[i];
-      if (p.im === 0) continue;
-      var vx = (p.x - p.px) * damping;
-      var vy = (p.y - p.py) * damping;
-      p.px = p.x;
-      p.py = p.y;
-      p.x += vx;
-      p.y += vy + gravity;
-    }
-
-    if (dragging && dragPoint) {
-      var p = points[dragPoint.idx];
-      var f = 0.25;
-      p.x += (dragPoint.x - p.x) * f;
-      p.y += (dragPoint.y - p.y) * f;
-    } else if (mouse.inside && !dragging) {
-      var p = points[N];
-      p.x += (mouse.x - p.x) * 0.06;
-      p.y += (mouse.y - p.y) * 0.06;
-    }
-
-    for (var iter = 0; iter < 8; iter++) {
-      for (var i = 0; i < N; i++) {
-        satisfy(points[i], points[i + 1], segmentLength);
-      }
-      for (var i = 1; i <= N; i++) {
-        tether(points[0], points[i], i * segmentLength * 1.15);
-      }
-    }
-
-    var dx = points[N].x - points[N - 1].x;
-    var dy = points[N].y - points[N - 1].y;
-    var targetAngle = Math.atan2(dy, dx) - Math.PI / 2;
-    card.angle += (targetAngle - card.angle) * 0.15;
-    card.angle = Math.max(-0.7, Math.min(0.7, card.angle));
-
-    var vx = (card.x - card.px) * damping;
-    var vy = (card.y - card.py) * damping;
-    card.px = card.x;
-    card.py = card.y;
-    card.x += vx;
-    card.y += vy;
-
-    card.x += (points[N].x - card.x) * 0.4;
-    card.y += (points[N].y + rect.h / 2 - card.y) * 0.4;
+  function easeInOut(t) {
+    return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
   }
 
-  function draw() {
-    if (!initialized) return;
-    ctx.clearRect(0, 0, W, H);
-
-    var strapGradient = ctx.createLinearGradient(anchor.x, anchor.y, anchor.x, anchor.y + N * segmentLength);
-    strapGradient.addColorStop(0, '#EAAA00');
-    strapGradient.addColorStop(0.5, '#D49600');
-    strapGradient.addColorStop(1, '#AAA88E');
-
-    ctx.strokeStyle = strapGradient;
-    ctx.lineWidth = 4;
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.shadowColor = 'rgba(234, 170, 0, 0.3)';
-    ctx.shadowBlur = 6;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 2;
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-    for (var i = 1; i <= N; i++) {
-      ctx.lineTo(points[i].x, points[i].y);
-    }
-    ctx.stroke();
-
-    ctx.shadowColor = 'rgba(234, 170, 0, 0.15)';
-    ctx.shadowBlur = 3;
-    ctx.strokeStyle = 'rgba(170, 168, 142, 0.5)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(points[0].x, points[0].y);
-    for (var i = 1; i <= N; i++) {
-      var offset = Math.sin(time * 0.003 + i * 0.5) * 1.5;
-      ctx.lineTo(points[i].x + offset, points[i].y);
-    }
-    ctx.stroke();
-
-    ctx.shadowColor = 'transparent';
-    ctx.shadowBlur = 0;
-
-    var clipX = points[N].x - 14;
-    var clipY = points[N].y - 10;
-    var clipW = 28;
-    var clipH = 24;
-    var clipGrad = ctx.createLinearGradient(clipX, clipY, clipX, clipY + clipH);
-    clipGrad.addColorStop(0, '#D4B88E');
-    clipGrad.addColorStop(0.5, '#AAA88E');
-    clipGrad.addColorStop(1, '#8a8870');
-    ctx.fillStyle = clipGrad;
-    roundRect(ctx, clipX, clipY, clipW, clipH, 5);
-    ctx.fill();
-    ctx.strokeStyle = '#8a8870';
-    ctx.lineWidth = 1.5;
-    ctx.stroke();
-
-    ctx.save();
-    ctx.translate(card.x, card.y);
-    ctx.rotate(card.angle);
-
-    var r = 14;
-    var hw = rect.w / 2;
-    var hh = rect.h / 2;
-
-    ctx.shadowColor = 'rgba(58, 15, 52, 0.4)';
-    ctx.shadowBlur = 20 * dpr;
-    ctx.shadowOffsetX = 0;
-    ctx.shadowOffsetY = 10 * dpr;
-
-    ctx.fillStyle = '#1A0615';
-    roundRect(ctx, -hw, -hh, rect.w, rect.h, r);
-    ctx.fill();
-
-    ctx.shadowColor = 'rgba(234, 170, 0, 0.3)';
-    ctx.shadowBlur = 10 * dpr;
-    ctx.shadowOffsetY = 3 * dpr;
-    ctx.strokeStyle = '#EAAA00';
-    ctx.lineWidth = 2.5;
-    roundRect(ctx, -hw, -hh, rect.w, rect.h, r);
-    ctx.stroke();
-
-    var margin = 12;
-    var ix = -hw + margin;
-    var iy = -hh + margin;
-    var iw = rect.w - 2 * margin;
-    var ih = rect.h - 2 * margin;
-
-    if (avatarLoaded && avatar.naturalWidth > 0) {
-      var scale = Math.max(iw / avatar.naturalWidth, ih / avatar.naturalHeight);
-      var dw = avatar.naturalWidth * scale;
-      var dh = avatar.naturalHeight * scale;
-      ctx.drawImage(avatar, -dw / 2, -dh / 2, dw, dh);
-    } else {
-      ctx.fillStyle = '#2A0826';
-      ctx.fillRect(ix, iy, iw, ih);
-      ctx.fillStyle = '#EAAA00';
-      ctx.font = '14px Georgia';
-      ctx.textAlign = 'center';
-      ctx.fillText('Loading...', 0, 0);
-    }
-
-    var slotY = -hh + 32;
-    var slotW = 48;
-    var slotH = 10;
-    var slotGrad = ctx.createLinearGradient(-slotW/2, slotY, -slotW/2, slotY + slotH);
-    slotGrad.addColorStop(0, '#D4B88E');
-    slotGrad.addColorStop(1, '#AAA88E');
-    ctx.fillStyle = slotGrad;
-    roundRect(ctx, -slotW / 2, slotY, slotW, slotH, 5);
-    ctx.fill();
-
-    ctx.restore();
-
-    var ringX = points[N].x;
-    var ringY = points[N].y + 10;
-    var ringR = 10;
-    var ringGrad = ctx.createRadialGradient(ringX - 2, ringY - 2, 0, ringX, ringY, ringR);
-    ringGrad.addColorStop(0, '#FFD860');
-    ringGrad.addColorStop(1, '#AAA88E');
-    ctx.strokeStyle = ringGrad;
-    ctx.lineWidth = 3;
-    ctx.beginPath();
-    ctx.arc(ringX, ringY, ringR, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.fillStyle = '#EAAA00';
-    ctx.beginPath();
-    ctx.arc(ringX, ringY, 4, 0, Math.PI * 2);
-    ctx.fill();
-  }
-
-  function roundRect(ctx, x, y, w, h, r) {
+  function rr(ctx, x, y, w, h, r) {
     var k = Math.max(0, Math.min(r, w / 2, h / 2));
     ctx.beginPath();
     ctx.moveTo(x + k, y);
@@ -2463,74 +2283,630 @@
     ctx.closePath();
   }
 
-  function animate() {
-    time += 16;
-    step();
+  // ─── Image Cache ───
+  var IMAGE_CACHE = new Map();
+  function getImage(src) {
+    if (!src) return null;
+    var img = IMAGE_CACHE.get(src);
+    if (!img) {
+      img = new Image();
+      img.decoding = 'async';
+      img.src = src;
+      IMAGE_CACHE.set(src, img);
+    }
+    return (img.complete && img.naturalWidth > 0) ? img : null;
+  }
+
+  // ─── Noise/Grain ───
+  var noise = document.createElement('canvas');
+  noise.width = 128; noise.height = 128;
+  var nctx = noise.getContext('2d');
+  if (nctx) {
+    var id = nctx.createImageData(128, 128);
+    for (var i = 0; i < id.data.length; i += 4) {
+      var v = Math.random() < 0.5 ? 0 : 255;
+      id.data[i] = v; id.data[i+1] = v; id.data[i+2] = v; id.data[i+3] = Math.random() * 120;
+    }
+    nctx.putImageData(id, 0, 0);
+  }
+  var grainPattern = null;
+
+  // ─── State ───
+  var W = 0, H = 0;
+  var raf = 0, last = -1, acc = 0, ready = false, visible = true;
+  var vx0 = 0, vy0 = 0, vx1 = 0, vy1 = 0;
+
+  var iJ = N;
+  var iRA = N + 1;
+  var iP = 2 * N + 1;
+  var iB = 2 * N + 2;
+
+  var pts = [];
+  for (var i = 0; i <= iB; i++) pts.push({ x: 0, y: 0, px: 0, py: 0, im: 1 });
+
+  var leftIdx = [], rightIdx = [];
+  for (var k = 0; k < N; k++) leftIdx.push(k);
+  leftIdx.push(iJ);
+  for (var k = 0; k < N; k++) rightIdx.push(iRA + k);
+  rightIdx.push(iJ);
+
+  var ptrX = 0, ptrY = 0, over = 0, overTarget = 0;
+  var userDrag = null;
+
+  // ─── Geometry ───
+  function advOf(v) {
+    var base = {
+      hover: 100, grain: 0, vignette: 0, stretch: 50, dragStiffness: 50,
+      ropeWeight: 30, iterations: 12, anchorY: -5, strapSpread: 95,
+      strapWidth: 14, strapSheen: 30, clipLength: 82, clipColor: '#A6A5AD',
+      holderWidth: 62, holderColor: '#F7F7F7', holderOpacity: 94,
+      holderRadius: 9, borderColor: '#D0D0D2', insertTop: 64,
+      insertMargin: 14, holeSize: 21, gloss: 35,
+      shadowColor: '#000000', shadowOpacity: 45, shadowBlur: 20,
+      shadowX: 15, shadowY: 20
+    };
+    return Object.assign({}, base, v.advanced || {});
+  }
+
+  function geom(v, adv) {
+    var sz = Math.max(50, v.size);
+    var s = sz / 400;
+    var cx = W / 2;
+    var ay = (adv.anchorY / 100) * H;
+    var jy = (v.ropeLength / 100) * H;
+    var spread = adv.strapSpread * s;
+    var clipLen = adv.clipLength * s;
+    var slotY = SLOT_Y * s;
+    var hH = sz;
+    var hW = (sz * adv.holderWidth) / 100;
+    var stick = hH - slotY;
+    var segL = Math.hypot(spread, jy - ay) / N;
+    var minJB = Math.sqrt(clipLen * clipLen + stick * stick + 2 * clipLen * stick * Math.cos(MAX_SLOT_BEND));
+    var minSP = Math.sqrt(segL * segL + clipLen * clipLen - 2 * segL * clipLen * Math.cos(MIN_CRIMP_ANGLE));
+    return { s: s, cx: cx, ay: ay, jy: jy, spread: spread, clipLen: clipLen, slotY: slotY, hH: hH, hW: hW, stick: stick, segL: segL, minJB: minJB, minSP: minSP };
+  }
+
+  function place(G) {
+    for (var k = 0; k <= N; k++) {
+      var t = k / N;
+      var l = pts[leftIdx[k]];
+      l.x = G.cx - G.spread * (1 - t);
+      l.y = G.ay + (G.jy - G.ay) * t;
+      var r = pts[rightIdx[k]];
+      r.x = G.cx + G.spread * (1 - t);
+      r.y = G.ay + (G.jy - G.ay) * t;
+    }
+    pts[iP].x = G.cx; pts[iP].y = G.jy + G.clipLen;
+    pts[iB].x = G.cx; pts[iB].y = G.jy + G.clipLen + G.stick;
+    for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
+  }
+
+  function grabPoint(t, lx) {
+    var P = pts[iP], B = pts[iB];
+    var len = Math.hypot(B.x - P.x, B.y - P.y) || 1;
+    var ux = (B.x - P.x) / len, uy = (B.y - P.y) / len;
+    return { x: P.x + ux * t * len + uy * lx, y: P.y + uy * t * len - ux * lx };
+  }
+
+  function satisfy(a, b, rest) {
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var d = Math.hypot(dx, dy) || 1e-6;
+    var w = a.im + b.im; if (!w) return;
+    var diff = (d - rest) / (d * w);
+    a.x += dx * diff * a.im; a.y += dy * diff * a.im;
+    b.x -= dx * diff * b.im; b.y -= dy * diff * b.im;
+  }
+
+  function apart(a, b, minD) {
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var d = Math.hypot(dx, dy) || 1e-6;
+    if (d >= minD) return;
+    var w = a.im + b.im; if (!w) return;
+    var diff = (d - minD) / (d * w);
+    a.x += dx * diff * a.im; a.y += dy * diff * a.im;
+    b.x -= dx * diff * b.im; b.y -= dy * diff * b.im;
+  }
+
+  function soft(a, b, rest, k) {
+    var dx = b.x - a.x, dy = b.y - a.y;
+    var d = Math.hypot(dx, dy) || 1e-6;
+    var w = a.im + b.im; if (!w) return;
+    var diff = ((d - rest) / (d * w)) * k;
+    a.x += dx * diff * a.im; a.y += dy * diff * a.im;
+    b.x -= dx * diff * b.im; b.y -= dy * diff * b.im;
+  }
+
+  function tether(A, p, maxD) {
+    var dx = p.x - A.x, dy = p.y - A.y;
+    var d = Math.hypot(dx, dy);
+    if (d > maxD && d > 0) { p.x = A.x + (dx / d) * maxD; p.y = A.y + (dy / d) * maxD; }
+  }
+
+  function keepIn(G) {
+    var P = pts[iP], B = pts[iB];
+    var pad = G.s + 1, hw = G.hW / 2;
+    var xOk = vx1 - vx0 > G.hW + 2 * pad;
+    var yOk = vy1 - vy0 > G.hH + 2 * pad;
+    if (!xOk && !yOk) return;
+    for (var tIdx = 0; tIdx < 2; tIdx++) {
+      var t = tIdx === 0 ? -G.slotY / G.stick : 1;
+      for (var side = -1; side <= 1; side += 2) {
+        var len = Math.hypot(B.x - P.x, B.y - P.y) || 1;
+        var ux = (B.x - P.x) / len, uy = (B.y - P.y) / len;
+        var cx = P.x + ux * t * len + uy * side * hw;
+        var cy = P.y + uy * t * len - ux * side * hw;
+        var dx = 0, dy = 0;
+        if (xOk) dx = Math.max(0, vx0 + pad - cx) + Math.min(0, vx1 - pad - cx);
+        if (yOk) dy = Math.max(0, vy0 + pad - cy) + Math.min(0, vy1 - pad - cy);
+        if (!dx && !dy) continue;
+        var den = (1 - t) * (1 - t) + t * t;
+        P.x += (dx * (1 - t)) / den; P.y += (dy * (1 - t)) / den;
+        B.x += (dx * t) / den; B.y += (dy * t) / den;
+      }
+    }
+  }
+
+  function step(h, v, adv, G, hoverAmt, settling) {
+    var ropeIm = 1 / Math.max(0.02, (adv.ropeWeight / 100) * 0.5);
+    for (var i = 0; i < pts.length; i++) pts[i].im = ropeIm;
+    pts[iP].im = 1; pts[iB].im = 1;
+    var LA = pts[0], RA = pts[iRA];
+    LA.im = 0; RA.im = 0;
+    LA.x = LA.px = G.cx - G.spread; LA.y = LA.py = G.ay;
+    RA.x = RA.px = G.cx + G.spread; RA.y = RA.py = G.ay;
+
+    var g = 15 * H * (Math.max(0, v.gravity) / 50);
+    var c = settling ? 12 : 2 * (Math.max(0, v.damping) / 50);
+    var keep = Math.exp(-c * h);
+    var maxStep = H * 0.04;
+
+    for (var i = 0; i < pts.length; i++) {
+      var p = pts[i]; if (p.im === 0) continue;
+      var vx = (p.x - p.px) * keep, vy = (p.y - p.py) * keep;
+      var sp = Math.hypot(vx, vy);
+      if (sp > maxStep) { vx *= maxStep / sp; vy *= maxStep / sp; }
+      p.px = p.x; p.py = p.y;
+      p.x += vx; p.y += vy + g * h * h;
+    }
+
+    var grab = settling ? null : userDrag;
+    if (!settling && !grab && hoverAmt > 0 && over > 0.001) {
+      var B = pts[iB];
+      B.x += (ptrX - B.x) * 10 * hoverAmt * over * h * h;
+    }
+    if (grab) {
+      var P = pts[iP], B = pts[iB];
+      var gp = grabPoint(grab.t, grab.lx);
+      var f = 1 - Math.exp(-((adv.dragStiffness / 50) * 20) * h);
+      var dX = (grab.tx - gp.x) * f, dY = (grab.ty - gp.y) * f;
+      var t = grab.t, den = (1 - t) * (1 - t) + t * t;
+      P.x += (dX * (1 - t)) / den; P.y += (dY * (1 - t)) / den;
+      B.x += (dX * t) / den; B.y += (dY * t) / den;
+    }
+
+    var iters = Math.max(1, Math.min(40, Math.round(adv.iterations)));
+    var give = Math.max(0, Math.min(1, adv.stretch / 100));
+    var kStep = 1 - 0.12 * give;
+    var kIter = give <= 0 ? 1 : 1 - Math.pow(1 - kStep, 1 / iters);
+    var reach = 1 + 0.5 * give;
+
+    for (var it = 0; it < iters; it++) {
+      for (var k = 0; k < N; k++) {
+        soft(pts[leftIdx[k]], pts[leftIdx[k + 1]], G.segL, kIter);
+        soft(pts[rightIdx[k]], pts[rightIdx[k + 1]], G.segL, kIter);
+      }
+      satisfy(pts[iJ], pts[iP], G.clipLen);
+      satisfy(pts[iP], pts[iB], G.stick);
+      for (var k = 1; k <= N; k++) {
+        tether(LA, pts[leftIdx[k]], k * G.segL * reach);
+        tether(RA, pts[rightIdx[k]], k * G.segL * reach);
+      }
+      satisfy(pts[leftIdx[N - 1]], pts[rightIdx[N - 1]], 0);
+      apart(pts[iJ], pts[iB], G.minJB);
+      apart(pts[leftIdx[N - 1]], pts[iP], G.minSP);
+      apart(pts[rightIdx[N - 1]], pts[iP], G.minSP);
+      satisfy(pts[iJ], pts[iP], G.clipLen);
+      satisfy(pts[iP], pts[iB], G.stick);
+      keepIn(G);
+    }
+  }
+
+  function settle() {
+    var v = props, adv = advOf(v), G = geom(v, adv);
+    place(G);
+    for (var i = 0; i < 600; i++) step(SUB, v, adv, G, 0, true);
+    for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
+  }
+
+  // ─── Drawing Helpers ───
+  var SHADOW_OFF = 20000;
+
+  function withShadow(adv, s, draw) {
+    ctx.save();
+    ctx.shadowColor = rgba(adv.shadowColor, adv.shadowOpacity / 100);
+    ctx.shadowBlur = adv.shadowBlur * s * dpr;
+    ctx.shadowOffsetX = (SHADOW_OFF + adv.shadowX * s) * dpr;
+    ctx.shadowOffsetY = adv.shadowY * s * dpr;
+    ctx.translate(-SHADOW_OFF, 0);
+    ctx.fillStyle = '#000'; ctx.strokeStyle = '#000';
     draw();
-    requestAnimationFrame(animate);
+    ctx.restore();
   }
 
-  function onMouseMove(e) {
-    var r = canvas.getBoundingClientRect();
-    mouse.x = e.clientX - r.left;
-    mouse.y = e.clientY - r.top;
-    mouse.inside = mouse.x >= 0 && mouse.x <= W && mouse.y >= 0 && mouse.y <= H;
-
-    var dx = mouse.x - card.x;
-    var dy = mouse.y - card.y;
-    var rotatedX = dx * Math.cos(-card.angle) - dy * Math.sin(-card.angle);
-    var rotatedY = dx * Math.sin(-card.angle) + dy * Math.cos(-card.angle);
-    var onCard = Math.abs(rotatedX) < rect.w / 2 && Math.abs(rotatedY) < rect.h / 2;
-    canvas.style.cursor = onCard ? 'grab' : 'default';
+  function polyline(list) {
+    ctx.beginPath(); ctx.moveTo(list[0].x, list[0].y);
+    for (var i = 1; i < list.length; i++) ctx.lineTo(list[i].x, list[i].y);
   }
 
-  function onMouseDown(e) {
-    var r = canvas.getBoundingClientRect();
-    var mx = e.clientX - r.left;
-    var my = e.clientY - r.top;
+  function angDiff(a, b) {
+    var d = a - b;
+    while (d > Math.PI) d -= Math.PI * 2;
+    while (d < -Math.PI) d += Math.PI * 2;
+    return Math.abs(d);
+  }
 
-    var dx = mx - card.x;
-    var dy = my - card.y;
-    var rotatedX = dx * Math.cos(-card.angle) - dy * Math.sin(-card.angle);
-    var rotatedY = dx * Math.sin(-card.angle) + dy * Math.cos(-card.angle);
+  function smooth(e, first) {
+    if (first) ctx.moveTo(e[0][0], e[0][1]); else ctx.lineTo(e[0][0], e[0][1]);
+    for (var i = 1; i < e.length - 1; i++)
+      ctx.quadraticCurveTo(e[i][0], e[i][1], (e[i][0] + e[i+1][0]) / 2, (e[i][1] + e[i+1][1]) / 2);
+    ctx.lineTo(e[e.length-1][0], e[e.length-1][1]);
+  }
 
-    if (Math.abs(rotatedX) < rect.w / 2 && Math.abs(rotatedY) < rect.h / 2) {
-      dragging = true;
-      dragPoint = { idx: N, x: mx, y: my };
-      canvas.style.cursor = 'grabbing';
+  function strapEdges(list, base, width, restSeg, sMerge, sFull) {
+    var n = list.length;
+    var L = [], R = [], wf = [], fade = [], sUp = new Array(n);
+    sUp[n-1] = 0;
+    for (var i = n-2; i >= 0; i--) sUp[i] = sUp[i+1] + Math.hypot(list[i+1].x - list[i].x, list[i+1].y - list[i].y);
+    for (var i = 0; i < n; i++) {
+      var a = list[Math.max(0, i-1)], b = list[Math.min(n-1, i+1)];
+      var tx = b.x - a.x, ty = b.y - a.y;
+      var tl = Math.hypot(tx, ty) || 1;
+      var ang = Math.atan2(ty, tx);
+      var dev = angDiff(ang, base);
+      var turn = 0.84 + 0.16 * Math.abs(Math.cos(Math.min(dev * 1.2, Math.PI / 2)));
+      var ratio = tl / Math.max(1e-3, restSeg * (i === 0 || i === n-1 ? 1 : 2));
+      var k = Math.max(0, Math.min(1, (sUp[i] - sMerge) / Math.max(1e-3, sFull - sMerge)));
+      var fd = k * k * (3 - 2 * k);
+      var f = 1 - (1 - turn * Math.max(0.72, Math.min(1, 1 - (ratio - 1) * 1.2))) * fd;
+      wf.push(f); fade.push(fd);
+      var nx = -ty / tl, ny = tx / tl;
+      var hw = (width / 2) * f;
+      L.push([list[i].x + nx * hw, list[i].y + ny * hw]);
+      R.push([list[i].x - nx * hw, list[i].y - ny * hw]);
+    }
+    return { list: list, L: L, R: R, wf: wf, fade: fade };
+  }
+
+  function outline(st) {
+    smooth(st.L, true);
+    smooth(st.R.slice().reverse(), false);
+    ctx.closePath();
+  }
+
+  function alongStrap(st, rgb, alpha) {
+    var list = st.list, n = list.length;
+    var x0 = list[0].x, y0 = list[0].y;
+    var ax = list[n-1].x - x0, ay = list[n-1].y - y0;
+    var aa = ax * ax + ay * ay || 1;
+    var g = ctx.createLinearGradient(x0, y0, x0 + ax, y0 + ay);
+    var t = 0;
+    for (var i = 0; i < n; i++) {
+      t = Math.max(t, Math.min(1, ((list[i].x - x0) * ax + (list[i].y - y0) * ay) / aa));
+      g.addColorStop(t, 'rgba(' + rgb + ',' + Math.max(0, alpha(i)) + ')');
+    }
+    return g;
+  }
+
+  function drawStraps(left, right, baseL, baseR, width, color, sheen, restSeg) {
+    var n = left.length, J = left[n-1], S = left[n-2];
+    var stem = Math.hypot(S.x - J.x, S.y - J.y);
+    var lx = left[n-3].x - S.x, ly = left[n-3].y - S.y;
+    var rx = right[n-3].x - S.x, ry = right[n-3].y - S.y;
+    var c = (lx * rx + ly * ry) / ((Math.hypot(lx, ly) * Math.hypot(rx, ry)) || 1);
+    var half = Math.acos(Math.max(-1, Math.min(1, c))) / 2;
+    var crotch = stem + Math.min(4 * width, width / 2 / Math.max(0.05, Math.sin(half)));
+    var sMerge = crotch + 0.5 * width, sFull = sMerge + 2.5 * width;
+    var A = strapEdges(left, baseL, width, restSeg, sMerge, sFull);
+    var B = strapEdges(right, baseR, width, restSeg, sMerge, sFull);
+    for (var si = 0; si < 2; si++) {
+      var st = si === 0 ? A : B;
+      ctx.beginPath(); outline(st); ctx.fillStyle = color; ctx.fill();
+      if (st.wf.some(function(f){return f < 0.99;})) {
+        ctx.beginPath(); outline(st);
+        ctx.fillStyle = alongStrap(st, '0,0,0', function(i){return Math.min(0.3, (1 - st.wf[i]) * 1.6);});
+        ctx.fill();
+      }
+      if (sheen > 0) {
+        ctx.beginPath();
+        smooth(st.L.map(function(l, i){return [l[0] + (st.R[i][0] - l[0]) * 0.3, l[1] + (st.R[i][1] - l[1]) * 0.3];}), true);
+        ctx.strokeStyle = alongStrap(st, '255,255,255', function(i){return sheen * 0.3 * st.fade[i];});
+        ctx.lineWidth = width * 0.22; ctx.lineJoin = 'round'; ctx.stroke();
+      }
     }
   }
 
-  function onMouseUp() {
-    dragging = false;
-    dragPoint = null;
-    canvas.style.cursor = 'default';
+  var tileKey = '', tilePat = null, tileM = new DOMMatrix();
+  function insertTile(img, color, iw, ih, offY) {
+    var q = 2 * dpr;
+    var tw = Math.ceil(iw * q) + 2, th = Math.ceil(ih * q) + 2;
+    var off = Math.max(-250, Math.min(250, typeof offY === 'number' && isFinite(offY) ? offY : 0));
+    var key = (img ? img.src : '') + '|' + color + '|' + tw + '|' + th + '|' + off;
+    if (key === tileKey) return tilePat;
+    tileKey = key; tilePat = null;
+    var c = document.createElement('canvas'); c.width = tw; c.height = th;
+    var t = c.getContext('2d'); if (!t) return null;
+    t.fillStyle = color; t.fillRect(0, 0, tw, th);
+    if (img) {
+      var sc = Math.max(tw / img.naturalWidth, th / img.naturalHeight);
+      var dw = img.naturalWidth * sc, dh = img.naturalHeight * sc;
+      t.imageSmoothingQuality = 'high';
+      t.drawImage(img, (tw - dw) / 2, (th - dh) * (0.5 - (off / 250) * 0.5), dw, dh);
+    }
+    tilePat = ctx.createPattern(c, 'no-repeat');
+    return tilePat;
   }
 
-  canvas.addEventListener('mousemove', onMouseMove);
-  canvas.addEventListener('mousedown', onMouseDown);
-  window.addEventListener('mouseup', onMouseUp);
-  canvas.addEventListener('mouseleave', onMouseUp);
+  function drawCard(v, adv, G, ang, hoverAmt) {
+    var s = G.s, P = pts[iP], top = -G.slotY, left = -G.hW / 2, r = adv.holderRadius * s;
+    ctx.save(); ctx.translate(P.x, P.y); ctx.rotate(ang);
 
-  canvas.addEventListener('touchmove', function(e) {
-    if (e.touches[0]) {
-      var touch = e.touches[0];
-      var simulatedEvent = { clientX: touch.clientX, clientY: touch.clientY };
-      onMouseMove(simulatedEvent);
+    var holeR = (adv.holeSize / 2) * s;
+    var holeX = Math.min(80 * s, G.hW / 2 - holeR - 6 * s);
+    var sleevePath = function() {
+      rr(ctx, left, top, G.hW, G.hH, r);
+      if (holeR > 0) for (var hi = 0; hi < 2; hi++) {
+        var hx = hi === 0 ? -holeX : holeX;
+        ctx.moveTo(hx + holeR, 0); ctx.arc(hx, 0, holeR, 0, Math.PI * 2);
+      }
+      var sw = 30 * s, sh = 6.5 * s;
+      ctx.moveTo(-sw + sh, -sh); ctx.lineTo(sw - sh, -sh);
+      ctx.arc(sw - sh, 0, sh, -Math.PI/2, Math.PI/2);
+      ctx.lineTo(-sw + sh, sh); ctx.arc(-sw + sh, 0, sh, Math.PI/2, Math.PI*1.5);
+      ctx.closePath();
+    };
+
+    ctx.globalAlpha = Math.max(0, Math.min(1, adv.holderOpacity / 100));
+    ctx.fillStyle = adv.holderColor; sleevePath(); ctx.fill('evenodd');
+    ctx.globalAlpha = 1;
+
+    var m = adv.insertMargin * s;
+    var ix = left + m, iy = top + adv.insertTop * s;
+    var iw = G.hW - 2 * m, ih = G.hH - adv.insertTop * s - 8 * s;
+    var img = getImage(imageSrc(v.image));
+    var tile = insertTile(img, v.cardColor, iw, ih, v.imageOffsetY);
+    if (tile) {
+      tileM.a = tileM.d = 1 / (2 * dpr);
+      tileM.e = ix - 1 / (2 * dpr); tileM.f = iy - 1 / (2 * dpr);
+      tile.setTransform(tileM); ctx.fillStyle = tile;
+    } else ctx.fillStyle = v.cardColor;
+    ctx.fillRect(ix, iy, iw, ih);
+
+    ctx.lineWidth = 1.5 * s; ctx.strokeStyle = adv.borderColor;
+    for (var hi = 0; hi < 2; hi++) {
+      var hx = hi === 0 ? -holeX : holeX;
+      ctx.beginPath(); ctx.arc(hx, 0, holeR, 0, Math.PI * 2); ctx.stroke();
     }
-  }, { passive: true });
+    rr(ctx, -30 * s, -6.5 * s, 60 * s, 13 * s, 6.5 * s); ctx.stroke();
+    ctx.lineWidth = 1 * s; ctx.strokeStyle = adv.borderColor;
+    ctx.beginPath(); ctx.moveTo(left + 3 * s, top + 48 * s); ctx.lineTo(-left - 3 * s, top + 48 * s); ctx.stroke();
+    ctx.strokeStyle = '#A6A5AD';
+    ctx.beginPath(); ctx.moveTo(left + 3 * s, top + 51 * s); ctx.lineTo(-left - 3 * s, top + 51 * s); ctx.stroke();
 
-  canvas.addEventListener('touchstart', function(e) {
-    if (e.touches[0]) {
-      var touch = e.touches[0];
-      var simulatedEvent = { clientX: touch.clientX, clientY: touch.clientY };
-      onMouseDown(simulatedEvent);
+    var gl = adv.gloss / 100;
+    if (gl > 0) {
+      var lg = ctx.createLinearGradient(left, 0, -left, 0);
+      lg.addColorStop(0, 'rgba(255,255,255,' + (0.7 * gl) + ')');
+      lg.addColorStop(0.1, 'rgba(255,255,255,0)');
+      lg.addColorStop(0.86, 'rgba(0,0,0,0)');
+      lg.addColorStop(1, 'rgba(0,0,0,' + (0.14 * gl) + ')');
+      ctx.fillStyle = lg; sleevePath(); ctx.fill('evenodd');
+      var sp = 0.35 + Math.sin(ang) * 1.1 + over * hoverAmt * ((ptrX - P.x) / Math.max(1, W)) * 0.6;
+      if (sp > -0.15 && sp < 1.15) {
+        var bg = ctx.createLinearGradient(left, top, -left, top + G.hH);
+        var a = Math.max(0, Math.min(1, sp - 0.14)), b = Math.max(0, Math.min(1, sp)), c = Math.max(0, Math.min(1, sp + 0.14));
+        bg.addColorStop(a, 'rgba(255,255,255,0)');
+        bg.addColorStop(b, 'rgba(255,255,255,' + (0.45 * gl) + ')');
+        bg.addColorStop(c, 'rgba(255,255,255,0)');
+        ctx.fillStyle = bg; sleevePath(); ctx.fill('evenodd');
+      }
     }
-  }, { passive: true });
 
-  canvas.addEventListener('touchend', onMouseUp, { passive: true });
+    ctx.lineWidth = 2 * s; ctx.strokeStyle = adv.borderColor;
+    rr(ctx, left, top, G.hW, G.hH, r); ctx.stroke();
+    ctx.lineWidth = 1 * s; ctx.strokeStyle = 'rgba(228,228,230,0.8)';
+    rr(ctx, left + 5 * s, top + 5 * s, G.hW - 10 * s, G.hH - 10 * s, Math.max(0, r - 4 * s)); ctx.stroke();
+    ctx.restore();
+  }
 
-  window.addEventListener('resize', resize);
+  function drawClip(v, adv, G, cardAng, front) {
+    var J = pts[iJ], P = pts[iP];
+    var Sl = pts[leftIdx[N-1]], Sr = pts[rightIdx[N-1]];
+    var s = G.s, L = Math.hypot(P.x - J.x, P.y - J.y) || 1;
+    var ux = (P.x - J.x) / L, uy = (P.y - J.y) / L;
+    var ang = Math.atan2(uy, ux) - Math.PI / 2;
+    var silver = adv.clipColor, light = mix(silver, '#FFFFFF', 0.7), dark = mix(silver, '#000000', 0.5);
+    var metal = function(x0, x1) {
+      var g = ctx.createLinearGradient(x0, 0, x1, 0);
+      g.addColorStop(0, light); g.addColorStop(0.35, silver);
+      g.addColorStop(0.75, mix(silver, '#000000', 0.2)); g.addColorStop(1, dark);
+      return g;
+    };
+
+    var T = { x: J.x + ux * 0.3 * L, y: J.y + uy * 0.3 * L };
+    var cs = Math.cos(cardAng), sn = Math.sin(cardAng);
+    var Bt = { x: P.x - sn * 2 * s, y: P.y + cs * 2 * s };
+    var ry = Math.max(4 * s, Math.hypot(Bt.x - T.x, Bt.y - T.y) / 2);
+    var rx = ry * 0.55, ringW = 4.2 * s;
+    var ringAng = Math.atan2(Bt.y - T.y, Bt.x - T.x) - Math.PI / 2;
+    var ringArc = function(a0, a1) { ctx.beginPath(); ctx.ellipse(0, 0, rx, ry, 0, a0, a1); };
+    var wire = function(a0, a1, shade) {
+      ctx.lineCap = 'round'; ringArc(a0, a1);
+      ctx.strokeStyle = mix(dark, '#000000', shade); ctx.lineWidth = ringW; ctx.stroke();
+      ringArc(a0, a1);
+      ctx.strokeStyle = mix(silver, '#000000', shade); ctx.lineWidth = ringW * 0.62; ctx.stroke();
+      ringArc(a0 + 0.12, a1 - 0.12);
+      ctx.strokeStyle = 'rgba(255,255,255,' + (0.75 * (1 - shade)) + ')'; ctx.lineWidth = ringW * 0.2; ctx.stroke();
+    };
+
+    ctx.save(); ctx.translate((T.x + Bt.x)/2, (T.y + Bt.y)/2); ctx.rotate(ringAng);
+    if (!front) { wire(-Math.PI/2, Math.PI/2, 0.3); ctx.restore(); return; }
+    ctx.save(); ctx.shadowColor = 'rgba(0,0,0,0.3)'; ctx.shadowBlur = 3 * s * dpr;
+    ctx.shadowOffsetX = 1.5 * s * dpr; ctx.shadowOffsetY = 2 * s * dpr;
+    ringArc(Math.PI/2, Math.PI*1.5); ctx.strokeStyle = dark; ctx.lineWidth = ringW; ctx.stroke(); ctx.restore();
+    wire(Math.PI/2, Math.PI*1.5, 0); ctx.restore();
+
+    ctx.save(); ctx.translate(J.x, J.y); ctx.rotate(ang);
+    var strapW = adv.strapWidth * s;
+    ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    var tabW = strapW;
+    var sx = (Sl.x + Sr.x)/2 - J.x, sy = (Sl.y + Sr.y)/2 - J.y;
+    var stemLen = Math.hypot(sx, sy) || 1;
+    var tabLen = Math.min(stemLen, strapW * 0.25);
+    ctx.save(); ctx.rotate(-ang); ctx.rotate(Math.atan2(sy, sx) + Math.PI/2);
+    ctx.fillStyle = v.strapColor; rr(ctx, -tabW/2, -tabLen, tabW, tabLen + 0.05 * L, tabW * 0.15); ctx.fill(); ctx.restore();
+
+    ctx.lineWidth = 0.034 * L; ctx.strokeStyle = dark;
+    ctx.beginPath(); ctx.ellipse(0, 0.245 * L, 0.05 * L, 0.065 * L, 0, 0, Math.PI * 2); ctx.stroke();
+    ctx.lineWidth = 0.018 * L; ctx.strokeStyle = light;
+    ctx.beginPath(); ctx.ellipse(0, 0.245 * L, 0.05 * L, 0.065 * L, 0, Math.PI * 0.9, Math.PI * 1.6); ctx.stroke();
+
+    var cw = strapW * 1.55, ch = 0.22 * L;
+    ctx.fillStyle = metal(-cw/2, cw/2); rr(ctx, -cw/2, -0.03 * L, cw, ch, 0.05 * L); ctx.fill();
+    ctx.strokeStyle = mix(dark, '#000000', 0.25); ctx.lineWidth = 0.016 * L; ctx.stroke();
+    ctx.strokeStyle = 'rgba(255,255,255,0.45)'; ctx.lineWidth = 0.012 * L;
+    rr(ctx, -cw/2 + 0.03 * L, -0.03 * L + 0.03 * L, cw - 0.06 * L, ch - 0.06 * L, 0.03 * L); ctx.stroke();
+    ctx.restore();
+  }
+
+  function draw(v, adv, G, hoverAmt) {
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0); ctx.clearRect(0, 0, W, H);
+    var s = G.s, P = pts[iP], B = pts[iB];
+    var ang = Math.atan2(B.y - P.y, B.x - P.x) - Math.PI / 2;
+    var left = leftIdx.map(function(i){return pts[i];});
+    var right = rightIdx.map(function(i){return pts[i];});
+    var strapW = adv.strapWidth * s;
+    var baseL = Math.atan2(G.jy - G.ay, G.spread), baseR = Math.atan2(G.jy - G.ay, -G.spread);
+
+    if (adv.shadowOpacity > 0) {
+      withShadow(adv, s, function() { ctx.lineWidth = strapW; ctx.lineJoin = 'round'; polyline(left); ctx.stroke(); polyline(right); ctx.stroke(); });
+      withShadow(adv, s, function() { ctx.translate(P.x, P.y); ctx.rotate(ang); rr(ctx, -G.hW/2, -G.slotY, G.hW, G.hH, adv.holderRadius * s); ctx.fill(); });
+    }
+
+    var sheen = adv.strapSheen / 100;
+    drawStraps(left, right, baseL, baseR, strapW, v.strapColor, sheen, G.segL);
+    drawClip(v, adv, G, ang, false); drawCard(v, adv, G, ang, hoverAmt); drawClip(v, adv, G, ang, true);
+
+    var vig = adv.vignette / 100;
+    if (vig > 0) {
+      var rg = ctx.createRadialGradient(W/2, H/2, Math.min(W,H)*0.3, W/2, H/2, Math.hypot(W,H)*0.6);
+      rg.addColorStop(0, 'rgba(0,0,0,0)'); rg.addColorStop(1, 'rgba(0,0,0,' + (vig * 0.9) + ')');
+      ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H);
+    }
+    var gr = adv.grain / 100;
+    if (gr > 0) {
+      if (!grainPattern) grainPattern = ctx.createPattern(noise, 'repeat');
+      if (grainPattern) {
+        ctx.save(); ctx.globalAlpha = gr * 0.6;
+        var ox = Math.floor(Math.random() * 128), oy = Math.floor(Math.random() * 128);
+        ctx.translate(-ox, -oy); ctx.fillStyle = grainPattern; ctx.fillRect(0, 0, W + 128, H + 128); ctx.restore();
+      }
+    }
+  }
+
+  // ─── Hit Test & Pointer ───
+  function hitCard(x, y) {
+    var v = props, adv = advOf(v), G = geom(v, adv);
+    var P = pts[iP], B = pts[iB];
+    var len = Math.hypot(B.x - P.x, B.y - P.y) || 1;
+    var ux = (B.x - P.x) / len, uy = (B.y - P.y) / len;
+    var dx = x - P.x, dy = y - P.y;
+    var lx = dx * uy - dy * ux, ly = dx * ux + dy * uy;
+    var pad = 6;
+    if (Math.abs(lx) <= G.hW/2 + pad && ly >= -G.slotY - pad && ly <= G.stick + pad)
+      return { t: Math.max(0.02, Math.min(1, ly / G.stick)), lx: lx };
+    return null;
+  }
+
+  function onDown(e) {
+    if (prefersReduced) return;
+    var adv = advOf(props); if (adv.hover <= 0) return;
+    var x = e.offsetX, y = e.offsetY, hit = hitCard(x, y);
+    if (!hit) return;
+    userDrag = { t: hit.t, lx: hit.lx, tx: x, ty: y };
+    try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
+    canvas.style.cursor = 'grabbing'; e.preventDefault();
+  }
+  function onMove(e) {
+    ptrX = e.offsetX; ptrY = e.offsetY; overTarget = 1;
+    if (userDrag) { userDrag.tx = ptrX; userDrag.ty = ptrY; return; }
+    if (!prefersReduced) canvas.style.cursor = hitCard(ptrX, ptrY) ? 'grab' : 'default';
+  }
+  function onLeave() { if (!userDrag) overTarget = 0; }
+  function onUp(e) { if (!userDrag) return; userDrag = null; try { canvas.releasePointerCapture(e.pointerId); } catch (_) {} canvas.style.cursor = 'grab'; }
+
+  canvas.addEventListener('pointerdown', onDown);
+  canvas.addEventListener('pointermove', onMove);
+  canvas.addEventListener('pointerleave', onLeave);
+  window.addEventListener('pointerup', onUp);
+  window.addEventListener('pointercancel', onUp);
+
+  // ─── Resize & Animation Loop ───
+  function measureView() {
+    vx0 = 0; vy0 = 0; vx1 = W; vy1 = H;
+  }
+
+  function resize() {
+    var container = canvas.parentElement;
+    if (!container) return;
+    var w = container.clientWidth, h = container.clientHeight;
+    if (!w || !h) return;
+    var changed = w !== W || h !== H;
+    W = w; H = h;
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    measureView();
+    if (changed) { settle(); ready = true; }
+    var v = props, adv = advOf(v); draw(v, adv, geom(v, adv), 0);
+  }
+
+  function frame(now) {
+    if (!visible) { raf = 0; return; }
+    raf = requestAnimationFrame(frame);
+    if (!ready) return;
+    var dt = last < 0 ? 0 : Math.min((now - last) / 1000, 1/20);
+    last = now;
+    var v = props, adv = advOf(v), G = geom(v, adv);
+    var hoverAmt = prefersReduced ? 0 : Math.max(0, adv.hover) / 50;
+    over += (overTarget - over) * (1 - Math.exp(-dt * 6));
+    if (!prefersReduced) {
+      var simDt = dt * (Math.max(0, v.speed) / 50);
+      acc += simDt;
+      var n = 0;
+      while (acc >= SUB && n < 24) { step(SUB, v, adv, G, hoverAmt, false); acc -= SUB; n++; }
+      if (n >= 24) acc = 0;
+    }
+    draw(v, adv, G, hoverAmt);
+  }
+
+  var ro = new ResizeObserver(resize);
+  ro.observe(canvas.parentElement);
   resize();
-  animate();
+
+  var io = new IntersectionObserver(function(entries) {
+    visible = entries[0].isIntersecting;
+    if (visible && !raf) { last = -1; raf = requestAnimationFrame(frame); }
+  });
+  io.observe(canvas.parentElement);
+  raf = requestAnimationFrame(frame);
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', function() {
+    cancelAnimationFrame(raf);
+    ro.disconnect(); io.disconnect();
+    canvas.removeEventListener('pointerdown', onDown);
+    canvas.removeEventListener('pointermove', onMove);
+    canvas.removeEventListener('pointerleave', onLeave);
+    window.removeEventListener('pointerup', onUp);
+    window.removeEventListener('pointercancel', onUp);
+  });
 })();
