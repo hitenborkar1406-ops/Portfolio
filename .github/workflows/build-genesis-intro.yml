@@ -1,0 +1,42 @@
+name: Build Genesis intro bundle
+
+on:
+  push:
+    branches:
+      - feature/intro-money-rain-loader
+    paths:
+      - "src/money-rain.tsx"
+      - "src/money-rain-entry.tsx"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/build-genesis-intro.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/intro-money-rain-loader
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build site assets
+        run: npm run build
+      - name: Commit generated intro bundle
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/money-rain.bundle.js
+          if ! git diff --cached --quiet; then
+            git commit -m "Build Genesis Code Rain bundle"
+            git push
+          fi
