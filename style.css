@@ -3261,7 +3261,6 @@ html.js .section__head {
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  corner-shape: inherit;
   background: var(--color-ink-deep);
   opacity: calc(var(--dim, 0) * 0.55);
   pointer-events: none;

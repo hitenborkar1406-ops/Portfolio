@@ -147,12 +147,6 @@ a:focus-visible {
   background: var(--color-paper);
   box-shadow: var(--shadow-card);
 }
-@supports (corner-shape: bevel) {
-  .cut {
-    border-radius: var(--cut-l) 4px var(--cut-l) 4px;
-    corner-shape: bevel round bevel round;
-  }
-}
 
 /* Graphite surfaces */
 .graphite {
