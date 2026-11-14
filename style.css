@@ -579,17 +579,18 @@ html.theme-fade *::after {
   justify-content: flex-end;
   align-items: flex-start;
   animation: hero-in 600ms var(--ease-out) 150ms backwards;
+  padding-top: 0;
 }
 
 .hero__badge-anchor {
   position: relative;
   width: 380px;
-  height: 500px;
+  height: 600px;
   display: flex;
   align-items: flex-start;
   justify-content: center;
   pointer-events: none;
-  margin-top: 40px;
+  margin-top: -20px;
 }
 
 .hero__badge-anchor .badge-canvas {
