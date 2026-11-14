@@ -2857,6 +2857,25 @@ anchorY: 0,
     vx0 = 0; vy0 = 0; vx1 = W; vy1 = H;
   }
 
+  function frame(now) {
+    if (!visible) { raf = 0; return; }
+    raf = requestAnimationFrame(frame);
+    if (!ready) return;
+    var dt = last < 0 ? 0 : Math.min((now - last) / 1000, 1/20);
+    last = now;
+    var v = props, adv = advOf(v), G = geom(v, adv);
+    var hoverAmt = prefersReduced ? 0 : Math.max(0, adv.hover) / 50;
+    over += (overTarget - over) * (1 - Math.exp(-dt * 6));
+    if (!prefersReduced) {
+      var simDt = dt * (Math.max(0, v.speed) / 50);
+      acc += simDt;
+      var n = 0;
+      while (acc >= SUB && n < 24) { step(SUB, v, adv, G, hoverAmt, false); acc -= SUB; n++; }
+      if (n >= 24) acc = 0;
+    }
+    draw(v, adv, G, hoverAmt);
+  }
+
   function resize() {
     var container = badgeAnchor || canvas.parentElement;
     if (!container) return;
