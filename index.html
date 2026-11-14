@@ -39,7 +39,7 @@
   <link rel="stylesheet" href="tokens.css?v=2.4.1">
   <link rel="stylesheet" href="base.css?v=2.3.3">
   <link rel="stylesheet" href="style.css?v=2.5.3">
-  <link rel="stylesheet" href="intro-loader.css?v=1">
+  <link rel="stylesheet" href="intro-loader.css?v=2">
   <!-- Intro: lock scroll right away (only when the intro will show) + failsafe so it can never get stuck -->
   <script>
     try {
@@ -57,15 +57,15 @@
 </head>
 <body>
 
-  <!-- Intro: Money Rain + 5-second loading bar -->
+  <!-- Intro: Engineer's Genesis — five-second cinematic WebGL2 sequence -->
   <div id="introLoader" class="intro" role="status" aria-label="Loading portfolio">
-    <div id="introRain" class="intro__rain" aria-hidden="true"></div>
+    <div id="introRain" class="intro__rain" aria-hidden="true"></div>\n    <div class="intro__code" aria-hidden="true"><span>{ }</span><span>&lt;/&gt;</span><span>0x01</span><span>[ ]</span><span>( )</span></div>\n    <div class="intro__identity" aria-hidden="true"><svg class="intro__monogram" viewBox="0 0 180 112" role="presentation"><text x="90" y="88" text-anchor="middle">HB</text></svg><span class="intro__identity-name">Hiten Borkar</span></div>
     <div class="intro__vignette" aria-hidden="true"></div>
     <div class="intro__brand" aria-hidden="true">Hiten Borkar</div>
     <button type="button" class="intro__skip" id="introSkip">Skip</button>
     <div class="intro__bar">
       <div class="intro__meta">
-        <span>Loading portfolio</span>
+        <span>Engineer's Genesis</span>
         <span class="intro__pct" id="introPct">00%</span>
       </div>
       <div class="intro__track" id="introBar" role="progressbar" aria-label="Loading" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0">
@@ -1002,7 +1002,7 @@
   <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
   <script src="intro-loader.js?v=1" defer></script>
-  <script src="assets/money-rain.bundle.js?v=1" defer></script>
+  <script src="src/genesis-scene.js?v=1" defer></script>
   <script src="main.js?v=2.5.2" defer></script>
   <script src="assets/spring-text.bundle.js?v=2.1.0" defer></script>
   <script src="ribbon-cursor.js?v=2.1.0" defer></script>
