@@ -36,6 +36,16 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 - **About** — Education (Ramdeobaba University, CGPA 8.53/10), 6G Security Research, Blockchain Chapter
 - **Contact** — Email, Phone, GitHub, LinkedIn, LeetCode, Location
 
+## Intro loader (Money Rain)
+
+On load, a full-screen intro plays for **5 seconds**: the Money Rain WebGL animation (`src/money-rain.tsx`, bundled to `assets/money-rain.bundle.js` by `npm run build`) with a brand mark and a loading bar that fills in real time over 5000 ms, then the curtain lifts to the page.
+
+- Timing lives in `intro-loader.js` (`DURATION = 5000`) and does not depend on the React bundle.
+- Styles in `intro-loader.css`; markup is `#introLoader` at the top of `index.html`.
+- **Skip** button / `Esc` ends it early. Scroll is locked during the intro and the hero entrance waits for the curtain.
+- Skipped automatically for `prefers-reduced-motion`, no WebGL2, or JS off. A 9 s failsafe removes the overlay if anything goes wrong.
+- Rain tuning (density, speed, bill image, colors) are the props at the top of the component's default export in `src/money-rain.tsx`.
+
 ## Built with
 
 - HTML, CSS, JavaScript (vanilla)
