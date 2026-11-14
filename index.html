@@ -76,7 +76,7 @@
         </div>
 
         <div class="glass-dock__items" id="dockItems">
-          <a href="#projects" class="glass-dock__item" data-title="Projects" title="Projects" aria-label="Projects">
+          <a href="projects.html" class="glass-dock__item" data-title="Projects" title="Projects" aria-label="Projects">
             <svg class="glass-dock__icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
               <polyline points="16 18 22 12 16 6"/>
               <polyline points="8 6 2 12 8 18"/>
@@ -202,109 +202,6 @@
         <div class="hero__visual" id="heroBadgeAnchor" aria-label="Interactive ID badge">
           <canvas id="badgeCanvas" class="badge-canvas"></canvas>
         </div>
-      </div>
-    </section>
-
-    <!-- ── Projects ────────────────────────────────── -->
-    <section class="projects" id="projects">
-      <div class="container">
-        <div class="section__head" data-rv="fade">
-          <h2>
-            <span class="mask-line"><span>Projects</span></span>
-          </h2>
-          <p class="lead" data-rv="up">Software, web, and IoT projects from classwork and hackathons.</p>
-        </div>
-
-        <div class="projects__stack" id="projectsStack">
-          <!-- Project 1: Smart City Traffic -->
-          <article class="project-card cut" data-project="1" data-stack>
-            <div class="project-card__eyebrow">
-              <span class="project-card__idx">01</span>
-              <span class="project-card__total">/ 03</span>
-              <span class="project-card__category">Nagpur GIS traffic</span>
-            </div>
-            <div class="project-card__info">
-              <h3>Smart City Traffic Management</h3>
-              <p class="project-card__desc">Deployed GIS traffic platform for Nagpur, with congestion maps and route planning in React, FastAPI, and Leaflet. An XGBoost classifier trained on synthetic data predicts Low, Medium, and High congestion 15 minutes ahead. OpenStreetMap and OSRM compare routes and recommend the most efficient path.</p>
-              <div class="project-card__tags">
-                <span class="project-card__tag">Python</span>
-                <span class="project-card__tag">XGBoost</span>
-                <span class="project-card__tag">React</span>
-                <span class="project-card__tag">FastAPI</span>
-                <span class="project-card__tag">Leaflet</span>
-              </div>
-            </div>
-            <div class="project-card__panel graphite cut">
-              <div class="project-card__panel-title">// traffic-navigation</div>
-              <div class="project-card__panel-line"><span class="accent">from</span> xgboost <span class="accent">import</span> XGBClassifier</div>
-              <div class="project-card__panel-line muted"># Low, Medium, High — 15 min ahead</div>
-              <div class="project-card__panel-line"><span class="accent">def</span> recommend(origin, dest):</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;level = model.<span class="accent">predict</span>(features)</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> osrm.best_path(level)</div>
-            </div>
-          </article>
-
-          <!-- Project 2: Smart IV Monitor -->
-          <article class="project-card project-card--reverse cut" data-project="2" data-stack>
-            <div class="project-card__eyebrow">
-              <span class="project-card__idx">02</span>
-              <span class="project-card__total">/ 03</span>
-              <span class="project-card__category">Healthcare IoT & Telemetry</span>
-            </div>
-            <div class="project-card__info">
-              <h3>Smart IV Drip Monitoring</h3>
-              <p class="project-card__desc">Contributed to an IoT prototype for automated IV monitoring that improves patient safety through real-time alerts. Designed modules for fluid-level sensing, blood backflow detection, automatic valve control, and vital-sign monitoring.</p>
-              <div class="project-card__tags">
-                <span class="project-card__tag">IoT</span>
-              </div>
-              <a href="https://clever-halva-75f827.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
-            </div>
-            <div class="project-card__panel graphite cut">
-              <div class="project-card__panel-title">// smart-iv-monitor</div>
-              <div class="project-card__panel-line"><span class="accent">const</span> patient = <span class="accent">await</span> getPatientData(id);</div>
-              <div class="project-card__panel-line"><span class="accent">const</span> vitals = patient.<span class="accent">vitals</span>;</div>
-              <div class="project-card__panel-line muted">// real-time IV status tracking</div>
-              <div class="project-card__panel-line"><span class="accent">if</span> (vitals.ivLevel &lt; threshold) {'{'}</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;sendAlert(<span class="accent">patient.doctor</span>);</div>
-              <div class="project-card__panel-line">{'}'}</div>
-            </div>
-          </article>
-
-          <!-- Project 3: CarbonTrack SME -->
-          <article class="project-card cut" data-project="3" data-stack>
-            <div class="project-card__eyebrow">
-              <span class="project-card__idx">03</span>
-              <span class="project-card__total">/ 03</span>
-              <span class="project-card__category">SME carbon estimator</span>
-            </div>
-            <div class="project-card__info">
-              <h3>CarbonTrack SME</h3>
-              <p class="project-card__desc">Responsive frontend that helps SMEs estimate and understand their carbon footprint.</p>
-              <div class="project-card__tags">
-                <span class="project-card__tag">HTML</span>
-                <span class="project-card__tag">CSS</span>
-                <span class="project-card__tag">JavaScript</span>
-              </div>
-              <a href="https://sparkling-brigadeiros-265737.netlify.app/" target="_blank" rel="noopener" class="key key--sm">View live</a>
-            </div>
-            <div class="project-card__panel graphite cut">
-              <div class="project-card__panel-title">// carbon-track-sme</div>
-              <div class="project-card__panel-line"><span class="accent">function</span> calculateFootprint(data) {'{'}</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">const</span> emissions = data.<span class="accent">map</span>(</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;&nbsp;&nbsp;d =&gt; d.consumption * <span class="accent">factors</span>[d.type]</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;);</div>
-              <div class="project-card__panel-line">&nbsp;&nbsp;<span class="accent">return</span> emissions.reduce((a, b) =&gt; a + b, 0);</div>
-              <div class="project-card__panel-line">{'}'}</div>
-            </div>
-          </article>
-        </div>
-
-        <!-- Projects Page & GitHub links -->
-        <div style="margin-top: var(--space-3xl); text-align: center; display: flex; justify-content: center; gap: 1rem; flex-wrap: wrap;">
-          <a href="projects.html" class="key" style="background: var(--color-accent); color: var(--color-accent-ink); font-weight: 600;">Explore Dedicated Projects Page →</a>
-          <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="key">View all on GitHub</a>
-        </div>
-
       </div>
     </section>
 
