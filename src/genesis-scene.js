@@ -15,7 +15,7 @@ const vertex=[
 ].join("\n");
 const fragment=[
 "#version 300 es","precision highp float;","in vec3 vColor;in float vAlpha;uniform float uPointMode;out vec4 outColor;",
-"void main(){if(uPointMode>0.5){vec2 q=gl_PointCoord-0.5;float d=length(q);float core=smoothstep(0.5,0.04,d);float halo=exp(-d*10.0)*0.45;outColor=vec4(vColor,(core+halo)*vAlpha);}else{outColor=vec4(vColor,0.62);}}"
+"void main(){if(uPointMode>0.5){vec2 q=gl_PointCoord-0.5;float d=length(q);float core=(1.0-smoothstep(0.04,0.5,d));float halo=exp(-d*10.0)*0.45;outColor=vec4(vColor,(core+halo)*vAlpha);}else{outColor=vec4(vColor,0.62);}}"
 ].join("\n");
 function compile(type,source){const sh=gl.createShader(type);gl.shaderSource(sh,source);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS)){console.warn("Genesis shader:",gl.getShaderInfoLog(sh));gl.deleteShader(sh);return null;}return sh;}
 const vs=compile(gl.VERTEX_SHADER,vertex),fs=compile(gl.FRAGMENT_SHADER,fragment);if(!vs||!fs)return;
