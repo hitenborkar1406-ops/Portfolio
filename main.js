@@ -2175,42 +2175,42 @@
   var ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.3);
 
-  // ─── Constants (matching IDEA exactly) ───
-  var N = 12;
-  var SUB = 1 / 240;
+  // ─── Constants ───
+  var N = 10;
+  var SUB = 1 / 200;
   var SLOT_Y = 27;
   var MAX_SLOT_BEND = (32 * Math.PI) / 180;
   var MIN_CRIMP_ANGLE = (105 * Math.PI) / 180;
 
-  // ─── Default Props (adapted for portfolio theme) ───
+  // ─── Default Props — tuned for hero: card aligns with headline ───
   var props = {
     background: 'transparent',
     strapColor: '#AAA88E',
     cardColor: '#1A0615',
     image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
     imageOffsetY: 0,
-    size: 340,
-    ropeLength: 38,
-    gravity: 50,
-    damping: 50,
-    speed: 50,
+    size: 300,
+    ropeLength: 12,
+    gravity: 40,
+    damping: 55,
+    speed: 45,
     advanced: {
-      hover: 100,
+      hover: 80,
       grain: 0,
       vignette: 0,
-      stretch: 50,
-      dragStiffness: 50,
-      ropeWeight: 30,
-      iterations: 12,
-anchorY: -35,
-      strapSpread: 95,
-      strapWidth: 14,
-      strapSheen: 30,
-      clipLength: 82,
+      stretch: 30,
+      dragStiffness: 60,
+      ropeWeight: 20,
+      iterations: 8,
+      anchorY: -8,
+      strapSpread: 85,
+      strapWidth: 12,
+      strapSheen: 25,
+      clipLength: 70,
       clipColor: '#A6A5AD',
-      holderWidth: 62,
+      holderWidth: 60,
       holderColor: '#F7F7F7',
       holderOpacity: 94,
       holderRadius: 9,
@@ -2514,8 +2514,18 @@ anchorY: -35,
   function settle() {
     var v = props, adv = advOf(v), G = geom(v, adv);
     place(G);
-    for (var i = 0; i < 80; i++) step(SUB, v, adv, G, 0, true);
+    for (var i = 0; i < 30; i++) step(SUB, v, adv, G, 0, true);
     for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
+  }
+
+  function settleAsync() {
+    return new Promise(function(resolve) {
+      if (typeof requestIdleCallback !== 'undefined') {
+        requestIdleCallback(function() { settle(); resolve(); }, { timeout: 500 });
+      } else {
+        setTimeout(function() { settle(); resolve(); }, 0);
+      }
+    });
   }
 
   // ─── Drawing Helpers ───
@@ -2870,8 +2880,8 @@ anchorY: -35,
       var simDt = dt * (Math.max(0, v.speed) / 50);
       acc += simDt;
       var n = 0;
-      while (acc >= SUB && n < 8) { step(SUB, v, adv, G, hoverAmt, false); acc -= SUB; n++; }
-      if (n >= 8) acc = 0;
+      while (acc >= SUB && n < 4) { step(SUB, v, adv, G, hoverAmt, false); acc -= SUB; n++; }
+      if (n >= 4) acc = 0;
     }
     draw(v, adv, G, hoverAmt);
   }
@@ -2883,23 +2893,30 @@ anchorY: -35,
     if (!w || !h) return;
     var changed = w !== W || h !== H;
     W = w; H = h;
-    dpr = Math.min(1.5, window.devicePixelRatio || 1);
+    dpr = Math.min(1.3, window.devicePixelRatio || 1);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     measureView();
-    if (changed) { settle(); ready = true; }
+    if (changed) {
+      settleAsync().then(function() { ready = true; });
+    }
     var v = props, adv = advOf(v); draw(v, adv, geom(v, adv), 0);
   }
 
   var ro = new ResizeObserver(resize);
   ro.observe(badgeAnchor || canvas.parentElement);
-  resize();
+
+  // Defer initial resize until after paint
+  if (document.readyState === 'complete') {
+    requestAnimationFrame(resize);
+  } else {
+    window.addEventListener('load', function() { requestAnimationFrame(resize); }, { once: true });
+  }
 
   var io = new IntersectionObserver(function(entries) {
     visible = entries[0].isIntersecting;
-    if (visible && !raf) { last = -1; raf = requestAnimationFrame(frame); }
+    if (visible && !raf && ready) { last = -1; raf = requestAnimationFrame(frame); }
   });
   io.observe(badgeAnchor || canvas.parentElement);
-  raf = requestAnimationFrame(frame);
 
   // Cleanup on page unload
   window.addEventListener('beforeunload', function() {
