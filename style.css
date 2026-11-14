@@ -592,11 +592,16 @@ html.theme-fade *::after {
   margin-left: auto;
 }
 
+.hero__portrait > svg,
 .hero__portrait img {
   width: 100%;
   height: 100%;
-  object-fit: cover;
   display: block;
+}
+
+.hero__portrait .gummy {
+  width: 100%;
+  height: 100%;
 }
 
 @keyframes hero-in {
