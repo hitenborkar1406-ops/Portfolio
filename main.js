@@ -2175,7 +2175,7 @@
   var ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var dpr = Math.min(window.devicePixelRatio || 1, 1.5);
 
   // ─── Constants (matching IDEA exactly) ───
   var N = 12;
@@ -2192,7 +2192,7 @@
     image: { src: 'assets/avatar.jpg', alt: 'Hiten Borkar' },
     imageOffsetY: 0,
     size: 340,
-    ropeLength: 32,
+    ropeLength: 38,
     gravity: 50,
     damping: 50,
     speed: 50,
@@ -2204,7 +2204,7 @@
       dragStiffness: 50,
       ropeWeight: 30,
       iterations: 12,
-anchorY: -15,
+anchorY: -35,
       strapSpread: 95,
       strapWidth: 14,
       strapSheen: 30,
@@ -2484,7 +2484,7 @@ anchorY: -15,
       B.x += (dX * t) / den; B.y += (dY * t) / den;
     }
 
-    var iters = Math.max(1, Math.min(40, Math.round(adv.iterations)));
+    var iters = Math.max(1, Math.min(15, Math.round(adv.iterations)));
     var give = Math.max(0, Math.min(1, adv.stretch / 100));
     var kStep = 1 - 0.12 * give;
     var kIter = give <= 0 ? 1 : 1 - Math.pow(1 - kStep, 1 / iters);
@@ -2514,7 +2514,7 @@ anchorY: -15,
   function settle() {
     var v = props, adv = advOf(v), G = geom(v, adv);
     place(G);
-    for (var i = 0; i < 600; i++) step(SUB, v, adv, G, 0, true);
+    for (var i = 0; i < 80; i++) step(SUB, v, adv, G, 0, true);
     for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
   }
 
@@ -2870,8 +2870,8 @@ anchorY: -15,
       var simDt = dt * (Math.max(0, v.speed) / 50);
       acc += simDt;
       var n = 0;
-      while (acc >= SUB && n < 24) { step(SUB, v, adv, G, hoverAmt, false); acc -= SUB; n++; }
-      if (n >= 24) acc = 0;
+      while (acc >= SUB && n < 8) { step(SUB, v, adv, G, hoverAmt, false); acc -= SUB; n++; }
+      if (n >= 8) acc = 0;
     }
     draw(v, adv, G, hoverAmt);
   }
@@ -2883,7 +2883,7 @@ anchorY: -15,
     if (!w || !h) return;
     var changed = w !== W || h !== H;
     W = w; H = h;
-    dpr = Math.min(2, window.devicePixelRatio || 1);
+    dpr = Math.min(1.5, window.devicePixelRatio || 1);
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     measureView();
     if (changed) { settle(); ready = true; }
