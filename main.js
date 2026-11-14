@@ -2163,3 +2163,374 @@
     setOffline();
   }
 })();
+
+/* ── Swinging Lanyard Badge (Hero) ────────────────── */
+(function () {
+  var canvas = document.getElementById('badgeCanvas');
+  if (!canvas) return;
+
+  var prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (prefersReduced) return;
+
+  var ctx = canvas.getContext('2d');
+  var dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var avatar = new Image();
+  avatar.src = 'assets/avatar.jpg';
+  var avatarLoaded = false;
+  avatar.onload = function () { avatarLoaded = true; };
+
+  var W = 0, H = 0;
+  var rect = { x: 0, y: 0, w: 0, h: 0 };
+
+  var N = 16;
+  var points = [];
+  for (var i = 0; i <= N; i++) points.push({ x: 0, y: 0, px: 0, py: 0, im: 1 });
+  var anchor = { x: 0, y: 0 };
+  var card = { x: 0, y: 0, px: 0, py: 0, angle: 0, w: 140, h: 190 };
+
+  var mouse = { x: 0, y: 0, inside: false };
+  var dragging = false;
+  var dragPoint = null;
+  var time = 0;
+
+  var gravity = 0.35;
+  var damping = 0.93;
+  var segmentLength = 0;
+  var initialized = false;
+
+  function resize() {
+    var container = canvas.parentElement;
+    if (!container) return;
+    var r = container.getBoundingClientRect();
+    W = r.width;
+    H = r.height;
+    if (W === 0 || H === 0) return;
+
+    canvas.width = Math.round(W * dpr);
+    canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+
+    rect.w = Math.min(180, W * 0.85);
+    rect.h = rect.w * 1.35;
+    card.w = rect.w;
+    card.h = rect.h;
+
+    anchor.x = W / 2;
+    anchor.y = 30;
+
+    var availableH = H - anchor.y - rect.h - 30;
+    if (availableH < 60) availableH = 60;
+    segmentLength = availableH / N;
+
+    resetPositions();
+    initialized = true;
+  }
+
+  function resetPositions() {
+    var strapBottomY = anchor.y + N * segmentLength;
+    for (var i = 0; i <= N; i++) {
+      var t = i / N;
+      points[i].x = anchor.x;
+      points[i].y = anchor.y + t * (strapBottomY - anchor.y);
+      points[i].px = points[i].x;
+      points[i].py = points[i].y;
+      points[i].im = 1;
+    }
+    points[0].im = 0;
+    points[0].x = anchor.x;
+    points[0].y = anchor.y;
+    points[0].px = anchor.x;
+    points[0].py = anchor.y;
+
+    card.x = points[N].x;
+    card.y = points[N].y + rect.h / 2;
+    card.px = card.x;
+    card.py = card.y;
+    card.angle = 0;
+  }
+
+  function satisfy(a, b, rest) {
+    var dx = b.x - a.x;
+    var dy = b.y - a.y;
+    var d = Math.hypot(dx, dy) || 1e-6;
+    var w = a.im + b.im;
+    if (!w) return;
+    var diff = (d - rest) / (d * w);
+    a.x += dx * diff * a.im;
+    a.y += dy * diff * a.im;
+    b.x -= dx * diff * b.im;
+    b.y -= dy * diff * b.im;
+  }
+
+  function tether(a, b, maxD) {
+    var dx = b.x - a.x;
+    var dy = b.y - a.y;
+    var d = Math.hypot(dx, dy);
+    if (d > maxD && d > 0) {
+      b.x = a.x + (dx / d) * maxD;
+      b.y = a.y + (dy / d) * maxD;
+    }
+  }
+
+  function step() {
+    if (!initialized) return;
+
+    for (var i = 0; i <= N; i++) {
+      var p = points[i];
+      if (p.im === 0) continue;
+      var vx = (p.x - p.px) * damping;
+      var vy = (p.y - p.py) * damping;
+      p.px = p.x;
+      p.py = p.y;
+      p.x += vx;
+      p.y += vy + gravity;
+    }
+
+    if (dragging && dragPoint) {
+      var p = points[dragPoint.idx];
+      var f = 0.25;
+      p.x += (dragPoint.x - p.x) * f;
+      p.y += (dragPoint.y - p.y) * f;
+    } else if (mouse.inside && !dragging) {
+      var p = points[N];
+      p.x += (mouse.x - p.x) * 0.06;
+      p.y += (mouse.y - p.y) * 0.06;
+    }
+
+    for (var iter = 0; iter < 8; iter++) {
+      for (var i = 0; i < N; i++) {
+        satisfy(points[i], points[i + 1], segmentLength);
+      }
+      for (var i = 1; i <= N; i++) {
+        tether(points[0], points[i], i * segmentLength * 1.15);
+      }
+    }
+
+    var dx = points[N].x - points[N - 1].x;
+    var dy = points[N].y - points[N - 1].y;
+    var targetAngle = Math.atan2(dy, dx) - Math.PI / 2;
+    card.angle += (targetAngle - card.angle) * 0.15;
+    card.angle = Math.max(-0.7, Math.min(0.7, card.angle));
+
+    var vx = (card.x - card.px) * damping;
+    var vy = (card.y - card.py) * damping;
+    card.px = card.x;
+    card.py = card.y;
+    card.x += vx;
+    card.y += vy;
+
+    card.x += (points[N].x - card.x) * 0.4;
+    card.y += (points[N].y + rect.h / 2 - card.y) * 0.4;
+  }
+
+  function draw() {
+    if (!initialized) return;
+    ctx.clearRect(0, 0, W, H);
+
+    var strapGradient = ctx.createLinearGradient(anchor.x, anchor.y, anchor.x, anchor.y + N * segmentLength);
+    strapGradient.addColorStop(0, '#EAAA00');
+    strapGradient.addColorStop(0.5, '#D49600');
+    strapGradient.addColorStop(1, '#AAA88E');
+
+    ctx.strokeStyle = strapGradient;
+    ctx.lineWidth = 4;
+    ctx.lineCap = 'round';
+    ctx.lineJoin = 'round';
+    ctx.shadowColor = 'rgba(234, 170, 0, 0.3)';
+    ctx.shadowBlur = 6;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 2;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (var i = 1; i <= N; i++) {
+      ctx.lineTo(points[i].x, points[i].y);
+    }
+    ctx.stroke();
+
+    ctx.shadowColor = 'rgba(234, 170, 0, 0.15)';
+    ctx.shadowBlur = 3;
+    ctx.strokeStyle = 'rgba(170, 168, 142, 0.5)';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(points[0].x, points[0].y);
+    for (var i = 1; i <= N; i++) {
+      var offset = Math.sin(time * 0.003 + i * 0.5) * 1.5;
+      ctx.lineTo(points[i].x + offset, points[i].y);
+    }
+    ctx.stroke();
+
+    ctx.shadowColor = 'transparent';
+    ctx.shadowBlur = 0;
+
+    var clipX = points[N].x - 14;
+    var clipY = points[N].y - 10;
+    var clipW = 28;
+    var clipH = 24;
+    var clipGrad = ctx.createLinearGradient(clipX, clipY, clipX, clipY + clipH);
+    clipGrad.addColorStop(0, '#D4B88E');
+    clipGrad.addColorStop(0.5, '#AAA88E');
+    clipGrad.addColorStop(1, '#8a8870');
+    ctx.fillStyle = clipGrad;
+    roundRect(ctx, clipX, clipY, clipW, clipH, 5);
+    ctx.fill();
+    ctx.strokeStyle = '#8a8870';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.save();
+    ctx.translate(card.x, card.y);
+    ctx.rotate(card.angle);
+
+    var r = 14;
+    var hw = rect.w / 2;
+    var hh = rect.h / 2;
+
+    ctx.shadowColor = 'rgba(58, 15, 52, 0.4)';
+    ctx.shadowBlur = 20 * dpr;
+    ctx.shadowOffsetX = 0;
+    ctx.shadowOffsetY = 10 * dpr;
+
+    ctx.fillStyle = '#1A0615';
+    roundRect(ctx, -hw, -hh, rect.w, rect.h, r);
+    ctx.fill();
+
+    ctx.shadowColor = 'rgba(234, 170, 0, 0.3)';
+    ctx.shadowBlur = 10 * dpr;
+    ctx.shadowOffsetY = 3 * dpr;
+    ctx.strokeStyle = '#EAAA00';
+    ctx.lineWidth = 2.5;
+    roundRect(ctx, -hw, -hh, rect.w, rect.h, r);
+    ctx.stroke();
+
+    var margin = 12;
+    var ix = -hw + margin;
+    var iy = -hh + margin;
+    var iw = rect.w - 2 * margin;
+    var ih = rect.h - 2 * margin;
+
+    if (avatarLoaded && avatar.naturalWidth > 0) {
+      var scale = Math.max(iw / avatar.naturalWidth, ih / avatar.naturalHeight);
+      var dw = avatar.naturalWidth * scale;
+      var dh = avatar.naturalHeight * scale;
+      ctx.drawImage(avatar, -dw / 2, -dh / 2, dw, dh);
+    } else {
+      ctx.fillStyle = '#2A0826';
+      ctx.fillRect(ix, iy, iw, ih);
+      ctx.fillStyle = '#EAAA00';
+      ctx.font = '14px Georgia';
+      ctx.textAlign = 'center';
+      ctx.fillText('Loading...', 0, 0);
+    }
+
+    var slotY = -hh + 32;
+    var slotW = 48;
+    var slotH = 10;
+    var slotGrad = ctx.createLinearGradient(-slotW/2, slotY, -slotW/2, slotY + slotH);
+    slotGrad.addColorStop(0, '#D4B88E');
+    slotGrad.addColorStop(1, '#AAA88E');
+    ctx.fillStyle = slotGrad;
+    roundRect(ctx, -slotW / 2, slotY, slotW, slotH, 5);
+    ctx.fill();
+
+    ctx.restore();
+
+    var ringX = points[N].x;
+    var ringY = points[N].y + 10;
+    var ringR = 10;
+    var ringGrad = ctx.createRadialGradient(ringX - 2, ringY - 2, 0, ringX, ringY, ringR);
+    ringGrad.addColorStop(0, '#FFD860');
+    ringGrad.addColorStop(1, '#AAA88E');
+    ctx.strokeStyle = ringGrad;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(ringX, ringY, ringR, 0, Math.PI * 2);
+    ctx.stroke();
+
+    ctx.fillStyle = '#EAAA00';
+    ctx.beginPath();
+    ctx.arc(ringX, ringY, 4, 0, Math.PI * 2);
+    ctx.fill();
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    var k = Math.max(0, Math.min(r, w / 2, h / 2));
+    ctx.beginPath();
+    ctx.moveTo(x + k, y);
+    ctx.arcTo(x + w, y, x + w, y + h, k);
+    ctx.arcTo(x + w, y + h, x, y + h, k);
+    ctx.arcTo(x, y + h, x, y, k);
+    ctx.arcTo(x, y, x + w, y, k);
+    ctx.closePath();
+  }
+
+  function animate() {
+    time += 16;
+    step();
+    draw();
+    requestAnimationFrame(animate);
+  }
+
+  function onMouseMove(e) {
+    var r = canvas.getBoundingClientRect();
+    mouse.x = e.clientX - r.left;
+    mouse.y = e.clientY - r.top;
+    mouse.inside = mouse.x >= 0 && mouse.x <= W && mouse.y >= 0 && mouse.y <= H;
+
+    var dx = mouse.x - card.x;
+    var dy = mouse.y - card.y;
+    var rotatedX = dx * Math.cos(-card.angle) - dy * Math.sin(-card.angle);
+    var rotatedY = dx * Math.sin(-card.angle) + dy * Math.cos(-card.angle);
+    var onCard = Math.abs(rotatedX) < rect.w / 2 && Math.abs(rotatedY) < rect.h / 2;
+    canvas.style.cursor = onCard ? 'grab' : 'default';
+  }
+
+  function onMouseDown(e) {
+    var r = canvas.getBoundingClientRect();
+    var mx = e.clientX - r.left;
+    var my = e.clientY - r.top;
+
+    var dx = mx - card.x;
+    var dy = my - card.y;
+    var rotatedX = dx * Math.cos(-card.angle) - dy * Math.sin(-card.angle);
+    var rotatedY = dx * Math.sin(-card.angle) + dy * Math.cos(-card.angle);
+
+    if (Math.abs(rotatedX) < rect.w / 2 && Math.abs(rotatedY) < rect.h / 2) {
+      dragging = true;
+      dragPoint = { idx: N, x: mx, y: my };
+      canvas.style.cursor = 'grabbing';
+    }
+  }
+
+  function onMouseUp() {
+    dragging = false;
+    dragPoint = null;
+    canvas.style.cursor = 'default';
+  }
+
+  canvas.addEventListener('mousemove', onMouseMove);
+  canvas.addEventListener('mousedown', onMouseDown);
+  window.addEventListener('mouseup', onMouseUp);
+  canvas.addEventListener('mouseleave', onMouseUp);
+
+  canvas.addEventListener('touchmove', function(e) {
+    if (e.touches[0]) {
+      var touch = e.touches[0];
+      var simulatedEvent = { clientX: touch.clientX, clientY: touch.clientY };
+      onMouseMove(simulatedEvent);
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('touchstart', function(e) {
+    if (e.touches[0]) {
+      var touch = e.touches[0];
+      var simulatedEvent = { clientX: touch.clientX, clientY: touch.clientY };
+      onMouseDown(simulatedEvent);
+    }
+  }, { passive: true });
+
+  canvas.addEventListener('touchend', onMouseUp, { passive: true });
+
+  window.addEventListener('resize', resize);
+  resize();
+  animate();
+})();

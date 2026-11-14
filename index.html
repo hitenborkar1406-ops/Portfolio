@@ -199,7 +199,9 @@
           </div>
         </div>
         <div class="hero__visual" data-rv="fade" style="--rv-delay: 150ms;">
-          <figure class="hero__portrait" id="heroAvatar" aria-label="Hiten Borkar"></figure>
+          <figure class="hero__portrait" id="heroAvatar" aria-label="Hiten Borkar">
+            <canvas id="badgeCanvas" class="badge-canvas" aria-hidden="true"></canvas>
+          </figure>
         </div>
       </div>
     </section>
@@ -854,7 +856,9 @@
     <div class="container">
       <div class="footer__inner">
         <a href="#" class="footer__wordmark">Hiten Borkar</a>
-        <div class="footer__avatar" id="footerAvatar" aria-hidden="true"></div>
+        <div class="footer__avatar" id="footerAvatar" aria-hidden="true">
+    <img src="assets/avatar.jpg" alt="Hiten Borkar" class="footer__avatar-img" />
+  </div>
         <ul class="footer__links">
           <li><a href="#projects" class="footer__link">Projects</a></li>
           <li><a href="#skills" class="footer__link">Skills</a></li>
@@ -1124,8 +1128,7 @@
         var blinkI=0;function blink(){if(!r){var idx=blinkI%eyes.length;eyes[idx].style.transition="transform 0.06s ease, opacity 0.06s ease";pupils[idx].style.transition="transform 0.06s ease, opacity 0.06s ease";shines[idx].style.transition="transform 0.06s ease, opacity 0.06s ease";eyes[idx].style.transform+=" scaleY(0.06)";pupils[idx].style.opacity="0";shines[idx].style.opacity="0";setTimeout(function(){eyes[idx].style.transition="";pupils[idx].style.transition="";shines[idx].style.transition="";eyes[idx].style.transform=eyes[idx].style.transform.replace(" scaleY(0.06)","");pupils[idx].style.opacity="";shines[idx].style.opacity="";},60);}blinkI++;setTimeout(blink,3000+Math.random()*3000);}blink();
       }
 
-      initGummy(document.getElementById("heroAvatar"), {follow:false});
-      initGummy(document.getElementById("footerAvatar"), {follow:true, scaleFollow:0.35, pupilFollow:0.22, shineFollow:0.12, mouthFollow:0.28, mouthAmp:1.0, cheekAmp:0.04});
+      
     })();
   </script>
 
