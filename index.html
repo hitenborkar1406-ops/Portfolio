@@ -38,7 +38,7 @@
 
   <link rel="stylesheet" href="tokens.css?v=2.4.1">
   <link rel="stylesheet" href="base.css?v=2.3.2">
-  <link rel="stylesheet" href="style.css?v=2.4.2">
+  <link rel="stylesheet" href="style.css?v=2.4.3">
 </head>
 <body>
 
@@ -1049,89 +1049,7 @@
     </svg>
   </button>
 
-  <script>
-    (function(){
-      var r=window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      var svg="<svg class='gummy' viewBox='0 0 72 72' fill='none' xmlns='http://www.w3.org/2000/svg'>"
-        +"<defs>"
-        +"<filter id='gummyGlow'><feGaussianBlur stdDeviation='1.5' result='blur'/><feMerge><feMergeNode in='blur'/><feMergeNode in='SourceGraphic'/></feMerge></filter>"
-        +"<radialGradient id='gummyBody' cx='45%' cy='40%' r='55%'>"
-        +"<stop offset='0%' stop-color='var(--color-ink-deep)' stop-opacity='0.95'/>"
-        +"<stop offset='45%' stop-color='var(--color-ink-deep)'/>"
-        +"<stop offset='100%' stop-color='var(--color-ink-2)'/>"
-        +"</radialGradient>"
-        +"<radialGradient id='gummyShine' cx='25%' cy='25%' r='35%'>"
-        +"<stop offset='0%' stop-color='var(--color-paper)' stop-opacity='0.4'/>"
-        +"<stop offset='60%' stop-color='var(--color-paper)' stop-opacity='0.15'/>"
-        +"<stop offset='100%' stop-color='var(--color-paper)' stop-opacity='0'/>"
-        +"</radialGradient>"
-        +"<radialGradient id='gummyRim' cx='50%' cy='70%' r='50%'>"
-        +"<stop offset='0%' stop-color='var(--color-ink-2)' stop-opacity='0.3'/>"
-        +"<stop offset='100%' stop-color='var(--color-ink)' stop-opacity='0'/>"
-        +"</radialGradient>"
-        +"</defs>"
-        +"<ellipse class='gummy-shadow' cx='36' cy='62' rx='20' ry='3' fill='var(--color-ink)' opacity='0.12'/>"
-        +"<path class='gummy-body' d='M36 12 C54 12 66 30 66 48 C66 62 56 70 36 70 C16 70 6 62 6 48 C6 30 18 12 36 12 Z' fill='url(#gummyBody)' filter='url(#gummyGlow)'/>"
-        +"<path class='gummy-shine' d='M20 22 C28 22 34 26 34 34 C34 40 28 44 20 44 C12 44 8 38 8 30 C8 22 12 18 20 18 C24 18 28 20 28 24 C28 27 24 30 20 30 C16 30 14 26 16 22 C17 20 19 19 20 22 Z' fill='url(#gummyShine)'/>"
-        +"<path class='gummy-rim' d='M36 12 C54 12 66 30 66 48 C66 62 56 70 36 70 C16 70 6 62 6 48 C6 30 18 12 36 12 Z' fill='none' stroke='url(#gummyRim)' stroke-width='0.8'/>"
-        +"<g class='gummy-eyes'>"
-        +"<ellipse class='gummy-eye' cx='23' cy='33' rx='5' ry='5.5' fill='var(--color-paper)'/>"
-        +"<ellipse class='gummy-eye' cx='49' cy='33' rx='5' ry='5.5' fill='var(--color-paper)'/>"
-        +"<ellipse class='gummy-pupil' cx='23' cy='33' rx='2.2' ry='2.5' fill='var(--color-ink-deep)'/>"
-        +"<ellipse class='gummy-pupil' cx='49' cy='33' rx='2.2' ry='2.5' fill='var(--color-ink-deep)'/>"
-        +"<circle class='gummy-eye-shine' cx='21' cy='30' r='1.5' fill='var(--color-paper)' opacity='0.7'/>"
-        +"<circle class='gummy-eye-shine' cx='47' cy='30' r='1.5' fill='var(--color-paper)' opacity='0.7'/>"
-        +"</g>"
-        +"<path class='gummy-mouth' d='M26 50 Q36 45 46 50' stroke='var(--color-paper)' stroke-width='2.5' stroke-linecap='round' fill='none' opacity='0.85'/>"
-        +"<ellipse class='gummy-cheek' cx='19' cy='43' rx='5' ry='3.5' fill='var(--color-accent)' opacity='0.25'/>"
-        +"<ellipse class='gummy-cheek' cx='53' cy='43' rx='5' ry='3.5' fill='var(--color-accent)' opacity='0.25'/>"
-        +"</svg>";
-
-      function initGummy(el, opts){
-        if(!el)return;
-        el.innerHTML=svg;
-        if(r)return;
-        var o=opts||{};
-        var body=el.querySelector(".gummy-body"),shine=el.querySelector(".gummy-shine"),rim=el.querySelector(".gummy-rim");
-        var eyes=el.querySelectorAll(".gummy-eye"),pupils=el.querySelectorAll(".gummy-pupil"),shines=el.querySelectorAll(".gummy-eye-shine");
-        var mouth=el.querySelector(".gummy-mouth"),cheeks=el.querySelectorAll(".gummy-cheek"),shadow=el.querySelector(".gummy-shadow");
-        var tx=0,ty=0,cx=0,cy=0,px=0,py=0,mouthPhase=0,squish=0;
-        var follow=o.follow!==false,scaleFollow=o.scaleFollow||0.4,pupilFollow=o.pupilFollow||0.25,shineFollow=o.shineFollow||0.15,mouthFollow=o.mouthFollow||0.3;
-        var mouthAmp=o.mouthAmp||1.2,cheekAmp=o.cheekAmp||0.05;
-        function tick(){
-          requestAnimationFrame(tick);
-          if(follow){
-            cx+=(tx-cx)*0.1;
-            cy+=(ty-cy)*0.1;
-            px+=(tx*0.6-cx)*0.08;
-            py+=(ty*0.6-cy)*0.08;
-          }
-          var sx=1+Math.abs(cx)*0.0012,sy=1-Math.abs(cy)*0.0008;
-          if(squish>0){sx*=1-squish*0.3;sy*=1+squish*0.2;}
-          var tf="translate("+cx*scaleFollow+"px,"+cy*scaleFollow+"px) scale("+sx+","+sy+")";
-          if(body)body.style.transform=tf;
-          if(shine)shine.style.transform=tf;
-          if(rim)rim.style.transform=tf;
-          pupils.forEach(function(p){p.style.transform="translate("+cx*pupilFollow+"px,"+cy*pupilFollow+"px)";});
-          shines.forEach(function(s){s.style.transform="translate("+cx*shineFollow+"px,"+cy*shineFollow+"px)";});
-          if(mouth){mouthPhase+=0.002;mouth.style.transform="translate("+cx*mouthFollow+"px,"+(cy*mouthFollow+Math.sin(mouthPhase)*mouthAmp)+"px)";}
-          if(cheeks[0])cheeks[0].style.transform="translate("+cx*mouthFollow+"px,"+cy*mouthFollow+"px) scale("+(1+Math.sin(mouthPhase*0.7)*cheekAmp)+")";
-          if(cheeks[1])cheeks[1].style.transform="translate("+cx*mouthFollow+"px,"+cy*mouthFollow+"px) scale("+(1+Math.sin(mouthPhase*0.7+1)*cheekAmp)+")";
-          if(shadow)shadow.style.transform="translate("+cx*0.15+"px,0) scaleX("+(0.8+sx*0.2)+")";
-        }tick();
-        if(follow){
-          document.addEventListener("mousemove",function(e){var b=el.getBoundingClientRect();tx=e.clientX-b.left-b.width/2;ty=e.clientY-b.top-b.height/2;});
-        }
-        function squishTick(){requestAnimationFrame(squishTick);if(squish>0){squish*=0.92;}}squishTick();
-        el.addEventListener("click",function(){squish=1;if(body){body.style.transition="transform 0.18s cubic-bezier(0.25,0.46,0.45,0.94)";shine.style.transition="transform 0.18s cubic-bezier(0.25,0.46,0.45,0.94)";rim.style.transition="transform 0.18s cubic-bezier(0.25,0.46,0.45,0.94)";setTimeout(function(){body.style.transition="";shine.style.transition="";rim.style.transition="";},200);}});
-        var blinkI=0;function blink(){if(!r){var idx=blinkI%eyes.length;eyes[idx].style.transition="transform 0.06s ease, opacity 0.06s ease";pupils[idx].style.transition="transform 0.06s ease, opacity 0.06s ease";shines[idx].style.transition="transform 0.06s ease, opacity 0.06s ease";eyes[idx].style.transform+=" scaleY(0.06)";pupils[idx].style.opacity="0";shines[idx].style.opacity="0";setTimeout(function(){eyes[idx].style.transition="";pupils[idx].style.transition="";shines[idx].style.transition="";eyes[idx].style.transform=eyes[idx].style.transform.replace(" scaleY(0.06)","");pupils[idx].style.opacity="";shines[idx].style.opacity="";},60);}blinkI++;setTimeout(blink,3000+Math.random()*3000);}blink();
-      }
-
-      
-    })();
-  </script>
-
-  <script src="assets/ink-theme.js?v=3" defer></script>
+  <script src="assets/ink-theme.js?v=4" defer></script>
   <script src="three.min.js"></script>
   <script src="qrcode.min.js"></script>
   <script src="main.js?v=2.4.0" defer></script>
