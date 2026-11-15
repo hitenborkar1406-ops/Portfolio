@@ -56,24 +56,23 @@
       background: #110813;
     }
 
-    /* Video Background & Poster */
+    /* Interactive Sunset Velocity Canvas Mount */
     .hero-57__media {
       position: absolute;
       inset: 0;
       width: 100%;
       height: 100%;
-      object-fit: cover;
       z-index: 1;
-      filter: brightness(0.82) saturate(1.15);
-      pointer-events: none;
+      filter: brightness(0.88) saturate(1.15);
+      pointer-events: auto;
     }
 
     /* Cinematic Gradient Vignette Overlay */
     .hero-57__overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(20, 4, 18, 0.45) 0%, rgba(10, 2, 9, 0.88) 100%),
-                  linear-gradient(180deg, rgba(14, 3, 12, 0.75) 0%, rgba(14, 3, 12, 0.2) 50%, rgba(14, 3, 12, 0.92) 100%);
+      background: radial-gradient(circle at 50% 30%, rgba(20, 4, 18, 0.35) 0%, rgba(10, 2, 9, 0.82) 100%),
+                  linear-gradient(180deg, rgba(14, 3, 12, 0.7) 0%, rgba(14, 3, 12, 0.15) 50%, rgba(14, 3, 12, 0.88) 100%);
       z-index: 2;
       pointer-events: none;
     }
@@ -91,6 +90,11 @@
       margin-top: auto;
       margin-bottom: auto;
       padding-block: var(--space-lg);
+      pointer-events: none;
+    }
+
+    .hero-57__content > * {
+      pointer-events: auto;
     }
 
     .hero-57__badge {
@@ -328,18 +332,8 @@
   <main>
     <section class="hero-57">
       <div class="hero-57__frame">
-        <!-- Looping Sunset Drive Background Video -->
-        <video
-          class="hero-57__media"
-          autoplay
-          muted
-          loop
-          playsinline
-          poster="https://cdn.originkit.dev/components/hero-57-poster.jpg?v=mvgkua88"
-          aria-hidden="true"
-        >
-          <source src="https://cdn.originkit.dev/components/hero-57-gallery-30fps-720.mp4" type="video/mp4" />
-        </video>
+        <!-- Interactive Sunset Velocity Canvas (Originkit Live Engine — no baked-in text) -->
+        <div id="sunsetVelocityMount" class="hero-57__media" aria-hidden="true"></div>
 
         <!-- Vignette & Tint Overlay -->
         <div class="hero-57__overlay" aria-hidden="true"></div>
@@ -431,6 +425,7 @@
   </button>
 
   <script src="assets/ink-theme.js?v=5" defer></script>
+  <script src="assets/sunset-velocity.bundle.js?v=1.0.0" defer></script>
   <script src="ribbon-cursor.js?v=2.1.0" defer></script>
   <script>
     // Offline detection
