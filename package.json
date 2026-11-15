@@ -24,10 +24,13 @@
   "homepage": "https://github.com/hitenborkar1406-ops/Portfolio#readme",
   "dependencies": {
     "@react-spring/web": "^10.1.2",
+    "@tailwindcss/postcss": "^4.3.5",
     "esbuild": "^0.28.2",
+    "postcss": "^8.5.33",
     "react": "^19.3.1",
     "react-dom": "^19.3.1",
-    "spring-text-engine": "^0.1.5"
+    "spring-text-engine": "^0.1.5",
+    "tailwindcss": "^4.3.5"
   },
   "devDependencies": {
     "jsdom": "^31.0.1"

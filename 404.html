@@ -11,8 +11,8 @@
     } catch (e) {}
   </script>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>404 — Page Not Found | Hiten Borkar</title>
-  <meta name="description" content="The page you are looking for could not be found. Return to Hiten Borkar's engineering portfolio.">
+  <title>404 — Lost on the Open Road | Hiten Borkar</title>
+  <meta name="description" content="404 Page Not Found — You've taken a detour on the open road. Return to Hiten Borkar's engineering portfolio.">
   <meta name="robots" content="noindex, follow">
 
   <link rel="icon" type="image/png" href="favicon.png?v=20261114">
@@ -28,99 +28,222 @@
   <link rel="stylesheet" href="style.css?v=2.5.3">
 
   <style>
-    .error-hero {
+    /* ── Hero 57 (Sunset Velocity) 404 Section ─────────── */
+    .hero-57 {
+      position: relative;
       min-height: calc(100dvh - 68px);
       display: flex;
       align-items: center;
       justify-content: center;
-      text-align: center;
-      padding: var(--space-3xl) var(--space-md);
-      position: relative;
+      padding: var(--space-xl) var(--space-md);
+      overflow: hidden;
       z-index: 2;
     }
-    .error-card {
-      max-width: 620px;
+
+    .hero-57__frame {
+      position: relative;
+      width: 100%;
+      max-width: 1180px;
+      min-height: 580px;
+      border-radius: 24px;
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(234, 170, 0, 0.12);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: clamp(1.5rem, 4vw, 3rem);
+      background: #110813;
+    }
+
+    /* Video Background & Poster */
+    .hero-57__media {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 1;
+      filter: brightness(0.82) saturate(1.15);
+      pointer-events: none;
+    }
+
+    /* Cinematic Gradient Vignette Overlay */
+    .hero-57__overlay {
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(20, 4, 18, 0.45) 0%, rgba(10, 2, 9, 0.88) 100%),
+                  linear-gradient(180deg, rgba(14, 3, 12, 0.75) 0%, rgba(14, 3, 12, 0.2) 50%, rgba(14, 3, 12, 0.92) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Content Layer */
+    .hero-57__content {
+      position: relative;
+      z-index: 3;
+      max-width: 680px;
       margin-inline: auto;
+      text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--space-md);
+      margin-top: auto;
+      margin-bottom: auto;
+      padding-block: var(--space-lg);
     }
-    .error-code {
-      font-family: var(--font-display);
-      font-size: clamp(5rem, 14vw, 9rem);
-      font-weight: 800;
-      line-height: 0.9;
+
+    .hero-57__badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.35rem 0.95rem;
+      border-radius: 9999px;
+      background: rgba(234, 170, 0, 0.16);
+      border: 1px solid rgba(234, 170, 0, 0.4);
       color: var(--color-accent);
-      letter-spacing: -0.04em;
-      margin: 0;
-      text-shadow: 0 4px 24px rgba(234, 170, 0, 0.25);
-    }
-    .error-title {
-      font-family: var(--font-display);
-      font-size: clamp(1.6rem, 3.2vw, 2.4rem);
-      font-weight: 700;
-      color: var(--color-ink-deep);
-      margin: 0;
-      line-height: 1.2;
-    }
-    .error-desc {
       font-family: var(--font-sans);
-      font-size: var(--text-base);
-      color: var(--color-muted);
-      max-width: 48ch;
-      line-height: 1.6;
-      margin: 0 0 var(--space-md);
+      font-size: var(--text-2xs);
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: var(--space-md);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
-    .error-actions {
+
+    .hero-57__badge-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--color-accent);
+      box-shadow: 0 0 8px var(--color-accent);
+      animation: pulse-dot 1.5s infinite ease-in-out;
+    }
+
+    .hero-57__headline {
+      font-family: var(--font-display);
+      font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+      font-weight: 800;
+      line-height: 1.08;
+      color: #FFFFFF;
+      letter-spacing: -0.025em;
+      margin: 0 0 var(--space-sm);
+      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+    }
+
+    .hero-57__headline span {
+      color: var(--color-accent);
+      font-style: italic;
+    }
+
+    .hero-57__desc {
+      font-family: var(--font-sans);
+      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
+      line-height: 1.6;
+      color: rgba(255, 255, 255, 0.85);
+      max-width: 52ch;
+      margin: 0 0 var(--space-xl);
+      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+    }
+
+    .hero-57__actions {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
       gap: var(--space-md);
     }
-    .error-btn-primary {
+
+    .hero-57__btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
       background: var(--color-accent);
       color: var(--color-accent-ink);
       font-family: var(--font-sans);
       font-size: var(--text-sm);
       font-weight: 700;
-      padding: 0.85rem 1.6rem;
-      border-radius: 8px;
+      padding: 0.9rem 1.8rem;
+      border-radius: 10px;
       text-decoration: none;
-      box-shadow: 0 4px 14px var(--color-accent-wash);
+      box-shadow: 0 6px 20px rgba(234, 170, 0, 0.4);
       transition: transform var(--dur-short) var(--ease-out),
                   box-shadow var(--dur-short) var(--ease-out),
                   background var(--dur-short) var(--ease-out);
     }
-    .error-btn-primary:hover {
+
+    .hero-57__btn-primary:hover {
       background: var(--color-accent-bright);
-      box-shadow: 0 6px 20px var(--color-accent-glow);
+      box-shadow: 0 8px 26px var(--color-accent-glow);
       transform: translateY(-2px);
     }
-    .error-btn-secondary {
+
+    .hero-57__btn-secondary {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      background: var(--color-paper-2);
-      color: var(--color-ink-deep);
-      border: 1px solid var(--color-rule-strong);
+      gap: 0.6rem;
+      background: rgba(255, 255, 255, 0.08);
+      color: #FFFFFF;
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
       font-family: var(--font-sans);
       font-size: var(--text-sm);
       font-weight: 600;
-      padding: 0.85rem 1.4rem;
-      border-radius: 8px;
+      padding: 0.9rem 1.6rem;
+      border-radius: 10px;
       text-decoration: none;
       transition: all var(--dur-short) var(--ease-out);
     }
-    .error-btn-secondary:hover {
-      background: var(--color-paper-light);
-      border-color: var(--color-accent);
+
+    .hero-57__btn-secondary:hover {
+      background: rgba(255, 255, 255, 0.16);
+      border-color: rgba(255, 255, 255, 0.4);
       color: var(--color-accent);
       transform: translateY(-2px);
+    }
+
+    /* Telemetry / Navigation Status Bar at Bottom of Card */
+    .hero-57__telemetry {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: var(--space-sm);
+      padding-top: var(--space-md);
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+      font-family: var(--font-sans);
+      font-size: var(--text-2xs);
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255, 255, 255, 0.65);
+    }
+
+    .hero-57__telemetry-item {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .hero-57__telemetry-value {
+      color: var(--color-accent);
+      font-weight: 700;
+    }
+
+    @media (max-width: 640px) {
+      .hero-57__frame {
+        min-height: 520px;
+        padding: 1.5rem 1.25rem;
+      }
+      .hero-57__telemetry {
+        justify-content: center;
+        gap: 0.75rem 1.25rem;
+      }
     }
   </style>
 </head>
@@ -201,27 +324,77 @@
     </div>
   </nav>
 
+  <!-- ── Main Hero-57 Section ────────────────────────── -->
   <main>
-    <section class="error-hero">
-      <div class="error-card">
-        <h1 class="error-code">404</h1>
-        <h2 class="error-title">Page Not Found</h2>
-        <p class="error-desc">The page you are looking for doesn't exist, has been relocated, or the link may have expired.</p>
-        <div class="error-actions">
-          <a href="index.html" class="error-btn-primary">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="19" y1="12" x2="5" y2="12"></line>
-              <polyline points="12 19 5 12 12 5"></polyline>
-            </svg>
-            <span>Back to Home</span>
-          </a>
-          <a href="projects.html" class="error-btn-secondary">
-            <span>Explore Projects</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          </a>
+    <section class="hero-57">
+      <div class="hero-57__frame">
+        <!-- Looping Sunset Drive Background Video -->
+        <video
+          class="hero-57__media"
+          autoplay
+          muted
+          loop
+          playsinline
+          poster="https://cdn.originkit.dev/components/hero-57-poster.jpg?v=mvgkua88"
+          aria-hidden="true"
+        >
+          <source src="https://cdn.originkit.dev/components/hero-57-gallery-30fps-720.mp4" type="video/mp4" />
+        </video>
+
+        <!-- Vignette & Tint Overlay -->
+        <div class="hero-57__overlay" aria-hidden="true"></div>
+
+        <!-- Central Content -->
+        <div class="hero-57__content">
+          <div class="hero-57__badge">
+            <span class="hero-57__badge-dot"></span>
+            <span>Route 404 • Highway Detour</span>
+          </div>
+
+          <h1 class="hero-57__headline">
+            Lost on the <span>Open Road</span>
+          </h1>
+
+          <p class="hero-57__desc">
+            The destination you're driving towards has taken an unexpected turn or the highway has ended. Let's get you steered back in the right direction.
+          </p>
+
+          <div class="hero-57__actions">
+            <a href="index.html" class="hero-57__btn-primary">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+              </svg>
+              <span>Back to Home</span>
+            </a>
+            <a href="projects.html" class="hero-57__btn-secondary">
+              <span>Explore Projects</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Telemetry Status Bar -->
+        <div class="hero-57__telemetry" aria-label="Route Telemetry">
+          <div class="hero-57__telemetry-item">
+            <span>NAV:</span>
+            <span class="hero-57__telemetry-value">GPS UNRESOLVED</span>
+          </div>
+          <div class="hero-57__telemetry-item">
+            <span>STATUS:</span>
+            <span class="hero-57__telemetry-value">OFF-GRID</span>
+          </div>
+          <div class="hero-57__telemetry-item">
+            <span>LOCATION:</span>
+            <span class="hero-57__telemetry-value">UNKNOWN MILEPOST</span>
+          </div>
+          <div class="hero-57__telemetry-item">
+            <span>SPEED:</span>
+            <span class="hero-57__telemetry-value">0 MPH</span>
+          </div>
         </div>
       </div>
     </section>
