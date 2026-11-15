@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://hitenborkar1406-ops.github.io/Portfolio/sitemap.xml

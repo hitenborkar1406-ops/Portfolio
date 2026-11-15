@@ -401,7 +401,20 @@
     </svg>
   </button>
 
-  <!-- Filter Logic Script -->
+  <!-- Offline / No-Internet Screen -->
+  <aside class="offline-overlay" id="offlineOverlay" aria-live="assertive" role="alert" aria-hidden="true">
+    <div class="offline-overlay__card">
+      <div class="loader" aria-hidden="true"></div>
+      <h2 class="offline-overlay__title">Connection Lost</h2>
+      <p class="offline-overlay__desc">Waiting for your internet connection to resume...</p>
+      <div class="offline-overlay__status">
+        <span class="offline-overlay__pulse"></span>
+        <span class="offline-overlay__status-text" id="offlineStatusText">Attempting to reconnect...</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Filter Logic Script & Offline Detector -->
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const filterBtns = document.querySelectorAll('.filter-btn');
@@ -438,13 +451,36 @@
           try { localStorage.setItem('portfolio-theme', target); } catch (e) {}
         });
       }
+
+      // Offline detection
+      const overlay = document.getElementById('offlineOverlay');
+      const statusText = document.getElementById('offlineStatusText');
+      if (overlay) {
+        function setOffline() {
+          overlay.classList.add('offline-overlay--active');
+          overlay.setAttribute('aria-hidden', 'false');
+          if (statusText) statusText.textContent = 'Attempting to reconnect...';
+        }
+        function setOnline() {
+          if (statusText) statusText.textContent = 'Connection restored!';
+          setTimeout(function () {
+            overlay.classList.remove('offline-overlay--active');
+            overlay.setAttribute('aria-hidden', 'true');
+          }, 700);
+        }
+        window.addEventListener('offline', setOffline);
+        window.addEventListener('online', setOnline);
+        if (typeof navigator.onLine === 'boolean' && !navigator.onLine) {
+          setOffline();
+        }
+      }
     });
   </script>
 
   <script src="assets/ink-theme.js?v=5" defer></script>
   <script src="assets/clay-robot.bundle.js?v=1.0.0" defer></script>
-  <script src="assets/spring-text.bundle.js?v=1.0.0" defer></script>
-  <script src="ribbon-cursor.js?v=1.0.0" defer></script>
+  <script src="assets/spring-text.bundle.js?v=2.1.0" defer></script>
+  <script src="ribbon-cursor.js?v=2.1.0" defer></script>
 </body>
 </html>
 
