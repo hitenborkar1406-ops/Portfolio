@@ -44,15 +44,16 @@
       position: relative;
       width: 100%;
       max-width: 1180px;
-      min-height: 580px;
+      min-height: clamp(560px, 78vh, 720px);
       border-radius: 24px;
       overflow: hidden;
       border: 1px solid rgba(255, 255, 255, 0.15);
       box-shadow: 0 24px 60px rgba(0, 0, 0, 0.65), 0 0 40px rgba(234, 170, 0, 0.12);
       display: flex;
       flex-direction: column;
-      justify-content: space-between;
-      padding: clamp(1.5rem, 4vw, 3rem);
+      align-items: center;
+      justify-content: flex-start;
+      padding: clamp(1.75rem, 4vw, 3rem) clamp(1.25rem, 3vw, 2.5rem);
       background: #110813;
     }
 
@@ -63,33 +64,33 @@
       width: 100%;
       height: 100%;
       z-index: 1;
-      filter: brightness(0.88) saturate(1.15);
+      filter: brightness(0.95) saturate(1.2);
       pointer-events: auto;
     }
 
-    /* Cinematic Gradient Vignette Overlay */
+    /* Cinematic Gradient Vignette Overlay (Gently tinted at top for text readability, clear at bottom so car pops) */
     .hero-57__overlay {
       position: absolute;
       inset: 0;
-      background: radial-gradient(circle at 50% 30%, rgba(20, 4, 18, 0.35) 0%, rgba(10, 2, 9, 0.82) 100%),
-                  linear-gradient(180deg, rgba(14, 3, 12, 0.7) 0%, rgba(14, 3, 12, 0.15) 50%, rgba(14, 3, 12, 0.88) 100%);
+      background: radial-gradient(circle at 50% 25%, rgba(20, 4, 18, 0.2) 0%, rgba(10, 2, 9, 0.55) 100%),
+                  linear-gradient(180deg, rgba(14, 3, 12, 0.55) 0%, rgba(14, 3, 12, 0.05) 45%, rgba(14, 3, 12, 0.3) 100%);
       z-index: 2;
       pointer-events: none;
     }
 
-    /* Content Layer */
+    /* Content Layer placed in upper sky to leave road and car completely clear */
     .hero-57__content {
       position: relative;
       z-index: 3;
-      max-width: 680px;
+      max-width: 620px;
       margin-inline: auto;
       text-align: center;
       display: flex;
       flex-direction: column;
       align-items: center;
-      margin-top: auto;
+      margin-top: 0;
       margin-bottom: auto;
-      padding-block: var(--space-lg);
+      padding-block: 0.5rem 1rem;
       pointer-events: none;
     }
 
@@ -100,26 +101,26 @@
     .hero-57__badge {
       display: inline-flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.35rem 0.95rem;
+      gap: 0.45rem;
+      padding: 0.28rem 0.8rem;
       border-radius: 9999px;
       background: rgba(234, 170, 0, 0.16);
       border: 1px solid rgba(234, 170, 0, 0.4);
       color: var(--color-accent);
       font-family: var(--font-sans);
-      font-size: var(--text-2xs);
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
-      margin-bottom: var(--space-md);
+      margin-bottom: 0.65rem;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
     }
 
     .hero-57__badge-dot {
-      width: 7px;
-      height: 7px;
+      width: 6px;
+      height: 6px;
       border-radius: 50%;
       background: var(--color-accent);
       box-shadow: 0 0 8px var(--color-accent);
@@ -128,13 +129,13 @@
 
     .hero-57__headline {
       font-family: var(--font-display);
-      font-size: clamp(2.4rem, 5.5vw, 4.4rem);
+      font-size: clamp(1.85rem, 3.8vw, 2.75rem);
       font-weight: 800;
-      line-height: 1.08;
+      line-height: 1.12;
       color: #FFFFFF;
       letter-spacing: -0.025em;
-      margin: 0 0 var(--space-sm);
-      text-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
+      margin: 0 0 0.5rem;
+      text-shadow: 0 4px 24px rgba(0, 0, 0, 0.85);
     }
 
     .hero-57__headline span {
@@ -144,12 +145,12 @@
 
     .hero-57__desc {
       font-family: var(--font-sans);
-      font-size: clamp(0.95rem, 1.8vw, 1.15rem);
-      line-height: 1.6;
-      color: rgba(255, 255, 255, 0.85);
-      max-width: 52ch;
-      margin: 0 0 var(--space-xl);
-      text-shadow: 0 2px 12px rgba(0, 0, 0, 0.7);
+      font-size: clamp(0.85rem, 1.2vw, 0.96rem);
+      line-height: 1.5;
+      color: rgba(255, 255, 255, 0.88);
+      max-width: 46ch;
+      margin: 0 0 1.25rem;
+      text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
     }
 
     .hero-57__actions {
@@ -157,22 +158,22 @@
       flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      gap: var(--space-md);
+      gap: 0.75rem;
     }
 
     .hero-57__btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       background: var(--color-accent);
       color: var(--color-accent-ink);
       font-family: var(--font-sans);
-      font-size: var(--text-sm);
+      font-size: 0.82rem;
       font-weight: 700;
-      padding: 0.9rem 1.8rem;
-      border-radius: 10px;
+      padding: 0.65rem 1.35rem;
+      border-radius: 8px;
       text-decoration: none;
-      box-shadow: 0 6px 20px rgba(234, 170, 0, 0.4);
+      box-shadow: 0 4px 16px rgba(234, 170, 0, 0.35);
       transition: transform var(--dur-short) var(--ease-out),
                   box-shadow var(--dur-short) var(--ease-out),
                   background var(--dur-short) var(--ease-out);
@@ -180,24 +181,24 @@
 
     .hero-57__btn-primary:hover {
       background: var(--color-accent-bright);
-      box-shadow: 0 8px 26px var(--color-accent-glow);
+      box-shadow: 0 6px 22px var(--color-accent-glow);
       transform: translateY(-2px);
     }
 
     .hero-57__btn-secondary {
       display: inline-flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.5rem;
       background: rgba(255, 255, 255, 0.08);
       color: #FFFFFF;
       border: 1px solid rgba(255, 255, 255, 0.22);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       font-family: var(--font-sans);
-      font-size: var(--text-sm);
+      font-size: 0.82rem;
       font-weight: 600;
-      padding: 0.9rem 1.6rem;
-      border-radius: 10px;
+      padding: 0.65rem 1.35rem;
+      border-radius: 8px;
       text-decoration: none;
       transition: all var(--dur-short) var(--ease-out);
     }
@@ -209,44 +210,10 @@
       transform: translateY(-2px);
     }
 
-    /* Telemetry / Navigation Status Bar at Bottom of Card */
-    .hero-57__telemetry {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
-      gap: var(--space-sm);
-      padding-top: var(--space-md);
-      border-top: 1px solid rgba(255, 255, 255, 0.12);
-      font-family: var(--font-sans);
-      font-size: var(--text-2xs);
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: rgba(255, 255, 255, 0.65);
-    }
-
-    .hero-57__telemetry-item {
-      display: flex;
-      align-items: center;
-      gap: 0.4rem;
-    }
-
-    .hero-57__telemetry-value {
-      color: var(--color-accent);
-      font-weight: 700;
-    }
-
     @media (max-width: 640px) {
       .hero-57__frame {
-        min-height: 520px;
-        padding: 1.5rem 1.25rem;
-      }
-      .hero-57__telemetry {
-        justify-content: center;
-        gap: 0.75rem 1.25rem;
+        min-height: 540px;
+        padding: 1.5rem 1rem;
       }
     }
   </style>
@@ -355,7 +322,7 @@
 
           <div class="hero-57__actions">
             <a href="index.html" class="hero-57__btn-primary">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="19" y1="12" x2="5" y2="12"></line>
                 <polyline points="12 19 5 12 12 5"></polyline>
               </svg>
@@ -363,31 +330,11 @@
             </a>
             <a href="projects.html" class="hero-57__btn-secondary">
               <span>Explore Projects</span>
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                 <line x1="5" y1="12" x2="19" y2="12"></line>
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </a>
-          </div>
-        </div>
-
-        <!-- Telemetry Status Bar -->
-        <div class="hero-57__telemetry" aria-label="Route Telemetry">
-          <div class="hero-57__telemetry-item">
-            <span>NAV:</span>
-            <span class="hero-57__telemetry-value">GPS UNRESOLVED</span>
-          </div>
-          <div class="hero-57__telemetry-item">
-            <span>STATUS:</span>
-            <span class="hero-57__telemetry-value">OFF-GRID</span>
-          </div>
-          <div class="hero-57__telemetry-item">
-            <span>LOCATION:</span>
-            <span class="hero-57__telemetry-value">UNKNOWN MILEPOST</span>
-          </div>
-          <div class="hero-57__telemetry-item">
-            <span>SPEED:</span>
-            <span class="hero-57__telemetry-value">0 MPH</span>
           </div>
         </div>
       </div>

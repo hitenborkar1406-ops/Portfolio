@@ -14,14 +14,14 @@ function mountSunsetVelocity() {
         background="#110813"
         skyTop="#F7D3C8"
         skyHorizon="#EF6759"
-        carColor="#CA424A"
+        carColor="#E53935"
         advanced={{
           sunX: 50,
-          sunY: 60,
+          sunY: 48,
           sunSize: 110,
-          vignette: 20,
+          vignette: 15,
           hazeColor: "#F6C2B4",
-          hazeOpacity: 60,
+          hazeOpacity: 55,
           turbineFar: "#7E3D5A",
           cloudColor: "#6E2636",
         }}
@@ -45,3 +45,4 @@ if (document.readyState === "loading") {
 }
 
 export { SunsetVelocity };
+
