@@ -98,6 +98,17 @@
   --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 }
 
+:root {
+  color-scheme: light dark;
+
+  &:has(> head > meta[name="color-scheme"][content="dark"]) {
+    color-scheme: dark;
+  }
+  &:has(> head > meta[name="color-scheme"][content="light"]) {
+    color-scheme: light;
+  }
+}
+
 /* Dark mode keeps the same ice silver, aubergine, and marigold. Only the ground and ink swap. */
 html[data-theme="dark"] {
   color-scheme: dark;

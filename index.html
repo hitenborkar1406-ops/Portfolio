@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
   <script>
     try {
       var storedTheme = localStorage.getItem('portfolio-theme');
+      var meta = document.querySelector('meta[name="color-scheme"]');
       if (storedTheme === 'dark' || storedTheme === 'light') {
         document.documentElement.dataset.theme = storedTheme;
+        if (meta) meta.content = storedTheme;
+      }
+      if (window.MutationObserver) {
+        new MutationObserver(function() {
+          var m = document.querySelector('meta[name="color-scheme"]');
+          if (m) m.content = document.documentElement.dataset.theme || 'light dark';
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       }
     } catch (e) {}
   </script>
@@ -42,6 +51,7 @@
   <link rel="stylesheet" href="assets/portfolio-intro.bundle.css?v=1.0.0">
 </head>
 <body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
 
   <!-- 3D Procedural Sedan Intro -->
   <div id="portfolioIntroMount"></div>
@@ -150,7 +160,7 @@
     </div>
   </nav>
 
-  <main>
+  <main id="mainContent" tabindex="-1">
 
     <!-- ── Hero (Hallmark Stage Posture) ─────────────── -->
     <section class="hero" id="hero">
@@ -266,7 +276,7 @@
                     </div>
                     <!-- C++ (Apex Hero Badge with custom official icon) -->
                     <div class="devi-badge" style="--tx: 0px; --ty: -78px; --delay: 120ms;">
-                      <img src="assets/icons/cpp.png" alt="C++" class="devi-badge-img" />
+                      <img src="assets/icons/cpp.png" alt="C++ logo" class="devi-badge-img" width="22" height="22" loading="lazy" decoding="async" />
                       <span class="devi-tooltip">C++</span>
                     </div>
                     <div class="devi-badge" style="--tx: 34px; --ty: -70px; --delay: 160ms;">
@@ -777,7 +787,7 @@
       <div class="footer__inner">
         <a href="#" class="footer__wordmark">Hiten Borkar</a>
         <div class="footer__avatar" id="footerAvatar" aria-hidden="true">
-    <img src="assets/avatar.jpg" alt="Hiten Borkar" class="footer__avatar-img" />
+    <img src="assets/avatar.jpg" alt="Hiten Borkar portrait" class="footer__avatar-img" width="72" height="72" loading="lazy" decoding="async" />
   </div>
         <ul class="footer__links">
           <li><a href="#projects" class="footer__link">Projects</a></li>
@@ -971,8 +981,8 @@
   </button>
 
   <script src="assets/ink-theme.js?v=5" defer></script>
-  <script src="three.min.js"></script>
-  <script src="qrcode.min.js"></script>
+  <script src="three.min.js" defer></script>
+  <script src="qrcode.min.js" defer></script>
   <script src="main.js?v=2.5.2" defer></script>
   <script src="assets/spring-text.bundle.js?v=2.1.0" defer></script>
   <script src="assets/portfolio-intro.bundle.js?v=1.0.0" defer></script>

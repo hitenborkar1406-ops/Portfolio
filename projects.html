@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
   <script>
     try {
       var storedTheme = localStorage.getItem('portfolio-theme');
+      var meta = document.querySelector('meta[name="color-scheme"]');
       if (storedTheme === 'dark' || storedTheme === 'light') {
         document.documentElement.dataset.theme = storedTheme;
+        if (meta) meta.content = storedTheme;
+      }
+      if (window.MutationObserver) {
+        new MutationObserver(function() {
+          var m = document.querySelector('meta[name="color-scheme"]');
+          if (m) m.content = document.documentElement.dataset.theme || 'light dark';
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       }
     } catch (e) {}
   </script>
@@ -33,6 +42,7 @@
   <link rel="stylesheet" href="style.css?v=2.5.3">
 </head>
 <body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
 
   <!-- Full-bleed Architectural Column Lines -->
   <div class="architectural-grid" aria-hidden="true">
@@ -112,7 +122,7 @@
     </div>
   </nav>
 
-  <main class="projects-page">
+  <main class="projects-page" id="mainContent" tabindex="-1">
     <div class="container">
 
       <!-- ── Hero Section with Clay Robot ─────────── -->
@@ -447,7 +457,9 @@
         toggle.addEventListener('click', function() {
           const current = document.documentElement.dataset.theme;
           const target = current === 'dark' ? 'light' : 'dark';
+          const meta = document.querySelector('meta[name="color-scheme"]');
           document.documentElement.dataset.theme = target;
+          if (meta) meta.content = target;
           try { localStorage.setItem('portfolio-theme', target); } catch (e) {}
         });
       }

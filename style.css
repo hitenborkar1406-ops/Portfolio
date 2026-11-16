@@ -134,6 +134,7 @@
 }
 
 .nav__wordmark {
+  view-transition-name: site-wordmark;
   font-family: var(--font-display);
   font-weight: 700;
   font-size: 1.35rem;
@@ -187,6 +188,7 @@
 /* ── GlassDock Component ─────────────────────────── */
 
 .glass-dock {
+  view-transition-name: main-navigation-dock;
   position: relative;
   display: inline-flex;
   align-items: center;
@@ -1305,6 +1307,8 @@ html.theme-fade *::after {
 /* ── Profiles ─────────────────────────────────────── */
 
 .profiles {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 380px;
   background: var(--color-paper-2);
   border-top: var(--rule-hair) solid var(--color-rule);
   border-bottom: var(--rule-hair) solid var(--color-rule);
@@ -1450,7 +1454,7 @@ html.theme-fade *::after {
   opacity: 0;
   transform-origin: center;
   transition: opacity 0.25s var(--ease-out), transform 0.25s var(--ease-out);
-  will-change: left, top, opacity, transform;
+  will-change: opacity, transform;
 }
 
 .book-showcase__open-btn--visible {
@@ -2097,6 +2101,8 @@ html.theme-fade *::after {
 /* ── About ───────────────────────────────────────── */
 
 .about {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 650px;
   background: var(--color-paper-2);
   border-top: var(--rule-hair) solid var(--color-rule);
   border-bottom: var(--rule-hair) solid var(--color-rule);
@@ -2171,6 +2177,8 @@ html.theme-fade *::after {
 /* ── Contact ─────────────────────────────────────── */
 
 .contact {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 500px;
   position: relative;
   z-index: 2;
   text-align: center;

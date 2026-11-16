@@ -2,11 +2,20 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="color-scheme" content="light dark">
   <script>
     try {
       var storedTheme = localStorage.getItem('portfolio-theme');
+      var meta = document.querySelector('meta[name="color-scheme"]');
       if (storedTheme === 'dark' || storedTheme === 'light') {
         document.documentElement.dataset.theme = storedTheme;
+        if (meta) meta.content = storedTheme;
+      }
+      if (window.MutationObserver) {
+        new MutationObserver(function() {
+          var m = document.querySelector('meta[name="color-scheme"]');
+          if (m) m.content = document.documentElement.dataset.theme || 'light dark';
+        }).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
       }
     } catch (e) {}
   </script>
@@ -219,6 +228,7 @@
   </style>
 </head>
 <body>
+  <a href="#mainContent" class="skip-link">Skip to main content</a>
 
   <!-- Full-bleed Architectural Column Lines -->
   <div class="architectural-grid" aria-hidden="true">
@@ -296,7 +306,7 @@
   </nav>
 
   <!-- ── Main Hero-57 Section ────────────────────────── -->
-  <main>
+  <main id="mainContent" tabindex="-1">
     <section class="hero-57">
       <div class="hero-57__frame">
         <!-- Interactive Sunset Velocity Canvas (Originkit Live Engine — no baked-in text) -->
