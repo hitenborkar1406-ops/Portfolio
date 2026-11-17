@@ -2,7 +2,7 @@
 /* eslint-disable */
 // @ts-nocheck
 "use client";
-import SunsetVelocity from "@/components/originkit/ui/hero-57/sunset-velocity"
+import SunsetVelocity from "./sunset-velocity"
 
 const links = ['Work', 'Approach', 'Capabilities', 'Insights', 'Contact']
 

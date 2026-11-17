@@ -1,6 +1,6 @@
 import React, { useEffect, useMemo } from 'react';
 import * as THREE from 'three';
-import { INTRO_CONFIG } from './introConfig';
+import { INTRO_CONFIG } from '../config/introConfig';
 
 export interface SedanRefs {
   rootRef: React.RefObject<THREE.Group | null>;

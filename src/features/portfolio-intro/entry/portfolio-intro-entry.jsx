@@ -1,6 +1,6 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import PortfolioIntro from './components/PortfolioIntro/PortfolioIntro';
+import PortfolioIntro from '../components/PortfolioIntro';
 
 function mountIntro() {
   let mount = document.getElementById('portfolioIntroMount');

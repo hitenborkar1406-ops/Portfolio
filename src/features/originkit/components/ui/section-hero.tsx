@@ -2,7 +2,7 @@
 /* eslint-disable */
 // @ts-nocheck
 "use client";
-import Content from "@/components/originkit/ui/hero-57/hero-57-content";
+import Content from "./hero-57-content";
 
 export function SectionHero() {
   return (

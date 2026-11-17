@@ -2,8 +2,8 @@ import React, { useEffect, useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame, useThree } from '@react-three/fiber';
 import { Environment, Lightformer, PerspectiveCamera } from '@react-three/drei';
-import { INTRO_CONFIG } from './introConfig';
-import { evaluateTimeline } from './motionTimeline';
+import { INTRO_CONFIG } from '../config/introConfig';
+import { evaluateTimeline } from '../config/motionTimeline';
 import { FuturisticSedan } from './FuturisticSedan';
 import { GoldenTrails } from './GoldenTrails';
 

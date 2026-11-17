@@ -2,7 +2,7 @@
 
 import React from "react";
 import { createRoot } from "react-dom/client";
-import SunsetVelocity from "./components/originkit/ui/hero-57/sunset-velocity";
+import SunsetVelocity from "../../originkit/components/ui/sunset-velocity";
 
 function mountSunsetVelocity() {
   const mountPoint = document.getElementById("sunsetVelocityMount");

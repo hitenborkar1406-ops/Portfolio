@@ -2,9 +2,9 @@ import React, { Component, useCallback, useEffect, useRef, useState } from 'reac
 import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import gsap from 'gsap';
-import { INTRO_CONFIG } from './introConfig';
+import { INTRO_CONFIG } from '../config/introConfig';
 import { IntroStageScene } from './IntroStageScene';
-import './PortfolioIntro.css';
+import '../styles/PortfolioIntro.css';
 
 export interface PortfolioIntroProps {
   onComplete?: () => void;
