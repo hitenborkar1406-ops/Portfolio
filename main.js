@@ -2548,9 +2548,16 @@
     }
 
     var grab = settling ? null : userDrag;
+    if (!settling && !grab) {
+      // Natural ambient pendulum motion (gentle breeze / breathing)
+      var tNow = performance.now() * 0.0015;
+      var ambientForce = (Math.sin(tNow * 1.5) * 1.8 + Math.sin(tNow * 0.7 + 0.8) * 1.0) * (H * 0.0006);
+      pts[iB].x += ambientForce;
+      pts[iP].x += ambientForce * 0.35;
+    }
     if (!settling && !grab && hoverAmt > 0 && over > 0.001) {
       var B = pts[iB];
-      B.x += (ptrX - B.x) * 10 * hoverAmt * over * h * h;
+      B.x += (ptrX - B.x) * 12 * hoverAmt * over * h * h;
     }
     if (grab) {
       var P = pts[iP], B = pts[iB];
@@ -2596,8 +2603,10 @@
   function settle() {
     var v = props, adv = advOf(v), G = geom(v, adv);
     place(G);
-    for (var i = 0; i < 30; i++) step(SUB, v, adv, G, 0, true);
+    for (var i = 0; i < 20; i++) step(SUB, v, adv, G, 0, true);
     for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
+    // Start with a gentle displacement so it begins with lively swinging on page load
+    pts[iB].x += 20;
   }
 
   function settleAsync() {
@@ -2945,11 +2954,59 @@
   window.addEventListener('pointerup', onUp);
   window.addEventListener('pointercancel', onUp);
 
+  // Dynamic window proximity & drag tracking
+  window.addEventListener('pointermove', function (e) {
+    if (!visible) return;
+    var rect = canvas.getBoundingClientRect();
+    if (rect.bottom < 0 || rect.top > window.innerHeight) return;
+
+    var cx = e.clientX - rect.left;
+    var cy = e.clientY - rect.top;
+
+    if (userDrag) {
+      userDrag.tx = cx;
+      userDrag.ty = cy;
+      startLoop();
+    } else {
+      var dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
+      var dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
+      var dist = Math.hypot(dx, dy);
+      if (dist < 340) {
+        ptrX = cx;
+        ptrY = cy;
+        overTarget = Math.max(0, 1 - dist / 340);
+        startLoop();
+      } else if (overTarget > 0) {
+        overTarget = 0;
+      }
+    }
+  }, { passive: true });
+
+  // Scroll momentum reaction: scrolling imparts dynamic swinging impulse
+  var lastBadgeScroll = window.pageYOffset;
+  window.addEventListener('scroll', function () {
+    var curScroll = window.pageYOffset;
+    var diff = curScroll - lastBadgeScroll;
+    lastBadgeScroll = curScroll;
+    if (Math.abs(diff) > 1 && visible && pts[iB]) {
+      var impulse = Math.max(-10, Math.min(10, diff * 0.4));
+      pts[iB].x += impulse;
+      startLoop();
+    }
+  }, { passive: true });
+
 // ─── Resize & Animation Loop ───
   var badgeAnchor = document.getElementById('heroBadgeAnchor');
 
   function measureView() {
     vx0 = 0; vy0 = 0; vx1 = W; vy1 = H;
+  }
+
+  function startLoop() {
+    if (visible && !raf) {
+      last = -1;
+      raf = requestAnimationFrame(frame);
+    }
   }
 
   function frame(now) {
@@ -2982,7 +3039,13 @@
     canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
     measureView();
     if (changed) {
-      settleAsync().then(function() { ready = true; });
+      settleAsync().then(function() {
+        ready = true;
+        startLoop();
+      });
+    } else {
+      ready = true;
+      startLoop();
     }
     var v = props, adv = advOf(v); draw(v, adv, geom(v, adv), 0);
   }
@@ -2999,7 +3062,11 @@
 
   var io = new IntersectionObserver(function(entries) {
     visible = entries[0].isIntersecting;
-    if (visible && !raf && ready) { last = -1; raf = requestAnimationFrame(frame); }
+    if (visible) {
+      startLoop();
+    } else {
+      raf = 0;
+    }
   });
   io.observe(badgeAnchor || canvas.parentElement);
 
