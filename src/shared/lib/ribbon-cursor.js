@@ -9,8 +9,8 @@
     colorShift: 1,
     opacity: 50,
     thickness: 2,
-    trails: 12,
-    trailLength: 18,
+    trails: 7,
+    trailLength: 12,
   };
 
   const MAX_COLORS = 5;
@@ -225,7 +225,7 @@
   }
 
   function resize() {
-    dpr = Math.min(window.devicePixelRatio || 1, 2);
+    dpr = Math.min(window.devicePixelRatio || 1, 1.25);
     const w = Math.max(1, Math.round(window.innerWidth));
     const h = Math.max(1, Math.round(window.innerHeight));
     canvas.width = Math.round(w * dpr);
@@ -277,7 +277,9 @@
 
     if (Math.abs(target.x - lastTargetX) < 0.5 && Math.abs(target.y - lastTargetY) < 0.5 && maxVelocity < 0.05) {
       idleCount++;
-      if (idleCount > 45) {
+      if (idleCount > 25) {
+        ctx.globalCompositeOperation = 'source-over';
+        ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
         rafId = 0;
         return; // sleep until mouse moves
       }

@@ -131,36 +131,56 @@
 
   if (!sections.length) return;
 
-  function onScroll() {
-    var scrollPos = window.pageYOffset + 180;
-    var currentId = '';
+  var sectionBounds = [];
+  function measureSections() {
+    sectionBounds = Array.prototype.map.call(sections, function (sec) {
+      return {
+        id: sec.getAttribute('id'),
+        top: sec.offsetTop,
+        height: sec.offsetHeight
+      };
+    });
+  }
+  measureSections();
+  window.addEventListener('resize', measureSections, { passive: true });
+  window.addEventListener('load', measureSections, { passive: true });
 
-    sections.forEach(function (sec) {
-      var top = sec.offsetTop;
-      var height = sec.offsetHeight;
-      if (scrollPos >= top && scrollPos < top + height) {
-        currentId = sec.getAttribute('id');
+  var scrollTicking = false;
+  function onScroll() {
+    if (scrollTicking) return;
+    scrollTicking = true;
+    requestAnimationFrame(function () {
+      scrollTicking = false;
+      var scrollPos = window.pageYOffset + 180;
+      var currentId = '';
+
+      for (var i = 0; i < sectionBounds.length; i++) {
+        var s = sectionBounds[i];
+        if (scrollPos >= s.top && scrollPos < s.top + s.height) {
+          currentId = s.id;
+          break;
+        }
+      }
+
+      if (!currentId && window.pageYOffset < 300) {
+        currentId = 'hero';
+      }
+
+      if (currentId) {
+        navLinks.forEach(function (link) {
+          var href = link.getAttribute('href');
+          var isActive = href === '#' + currentId;
+          link.classList.toggle('nav__link--active', isActive);
+          link.classList.toggle('glass-dock__item--active', isActive);
+        });
+
+        if (railDots.length) {
+          railDots.forEach(function (dot) {
+            dot.classList.toggle('on', dot.getAttribute('data-target') === currentId);
+          });
+        }
       }
     });
-
-    if (!currentId && window.pageYOffset < 300) {
-      currentId = 'hero';
-    }
-
-    if (currentId) {
-      navLinks.forEach(function (link) {
-        var href = link.getAttribute('href');
-        var isActive = href === '#' + currentId;
-        link.classList.toggle('nav__link--active', isActive);
-        link.classList.toggle('glass-dock__item--active', isActive);
-      });
-
-      if (railDots.length) {
-        railDots.forEach(function (dot) {
-          dot.classList.toggle('on', dot.getAttribute('data-target') === currentId);
-        });
-      }
-    }
   }
 
   window.addEventListener('scroll', onScroll, { passive: true });
@@ -270,13 +290,26 @@
       };
     });
 
-    /* Layout positions of scrubbed elements, measured with our own
+    /* Layout positions of animated elements, measured with our own
        transforms removed so the animation can't feed back into itself. */
     function measure() {
       vh = window.innerHeight;
       vw = window.innerWidth;
       compact = vw < 700;
       if (hero) heroH = Math.max(1, hero.offsetHeight);
+
+      heads.forEach(function (h) {
+        h.baseTop = h.el.getBoundingClientRect().top + window.pageYOffset;
+      });
+
+      stacks.forEach(function (list) {
+        list.forEach(function (it) {
+          var t = it.el.style.transform;
+          it.el.style.transform = 'none';
+          it.baseTop = it.el.getBoundingClientRect().top + window.pageYOffset;
+          it.el.style.transform = t;
+        });
+      });
 
       var saved = scrubs.map(function (s) {
         var t = s.el.style.transform;
@@ -318,27 +351,25 @@
       sy = window.pageYOffset;
       var moving = false;
 
-      /* ── Phase 1: reads ── */
-      var headTops = heads.map(function (h) { return h.el.getBoundingClientRect().top; });
-      var stackRects = stacks.map(function (list) {
-        return list.map(function (it) { return it.el.getBoundingClientRect().top; });
-      });
+      /* ── Phase 1: Pure mathematical targets (Zero DOM layout reads!) ── */
       var maxScroll = root.scrollHeight - vh;
 
       /* ── Targets ── */
       heroS.t = clamp(sy / heroH, 0, 1);
 
-      heads.forEach(function (h, i) {
-        h.d.t = clamp((vh * 0.9 - headTops[i]) / (vh * 0.3), 0, 1);
+      heads.forEach(function (h) {
+        var headTop = (h.baseTop || 0) - sy;
+        h.d.t = clamp((vh * 0.9 - headTop) / (vh * 0.3), 0, 1);
       });
 
-      stacks.forEach(function (list, si) {
-        var tops = stackRects[si];
+      stacks.forEach(function (list) {
         list.forEach(function (it, i) {
-          it.top = tops[i];
-          it.e.t = clamp((vh * 0.99 - tops[i]) / (vh * 0.4), 0, 1);
+          var currentTop = (it.baseTop || 0) - sy;
+          it.top = currentTop;
+          it.e.t = clamp((vh * 0.99 - currentTop) / (vh * 0.4), 0, 1);
           if (i < list.length - 1) {
-            var diff = tops[i + 1] - tops[i];
+            var nextTop = (list[i + 1].baseTop || 0) - sy;
+            var diff = nextTop - currentTop;
             it.r.t = diff <= vh ? clamp(1 - diff / vh, 0, 1) : 0;
           } else {
             it.r.t = 0;
@@ -513,11 +544,18 @@
     btn.addEventListener('mouseleave', resetEyes);
     btn.addEventListener('blur', resetEyes);
 
+    var cachedBtnRect = null;
+    function updateBtnRect() {
+      cachedBtnRect = btn.getBoundingClientRect();
+    }
+    window.addEventListener('resize', updateBtnRect, { passive: true });
+    window.addEventListener('scroll', updateBtnRect, { passive: true });
+
     window.addEventListener('mousemove', function (e) {
-      var btnRect = btn.getBoundingClientRect();
+      if (!cachedBtnRect) updateBtnRect();
       var d = Math.hypot(
-        e.clientX - (btnRect.left + btnRect.width / 2),
-        e.clientY - (btnRect.top + btnRect.height / 2)
+        e.clientX - (cachedBtnRect.left + cachedBtnRect.width / 2),
+        e.clientY - (cachedBtnRect.top + cachedBtnRect.height / 2)
       );
       if (d < 300) {
         updateEyes(e.clientX, e.clientY);
@@ -2017,8 +2055,10 @@
   }
 
   var clock = new THREE.Clock();
-  var isInViewport = true;
+  var isInViewport = false;
   var rafId = 0;
+  var rootBaseTop = 0;
+  var rootHeight = 0;
 
   function animate() {
     if (!isInViewport || document.hidden) {
@@ -2038,10 +2078,10 @@
     books.forEach(function (b) { tickBook(b, dt, t); });
     leaves.update(dt, t);
 
-    /* Scroll-linked tilt: books lean gently as the section passes through the viewport */
+    /* Scroll-linked tilt: books lean gently as the section passes through the viewport (Zero forced reflow!) */
     if (!RM) {
-      var sr = root.getBoundingClientRect();
-      var nrm = clamp(((sr.top + sr.height / 2) - window.innerHeight / 2) / window.innerHeight, -1, 1);
+      var topInViewport = rootBaseTop - window.pageYOffset;
+      var nrm = clamp(((topInViewport + rootHeight / 2) - window.innerHeight / 2) / window.innerHeight, -1, 1);
       var tiltTarget = nrm * (state.mode === 'hero' ? 1 : 0.3);
       scrollTilt += (tiltTarget - scrollTilt) * Math.min(1, dt * 6);
       bookRoot.rotation.x = scrollTilt * 0.12;
@@ -2065,6 +2105,8 @@
 
   function relayout() {
     var r = root.getBoundingClientRect();
+    rootBaseTop = r.top + window.pageYOffset;
+    rootHeight = r.height;
     dims.w = Math.max(1, Math.round(r.width));
     dims.h = Math.max(1, Math.round(r.height));
     renderer.setSize(dims.w, dims.h);
@@ -2109,8 +2151,6 @@
   } else {
     enterShowcase();
   }
-
-  animate();
 
   var observer = new IntersectionObserver(function (entries) {
     isInViewport = entries[0].isIntersecting;

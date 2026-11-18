@@ -13,7 +13,14 @@ export interface PortfolioIntroProps {
   children?: React.ReactNode;
 }
 
-let hasIntroPlayedThisLoad = false;
+function hasSeenIntro(): boolean {
+  if (typeof window === 'undefined') return true;
+  try {
+    return sessionStorage.getItem('portfolio_intro_seen') === '1';
+  } catch {
+    return false;
+  }
+}
 
 function checkWebGLSupport(): boolean {
   if (typeof window === 'undefined') return false;
@@ -50,7 +57,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   loadingLabel = 'INITIALIZING PORTFOLIO',
   children,
 }) => {
-  const [shouldRenderOverlay, setShouldRenderOverlay] = useState<boolean>(() => !hasIntroPlayedThisLoad);
+  const [shouldRenderOverlay, setShouldRenderOverlay] = useState<boolean>(() => !hasSeenIntro());
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
   const [percentage, setPercentage] = useState<number>(0);
@@ -140,7 +147,9 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
 
     setIsFadingOut(true);
     const fadeTimer = window.setTimeout(() => {
-      hasIntroPlayedThisLoad = true;
+      try {
+        sessionStorage.setItem('portfolio_intro_seen', '1');
+      } catch {}
       setShouldRenderOverlay(false);
       onComplete?.();
     }, 620);
@@ -154,6 +163,9 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   }, []);
 
   const handleSkip = useCallback(() => {
+    try {
+      sessionStorage.setItem('portfolio_intro_seen', '1');
+    } catch {}
     setAnimationDone(true);
   }, []);
 

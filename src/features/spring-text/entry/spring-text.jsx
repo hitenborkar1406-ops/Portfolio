@@ -149,19 +149,6 @@ function initSpringText() {
   if (typeof document === 'undefined') return;
 
   const selectors = [
-    'h1.hero__headline',
-    '.hero__sentence',
-    'section .section__head h2',
-    'section .section__head p.lead',
-    'section .section__head p.section__lead',
-    '.project-card h3',
-    '.project-card .project-card__desc',
-    '.book-showcase__title',
-    '.book-showcase__desc',
-    '.about__lead',
-    '.about__item-detail',
-    '.contact__text h2',
-    '.contact__text p.lead',
     '[data-spring-text]'
   ];
 
