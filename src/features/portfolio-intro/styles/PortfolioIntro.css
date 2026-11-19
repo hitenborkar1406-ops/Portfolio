@@ -60,10 +60,13 @@
 
 .portfolio-intro__stage {
   position: relative;
-  width: 80vw;
-  max-width: 900px;
-  height: 250px;
+  width: min(92vw, 920px);
+  height: clamp(260px, 44vh, 460px);
+  border-radius: clamp(14px, 2vw, 22px);
+  border: 1px solid rgba(234, 170, 0, 0.32);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.75), 0 0 35px rgba(234, 170, 0, 0.12);
   overflow: hidden;
+  background: #110813;
 }
 
 .portfolio-intro__stage canvas {
@@ -73,10 +76,18 @@
   background: transparent;
 }
 
+.portfolio-intro__vignette {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 2;
+  background: radial-gradient(circle at 50% 30%, transparent 45%, rgba(17, 8, 19, 0.45) 100%);
+  border-radius: inherit;
+}
+
 .portfolio-intro__hud {
-  width: 80vw;
-  max-width: 440px;
-  margin-top: 14px;
+  width: min(92vw, 480px);
+  margin-top: 18px;
   display: flex;
   flex-direction: column;
   gap: 8px;

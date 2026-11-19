@@ -1,9 +1,6 @@
-import React, { Component, useCallback, useEffect, useRef, useState } from 'react';
-import * as THREE from 'three';
-import { Canvas } from '@react-three/fiber';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
-import { INTRO_CONFIG } from '../config/introConfig';
-import { IntroStageScene } from './IntroStageScene';
+import SunsetVelocity from '../../originkit/components/ui/sunset-velocity';
 import '../styles/PortfolioIntro.css';
 
 export interface PortfolioIntroProps {
@@ -22,35 +19,6 @@ function hasSeenIntro(): boolean {
   }
 }
 
-function checkWebGLSupport(): boolean {
-  if (typeof window === 'undefined') return false;
-  try {
-    const canvas = document.createElement('canvas');
-    return !!(
-      window.WebGLRenderingContext &&
-      (canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl'))
-    );
-  } catch {
-    return false;
-  }
-}
-
-class CanvasErrorBoundary extends Component<
-  { fallback: React.ReactNode; children: React.ReactNode },
-  { hasError: boolean }
-> {
-  state = { hasError: false };
-
-  static getDerivedStateFromError(): { hasError: boolean } {
-    return { hasError: true };
-  }
-
-  render() {
-    if (this.state.hasError) return this.props.fallback;
-    return this.props.children;
-  }
-}
-
 export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   onComplete,
   isAppReady = true,
@@ -61,13 +29,12 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [animationDone, setAnimationDone] = useState<boolean>(false);
   const [percentage, setPercentage] = useState<number>(0);
-  const [webglAvailable, setWebglAvailable] = useState<boolean>(() => checkWebGLSupport());
+  const [statusText, setStatusText] = useState<string>(loadingLabel);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
 
-  const progressRef = useRef<number>(0);
   const barFillRef = useRef<HTMLDivElement | null>(null);
   const lastPercentRef = useRef<number>(0);
 
@@ -79,13 +46,25 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     return () => mediaQuery.removeEventListener('change', handleChange);
   }, []);
 
+  const handleSkip = useCallback(() => {
+    try {
+      sessionStorage.setItem('portfolio_intro_seen', '1');
+    } catch {}
+    setPercentage(100);
+    setAnimationDone(true);
+  }, []);
+
   useEffect(() => {
     if (!shouldRenderOverlay) return;
+
+    if (prefersReducedMotion) {
+      handleSkip();
+      return;
+    }
 
     const timelineState = { progress: 0 };
 
     const syncProgress = (val: number) => {
-      progressRef.current = val;
       if (barFillRef.current) {
         barFillRef.current.style.transform = `scaleX(${val})`;
       }
@@ -93,36 +72,20 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
       if (nextPercent !== lastPercentRef.current) {
         lastPercentRef.current = nextPercent;
         setPercentage(nextPercent);
+
+        if (nextPercent < 35) {
+          setStatusText('INITIALIZING PORTFOLIO');
+        } else if (nextPercent < 75) {
+          setStatusText('SUNSET VELOCITY // ENGAGING');
+        } else if (nextPercent < 99) {
+          setStatusText('CALIBRATING TELEMETRY');
+        } else {
+          setStatusText('SYSTEM READY // WELCOME');
+        }
       }
     };
 
-    if (prefersReducedMotion) {
-      progressRef.current = 0.14;
-      const tl = gsap.to(timelineState, {
-        progress: 1,
-        duration: 0.75,
-        ease: 'power1.out',
-        onUpdate: () => {
-          if (barFillRef.current) {
-            barFillRef.current.style.transform = `scaleX(${timelineState.progress})`;
-          }
-          const nextPercent = Math.min(100, Math.round(timelineState.progress * 100));
-          if (nextPercent !== lastPercentRef.current) {
-            lastPercentRef.current = nextPercent;
-            setPercentage(nextPercent);
-          }
-        },
-        onComplete: () => {
-          setPercentage(100);
-          setAnimationDone(true);
-        },
-      });
-      return () => {
-        tl.kill();
-      };
-    }
-
-    const duration = webglAvailable ? INTRO_CONFIG.duration : 1.8;
+    const duration = 3.0;
     const tl = gsap.timeline({
       onComplete: () => {
         syncProgress(1);
@@ -133,14 +96,14 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     tl.to(timelineState, {
       progress: 1,
       duration,
-      ease: 'none',
+      ease: 'power1.inOut',
       onUpdate: () => syncProgress(timelineState.progress),
     });
 
     return () => {
       tl.kill();
     };
-  }, [shouldRenderOverlay, prefersReducedMotion, webglAvailable]);
+  }, [shouldRenderOverlay, prefersReducedMotion, handleSkip]);
 
   useEffect(() => {
     if (!animationDone || !isAppReady || !shouldRenderOverlay) return;
@@ -152,22 +115,10 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
       } catch {}
       setShouldRenderOverlay(false);
       onComplete?.();
-    }, 620);
+    }, 600);
 
     return () => window.clearTimeout(fadeTimer);
   }, [animationDone, isAppReady, shouldRenderOverlay, onComplete]);
-
-  const handleContextLoss = useCallback((e: Event) => {
-    e.preventDefault();
-    setWebglAvailable(false);
-  }, []);
-
-  const handleSkip = useCallback(() => {
-    try {
-      sessionStorage.setItem('portfolio_intro_seen', '1');
-    } catch {}
-    setAnimationDone(true);
-  }, []);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -180,12 +131,6 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   }, [handleSkip]);
 
   const formattedPercent = `${String(percentage).padStart(3, '0')}%`;
-
-  const fallbackStage = (
-    <div className="portfolio-intro__fallback" aria-hidden="true">
-      <div className="portfolio-intro__fallback-line" />
-    </div>
-  );
 
   return (
     <>
@@ -205,35 +150,39 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
           >
             Skip Intro →
           </button>
+
           <div className="portfolio-intro__content">
             <div className="portfolio-intro__stage">
-              {webglAvailable ? (
-                <CanvasErrorBoundary fallback={fallbackStage}>
-                  <Canvas
-                    dpr={[1, 2]}
-                    gl={{
-                      alpha: true,
-                      antialias: true,
-                      powerPreference: 'high-performance',
-                      toneMapping: THREE.ACESFilmicToneMapping,
-                      toneMappingExposure: 1.08,
-                    }}
-                    onCreated={({ gl }) => {
-                      gl.setClearColor(0x000000, 0);
-                      gl.domElement.addEventListener('webglcontextlost', handleContextLoss, false);
-                    }}
-                  >
-                    <IntroStageScene progressRef={progressRef} />
-                  </Canvas>
-                </CanvasErrorBoundary>
-              ) : (
-                fallbackStage
-              )}
+              <SunsetVelocity
+                background="#110813"
+                skyTop="#F7D3C8"
+                skyHorizon="#EF6759"
+                carColor="#E53935"
+                advanced={{
+                  sunX: 50,
+                  sunY: 48,
+                  sunSize: 110,
+                  vignette: 15,
+                  hazeColor: '#F6C2B4',
+                  hazeOpacity: 55,
+                  turbineFar: '#7E3D5A',
+                  cloudColor: '#6E2636',
+                }}
+                style={{
+                  position: 'absolute',
+                  inset: 0,
+                  width: '100%',
+                  height: '100%',
+                  minWidth: 0,
+                  minHeight: 0,
+                }}
+              />
+              <div className="portfolio-intro__vignette" aria-hidden="true" />
             </div>
 
             <div className="portfolio-intro__hud">
               <div className="portfolio-intro__meta">
-                <span className="portfolio-intro__label">{loadingLabel}</span>
+                <span className="portfolio-intro__label">{statusText}</span>
                 <span className="portfolio-intro__percent">{formattedPercent}</span>
               </div>
               <div className="portfolio-intro__track" aria-hidden="true">
