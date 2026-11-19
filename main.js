@@ -2298,7 +2298,7 @@
   }
 
   if (!prefersReduced) {
-    var themeObserver = new MutationObserver(function() { refreshTokens(); });
+    var themeObserver = new MutationObserver(function() { refreshTokens(); startLoop(); });
     themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
   }
 
@@ -2548,13 +2548,6 @@
     }
 
     var grab = settling ? null : userDrag;
-    if (!settling && !grab) {
-      // Natural ambient pendulum motion (gentle breeze / breathing)
-      var tNow = performance.now() * 0.0015;
-      var ambientForce = (Math.sin(tNow * 1.5) * 1.8 + Math.sin(tNow * 0.7 + 0.8) * 1.0) * (H * 0.0006);
-      pts[iB].x += ambientForce;
-      pts[iP].x += ambientForce * 0.35;
-    }
     if (!settling && !grab && hoverAmt > 0 && over > 0.001) {
       var B = pts[iB];
       B.x += (ptrX - B.x) * 12 * hoverAmt * over * h * h;
@@ -2603,10 +2596,8 @@
   function settle() {
     var v = props, adv = advOf(v), G = geom(v, adv);
     place(G);
-    for (var i = 0; i < 20; i++) step(SUB, v, adv, G, 0, true);
+    for (var i = 0; i < 30; i++) step(SUB, v, adv, G, 0, true);
     for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
-    // Start with a gentle displacement so it begins with lively swinging on page load
-    pts[iB].x += 20;
   }
 
   function settleAsync() {
@@ -2939,9 +2930,11 @@
     userDrag = { t: hit.t, lx: hit.lx, tx: x, ty: y };
     try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
     canvas.style.cursor = 'grabbing'; e.preventDefault();
+    startLoop();
   }
   function onMove(e) {
     ptrX = e.offsetX; ptrY = e.offsetY; overTarget = 1;
+    startLoop();
     if (userDrag) { userDrag.tx = ptrX; userDrag.ty = ptrY; return; }
     if (!prefersReduced) canvas.style.cursor = hitCard(ptrX, ptrY) ? 'grab' : 'default';
   }
@@ -3011,8 +3004,10 @@
 
   function frame(now) {
     if (!visible) { raf = 0; return; }
-    raf = requestAnimationFrame(frame);
-    if (!ready) return;
+    if (!ready) {
+      raf = requestAnimationFrame(frame);
+      return;
+    }
     var dt = last < 0 ? 0 : Math.min((now - last) / 1000, 1/20);
     last = now;
     var v = props, adv = advOf(v), G = geom(v, adv);
@@ -3026,6 +3021,22 @@
       if (n >= 4) acc = 0;
     }
     draw(v, adv, G, hoverAmt);
+
+    // Sleep when badge is completely at rest and no interaction is active
+    if (!userDrag && over < 0.001 && overTarget === 0) {
+      var maxV = 0;
+      for (var i = 0; i < pts.length; i++) {
+        var dX = pts[i].x - pts[i].px;
+        var dY = pts[i].y - pts[i].py;
+        var sp = dX * dX + dY * dY;
+        if (sp > maxV) maxV = sp;
+      }
+      if (maxV < 0.0001) {
+        raf = 0;
+        return;
+      }
+    }
+    raf = requestAnimationFrame(frame);
   }
 
   function resize() {
