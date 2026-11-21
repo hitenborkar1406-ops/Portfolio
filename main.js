@@ -939,18 +939,18 @@
           number: '01',
           title: 'Team podium',
           subtitle: '2nd place',
-          image: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
-          src: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
-          href: 'HACKSAGON_TEAM_MAIN_IMAGE.jpeg'
+          image: 'assets/images/HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
+          src: 'assets/images/HACKSAGON_TEAM_MAIN_IMAGE.jpeg',
+          href: 'assets/images/HACKSAGON_TEAM_MAIN_IMAGE.jpeg'
         },
         {
           id: 'hacksagon-demo',
           number: '02',
           title: 'Hardware Prototype Demo',
           subtitle: 'Smart IV System',
-          image: 'HACKSAGON_SOLO_IMAGE.jpeg',
-          src: 'HACKSAGON_SOLO_IMAGE.jpeg',
-          href: 'HACKSAGON_SOLO_IMAGE.jpeg'
+          image: 'assets/images/HACKSAGON_SOLO_IMAGE.jpeg',
+          src: 'assets/images/HACKSAGON_SOLO_IMAGE.jpeg',
+          href: 'assets/images/HACKSAGON_SOLO_IMAGE.jpeg'
         }
       ],
       coverBg: '#280724',
@@ -981,9 +981,9 @@
           number: '01',
           title: 'Award presentation',
           subtitle: '2nd runner-up',
-          image: 'IDEATHON_IMAGE.jpeg',
-          src: 'IDEATHON_IMAGE.jpeg',
-          href: 'IDEATHON_IMAGE.jpeg'
+          image: 'assets/images/IDEATHON_IMAGE.jpeg',
+          src: 'assets/images/IDEATHON_IMAGE.jpeg',
+          href: 'assets/images/IDEATHON_IMAGE.jpeg'
         }
       ],
       coverBg: '#21061D',
@@ -1751,7 +1751,13 @@
     if (descEl) descEl.textContent = book.cfg.desc;
     if (yearEl) yearEl.textContent = book.cfg.year;
     if (sourceEl) sourceEl.textContent = book.cfg.source;
-    if (actionPrimary) actionPrimary.href = (book.cfg.photos && book.cfg.photos.length > 0) ? book.cfg.photos[0].src : '';
+    if (actionPrimary) {
+      var firstSrc = (book.cfg.photos && book.cfg.photos.length > 0) ? (book.cfg.photos[0].href || book.cfg.photos[0].src) : '';
+      if (firstSrc && !firstSrc.startsWith('http') && !firstSrc.startsWith('assets/') && !firstSrc.startsWith('/')) {
+        firstSrc = 'assets/images/' + firstSrc;
+      }
+      actionPrimary.href = firstSrc;
+    }
 
     var galleryEl = document.getElementById('showcaseGallery');
     var galleryItemsEl = document.getElementById('showcaseGalleryItems');
@@ -1763,16 +1769,26 @@
           var li = document.createElement('li');
           li.className = 'image-reveal__li';
 
+          var itemHref = photo.href || photo.src || '#';
+          if (itemHref && itemHref !== '#' && !itemHref.startsWith('http') && !itemHref.startsWith('assets/') && !itemHref.startsWith('/')) {
+            itemHref = 'assets/images/' + itemHref;
+          }
+
           var a = document.createElement('a');
           a.className = 'image-reveal__item' + (idx === 0 ? ' image-reveal__item--active' : '');
-          a.href = photo.href || photo.src || '#';
+          a.href = itemHref;
           a.target = '_blank';
           a.rel = 'noopener noreferrer';
           a.setAttribute('aria-label', photo.title);
 
+          var imgSrc = photo.image || photo.src || '';
+          if (imgSrc && !imgSrc.startsWith('http') && !imgSrc.startsWith('assets/') && !imgSrc.startsWith('/')) {
+            imgSrc = 'assets/images/' + imgSrc;
+          }
+
           var img = document.createElement('img');
           img.className = 'image-reveal__img';
-          img.src = photo.image || photo.src;
+          img.src = imgSrc;
           img.alt = photo.title;
           img.loading = 'eager';
           img.decoding = 'async';
@@ -1801,7 +1817,7 @@
               el.classList.remove('image-reveal__item--active');
             });
             a.classList.add('image-reveal__item--active');
-            if (actionPrimary) actionPrimary.href = photo.href || photo.src;
+            if (actionPrimary) actionPrimary.href = itemHref;
           }
 
           a.addEventListener('mouseenter', activate);
