@@ -12,7 +12,7 @@ export interface PortfolioIntroProps {
 function hasSeenIntro(): boolean {
   if (typeof window === 'undefined') return true;
   try {
-    return sessionStorage.getItem('portfolio_intro_seen') === '1';
+    return sessionStorage.getItem('meadow_intro_v2') === '1';
   } catch {
     return false;
   }
@@ -47,7 +47,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
 
   const handleSkip = useCallback(() => {
     try {
-      sessionStorage.setItem('portfolio_intro_seen', '1');
+      sessionStorage.setItem('meadow_intro_v2', '1');
     } catch {}
     setIsFadingOut(true);
     setTimeout(() => {
@@ -102,7 +102,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
       setIsFadingOut(true);
       window.setTimeout(() => {
         try {
-          sessionStorage.setItem('portfolio_intro_seen', '1');
+          sessionStorage.setItem('meadow_intro_v2', '1');
         } catch {}
         setShouldRenderOverlay(false);
         onComplete?.();

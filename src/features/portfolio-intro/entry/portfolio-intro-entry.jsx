@@ -7,7 +7,7 @@ try {
   if (typeof window !== 'undefined') {
     const params = new URLSearchParams(window.location.search);
     if (params.has('reset-intro')) {
-      sessionStorage.removeItem('portfolio_intro_seen');
+      sessionStorage.removeItem('meadow_intro_v2');
     }
   }
 } catch (_) {}
