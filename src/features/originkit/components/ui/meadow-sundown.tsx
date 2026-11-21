@@ -3,7 +3,7 @@
 
 "use client"
 
-import { useEffect, useRef, useState } from "react"
+import React, { useEffect, useRef, useState } from "react"
 import type { CSSProperties } from "react"
 import * as THREE from "three"
 

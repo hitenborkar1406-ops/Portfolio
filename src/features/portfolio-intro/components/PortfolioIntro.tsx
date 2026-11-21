@@ -56,11 +56,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     }, 600);
   }, [onComplete]);
 
-  useEffect(() => {
-    if (prefersReducedMotion && shouldRenderOverlay) {
-      handleSkip();
-    }
-  }, [prefersReducedMotion, shouldRenderOverlay, handleSkip]);
+  // Allow user to experience Meadow Sundown; reduced motion is handled gracefully within the 3D scene
 
   const handleModeChange = useCallback((mode: number) => {
     setTimeMode(mode);
