@@ -26,24 +26,10 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
   const [timeMode, setTimeMode] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
-  const [statusText, setStatusText] = useState<string>('SCROLL TO MOVE PORTFOLIO');
-  const [timeLabel, setTimeLabel] = useState<string>('☀️ NOON MEADOW');
   const [nightReached, setNightReached] = useState<boolean>(false);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return false;
-    return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  });
 
   const barFillRef = useRef<HTMLDivElement | null>(null);
   const nightTriggerTimerRef = useRef<number | null>(null);
-
-  useEffect(() => {
-    if (typeof window === 'undefined' || !window.matchMedia) return;
-    const mediaQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const handleChange = (e: MediaQueryListEvent) => setPrefersReducedMotion(e.matches);
-    mediaQuery.addEventListener('change', handleChange);
-    return () => mediaQuery.removeEventListener('change', handleChange);
-  }, []);
 
   const handleSkip = useCallback(() => {
     try {
@@ -56,8 +42,6 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     }, 600);
   }, [onComplete]);
 
-  // Allow user to experience Meadow Sundown; reduced motion is handled gracefully within the 3D scene
-
   const handleModeChange = useCallback((mode: number) => {
     setTimeMode(mode);
     const progress = Math.min(1, Math.max(0, mode / 3));
@@ -66,20 +50,6 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
 
     if (barFillRef.current) {
       barFillRef.current.style.transform = `scaleX(${progress})`;
-    }
-
-    if (mode < 0.75) {
-      setStatusText('SCROLL TO MOVE PORTFOLIO');
-      setTimeLabel('☀️ NOON MEADOW');
-    } else if (mode < 1.75) {
-      setStatusText('SCROLLING TOWARD SUNSET');
-      setTimeLabel('🌅 GOLDEN HOUR');
-    } else if (mode < 2.65) {
-      setStatusText('NIGHT IS FALLING • CAMPER LIGHTS ON');
-      setTimeLabel('🌆 DUSK TWILIGHT');
-    } else {
-      setStatusText('NIGHT HAS FALLEN // ENTERING PORTFOLIO');
-      setTimeLabel('🌌 STARLIT NIGHT');
     }
 
     if (mode >= 2.92 && !nightReached) {
@@ -135,8 +105,6 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [handleSkip]);
 
-  const formattedPercent = `${String(percentage).padStart(3, '0')}%`;
-
   return (
     <>
       {children}
@@ -159,6 +127,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
           <div className="portfolio-intro__fullscreen-stage">
             <MeadowSundown
               onModeChange={handleModeChange}
+              vehicle={{ type: 'car' }}
               day={{ start: 0, scroll: 'wheel', sensitivity: 5.5 }}
               style={{
                 position: 'absolute',
@@ -171,32 +140,15 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
             <div className="portfolio-intro__vignette" aria-hidden="true" />
           </div>
 
-          <div className="portfolio-intro__hud-float">
-            <div className="portfolio-intro__banner">
-              <span className="portfolio-intro__prompt-title">SCROLL TO MOVE PORTFOLIO</span>
-              <span className="portfolio-intro__time-badge">{timeLabel}</span>
+          <div className="portfolio-intro__hud-minimal">
+            <div className="portfolio-intro__hud-row">
+              <span className="portfolio-intro__hud-text">
+                {timeMode >= 2.85 ? 'Entering Portfolio...' : 'Scroll to move portfolio'}
+              </span>
+              <span className="portfolio-intro__hud-percent">{percentage}%</span>
             </div>
-
-            <div className="portfolio-intro__meta">
-              <span className="portfolio-intro__label">{statusText}</span>
-              <span className="portfolio-intro__percent">{formattedPercent}</span>
-            </div>
-
             <div className="portfolio-intro__track" aria-hidden="true">
               <div ref={barFillRef} className="portfolio-intro__fill" />
-            </div>
-
-            <div className="portfolio-intro__cues">
-              <span className="portfolio-intro__cue-node">☀️ Noon</span>
-              <span className="portfolio-intro__cue-arrow">───────</span>
-              <span className="portfolio-intro__cue-node">🌅 Dusk</span>
-              <span className="portfolio-intro__cue-arrow">───────</span>
-              <span className="portfolio-intro__cue-node">🌙 Night</span>
-            </div>
-
-            <div className="portfolio-intro__scroll-prompt">
-              <span className="portfolio-intro__scroll-icon" aria-hidden="true">↓</span>
-              <span className="portfolio-intro__scroll-text">Scroll wheel or drag vertically to shift day into night</span>
             </div>
           </div>
         </div>
