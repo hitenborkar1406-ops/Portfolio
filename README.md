@@ -52,14 +52,16 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
     │   ├── originkit/            # Hero 57 / Sunset Velocity (React + Canvas)
     │   │   ├── components/
     │   │   │   ├── hero-57.tsx
-    │   │   │   └── ui/           # section-hero, hero-57-content, sunset-velocity
+    │   │   │   └── ui/           # section-hero, hero-57-content, sunset-velocity, gauze-blaze
     │   │   ├── styles/           # hero-57.css, originkit-section-theme.css
     │   ├── spring-text/          # Spring-driven text animation
     │   │   └── entry/            # spring-text.jsx (IntersectionObserver + spring-text-engine)
     │   ├── clay-robot/           # Interactive 3D clay robot mascot (WebGL2)
     │   │   └── entry/            # clay-robot.jsx (SDF ray-marched, theme-aware)
-    │   └── sunset-velocity/      # Sunset Velocity standalone entry
-    │       └── entry/            # sunset-velocity-entry.jsx
+    │   ├── sunset-velocity/      # Sunset Velocity standalone entry
+    │   │   └── entry/            # sunset-velocity-entry.jsx
+    │   └── gauze-blaze/          # Gauze Blaze burning ribbon particle mesh (WebGL2)
+    │       └── entry/            # gauze-blaze-entry.jsx
     └── shared/
         ├── lib/                  # Vendored libraries (no npm install needed)
         │   ├── three.min.js      # Three.js r158
@@ -115,7 +117,8 @@ npm run build
 - `spring-text.bundle.js` — Scroll-triggered spring text reveals
 - `clay-robot.bundle.js` — 3D clay robot mascot
 - `sunset-velocity.bundle.js` — Sunset Velocity hero animation
-- `portfolio-intro.bundle.js` + `.bundle.css` — 3D sedan intro
+- `portfolio-intro.bundle.js` + `.bundle.css` — 2D canvas Sunset Velocity intro
+- `gauze-blaze.bundle.js` — Gauze Blaze interactive burning ribbon particle mesh
 
 ---
 

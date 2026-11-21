@@ -7,7 +7,7 @@
     "doc": "docs"
   },
   "scripts": {
-    "build": "esbuild src/features/spring-text/entry/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify && esbuild src/features/clay-robot/entry/clay-robot.jsx --bundle --outfile=assets/clay-robot.bundle.js --format=iife --minify && esbuild src/features/sunset-velocity/entry/sunset-velocity-entry.jsx --bundle --outfile=assets/sunset-velocity.bundle.js --format=iife --minify && esbuild src/features/portfolio-intro/entry/portfolio-intro-entry.jsx --bundle --outfile=assets/portfolio-intro.bundle.js --format=iife --minify",
+    "build": "esbuild src/features/spring-text/entry/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --minify && esbuild src/features/clay-robot/entry/clay-robot.jsx --bundle --outfile=assets/clay-robot.bundle.js --format=iife --minify && esbuild src/features/sunset-velocity/entry/sunset-velocity-entry.jsx --bundle --outfile=assets/sunset-velocity.bundle.js --format=iife --minify && esbuild src/features/portfolio-intro/entry/portfolio-intro-entry.jsx --bundle --outfile=assets/portfolio-intro.bundle.js --format=iife --minify && esbuild src/features/gauze-blaze/entry/gauze-blaze-entry.jsx --bundle --outfile=assets/gauze-blaze.bundle.js --format=iife --minify",
     "dev": "esbuild src/features/spring-text/entry/spring-text.jsx --bundle --outfile=assets/spring-text.bundle.js --format=iife --watch",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

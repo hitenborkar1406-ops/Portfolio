@@ -219,14 +219,20 @@
       </div>
     </section>
 
-    <!-- ── Projects Callout Banner ──────────────────── -->
+    <!-- ── Projects Callout Banner (with Gauze Blaze Interactive Ribbon) ── -->
     <section class="projects-callout-banner" id="projects">
       <div class="container">
-        <div class="projects-callout-card">
+        <div class="projects-callout-card projects-callout-card--gauze">
+          <div id="gauzeBlazeMount" class="projects-callout-card__canvas" aria-hidden="true" data-scale="96" data-speed="45" data-center-y="50"></div>
+          <div class="projects-callout-card__scrim" aria-hidden="true"></div>
           <div class="projects-callout-card__content">
             <span class="projects-callout-card__eyebrow">PORTFOLIO WORK • 5 PROJECTS</span>
             <h2 class="projects-callout-card__title">Featured Projects & Systems</h2>
-            <p class="projects-callout-card__desc">Explore deployed GIS routing platforms, hospital IoT prototypes, and interact with the 3D clay robot mascot.</p>
+            <p class="projects-callout-card__desc">Explore deployed GIS routing platforms, hospital IoT prototypes, and interactive WebGL experiences.</p>
+            <div class="projects-callout-card__hint">
+              <span class="projects-callout-card__hint-dot"></span>
+              <span>Interactive Gauze Blaze • Move cursor to heat & stir, click to burst sparks</span>
+            </div>
           </div>
           <a href="projects.html" class="projects-callout-card__btn" aria-label="Switch to Projects Tab">
             <span>Explore Projects Tab</span>
@@ -986,6 +992,7 @@
   <script src="main.js?v=2.5.2" defer></script>
   <script src="assets/spring-text.bundle.js?v=2.1.0" defer></script>
   <script src="assets/portfolio-intro.bundle.js?v=2.0.0" defer></script>
+  <script src="assets/gauze-blaze.bundle.js?v=1.0.0" defer></script>
   <script src="ribbon-cursor.js?v=2.1.0" defer></script>
 </body>
 </html>
