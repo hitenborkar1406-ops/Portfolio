@@ -2386,7 +2386,7 @@ function runMeadow(host: HTMLDivElement, vn: HTMLCanvasElement, propsRef: { curr
 		for (const e of ["iP", "iX", "iY", "iZ", "iF"]) n.geometry.attributes[e].needsUpdate = true
 	}
 	interface Bird { state: "perch" | "hop" | "fly"; pi: number; p: THREE.Vector3; at: THREE.Vector3; from?: THREE.Vector3; timer: number; yaw: number; path: { pts: THREE.Vector3[]; len: number } | null; s: number; phase: number }
-	const Dc = 14
+	const Dc = 28
 	const qe = {
 		birds: [] as Bird[],
 		swallows: [] as { seed: number; prev: THREE.Vector3 }[],
@@ -2395,7 +2395,7 @@ function runMeadow(host: HTMLDivElement, vn: HTMLCanvasElement, propsRef: { curr
 		sq: { t: 0 },
 		sqFace: 0,
 		birdMesh: birdMat(keep(birdGeo()), Dc),
-		swMesh: birdMat(keep(birdGeo()), 3),
+		swMesh: birdMat(keep(birdGeo()), 6),
 		sqMesh: birdMat(keep(squirrelGeo()), 1),
 	}
 	Bt.add(qe.birdMesh, qe.swMesh, qe.sqMesh); const Tc = V3(0, 1, 0)
@@ -3121,8 +3121,8 @@ function runMeadow(host: HTMLDivElement, vn: HTMLCanvasElement, propsRef: { curr
 				const i = Math.floor(Math.random() * 1e6), s = qe.perches[i % qe.perches.length]
 				qe.birds.push({ state: "perch", pi: i, p: s.clone(), at: s.clone(), timer: 2 + Math.random() * 10, yaw: Math.random() * 6.28, path: null, s: 0, phase: Math.random() * 6 })
 			}
-			while (qe.swallows.length < 3) qe.swallows.push({ seed: Math.random() * 100, prev: V3() })
-			qe.birdMesh.geometry.instanceCount = nb; qe.swMesh.visible = !!p.meadow.swallows && se.s[0] + se.s[1] > 0.5
+			while (qe.swallows.length < 6) qe.swallows.push({ seed: Math.random() * 100, prev: V3() })
+			qe.birdMesh.geometry.instanceCount = nb; qe.swMesh.visible = !!p.meadow.swallows && se.s[0] + se.s[1] + se.s[2] > 0.3
 			qe.sqMesh.visible = !!(p.meadow.squirrel && Q.tree)
 			const t2 = Math.max(q.uNight.value, se.over * 0.9), i2 = (1 - sstep(1.7, 2.3, k.mode)) * (1 - se.over)
 			const u = V3()

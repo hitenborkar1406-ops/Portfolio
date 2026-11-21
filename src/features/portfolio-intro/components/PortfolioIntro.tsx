@@ -36,11 +36,34 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
       sessionStorage.setItem('meadow_intro_v2', '1');
     } catch {}
     setIsFadingOut(true);
+    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
     setTimeout(() => {
       setShouldRenderOverlay(false);
+      document.body.style.overflow = '';
+      const hero = document.getElementById('hero');
+      if (hero) hero.scrollIntoView({ behavior: 'smooth' });
       onComplete?.();
-    }, 600);
+    }, 700);
   }, [onComplete]);
+
+  // Lock background scroll during the intro and ensure smooth focus on Hero section on exit
+  useEffect(() => {
+    if (shouldRenderOverlay) {
+      document.body.style.overflow = 'hidden';
+      window.scrollTo(0, 0);
+    } else {
+      document.body.style.overflow = '';
+      const hero = document.getElementById('hero');
+      if (hero) {
+        hero.scrollIntoView({ behavior: 'smooth' });
+      } else {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [shouldRenderOverlay]);
 
   const handleModeChange = useCallback((mode: number) => {
     setTimeMode(mode);
@@ -57,6 +80,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     }
   }, [nightReached]);
 
+  // When 100% is reached (night falls), smoothly glide up to unveil the Hero section
   useEffect(() => {
     if (!nightReached || !shouldRenderOverlay) return;
 
@@ -66,14 +90,23 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
 
     nightTriggerTimerRef.current = window.setTimeout(() => {
       setIsFadingOut(true);
-      window.setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+      const unmountTimer = window.setTimeout(() => {
         try {
           sessionStorage.setItem('meadow_intro_v2', '1');
         } catch {}
         setShouldRenderOverlay(false);
+        document.body.style.overflow = '';
+        const hero = document.getElementById('hero');
+        if (hero) {
+          hero.scrollIntoView({ behavior: 'smooth' });
+        } else {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
         onComplete?.();
-      }, 700);
-    }, 850);
+      }, 850);
+      return () => window.clearTimeout(unmountTimer);
+    }, 500);
 
     return () => {
       if (nightTriggerTimerRef.current) {
@@ -126,7 +159,8 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
 
           <div className="portfolio-intro__fullscreen-stage">
             <MeadowSundown
-              onModeChange={handleModeChange}
+              season="autumn"
+              meadow={{ birds: 28, swallows: true }}
               vehicle={{ type: 'car' }}
               day={{ start: 0, scroll: 'wheel', sensitivity: 5.5 }}
               style={{
@@ -136,6 +170,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
                 height: '100%',
                 aspectRatio: 'unset',
               }}
+              onModeChange={handleModeChange}
             />
             <div className="portfolio-intro__vignette" aria-hidden="true" />
           </div>
