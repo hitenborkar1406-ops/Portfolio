@@ -16,28 +16,28 @@ function getThemeColors() {
   if (isDark) {
     return {
       bg: {
-        top: "#140511",
-        bottom: "#1A0717",
-        shadow: "#080107",
+        top: "#090A0F",
+        bottom: "#12151C",
+        shadow: "#030406",
         shadowDepth: 70,
       },
       colors: {
-        clay: "#461C40",     // aubergine matte clay
-        visor: "#120310",    // deep obsidian screen
+        clay: "#1E2430",     // sleek obsidian slate clay
+        visor: "#090A0F",    // deep obsidian screen
         eyes: "#FFB300",     // glowing radiant marigold
       }
     };
   } else {
     return {
       bg: {
-        top: "#D5DCE2",
-        bottom: "#DFE5EA",
-        shadow: "#929FA9",
+        top: "#F1F5F9",
+        bottom: "#F8FAFC",
+        shadow: "#CBD5E1",
         shadowDepth: 45,
       },
       colors: {
-        clay: "#ECEFF2",     // ice silver porcelain
-        visor: "#250721",    // aubergine screen
+        clay: "#E2E8F0",     // clean zinc clay
+        visor: "#0F172A",    // dark slate visor
         eyes: "#EAAA00",     // marigold glow
       }
     };

@@ -861,10 +861,10 @@
           }
         }
       }
-      currentQrSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + (n * 10) + '" height="' + (n * 10) + '" viewBox="0 0 ' + n + ' ' + n + '" shape-rendering="crispEdges"><path fill="#fff" d="M0 0h' + n + 'v' + n + 'H0z"/><g fill="#1F071B">' + rects + '</g></svg>';
+      currentQrSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="' + (n * 10) + '" height="' + (n * 10) + '" viewBox="0 0 ' + n + ' ' + n + '" shape-rendering="crispEdges"><path fill="#fff" d="M0 0h' + n + 'v' + n + 'H0z"/><g fill="#090A0F">' + rects + '</g></svg>';
       qrContainer.innerHTML = currentQrSvg;
     } catch (e) {
-      qrContainer.innerHTML = '<p style="padding:12px;font-size:12px;color:#DDE3E8;">Could not generate QR code.</p>';
+      qrContainer.innerHTML = '<p style="padding:12px;font-size:12px;color:#F8FAFC;">Could not generate QR code.</p>';
     }
   }
 
@@ -2218,17 +2218,17 @@
 
   var tokens = {
     strapColor: getToken('--brand-marigold') || '#EAAA00',
-    cardColor: getToken('--color-ink-deep') || '#1A0615',
-    strapColorMuted: getToken('--color-ink-2') || '#AAA88E',
-    clipColor: getToken('--color-ink-2') || '#A6A5AD',
-    holderColor: getToken('--color-paper') || '#F7F7F7',
-    borderColor: getToken('--color-rule-strong') || '#D0D0D2',
+    cardColor: getToken('--color-ink-deep') || '#090A0F',
+    strapColorMuted: getToken('--color-ink-2') || '#94A3B8',
+    clipColor: getToken('--color-ink-2') || '#94A3B8',
+    holderColor: getToken('--color-paper') || '#F8FAFC',
+    borderColor: getToken('--color-rule-strong') || '#CBD5E1',
     shadowColor: getToken('--color-ink') || '#000000',
     accent: getToken('--color-accent') || '#EAAA00',
-    accentWarm: getToken('--color-accent-warm') || '#FF9400',
-    paper: getToken('--color-paper') || '#DFE5EA',
-    ink: getToken('--color-ink') || '#3A0F34',
-    inkDeep: getToken('--color-ink-deep') || '#250721',
+    accentWarm: getToken('--color-accent-warm') || '#FB8500',
+    paper: getToken('--color-paper') || '#F8FAFC',
+    ink: getToken('--color-ink') || '#0F172A',
+    inkDeep: getToken('--color-ink-deep') || '#020617',
   };
 
   // ─── Default Props — tuned for hero: card aligns with headline ───
@@ -2277,17 +2277,17 @@
   // ─── Update tokens on theme change ───
   function refreshTokens() {
     tokens.strapColor = getToken('--brand-marigold') || '#EAAA00';
-    tokens.cardColor = getToken('--color-ink-deep') || '#1A0615';
-    tokens.strapColorMuted = getToken('--color-ink-2') || '#AAA88E';
-    tokens.clipColor = getToken('--color-ink-2') || '#A6A5AD';
-    tokens.holderColor = getToken('--color-paper') || '#F7F7F7';
-    tokens.borderColor = getToken('--color-rule-strong') || '#D0D0D2';
+    tokens.cardColor = getToken('--color-ink-deep') || '#090A0F';
+    tokens.strapColorMuted = getToken('--color-ink-2') || '#94A3B8';
+    tokens.clipColor = getToken('--color-ink-2') || '#94A3B8';
+    tokens.holderColor = getToken('--color-paper') || '#F8FAFC';
+    tokens.borderColor = getToken('--color-rule-strong') || '#CBD5E1';
     tokens.shadowColor = getToken('--color-ink') || '#000000';
     tokens.accent = getToken('--color-accent') || '#EAAA00';
-    tokens.accentWarm = getToken('--color-accent-warm') || '#FF9400';
-    tokens.paper = getToken('--color-paper') || '#DFE5EA';
-    tokens.ink = getToken('--color-ink') || '#3A0F34';
-    tokens.inkDeep = getToken('--color-ink-deep') || '#250721';
+    tokens.accentWarm = getToken('--color-accent-warm') || '#FB8500';
+    tokens.paper = getToken('--color-paper') || '#F8FAFC';
+    tokens.ink = getToken('--color-ink') || '#0F172A';
+    tokens.inkDeep = getToken('--color-ink-deep') || '#020617';
 
     props.strapColor = tokens.strapColor;
     props.cardColor = tokens.cardColor;
@@ -3111,3 +3111,27 @@
     window.removeEventListener('pointercancel', onUp);
   });
 })();
+
+/* ── Ambient Spotlight Cursor Follower (Modern Web Guidance) ──────── */
+(function initAmbientSpotlight() {
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var spotlight = document.getElementById('ambientSpotlight');
+  if (!spotlight) return;
+  var ticking = false;
+  var lastX = window.innerWidth / 2;
+  var lastY = window.innerHeight * 0.3;
+
+  window.addEventListener('pointermove', function(e) {
+    lastX = e.clientX;
+    lastY = e.clientY;
+    if (!ticking) {
+      window.requestAnimationFrame(function() {
+        spotlight.style.setProperty('--mouse-x', lastX + 'px');
+        spotlight.style.setProperty('--mouse-y', lastY + 'px');
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+})();
+
