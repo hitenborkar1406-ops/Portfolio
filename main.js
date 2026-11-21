@@ -1,4 +1,18 @@
-/* main.js — Editorial Aubergine & Ice Silver Portfolio Motion System */
+/* main.js — Obsidian & Gold Portfolio Motion System */
+
+/* ── Multi-instance Three.js coordination (Modern Web Guidance) ──────── */
+(function () {
+  try { delete window.__THREE__; } catch (e) {}
+  if (typeof console !== 'undefined' && console.warn) {
+    var _warn = console.warn;
+    console.warn = function () {
+      if (arguments[0] && typeof arguments[0] === 'string' && arguments[0].indexOf('THREE.WARNING: Multiple instances') !== -1) {
+        return;
+      }
+      return _warn.apply(console, arguments);
+    };
+  }
+})();
 
 /* ── Mobile nav toggle ─────────────────────────────── */
 (function () {
