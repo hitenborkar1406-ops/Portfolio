@@ -2,16 +2,6 @@ import React from 'react';
 import { createRoot } from 'react-dom/client';
 import PortfolioIntro from '../components/PortfolioIntro';
 
-// Allow ?reset-intro in URL to force-show the intro again
-try {
-  if (typeof window !== 'undefined') {
-    const params = new URLSearchParams(window.location.search);
-    if (params.has('reset-intro')) {
-      sessionStorage.removeItem('meadow_intro_v2');
-    }
-  }
-} catch (_) {}
-
 function mountIntro() {
   let mount = document.getElementById('portfolioIntroMount');
   if (!mount) {
@@ -22,17 +12,7 @@ function mountIntro() {
   if (!mount.dataset.mounted) {
     mount.dataset.mounted = 'true';
     const root = createRoot(mount);
-    root.render(
-      <PortfolioIntro
-        onComplete={() => {
-          setTimeout(() => {
-            if (mount && mount.parentNode) {
-              mount.remove();
-            }
-          }, 800);
-        }}
-      />
-    );
+    root.render(<PortfolioIntro />);
   }
 }
 

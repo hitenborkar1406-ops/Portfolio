@@ -1,194 +1,119 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import MeadowSundown from '../../originkit/components/ui/meadow-sundown';
 import '../styles/PortfolioIntro.css';
 
+gsap.registerPlugin(ScrollTrigger);
+
 export interface PortfolioIntroProps {
   onComplete?: () => void;
-  isAppReady?: boolean;
-  loadingLabel?: string;
   children?: React.ReactNode;
 }
 
-function hasSeenIntro(): boolean {
-  if (typeof window === 'undefined') return true;
-  try {
-    return sessionStorage.getItem('meadow_intro_v2') === '1';
-  } catch {
-    return false;
-  }
-}
-
 export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
-  onComplete,
   children,
 }) => {
-  const [shouldRenderOverlay, setShouldRenderOverlay] = useState<boolean>(() => !hasSeenIntro());
-  const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
-  const [timeMode, setTimeMode] = useState<number>(0);
-  const [percentage, setPercentage] = useState<number>(0);
-  const [nightReached, setNightReached] = useState<boolean>(false);
-
+  const [scrollProgress, setScrollProgress] = useState<number>(0);
+  const trackRef = useRef<HTMLDivElement | null>(null);
+  const stageRef = useRef<HTMLDivElement | null>(null);
   const barFillRef = useRef<HTMLDivElement | null>(null);
-  const nightTriggerTimerRef = useRef<number | null>(null);
 
   const handleSkip = useCallback(() => {
-    try {
-      sessionStorage.setItem('meadow_intro_v2', '1');
-    } catch {}
-    setIsFadingOut(true);
-    window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-    setTimeout(() => {
-      setShouldRenderOverlay(false);
-      document.body.style.overflow = '';
-      const hero = document.getElementById('hero');
-      if (hero) hero.scrollIntoView({ behavior: 'smooth' });
-      onComplete?.();
-    }, 700);
-  }, [onComplete]);
+    if (!trackRef.current) return;
+    const rect = trackRef.current.getBoundingClientRect();
+    const targetY = window.pageYOffset + rect.bottom;
+    window.scrollTo({ top: targetY, behavior: 'smooth' });
+  }, []);
 
-  // Lock background scroll during the intro and ensure smooth focus on Hero section on exit
   useEffect(() => {
-    if (shouldRenderOverlay) {
-      document.body.style.overflow = 'hidden';
-      window.scrollTo(0, 0);
-    } else {
-      document.body.style.overflow = '';
-      const hero = document.getElementById('hero');
-      if (hero) {
-        hero.scrollIntoView({ behavior: 'smooth' });
-      } else {
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-      }
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [shouldRenderOverlay]);
+    const track = trackRef.current;
+    const stage = stageRef.current;
+    if (!track || !stage) return;
 
-  const handleModeChange = useCallback((mode: number) => {
-    setTimeMode(mode);
-    const progress = Math.min(1, Math.max(0, mode / 3));
-    const nextPercent = Math.min(100, Math.round(progress * 100));
-    setPercentage(nextPercent);
+    const trigger = ScrollTrigger.create({
+      trigger: track,
+      start: 'top top',
+      end: 'bottom bottom',
+      scrub: 0.5,
+      onUpdate: (self) => {
+        const prog = self.progress;
+        setScrollProgress(prog);
 
-    if (barFillRef.current) {
-      barFillRef.current.style.transform = `scaleX(${progress})`;
-    }
-
-    if (mode >= 2.92 && !nightReached) {
-      setNightReached(true);
-    }
-  }, [nightReached]);
-
-  // When 100% is reached (night falls), smoothly glide up to unveil the Hero section
-  useEffect(() => {
-    if (!nightReached || !shouldRenderOverlay) return;
-
-    if (nightTriggerTimerRef.current) {
-      window.clearTimeout(nightTriggerTimerRef.current);
-    }
-
-    nightTriggerTimerRef.current = window.setTimeout(() => {
-      setIsFadingOut(true);
-      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
-      const unmountTimer = window.setTimeout(() => {
-        try {
-          sessionStorage.setItem('meadow_intro_v2', '1');
-        } catch {}
-        setShouldRenderOverlay(false);
-        document.body.style.overflow = '';
-        const hero = document.getElementById('hero');
-        if (hero) {
-          hero.scrollIntoView({ behavior: 'smooth' });
-        } else {
-          window.scrollTo({ top: 0, behavior: 'smooth' });
+        if (barFillRef.current) {
+          barFillRef.current.style.transform = `scaleX(${prog})`;
         }
-        onComplete?.();
-      }, 850);
-      return () => window.clearTimeout(unmountTimer);
-    }, 500);
+
+        // Seamless dissolve & scale transition into the hero as scroll approaches bottom of track
+        if (prog > 0.7) {
+          const norm = (prog - 0.7) / 0.3;
+          stage.style.opacity = String(Math.max(0, 1 - norm));
+          stage.style.transform = `scale(${1 - norm * 0.08}) translateY(-${norm * 50}px)`;
+          stage.style.pointerEvents = norm > 0.85 ? 'none' : 'auto';
+        } else {
+          stage.style.opacity = '1';
+          stage.style.transform = 'scale(1) translateY(0)';
+          stage.style.pointerEvents = 'auto';
+        }
+      },
+    });
 
     return () => {
-      if (nightTriggerTimerRef.current) {
-        window.clearTimeout(nightTriggerTimerRef.current);
-      }
+      trigger.kill();
     };
-  }, [nightReached, shouldRenderOverlay, onComplete]);
+  }, []);
 
-  useEffect(() => {
-    if (!shouldRenderOverlay) return;
-
-    const onWindowWheel = (e: WheelEvent) => {
-      if (e.deltaY > 15 && timeMode >= 2.85) {
-        setNightReached(true);
-      }
-    };
-
-    window.addEventListener('wheel', onWindowWheel, { passive: true });
-    return () => window.removeEventListener('wheel', onWindowWheel);
-  }, [shouldRenderOverlay, timeMode]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleSkip();
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [handleSkip]);
+  const percentage = Math.min(100, Math.round(scrollProgress * 100));
 
   return (
-    <>
+    <div className="portfolio-intro__track-wrapper" ref={trackRef}>
       {children}
-      {shouldRenderOverlay && (
-        <div
-          className={`portfolio-intro ${isFadingOut ? 'portfolio-intro--exiting' : ''}`}
-          role="status"
-          aria-live="polite"
-          aria-label={`Introduction meadow, ${percentage} percent`}
+      <div className="portfolio-intro__pinned-stage" ref={stageRef}>
+        <button
+          type="button"
+          className="portfolio-intro__skip"
+          onClick={handleSkip}
+          aria-label="Skip to portfolio content"
         >
-          <button
-            type="button"
-            className="portfolio-intro__skip"
-            onClick={handleSkip}
-            aria-label="Skip introduction"
-          >
-            Skip Intro →
-          </button>
+          Skip to Content ↓
+        </button>
 
-          <div className="portfolio-intro__fullscreen-stage">
-            <MeadowSundown
-              season="autumn"
-              meadow={{ birds: 28, swallows: true }}
-              vehicle={{ type: 'car' }}
-              day={{ start: 0, scroll: 'wheel', sensitivity: 5.5 }}
-              style={{
-                position: 'absolute',
-                inset: 0,
-                width: '100%',
-                height: '100%',
-                aspectRatio: 'unset',
-              }}
-              onModeChange={handleModeChange}
-            />
-            <div className="portfolio-intro__vignette" aria-hidden="true" />
+        <div className="portfolio-intro__canvas-wrap">
+          <MeadowSundown
+            season="autumn"
+            meadow={{ birds: 28, swallows: true }}
+            vehicle={{ type: 'car' }}
+            day={{ scroll: 'off' }}
+            modeProgress={scrollProgress}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              aspectRatio: 'unset',
+            }}
+          />
+          <div className="portfolio-intro__vignette" aria-hidden="true" />
+        </div>
+
+        <div
+          className="portfolio-intro__hud-minimal"
+          style={{
+            opacity: scrollProgress > 0.8 ? Math.max(0, 1 - (scrollProgress - 0.8) / 0.15) : 1,
+          }}
+        >
+          <div className="portfolio-intro__hud-row">
+            <span className="portfolio-intro__hud-text">
+              {scrollProgress >= 0.75 ? 'Entering Portfolio...' : 'Scroll to explore'}
+            </span>
+            <span className="portfolio-intro__hud-percent">{percentage}%</span>
           </div>
-
-          <div className="portfolio-intro__hud-minimal">
-            <div className="portfolio-intro__hud-row">
-              <span className="portfolio-intro__hud-text">
-                {timeMode >= 2.85 ? 'Entering Portfolio...' : 'Scroll to move portfolio'}
-              </span>
-              <span className="portfolio-intro__hud-percent">{percentage}%</span>
-            </div>
-            <div className="portfolio-intro__track" aria-hidden="true">
-              <div ref={barFillRef} className="portfolio-intro__fill" />
-            </div>
+          <div className="portfolio-intro__track" aria-hidden="true">
+            <div ref={barFillRef} className="portfolio-intro__fill" />
           </div>
         </div>
-      )}
-    </>
+      </div>
+    </div>
   );
 };
 

@@ -84,6 +84,7 @@ export interface MeadowSundownProps {
 	wind?: Partial<WindOpts>
 	advanced?: Partial<AdvancedOpts>
 	style?: CSSProperties
+	modeProgress?: number
 	onModeChange?: (mode: number, target: number) => void
 }
 
@@ -1844,6 +1845,7 @@ interface Resolved {
 	meadow: MeadowParts; season: SeasonName; weather: WeatherOpts; grass: GrassOpts; sc: SeasonColors; tree: TreeOpts
 	vehicle: VehicleOpts; sky: SkyOpts; placement: Placement; intro: boolean; act: InteractionOpts; day: DayOpts; wind: WindOpts
 	adv: AdvancedOpts
+	modeProgress?: number
 	onModeChange?: (mode: number, target: number) => void
 }
 
@@ -3045,7 +3047,10 @@ function runMeadow(host: HTMLDivElement, vn: HTMLCanvasElement, propsRef: { curr
 	const ed = new THREE.Matrix4(); const sunTmp = V3(), fwdTmp = V3(); let lastShadow = -1
 	const step = (n: number) => {
 		const p = propsRef.current; k.time += n; const e = k.time; q.uTime.value = e; k.intro = Math.min(1, k.intro + n / 5.2)
-		if (p.day.scroll === "page" && scrollDirty) {
+		if (typeof p.modeProgress === "number") {
+			k.modeTarget = clamp(p.modeProgress * (MODES.length - 1), 0, MODES.length - 1)
+			k.zoomT = clamp(1 + p.modeProgress * 0.45, 1, 1.8)
+		} else if (p.day.scroll === "page" && scrollDirty) {
 			scrollDirty = false
 			// Noon (or Start) while the meadow is in place, night once
 			// it has scrolled nine-tenths of its height away.
@@ -3350,6 +3355,7 @@ export default function MeadowSundown(props: MeadowSundownProps) {
 		day: { ...DEFAULT_DAY, ...props.day },
 		wind: { ...DEFAULT_WIND, ...props.wind },
 		adv: { ...DEFAULT_ADVANCED, ...props.advanced },
+		modeProgress: props.modeProgress,
 		onModeChange: props.onModeChange,
 	}
 	const hostRef = useRef<HTMLDivElement>(null)
