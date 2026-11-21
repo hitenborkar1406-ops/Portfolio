@@ -1,6 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import gsap from 'gsap';
-import SunsetVelocity from '../../originkit/components/ui/sunset-velocity';
+import MeadowSundown from '../../originkit/components/ui/meadow-sundown';
 import '../styles/PortfolioIntro.css';
 
 export interface PortfolioIntroProps {
@@ -21,22 +20,22 @@ function hasSeenIntro(): boolean {
 
 export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
   onComplete,
-  isAppReady = true,
-  loadingLabel = 'INITIALIZING PORTFOLIO',
   children,
 }) => {
   const [shouldRenderOverlay, setShouldRenderOverlay] = useState<boolean>(() => !hasSeenIntro());
   const [isFadingOut, setIsFadingOut] = useState<boolean>(false);
-  const [animationDone, setAnimationDone] = useState<boolean>(false);
+  const [timeMode, setTimeMode] = useState<number>(0);
   const [percentage, setPercentage] = useState<number>(0);
-  const [statusText, setStatusText] = useState<string>(loadingLabel);
+  const [statusText, setStatusText] = useState<string>('SCROLL TO MOVE PORTFOLIO');
+  const [timeLabel, setTimeLabel] = useState<string>('☀️ NOON MEADOW');
+  const [nightReached, setNightReached] = useState<boolean>(false);
   const [prefersReducedMotion, setPrefersReducedMotion] = useState<boolean>(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return false;
     return window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   });
 
   const barFillRef = useRef<HTMLDivElement | null>(null);
-  const lastPercentRef = useRef<number>(0);
+  const nightTriggerTimerRef = useRef<number | null>(null);
 
   useEffect(() => {
     if (typeof window === 'undefined' || !window.matchMedia) return;
@@ -50,75 +49,85 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
     try {
       sessionStorage.setItem('portfolio_intro_seen', '1');
     } catch {}
-    setPercentage(100);
-    setAnimationDone(true);
-  }, []);
+    setIsFadingOut(true);
+    setTimeout(() => {
+      setShouldRenderOverlay(false);
+      onComplete?.();
+    }, 600);
+  }, [onComplete]);
+
+  useEffect(() => {
+    if (prefersReducedMotion && shouldRenderOverlay) {
+      handleSkip();
+    }
+  }, [prefersReducedMotion, shouldRenderOverlay, handleSkip]);
+
+  const handleModeChange = useCallback((mode: number) => {
+    setTimeMode(mode);
+    const progress = Math.min(1, Math.max(0, mode / 3));
+    const nextPercent = Math.min(100, Math.round(progress * 100));
+    setPercentage(nextPercent);
+
+    if (barFillRef.current) {
+      barFillRef.current.style.transform = `scaleX(${progress})`;
+    }
+
+    if (mode < 0.75) {
+      setStatusText('SCROLL TO MOVE PORTFOLIO');
+      setTimeLabel('☀️ NOON MEADOW');
+    } else if (mode < 1.75) {
+      setStatusText('SCROLLING TOWARD SUNSET');
+      setTimeLabel('🌅 GOLDEN HOUR');
+    } else if (mode < 2.65) {
+      setStatusText('NIGHT IS FALLING • CAMPER LIGHTS ON');
+      setTimeLabel('🌆 DUSK TWILIGHT');
+    } else {
+      setStatusText('NIGHT HAS FALLEN // ENTERING PORTFOLIO');
+      setTimeLabel('🌌 STARLIT NIGHT');
+    }
+
+    if (mode >= 2.92 && !nightReached) {
+      setNightReached(true);
+    }
+  }, [nightReached]);
+
+  useEffect(() => {
+    if (!nightReached || !shouldRenderOverlay) return;
+
+    if (nightTriggerTimerRef.current) {
+      window.clearTimeout(nightTriggerTimerRef.current);
+    }
+
+    nightTriggerTimerRef.current = window.setTimeout(() => {
+      setIsFadingOut(true);
+      window.setTimeout(() => {
+        try {
+          sessionStorage.setItem('portfolio_intro_seen', '1');
+        } catch {}
+        setShouldRenderOverlay(false);
+        onComplete?.();
+      }, 700);
+    }, 850);
+
+    return () => {
+      if (nightTriggerTimerRef.current) {
+        window.clearTimeout(nightTriggerTimerRef.current);
+      }
+    };
+  }, [nightReached, shouldRenderOverlay, onComplete]);
 
   useEffect(() => {
     if (!shouldRenderOverlay) return;
 
-    if (prefersReducedMotion) {
-      handleSkip();
-      return;
-    }
-
-    const timelineState = { progress: 0 };
-
-    const syncProgress = (val: number) => {
-      if (barFillRef.current) {
-        barFillRef.current.style.transform = `scaleX(${val})`;
-      }
-      const nextPercent = Math.min(100, Math.round(val * 100));
-      if (nextPercent !== lastPercentRef.current) {
-        lastPercentRef.current = nextPercent;
-        setPercentage(nextPercent);
-
-        if (nextPercent < 35) {
-          setStatusText('INITIALIZING PORTFOLIO');
-        } else if (nextPercent < 75) {
-          setStatusText('SUNSET VELOCITY // ENGAGING');
-        } else if (nextPercent < 99) {
-          setStatusText('CALIBRATING TELEMETRY');
-        } else {
-          setStatusText('SYSTEM READY // WELCOME');
-        }
+    const onWindowWheel = (e: WheelEvent) => {
+      if (e.deltaY > 15 && timeMode >= 2.85) {
+        setNightReached(true);
       }
     };
 
-    const duration = 3.0;
-    const tl = gsap.timeline({
-      onComplete: () => {
-        syncProgress(1);
-        setAnimationDone(true);
-      },
-    });
-
-    tl.to(timelineState, {
-      progress: 1,
-      duration,
-      ease: 'power1.inOut',
-      onUpdate: () => syncProgress(timelineState.progress),
-    });
-
-    return () => {
-      tl.kill();
-    };
-  }, [shouldRenderOverlay, prefersReducedMotion, handleSkip]);
-
-  useEffect(() => {
-    if (!animationDone || !isAppReady || !shouldRenderOverlay) return;
-
-    setIsFadingOut(true);
-    const fadeTimer = window.setTimeout(() => {
-      try {
-        sessionStorage.setItem('portfolio_intro_seen', '1');
-      } catch {}
-      setShouldRenderOverlay(false);
-      onComplete?.();
-    }, 600);
-
-    return () => window.clearTimeout(fadeTimer);
-  }, [animationDone, isAppReady, shouldRenderOverlay, onComplete]);
+    window.addEventListener('wheel', onWindowWheel, { passive: true });
+    return () => window.removeEventListener('wheel', onWindowWheel);
+  }, [shouldRenderOverlay, timeMode]);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -140,7 +149,7 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
           className={`portfolio-intro ${isFadingOut ? 'portfolio-intro--exiting' : ''}`}
           role="status"
           aria-live="polite"
-          aria-label={`Loading portfolio, ${percentage} percent`}
+          aria-label={`Introduction meadow, ${percentage} percent`}
         >
           <button
             type="button"
@@ -151,43 +160,47 @@ export const PortfolioIntro: React.FC<PortfolioIntroProps> = ({
             Skip Intro →
           </button>
 
-          <div className="portfolio-intro__content">
-            <div className="portfolio-intro__stage">
-              <SunsetVelocity
-                background="#110813"
-                skyTop="#F7D3C8"
-                skyHorizon="#EF6759"
-                carColor="#E53935"
-                advanced={{
-                  sunX: 50,
-                  sunY: 48,
-                  sunSize: 110,
-                  vignette: 15,
-                  hazeColor: '#F6C2B4',
-                  hazeOpacity: 55,
-                  turbineFar: '#7E3D5A',
-                  cloudColor: '#6E2636',
-                }}
-                style={{
-                  position: 'absolute',
-                  inset: 0,
-                  width: '100%',
-                  height: '100%',
-                  minWidth: 0,
-                  minHeight: 0,
-                }}
-              />
-              <div className="portfolio-intro__vignette" aria-hidden="true" />
+          <div className="portfolio-intro__fullscreen-stage">
+            <MeadowSundown
+              onModeChange={handleModeChange}
+              day={{ start: 0, scroll: 'wheel', sensitivity: 5.5 }}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                aspectRatio: 'unset',
+              }}
+            />
+            <div className="portfolio-intro__vignette" aria-hidden="true" />
+          </div>
+
+          <div className="portfolio-intro__hud-float">
+            <div className="portfolio-intro__banner">
+              <span className="portfolio-intro__prompt-title">SCROLL TO MOVE PORTFOLIO</span>
+              <span className="portfolio-intro__time-badge">{timeLabel}</span>
             </div>
 
-            <div className="portfolio-intro__hud">
-              <div className="portfolio-intro__meta">
-                <span className="portfolio-intro__label">{statusText}</span>
-                <span className="portfolio-intro__percent">{formattedPercent}</span>
-              </div>
-              <div className="portfolio-intro__track" aria-hidden="true">
-                <div ref={barFillRef} className="portfolio-intro__fill" />
-              </div>
+            <div className="portfolio-intro__meta">
+              <span className="portfolio-intro__label">{statusText}</span>
+              <span className="portfolio-intro__percent">{formattedPercent}</span>
+            </div>
+
+            <div className="portfolio-intro__track" aria-hidden="true">
+              <div ref={barFillRef} className="portfolio-intro__fill" />
+            </div>
+
+            <div className="portfolio-intro__cues">
+              <span className="portfolio-intro__cue-node">☀️ Noon</span>
+              <span className="portfolio-intro__cue-arrow">───────</span>
+              <span className="portfolio-intro__cue-node">🌅 Dusk</span>
+              <span className="portfolio-intro__cue-arrow">───────</span>
+              <span className="portfolio-intro__cue-node">🌙 Night</span>
+            </div>
+
+            <div className="portfolio-intro__scroll-prompt">
+              <span className="portfolio-intro__scroll-icon" aria-hidden="true">↓</span>
+              <span className="portfolio-intro__scroll-text">Scroll wheel or drag vertically to shift day into night</span>
             </div>
           </div>
         </div>

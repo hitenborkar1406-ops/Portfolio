@@ -2388,7 +2388,7 @@
 
   // ─── State ───
   var W = 0, H = 0;
-  var raf = 0, last = -1, acc = 0, ready = false, visible = true;
+  var raf = 0, last = -1, acc = 0, ready = false, visible = true, restFrames = 0;
   var vx0 = 0, vy0 = 0, vx1 = 0, vy1 = 0;
 
   var iJ = N;
@@ -2596,8 +2596,14 @@
   function settle() {
     var v = props, adv = advOf(v), G = geom(v, adv);
     place(G);
-    for (var i = 0; i < 30; i++) step(SUB, v, adv, G, 0, true);
+    for (var i = 0; i < 20; i++) step(SUB, v, adv, G, 0, true);
     for (var i = 0; i < pts.length; i++) { pts[i].px = pts[i].x; pts[i].py = pts[i].y; }
+    // Start with a natural physical displacement so on page entrance the badge swings alive and comes to rest
+    if (pts[iB] && pts[iP]) {
+      pts[iB].x += 30;
+      pts[iP].x += 15;
+    }
+    restFrames = 0;
   }
 
   function settleAsync() {
@@ -2930,16 +2936,18 @@
     userDrag = { t: hit.t, lx: hit.lx, tx: x, ty: y };
     try { canvas.setPointerCapture(e.pointerId); } catch (_) {}
     canvas.style.cursor = 'grabbing'; e.preventDefault();
+    restFrames = 0;
     startLoop();
   }
   function onMove(e) {
     ptrX = e.offsetX; ptrY = e.offsetY; overTarget = 1;
+    restFrames = 0;
     startLoop();
     if (userDrag) { userDrag.tx = ptrX; userDrag.ty = ptrY; return; }
     if (!prefersReduced) canvas.style.cursor = hitCard(ptrX, ptrY) ? 'grab' : 'default';
   }
   function onLeave() { if (!userDrag) overTarget = 0; }
-  function onUp(e) { if (!userDrag) return; userDrag = null; try { canvas.releasePointerCapture(e.pointerId); } catch (_) {} canvas.style.cursor = 'grab'; }
+  function onUp(e) { if (!userDrag) return; userDrag = null; try { canvas.releasePointerCapture(e.pointerId); } catch (_) {} canvas.style.cursor = 'grab'; restFrames = 0; startLoop(); }
 
   canvas.addEventListener('pointerdown', onDown);
   canvas.addEventListener('pointermove', onMove);
@@ -2959,15 +2967,17 @@
     if (userDrag) {
       userDrag.tx = cx;
       userDrag.ty = cy;
+      restFrames = 0;
       startLoop();
     } else {
       var dx = Math.max(rect.left - e.clientX, 0, e.clientX - rect.right);
       var dy = Math.max(rect.top - e.clientY, 0, e.clientY - rect.bottom);
       var dist = Math.hypot(dx, dy);
-      if (dist < 340) {
+      if (dist < 420) {
         ptrX = cx;
         ptrY = cy;
-        overTarget = Math.max(0, 1 - dist / 340);
+        overTarget = Math.max(0, 1 - dist / 420);
+        restFrames = 0;
         startLoop();
       } else if (overTarget > 0) {
         overTarget = 0;
@@ -2981,9 +2991,11 @@
     var curScroll = window.pageYOffset;
     var diff = curScroll - lastBadgeScroll;
     lastBadgeScroll = curScroll;
-    if (Math.abs(diff) > 1 && visible && pts[iB]) {
-      var impulse = Math.max(-10, Math.min(10, diff * 0.4));
+    if (Math.abs(diff) > 0.5 && visible && pts[iB]) {
+      var impulse = Math.max(-12, Math.min(12, diff * 0.45));
       pts[iB].x += impulse;
+      pts[iP].x += impulse * 0.3;
+      restFrames = 0;
       startLoop();
     }
   }, { passive: true });
@@ -3022,7 +3034,7 @@
     }
     draw(v, adv, G, hoverAmt);
 
-    // Sleep when badge is completely at rest and no interaction is active
+    // Sleep only when badge is completely at rest for a sustained duration and no interaction is active
     if (!userDrag && over < 0.001 && overTarget === 0) {
       var maxV = 0;
       for (var i = 0; i < pts.length; i++) {
@@ -3031,10 +3043,17 @@
         var sp = dX * dX + dY * dY;
         if (sp > maxV) maxV = sp;
       }
-      if (maxV < 0.0001) {
-        raf = 0;
-        return;
+      if (maxV < 0.0002) {
+        restFrames++;
+        if (restFrames > 120) {
+          raf = 0;
+          return;
+        }
+      } else {
+        restFrames = 0;
       }
+    } else {
+      restFrames = 0;
     }
     raf = requestAnimationFrame(frame);
   }
