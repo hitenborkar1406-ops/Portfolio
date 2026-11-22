@@ -47,7 +47,7 @@
 
   <link rel="stylesheet" href="tokens.css?v=3.0.0">
   <link rel="stylesheet" href="base.css?v=2.3.3">
-  <link rel="stylesheet" href="style.css?v=3.0.0">
+  <link rel="stylesheet" href="style.css?v=3.2.0">
   <link rel="stylesheet" href="assets/portfolio-intro.bundle.css?v=3.0.0">
 </head>
 <body>
@@ -64,6 +64,9 @@
 
   <!-- Sunset Velocity Start-up Intro Overlay -->
   <div id="portfolioIntroMount"></div>
+
+  <!-- Traffic Wave Neon Cyber Highway (Active after Car Start-up) -->
+  <div id="trafficWaveMount" class="traffic-wave-stage" aria-hidden="true"></div>
 
   <!-- Scroll progress -->
   <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
@@ -175,6 +178,11 @@
     <section class="hero" id="hero">
       <div class="container hero__inner">
         <div class="hero__content">
+          <div class="hero__status-badge" data-rv="fade">
+            <span class="hero__status-dot"></span>
+            <span class="hero__status-text">HYPERDRIVE ACTIVE • 2026</span>
+            <span class="hero__status-hint">Click & hold highway to boost</span>
+          </div>
           <h1 class="hero__headline">
             <span class="mask-line"><span>I build things</span></span>
             <span class="mask-line"><span>that work.</span></span>
@@ -1002,6 +1010,7 @@
   <script src="assets/spring-text.bundle.js?v=2.1.0" defer></script>
   <script src="assets/portfolio-intro.bundle.js?v=3.0.0" defer></script>
   <script src="assets/gauze-blaze.bundle.js?v=1.0.0" defer></script>
+  <script src="assets/traffic-wave.bundle.js?v=1.0.0" defer></script>
   <script src="ribbon-cursor.js?v=2.1.0" defer></script>
 </body>
 </html>
