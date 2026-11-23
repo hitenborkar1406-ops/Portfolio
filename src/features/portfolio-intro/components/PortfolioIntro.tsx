@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import MeadowSundown from '../../originkit/components/ui/meadow-sundown';
+import MeadowSundown from './meadow-sundown';
 import '../styles/PortfolioIntro.css';
 
 gsap.registerPlugin(ScrollTrigger);

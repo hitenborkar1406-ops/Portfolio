@@ -19,57 +19,45 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 ## Project Structure
 
 ```
-├── index.html                    # Main portfolio (single-page)
-├── projects.html                 # Projects listing page
-├── narrative-index.html          # Narrative story portfolio (alt version)
+├── index.html                    # Main portfolio (single-page experience)
 ├── 404.html                      # Custom 404 page
-├── tokens.css                    # Design tokens (Cobalt theme)
-├── base.css                      # Hallmark scaffold: floor rules, keys, cuts, graphite
-├── style.css                     # Page-specific styles + responsive
-├── narrative.css                 # Narrative portfolio styles
-├── favicon.ico / favicon.png     # Favicons
-├── package.json                  # Build config (esbuild)
-├── vercel.json                   # Vercel deployment config
+├── style.css                     # Main design system & custom component styling
+├── base.css                      # Base resets, typography, and utility foundations
+├── tokens.css                    # Design tokens & color variable system
+├── main.js                       # Core interaction engine (dock, theme, 3D books, scroll)
+├── package.json                  # Dependencies & esbuild build scripts
+├── vercel.json                   # Deployment routing & redirect configurations
 ├── sitemap.xml                   # SEO sitemap
-├── robots.txt                    # SEO robots
+├── robots.txt                    # SEO crawlers directive
 ├── assets/
-│   ├── avatar.jpg                # Profile image
-│   ├── fonts.css                 # Self-hosted Playfair Display / IBM Plex Sans / JetBrains Mono
-│   ├── fonts/                    # WOFF2 subsets (no external font requests)
-│   ├── images/                   # Project screenshots (Hacksagon, Ideathon)
-│   ├── icons/                    # Technology icons (C++)
+│   ├── avatar.jpg                # Cyber portrait profile image
+│   ├── fonts.css                 # Self-hosted webfont declarations
+│   ├── fonts/                    # WOFF2 subsets (Playfair Display, IBM Plex, JetBrains Mono)
+│   ├── images/                   # Project screenshots & achievement certificates
+│   ├── icons/                    # Technology & toolchain icons
 │   ├── downloads/
-│   │   └── HITEN_RESUME.pdf      # Resume PDF
-│   ├── *.bundle.js               # Compiled entry points (generated)
-│   └── *.bundle.css              # Compiled CSS (generated)
+│   │   └── HITEN_RESUME.pdf      # Latest downloadable CV
+│   ├── three.min.js              # Three.js core 3D runtime
+│   ├── qrcode.min.js             # Offline QR code generator
+│   ├── ribbon-cursor.js          # Interactive ribbon trail cursor
+│   ├── ink-theme.js              # Theme controller & storage
+│   └── *.bundle.js               # Compiled client feature bundles
 └── src/
     ├── features/
-    │   ├── portfolio-intro/      # 3D procedural sedan intro (React + Three.js + GSAP)
+    │   ├── portfolio-intro/      # 3D procedural sedan intro animation (Three.js + GSAP)
     │   │   ├── components/       # PortfolioIntro, IntroStageScene, FuturisticSedan, GoldenTrails
     │   │   ├── config/           # introConfig.ts, motionTimeline.ts
     │   │   ├── styles/           # PortfolioIntro.css
-    │   │   └── entry/            # portfolio-intro-entry.jsx (mount point)
-    │   ├── originkit/            # Hero 57 / Sunset Velocity (React + Canvas)
-    │   │   ├── components/
-    │   │   │   ├── hero-57.tsx
-    │   │   │   └── ui/           # section-hero, hero-57-content, sunset-velocity, gauze-blaze
-    │   │   ├── styles/           # hero-57.css, originkit-section-theme.css
-    │   ├── spring-text/          # Spring-driven text animation
-    │   │   └── entry/            # spring-text.jsx (IntersectionObserver + spring-text-engine)
-    │   ├── clay-robot/           # Interactive 3D clay robot mascot (WebGL2)
-    │   │   └── entry/            # clay-robot.jsx (SDF ray-marched, theme-aware)
-    │   ├── sunset-velocity/      # Sunset Velocity standalone entry
-    │   │   └── entry/            # sunset-velocity-entry.jsx
-    │   └── gauze-blaze/          # Gauze Blaze burning ribbon particle mesh (WebGL2)
-    │       └── entry/            # gauze-blaze-entry.jsx
+    │   │   └── entry/            # portfolio-intro-entry.jsx
+    │   ├── traffic-wave/         # Neon highway WebGL background scene
+    │   │   └── entry/            # traffic-wave-entry.jsx
+    │   ├── clay-robot/           # Interactive 3D clay robot mascot (SDF ray-marched WebGL2)
+    │   │   └── entry/            # clay-robot.jsx
+    │   └── spring-text/          # Spring physics typography engine
+    │       └── entry/            # spring-text.jsx
     └── shared/
-        ├── lib/                  # Vendored libraries (no npm install needed)
-        │   ├── three.min.js      # Three.js r158
-        │   ├── qrcode.min.js     # QRCode generator
-        │   └── ribbon-cursor.js  # Ribbon trail cursor effect
         └── utils/
-            ├── main.js           # Nav, glass-dock, share sheet, 3D books, scroll motion
-            └── narrative.js      # Narrative portfolio data & config
+            └── main.js           # Shared interactive utilities
 ```
 
 ---
@@ -78,25 +66,25 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 
 | Section | ID | Description |
 |---------|-----|-------------|
-| Hero | `#hero` | Headline, one-liner, CTA (Get in Touch, Resume, View Projects, Share) |
-| Projects Callout | `#projects` | Banner linking to projects.html |
-| Skills | `#skills` | 4 devi-folders: Languages, Fundamentals, Design & Tools, Data & Cloud |
-| Profiles | `#profiles` | GitHub, LinkedIn, LeetCode cards |
-| Achievements | `#achievements` | Interactive 3D book showcase (Hacksagon 2026, Ideathon) |
-| About | `#about` | Education, Research, Certifications, Resume CTAs |
-| Contact | `#contact` | Social flip buttons (GitHub, LeetCode, Email, LinkedIn, Location, Phone, Codeforces, Kaggle) |
+| Hero | `#hero` | Headline, one-liner, quick CTAs (Get in Touch, Resume, Share) |
+| Tech Stack | `#stack` | Continuously streaming dual-row tech stack marquee |
+| Activity | `#activity` | Interactive GitHub & LeetCode contribution grids with stats |
+| Projects | `#projects` | 5 featured engineering projects with interactive 3D Clay Robot mascot & filter tabs |
+| Achievements | `#achievements` | Interactive 3D book showcase (Hacksagon 2026 2nd Place, Ideathon) |
+| About | `#about` | Education, 6G security research, certifications, and cyber card |
+| Contact | `#contact` | Social flip buttons, direct communication channels, and interactive QR sheet |
 
 ---
 
 ## Built With
 
-- **Core:** HTML, CSS, JavaScript (vanilla ES modules where possible)
-- **Design System:** Hallmark v2.0.0 (Cobalt theme)
-- **3D/Animation:** Three.js (react-three-fiber, drei), GSAP, WebGL2 (SDF ray-marching)
+- **Core:** HTML5, CSS3, JavaScript (ES modules)
+- **Design System:** Hallmark v2.0.0 (Cobalt & Obsidian theme)
+- **3D & Shaders:** Three.js, WebGL2 (ray-marched SDF), React Three Fiber, GSAP
 - **Text Animation:** spring-text-engine + @react-spring/web
-- **Build:** esbuild (IIFE bundles, no framework)
-- **Fonts:** Self-hosted Playfair Display, IBM Plex Sans, JetBrains Mono (WOFF2)
-- **Deployment:** Vercel (static)
+- **Bundler:** esbuild (high-speed IIFE minification)
+- **Typography:** Self-hosted Playfair Display, IBM Plex Sans, JetBrains Mono
+- **Hosting:** Vercel (static edge deployment)
 
 ---
 
@@ -106,32 +94,18 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 # Install dependencies
 npm install
 
-# Development (watch spring-text)
-npm run dev
-
-# Production build (all 4 entry points)
+# Build all production bundles
 npm run build
+
+# Watch mode for spring text
+npm run dev
 ```
 
-**Build outputs** to `assets/`:
-- `spring-text.bundle.js` — Scroll-triggered spring text reveals
-- `clay-robot.bundle.js` — 3D clay robot mascot
-- `sunset-velocity.bundle.js` — Sunset Velocity hero animation
-- `portfolio-intro.bundle.js` + `.bundle.css` — 2D canvas Sunset Velocity intro
-- `gauze-blaze.bundle.js` — Gauze Blaze interactive burning ribbon particle mesh
-
----
-
-## Scroll Motion Engine (`src/shared/utils/main.js`)
-
-Single `requestAnimationFrame` loop that **sleeps when nothing moves**:
-
-- **Progress bar** — top of page, updates on scroll
-- **Hero parallax** — headline, badge, scroll cue at different speeds
-- **Section rules** — animated underlines drawing in per section
-- **Stacked cards** (`data-stack`) — Projects & Skills with depth dimming + staggered reveals
-- **Scrubbed reveals** (`data-scrub="rise|tilt|left|right|scale"`, optional `data-stagger`) — reverse on scroll up
-- **Respects `prefers-reduced-motion`** — all animation disabled when requested
+**Compiled Bundles** generated into `assets/`:
+- `spring-text.bundle.js` — Dynamic spring typography
+- `clay-robot.bundle.js` — Interactive 3D mascot agent
+- `portfolio-intro.bundle.js` — 3D sedan intro sequence
+- `traffic-wave.bundle.js` — Ambient neon highway backdrop
 
 ---
 
@@ -139,29 +113,22 @@ Single `requestAnimationFrame` loop that **sleeps when nothing moves**:
 
 | Feature | Implementation |
 |---------|----------------|
-| 3D Sedan Intro | React + Three.js + GSAP, procedural BMW M coupe, curtain reveal |
-| Clay Robot Mascot | SDF ray-marched WebGL2, theme-aware (dark/light), interactive (walk, hop, wave, blink, follow pointer) |
-| Sunset Velocity | Canvas 2D, parallax layers, configurable via props |
-| Spring Text | IntersectionObserver lazy-mount, spring physics, auto-unmount to static DOM |
-| Devi Folders | 3D CSS folders with arc badges, hover-to-inspect |
-| 3D Book Showcase | Three.js bookshelf, click to open detail panel with photo gallery |
-| Social Flip Buttons | CSS 3D flip cards spelling "CONTACT" |
-| Glass Dock Nav | Magnetic tooltip, CTA button with eye animation |
-| Dark/Light Theme | CSS custom properties + localStorage + system preference |
+| 3D Sedan Intro | React + Three.js + GSAP procedural coupe with smooth curtain exit |
+| Ambient Traffic Wave | Continuous night highway light trails running seamlessly in the background |
+| Clay Robot Mascot | Interactive WebGL2 ray-marched SDF mascot reacting to cursor movements and hops |
+| Live Activity Grids | Dynamic GitHub commit graph and LeetCode problem solving tracker |
+| Streaming Tech Stack | Seamless infinite CSS marquee showcasing full-stack capabilities |
+| 3D Book Shelf | Interactive Three.js books with page-turning modals and hackathon proof |
+| Social Flip Grid | 3D CSS card flip interactions spelling out contact channels |
 
 ---
 
 ## Deployment
 
 ```bash
-# Vercel (recommended)
-vercel --prod
-
-# Or push to main — Vercel auto-deploys from GitHub
+# Push to main to trigger automatic edge deployment
 git push origin main
 ```
-
-**Vercel config** (`vercel.json`) rewrites all routes to `index.html` for SPA-like behavior on static pages.
 
 ---
 
