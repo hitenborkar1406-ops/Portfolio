@@ -318,7 +318,7 @@
       <div class="container">
         <div class="projects-page__hero">
           <div class="projects-page__hero-text">
-            <span class="projects-section__eyebrow">PORTFOLIO WORK • 5 SYSTEMS</span>
+            <span class="projects-section__eyebrow">PORTFOLIO WORK • 2 SYSTEMS</span>
             <h2 class="projects-page__headline">
               <span class="mask-line"><span>Featured Projects & Systems</span></span>
             </h2>
@@ -326,18 +326,11 @@
               Full-stack platforms, GIS routing systems, and IoT prototypes built during my computer science undergrad. Designed for reliability, clean architecture, and real civic utility.
             </p>
           </div>
-
-          <div class="projects-page__robot-wrap">
-            <div id="clayRobotMount" class="projects-page__robot-stage" aria-label="Interactive 3D mascot"></div>
-            <div class="projects-page__robot-caption">
-              Interactive Mascot • Hover to lead, click to hop
-            </div>
-          </div>
         </div>
 
         <!-- ── Filters ──────────────────────────────── -->
         <div class="projects-page__filters" role="tablist" aria-label="Filter projects">
-          <button type="button" class="filter-btn is-active" data-filter="all">All Projects (5)</button>
+          <button type="button" class="filter-btn is-active" data-filter="all">All Projects (2)</button>
           <button type="button" class="filter-btn" data-filter="gis-web">GIS & Web</button>
           <button type="button" class="filter-btn" data-filter="iot">IoT & Hardware</button>
           <button type="button" class="filter-btn" data-filter="ml-data">ML & Data</button>
@@ -350,21 +343,13 @@
           <article class="detailed-card" data-category="gis-web ml-data">
             <div>
               <div class="detailed-card__eyebrow">
-                <span>01 / 05</span>
+                <span>01 / 02</span>
                 <span class="detailed-card__badge">Hacksagon 2nd Place</span>
               </div>
               <h3>Smart City Traffic Management</h3>
               <p class="detailed-card__summary">
                 Deployed GIS traffic platform for Nagpur, delivering dynamic routing, congestion heatmaps, and civic alerts. Compares real-time route alternatives via OpenStreetMap and OSRM.
               </p>
-              <div class="detailed-card__panel graphite cut" style="margin-top: var(--space-md); margin-bottom: var(--space-md); padding: 0.75rem 1rem; border-radius: 8px; font-family: monospace; font-size: 0.75rem; background: var(--color-graphite); color: var(--color-graphite-ink); border: 1px solid var(--color-graphite-border);">
-                <div class="muted" style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.25rem;">// traffic-navigation</div>
-                <div><span style="color: var(--color-accent);">from</span> xgboost <span style="color: var(--color-accent);">import</span> XGBClassifier</div>
-                <div style="color: var(--color-muted);"># Low, Medium, High — 15 min ahead</div>
-                <div><span style="color: var(--color-accent);">def</span> recommend(origin, dest):</div>
-                <div>&nbsp;&nbsp;level = model.<span style="color: var(--color-accent);">predict</span>(features)</div>
-                <div>&nbsp;&nbsp;<span style="color: var(--color-accent);">return</span> osrm.best_path(level)</div>
-              </div>
               <ul class="detailed-card__highlights">
                 <li>XGBoost classifier predicts congestion 15 minutes ahead with high precision</li>
                 <li>Interactive geospatial routing engine utilizing Leaflet & FastAPI microservices</li>
@@ -392,22 +377,13 @@
           <article class="detailed-card" data-category="iot">
             <div>
               <div class="detailed-card__eyebrow">
-                <span>02 / 05</span>
+                <span>02 / 02</span>
                 <span class="detailed-card__badge">Healthcare IoT & Telemetry</span>
               </div>
               <h3>Smart IV Drip Monitoring</h3>
               <p class="detailed-card__summary">
                 Contributed to an IoT prototype for automated IV monitoring that improves patient safety through real-time alerts. Designed modules for fluid-level sensing, blood backflow detection, automatic valve control, and vital-sign monitoring.
               </p>
-              <div class="detailed-card__panel graphite cut" style="margin-top: var(--space-md); margin-bottom: var(--space-md); padding: 0.75rem 1rem; border-radius: 8px; font-family: monospace; font-size: 0.75rem; background: var(--color-graphite); color: var(--color-graphite-ink); border: 1px solid var(--color-graphite-border);">
-                <div class="muted" style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.25rem;">// smart-iv-monitor</div>
-                <div><span style="color: var(--color-accent);">const</span> patient = <span style="color: var(--color-accent);">await</span> getPatientData(id);</div>
-                <div><span style="color: var(--color-accent);">const</span> vitals = patient.<span style="color: var(--color-accent);">vitals</span>;</div>
-                <div style="color: var(--color-muted);">// real-time IV status tracking</div>
-                <div><span style="color: var(--color-accent);">if</span> (vitals.ivLevel &lt; threshold) {'{'}</div>
-                <div>&nbsp;&nbsp;sendAlert(<span style="color: var(--color-accent);">patient.doctor</span>);</div>
-                <div>{'}'}</div>
-              </div>
               <ul class="detailed-card__highlights">
                 <li>Continuous weight & flow tracking via ESP32 microcontroller and load cells</li>
                 <li>Automated nurse station buzzer alerts and threshold notification pipeline</li>
@@ -427,132 +403,6 @@
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 </a>
                 <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
-                  <span>GitHub</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 3: CarbonTrack SME -->
-          <article class="detailed-card" data-category="gis-web ml-data">
-            <div>
-              <div class="detailed-card__eyebrow">
-                <span>03 / 05</span>
-                <span class="detailed-card__badge">SME carbon estimator</span>
-              </div>
-              <h3>CarbonTrack SME</h3>
-              <p class="detailed-card__summary">
-                Responsive frontend that helps SMEs estimate and understand their carbon footprint.
-              </p>
-              <div class="detailed-card__panel graphite cut" style="margin-top: var(--space-md); margin-bottom: var(--space-md); padding: 0.75rem 1rem; border-radius: 8px; font-family: monospace; font-size: 0.75rem; background: var(--color-graphite); color: var(--color-graphite-ink); border: 1px solid var(--color-graphite-border);">
-                <div class="muted" style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.25rem;">// carbon-track-sme</div>
-                <div><span style="color: var(--color-accent);">function</span> calculateFootprint(data) {'{'}</div>
-                <div>&nbsp;&nbsp;<span style="color: var(--color-accent);">const</span> emissions = data.<span style="color: var(--color-accent);">map</span>(</div>
-                <div>&nbsp;&nbsp;&nbsp;&nbsp;d =&gt; d.consumption * <span style="color: var(--color-accent);">factors</span>[d.type]</div>
-                <div>&nbsp;&nbsp;);</div>
-                <div>&nbsp;&nbsp;<span style="color: var(--color-accent);">return</span> emissions.reduce((a, b) =&gt; a + b, 0);</div>
-                <div>{'}'}</div>
-              </div>
-              <ul class="detailed-card__highlights">
-                <li>Interactive calculators with dynamic emission factor benchmarking</li>
-                <li>Visual analytics breakdowns for electricity, supply chain, and transport</li>
-                <li>Exportable compliance audit reports for green certification readiness</li>
-              </ul>
-            </div>
-            <div class="detailed-card__footer">
-              <div class="detailed-card__tags">
-                <span class="tag">HTML</span>
-                <span class="tag">CSS</span>
-                <span class="tag">JavaScript</span>
-              </div>
-              <div class="detailed-card__links">
-                <a href="https://sparkling-brigadeiros-265737.netlify.app/" target="_blank" rel="noopener" class="card-link-btn" style="background: var(--color-accent); color: var(--color-accent-ink);" aria-label="View Live Demo">
-                  <span>View Live</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-                <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
-                  <span>GitHub</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 4: Edge Telemetry Pipeline -->
-          <article class="detailed-card" data-category="iot ml-data">
-            <div>
-              <div class="detailed-card__eyebrow">
-                <span>04 / 05</span>
-                <span class="detailed-card__badge">Systems Architecture</span>
-              </div>
-              <h3>Edge Telemetry & Anomaly Detector</h3>
-              <p class="detailed-card__summary">
-                Lightweight stream processing agent for edge sensor nodes that detects drift and anomalies locally before streaming compressed summaries to cloud storage.
-              </p>
-              <div class="detailed-card__panel graphite cut" style="margin-top: var(--space-md); margin-bottom: var(--space-md); padding: 0.75rem 1rem; border-radius: 8px; font-family: monospace; font-size: 0.75rem; background: var(--color-graphite); color: var(--color-graphite-ink); border: 1px solid var(--color-graphite-border);">
-                <div class="muted" style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.25rem;">// edge-telemetry</div>
-                <div><span style="color: var(--color-accent);">async function</span> streamEdge(batch) {'{'}</div>
-                <div>&nbsp;&nbsp;<span style="color: var(--color-accent);">const</span> anomaly = model.<span style="color: var(--color-accent);">detectDrift</span>(batch);</div>
-                <div>&nbsp;&nbsp;<span style="color: var(--color-accent);">if</span> (anomaly) ws.<span style="color: var(--color-accent);">sendHighPriority</span>(batch);</div>
-                <div>{'}'}</div>
-              </div>
-              <ul class="detailed-card__highlights">
-                <li>Embedded isolation forest algorithm for real-time anomaly detection</li>
-                <li>Bandwidth optimization through delta compression and local buffer queues</li>
-                <li>Zero data loss during intermittent network disconnects</li>
-              </ul>
-            </div>
-            <div class="detailed-card__footer">
-              <div class="detailed-card__tags">
-                <span class="tag">Python</span>
-                <span class="tag">C++</span>
-                <span class="tag">SQLite</span>
-                <span class="tag">WebSockets</span>
-              </div>
-              <div class="detailed-card__links">
-                <a href="https://github.com/hitenborkar1406-ops" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Code on GitHub">
-                  <span>GitHub</span>
-                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                </a>
-              </div>
-            </div>
-          </article>
-
-          <!-- Project 5: Hallmark Interactive Portfolio -->
-          <article class="detailed-card" data-category="gis-web">
-            <div>
-              <div class="detailed-card__eyebrow">
-                <span>05 / 05</span>
-                <span class="detailed-card__badge">Interactive WebGL & Physics</span>
-              </div>
-              <h3>Hallmark Interactive Portfolio</h3>
-              <p class="detailed-card__summary">
-                This website itself — engineered with a custom WebGL 2 raymarched SDF clay robot mascot, Verlet physics swinging lanyard badge, WebGL ink diffusion theme transitions, and spring text physics.
-              </p>
-              <div class="detailed-card__panel graphite cut" style="margin-top: var(--space-md); margin-bottom: var(--space-md); padding: 0.75rem 1rem; border-radius: 8px; font-family: monospace; font-size: 0.75rem; background: var(--color-graphite); color: var(--color-graphite-ink); border: 1px solid var(--color-graphite-border);">
-                <div class="muted" style="color: var(--color-accent); font-weight: 600; margin-bottom: 0.25rem;">// clay-robot-sdf</div>
-                <div><span style="color: var(--color-accent);">vec2</span> res = <span style="color: var(--color-accent);">sceneD</span>(uW2S * p, <span style="color: var(--color-accent);">true</span>);</div>
-                <div><span style="color: var(--color-accent);">float</span> d = res.x * uScale;</div>
-                <div style="color: var(--color-muted);">// critically-damped spring tracking</div>
-                <div><span style="color: var(--color-accent);">stepSpring</span>(yaw, targetYaw, T, dt);</div>
-              </div>
-              <ul class="detailed-card__highlights">
-                <li>Custom GLSL 3.0 ES fragment shader raymarching signed distance fields</li>
-                <li>Critically damped spring physics for interactive mouse tracking & waddling</li>
-                <li>Zero runtime lag with requestIdleCallback scheduling and VSync pacing</li>
-              </ul>
-            </div>
-            <div class="detailed-card__footer">
-              <div class="detailed-card__tags">
-                <span class="tag">WebGL 2.0</span>
-                <span class="tag">GLSL</span>
-                <span class="tag">React</span>
-                <span class="tag">esbuild</span>
-                <span class="tag">Physics</span>
-              </div>
-              <div class="detailed-card__links">
-                <a href="https://github.com/hitenborkar1406-ops/Portfolio" target="_blank" rel="noopener" class="card-link-btn" aria-label="View Source on GitHub">
                   <span>GitHub</span>
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
                 </a>
@@ -1695,7 +1545,6 @@
   <script src="assets/three.min.js" defer></script>
   <script src="assets/qrcode.min.js" defer></script>
   <script src="main.js?v=3.1.0" defer></script>
-  <script src="assets/clay-robot.bundle.js?v=1.0.0" defer></script>
   <script src="assets/spring-text.bundle.js?v=2.1.0" defer></script>
   <script src="assets/portfolio-intro.bundle.js?v=3.0.0" defer></script>
   <script src="assets/traffic-wave.bundle.js?v=1.0.0" defer></script>

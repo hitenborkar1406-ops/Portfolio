@@ -45,14 +45,11 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 └── src/
     ├── features/
     │   ├── portfolio-intro/      # 3D procedural sedan intro animation (Three.js + GSAP)
-    │   │   ├── components/       # PortfolioIntro, IntroStageScene, FuturisticSedan, GoldenTrails
-    │   │   ├── config/           # introConfig.ts, motionTimeline.ts
+    │   │   ├── components/       # PortfolioIntro, MeadowSundown
     │   │   ├── styles/           # PortfolioIntro.css
     │   │   └── entry/            # portfolio-intro-entry.jsx
     │   ├── traffic-wave/         # Neon highway WebGL background scene
     │   │   └── entry/            # traffic-wave-entry.jsx
-    │   ├── clay-robot/           # Interactive 3D clay robot mascot (SDF ray-marched WebGL2)
-    │   │   └── entry/            # clay-robot.jsx
     │   └── spring-text/          # Spring physics typography engine
     │       └── entry/            # spring-text.jsx
     └── shared/
@@ -69,7 +66,7 @@ Personal portfolio website built with the [Hallmark](https://github.com/Nutlope/
 | Hero | `#hero` | Headline, one-liner, quick CTAs (Get in Touch, Resume, Share) |
 | Tech Stack | `#stack` | Continuously streaming dual-row tech stack marquee |
 | Activity | `#activity` | Interactive GitHub & LeetCode contribution grids with stats |
-| Projects | `#projects` | 5 featured engineering projects with interactive 3D Clay Robot mascot & filter tabs |
+| Projects | `#projects` | Featured engineering projects with responsive filtering tabs |
 | Achievements | `#achievements` | Interactive 3D book showcase (Hacksagon 2026 2nd Place, Ideathon) |
 | About | `#about` | Education, 6G security research, certifications, and cyber card |
 | Contact | `#contact` | Social flip buttons, direct communication channels, and interactive QR sheet |
@@ -103,7 +100,6 @@ npm run dev
 
 **Compiled Bundles** generated into `assets/`:
 - `spring-text.bundle.js` — Dynamic spring typography
-- `clay-robot.bundle.js` — Interactive 3D mascot agent
 - `portfolio-intro.bundle.js` — 3D sedan intro sequence
 - `traffic-wave.bundle.js` — Ambient neon highway backdrop
 
@@ -115,7 +111,6 @@ npm run dev
 |---------|----------------|
 | 3D Sedan Intro | React + Three.js + GSAP procedural coupe with smooth curtain exit |
 | Ambient Traffic Wave | Continuous night highway light trails running seamlessly in the background |
-| Clay Robot Mascot | Interactive WebGL2 ray-marched SDF mascot reacting to cursor movements and hops |
 | Live Activity Grids | Dynamic GitHub commit graph and LeetCode problem solving tracker |
 | Streaming Tech Stack | Seamless infinite CSS marquee showcasing full-stack capabilities |
 | 3D Book Shelf | Interactive Three.js books with page-turning modals and hackathon proof |
