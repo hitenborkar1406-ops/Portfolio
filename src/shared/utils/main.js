@@ -3179,136 +3179,44 @@
 
 /* ── Activity Matrix: GitHub & LeetCode Heatmap ───────────────────── */
 (function initActivityMatrix() {
-  var grid = document.getElementById('activityMatrixGrid');
-  var caption = document.getElementById('activityMatrixCaption');
-  var tooltip = document.getElementById('activityTooltip');
-  var tabGh = document.getElementById('tabGithub');
-  var tabLc = document.getElementById('tabLeetcode');
-  var metricTotal = document.getElementById('metricTotal');
-  var metricStreak = document.getElementById('metricStreak');
-  var metricBestStreak = document.getElementById('metricBestStreak');
-  var metricRate = document.getElementById('metricRate');
-  var metricTotalLbl = document.getElementById('metricTotalLbl');
-  var metricStreakLbl = document.getElementById('metricStreakLbl');
-  var metricBestStreakLbl = document.getElementById('metricBestStreakLbl');
-  var metricRateLbl = document.getElementById('metricRateLbl');
+  var grid = document.getElementById("activityMatrixGrid");
+  var caption = document.getElementById("activityMatrixCaption");
+  var tooltip = document.getElementById("activityTooltip");
+  var tabGh = document.getElementById("tabGithub");
+  var tabLc = document.getElementById("tabLeetcode");
+  var metricTotal = document.getElementById("metricTotal");
+  var metricStreak = document.getElementById("metricStreak");
+  var metricBestStreak = document.getElementById("metricBestStreak");
+  var metricRate = document.getElementById("metricRate");
+  var metricTotalLbl = document.getElementById("metricTotalLbl");
+  var metricStreakLbl = document.getElementById("metricStreakLbl");
+  var metricBestStreakLbl = document.getElementById("metricBestStreakLbl");
+  var metricRateLbl = document.getElementById("metricRateLbl");
 
   if (!grid) return;
 
-  var WEEKS = 52;
-  var DAYS = 7;
-  var TOTAL_DAYS = WEEKS * DAYS; // 364 days
-  var now = new Date();
+  var GITHUB_DATA = [["2025-11-23",0,0],["2025-11-24",0,0],["2025-11-25",0,0],["2025-11-26",0,0],["2025-11-27",0,0],["2025-11-28",0,0],["2025-11-29",0,0],["2025-11-30",0,0],["2025-12-01",0,0],["2025-12-02",0,0],["2025-12-03",0,0],["2025-12-04",0,0],["2025-12-05",0,0],["2025-12-06",0,0],["2025-12-07",0,0],["2025-12-08",0,0],["2025-12-09",0,0],["2025-12-10",0,0],["2025-12-11",0,0],["2025-12-12",0,0],["2025-12-13",0,0],["2025-12-14",0,0],["2025-12-15",0,0],["2025-12-16",0,0],["2025-12-17",0,0],["2025-12-18",0,0],["2025-12-19",0,0],["2025-12-20",0,0],["2025-12-21",0,0],["2025-12-22",0,0],["2025-12-23",0,0],["2025-12-24",0,0],["2025-12-25",0,0],["2025-12-26",0,0],["2025-12-27",0,0],["2025-12-28",0,0],["2025-12-29",0,0],["2025-12-30",0,0],["2025-12-31",0,0],["2026-01-01",0,0],["2026-01-02",0,0],["2026-01-03",0,0],["2026-01-04",0,0],["2026-01-05",0,0],["2026-01-06",0,0],["2026-01-07",0,0],["2026-01-08",0,0],["2026-01-09",0,0],["2026-01-10",0,0],["2026-01-11",0,0],["2026-01-12",0,0],["2026-01-13",0,0],["2026-01-14",0,0],["2026-01-15",0,0],["2026-01-16",0,0],["2026-01-17",0,0],["2026-01-18",0,0],["2026-01-19",0,0],["2026-01-20",0,0],["2026-01-21",0,0],["2026-01-22",0,0],["2026-01-23",0,0],["2026-01-24",0,0],["2026-01-25",0,0],["2026-01-26",0,0],["2026-01-27",0,0],["2026-01-28",0,0],["2026-01-29",0,0],["2026-01-30",0,0],["2026-01-31",0,0],["2026-02-01",1,1],["2026-02-02",2,1],["2026-02-03",0,0],["2026-02-04",0,0],["2026-02-05",0,0],["2026-02-06",0,0],["2026-02-07",0,0],["2026-02-08",0,0],["2026-02-09",0,0],["2026-02-10",0,0],["2026-02-11",0,0],["2026-02-12",0,0],["2026-02-13",0,0],["2026-02-14",0,0],["2026-02-15",0,0],["2026-02-16",0,0],["2026-02-17",0,0],["2026-02-18",0,0],["2026-02-19",0,0],["2026-02-20",0,0],["2026-02-21",0,0],["2026-02-22",0,0],["2026-02-23",0,0],["2026-02-24",0,0],["2026-02-25",0,0],["2026-02-26",0,0],["2026-02-27",0,0],["2026-02-28",1,1],["2026-03-01",0,0],["2026-03-02",0,0],["2026-03-03",0,0],["2026-03-04",0,0],["2026-03-05",0,0],["2026-03-06",0,0],["2026-03-07",0,0],["2026-03-08",0,0],["2026-03-09",0,0],["2026-03-10",0,0],["2026-03-11",0,0],["2026-03-12",0,0],["2026-03-13",0,0],["2026-03-14",0,0],["2026-03-15",0,0],["2026-03-16",0,0],["2026-03-17",0,0],["2026-03-18",0,0],["2026-03-19",0,0],["2026-03-20",0,0],["2026-03-21",0,0],["2026-03-22",0,0],["2026-03-23",0,0],["2026-03-24",0,0],["2026-03-25",0,0],["2026-03-26",0,0],["2026-03-27",0,0],["2026-03-28",0,0],["2026-03-29",9,2],["2026-03-30",2,1],["2026-03-31",7,2],["2026-04-01",5,2],["2026-04-02",0,0],["2026-04-03",0,0],["2026-04-04",0,0],["2026-04-05",0,0],["2026-04-06",0,0],["2026-04-07",0,0],["2026-04-08",1,1],["2026-04-09",5,2],["2026-04-10",0,0],["2026-04-11",0,0],["2026-04-12",0,0],["2026-04-13",0,0],["2026-04-14",0,0],["2026-04-15",0,0],["2026-04-16",0,0],["2026-04-17",0,0],["2026-04-18",0,0],["2026-04-19",0,0],["2026-04-20",0,0],["2026-04-21",0,0],["2026-04-22",1,1],["2026-04-23",0,0],["2026-04-24",0,0],["2026-04-25",0,0],["2026-04-26",0,0],["2026-04-27",0,0],["2026-04-28",0,0],["2026-04-29",0,0],["2026-04-30",0,0],["2026-05-01",0,0],["2026-05-02",0,0],["2026-05-03",0,0],["2026-05-04",0,0],["2026-05-05",0,0],["2026-05-06",0,0],["2026-05-07",0,0],["2026-05-08",0,0],["2026-05-09",0,0],["2026-05-10",0,0],["2026-05-11",0,0],["2026-05-12",1,1],["2026-05-13",5,2],["2026-05-14",0,0],["2026-05-15",1,1],["2026-05-16",2,1],["2026-05-17",0,0],["2026-05-18",0,0],["2026-05-19",0,0],["2026-05-20",0,0],["2026-05-21",0,0],["2026-05-22",0,0],["2026-05-23",0,0],["2026-05-24",0,0],["2026-05-25",0,0],["2026-05-26",0,0],["2026-05-27",0,0],["2026-05-28",0,0],["2026-05-29",0,0],["2026-05-30",0,0],["2026-05-31",0,0],["2026-06-01",0,0],["2026-06-02",0,0],["2026-06-03",0,0],["2026-06-04",0,0],["2026-06-05",0,0],["2026-06-06",0,0],["2026-06-07",0,0],["2026-06-08",0,0],["2026-06-09",0,0],["2026-06-10",0,0],["2026-06-11",0,0],["2026-06-12",0,0],["2026-06-13",0,0],["2026-06-14",0,0],["2026-06-15",0,0],["2026-06-16",0,0],["2026-06-17",0,0],["2026-06-18",0,0],["2026-06-19",0,0],["2026-06-20",0,0],["2026-06-21",0,0],["2026-06-22",0,0],["2026-06-23",0,0],["2026-06-24",0,0],["2026-06-25",0,0],["2026-06-26",0,0],["2026-06-27",0,0],["2026-06-28",0,0],["2026-06-29",0,0],["2026-06-30",0,0],["2026-07-01",0,0],["2026-07-02",0,0],["2026-07-03",0,0],["2026-07-04",0,0],["2026-07-05",0,0],["2026-07-06",0,0],["2026-07-07",0,0],["2026-07-08",0,0],["2026-07-09",0,0],["2026-07-10",0,0],["2026-07-11",0,0],["2026-07-12",0,0],["2026-07-13",0,0],["2026-07-14",0,0],["2026-07-15",0,0],["2026-07-16",0,0],["2026-07-17",0,0],["2026-07-18",0,0],["2026-07-19",0,0],["2026-07-20",0,0],["2026-07-21",0,0],["2026-07-22",0,0],["2026-07-23",0,0],["2026-07-24",0,0],["2026-07-25",0,0],["2026-07-26",0,0],["2026-07-27",0,0],["2026-07-28",0,0],["2026-07-29",0,0],["2026-07-30",0,0],["2026-07-31",0,0],["2026-08-01",0,0],["2026-08-02",0,0],["2026-08-03",0,0],["2026-08-04",0,0],["2026-08-05",0,0],["2026-08-06",1,1],["2026-08-07",1,1],["2026-08-08",0,0],["2026-08-09",0,0],["2026-08-10",0,0],["2026-08-11",0,0],["2026-08-12",0,0],["2026-08-13",0,0],["2026-08-14",0,0],["2026-08-15",0,0],["2026-08-16",0,0],["2026-08-17",0,0],["2026-08-18",0,0],["2026-08-19",0,0],["2026-08-20",4,1],["2026-08-21",0,0],["2026-08-22",0,0],["2026-08-23",0,0],["2026-08-24",0,0],["2026-08-25",0,0],["2026-08-26",0,0],["2026-08-27",0,0],["2026-08-28",0,0],["2026-08-29",0,0],["2026-08-30",0,0],["2026-08-31",0,0],["2026-09-01",0,0],["2026-09-02",0,0],["2026-09-03",0,0],["2026-09-04",0,0],["2026-09-05",0,0],["2026-09-06",0,0],["2026-09-07",0,0],["2026-09-08",0,0],["2026-09-09",0,0],["2026-09-10",0,0],["2026-09-11",0,0],["2026-09-12",0,0],["2026-09-13",0,0],["2026-09-14",10,3],["2026-09-15",1,1],["2026-09-16",2,1],["2026-09-17",0,0],["2026-09-18",1,1],["2026-09-19",0,0],["2026-09-20",0,0],["2026-09-21",0,0],["2026-09-22",0,0],["2026-09-23",0,0],["2026-09-24",0,0],["2026-09-25",0,0],["2026-09-26",0,0],["2026-09-27",0,0],["2026-09-28",0,0],["2026-09-29",0,0],["2026-09-30",0,0],["2026-10-01",0,0],["2026-10-02",1,1],["2026-10-03",0,0],["2026-10-04",9,2],["2026-10-05",8,2],["2026-10-06",5,2],["2026-10-07",3,1],["2026-10-08",2,1],["2026-10-09",3,1],["2026-10-10",4,1],["2026-10-11",4,1],["2026-10-12",2,1],["2026-10-13",4,1],["2026-10-14",5,2],["2026-10-15",16,4],["2026-10-16",1,1],["2026-10-17",2,1],["2026-10-18",10,3],["2026-10-19",3,1],["2026-10-20",6,2],["2026-10-21",4,1],["2026-10-22",3,1],["2026-10-23",3,1],["2026-10-24",18,4],["2026-10-25",4,1],["2026-10-26",2,1],["2026-10-27",2,1],["2026-10-28",2,1],["2026-10-29",1,1],["2026-10-30",2,1],["2026-10-31",2,1],["2026-11-01",2,1],["2026-11-02",1,1],["2026-11-03",1,1],["2026-11-04",1,1],["2026-11-05",2,1],["2026-11-06",11,3],["2026-11-07",6,2],["2026-11-08",11,3],["2026-11-09",33,4],["2026-11-10",86,4],["2026-11-11",61,4],["2026-11-12",18,4],["2026-11-13",5,2],["2026-11-14",33,4],["2026-11-15",6,2],["2026-11-16",2,1],["2026-11-17",2,1],["2026-11-18",3,1],["2026-11-19",1,1],["2026-11-20",1,1],["2026-11-21",10,3],["2026-11-22",1,1],["2026-11-23",1,1]];
+  var LEETCODE_DATA = [["2025-11-23",0,0],["2025-11-24",0,0],["2025-11-25",0,0],["2025-11-26",0,0],["2025-11-27",0,0],["2025-11-28",0,0],["2025-11-29",0,0],["2025-11-30",0,0],["2025-12-01",0,0],["2025-12-02",0,0],["2025-12-03",0,0],["2025-12-04",0,0],["2025-12-05",0,0],["2025-12-06",0,0],["2025-12-07",0,0],["2025-12-08",0,0],["2025-12-09",0,0],["2025-12-10",0,0],["2025-12-11",0,0],["2025-12-12",0,0],["2025-12-13",0,0],["2025-12-14",0,0],["2025-12-15",0,0],["2025-12-16",0,0],["2025-12-17",0,0],["2025-12-18",0,0],["2025-12-19",0,0],["2025-12-20",0,0],["2025-12-21",0,0],["2025-12-22",0,0],["2025-12-23",0,0],["2025-12-24",0,0],["2025-12-25",0,0],["2025-12-26",0,0],["2025-12-27",0,0],["2025-12-28",0,0],["2025-12-29",0,0],["2025-12-30",0,0],["2025-12-31",0,0],["2026-01-01",0,0],["2026-01-02",0,0],["2026-01-03",0,0],["2026-01-04",0,0],["2026-01-05",0,0],["2026-01-06",0,0],["2026-01-07",0,0],["2026-01-08",0,0],["2026-01-09",0,0],["2026-01-10",0,0],["2026-01-11",0,0],["2026-01-12",0,0],["2026-01-13",0,0],["2026-01-14",0,0],["2026-01-15",0,0],["2026-01-16",0,0],["2026-01-17",0,0],["2026-01-18",0,0],["2026-01-19",0,0],["2026-01-20",0,0],["2026-01-21",0,0],["2026-01-22",0,0],["2026-01-23",0,0],["2026-01-24",0,0],["2026-01-25",0,0],["2026-01-26",0,0],["2026-01-27",0,0],["2026-01-28",0,0],["2026-01-29",0,0],["2026-01-30",0,0],["2026-01-31",0,0],["2026-02-01",0,0],["2026-02-02",0,0],["2026-02-03",0,0],["2026-02-04",0,0],["2026-02-05",0,0],["2026-02-06",0,0],["2026-02-07",0,0],["2026-02-08",0,0],["2026-02-09",0,0],["2026-02-10",0,0],["2026-02-11",0,0],["2026-02-12",0,0],["2026-02-13",0,0],["2026-02-14",0,0],["2026-02-15",0,0],["2026-02-16",0,0],["2026-02-17",0,0],["2026-02-18",0,0],["2026-02-19",0,0],["2026-02-20",0,0],["2026-02-21",0,0],["2026-02-22",0,0],["2026-02-23",0,0],["2026-02-24",0,0],["2026-02-25",0,0],["2026-02-26",0,0],["2026-02-27",0,0],["2026-02-28",0,0],["2026-03-01",0,0],["2026-03-02",0,0],["2026-03-03",0,0],["2026-03-04",0,0],["2026-03-05",4,3],["2026-03-06",0,0],["2026-03-07",6,3],["2026-03-08",0,0],["2026-03-09",2,2],["2026-03-10",3,2],["2026-03-11",5,3],["2026-03-12",5,3],["2026-03-13",6,3],["2026-03-14",9,4],["2026-03-15",6,3],["2026-03-16",3,2],["2026-03-17",2,2],["2026-03-18",4,3],["2026-03-19",5,3],["2026-03-20",0,0],["2026-03-21",5,3],["2026-03-22",1,1],["2026-03-23",4,3],["2026-03-24",1,1],["2026-03-25",1,1],["2026-03-26",0,0],["2026-03-27",0,0],["2026-03-28",0,0],["2026-03-29",0,0],["2026-03-30",0,0],["2026-03-31",0,0],["2026-04-01",0,0],["2026-04-02",0,0],["2026-04-03",0,0],["2026-04-04",0,0],["2026-04-05",0,0],["2026-04-06",0,0],["2026-04-07",0,0],["2026-04-08",0,0],["2026-04-09",0,0],["2026-04-10",0,0],["2026-04-11",0,0],["2026-04-12",0,0],["2026-04-13",0,0],["2026-04-14",0,0],["2026-04-15",0,0],["2026-04-16",0,0],["2026-04-17",0,0],["2026-04-18",0,0],["2026-04-19",0,0],["2026-04-20",0,0],["2026-04-21",0,0],["2026-04-22",0,0],["2026-04-23",0,0],["2026-04-24",0,0],["2026-04-25",0,0],["2026-04-26",0,0],["2026-04-27",0,0],["2026-04-28",0,0],["2026-04-29",0,0],["2026-04-30",0,0],["2026-05-01",0,0],["2026-05-02",0,0],["2026-05-03",0,0],["2026-05-04",0,0],["2026-05-05",0,0],["2026-05-06",0,0],["2026-05-07",0,0],["2026-05-08",0,0],["2026-05-09",0,0],["2026-05-10",0,0],["2026-05-11",0,0],["2026-05-12",0,0],["2026-05-13",0,0],["2026-05-14",0,0],["2026-05-15",0,0],["2026-05-16",0,0],["2026-05-17",0,0],["2026-05-18",0,0],["2026-05-19",0,0],["2026-05-20",0,0],["2026-05-21",0,0],["2026-05-22",0,0],["2026-05-23",0,0],["2026-05-24",0,0],["2026-05-25",0,0],["2026-05-26",0,0],["2026-05-27",0,0],["2026-05-28",0,0],["2026-05-29",0,0],["2026-05-30",0,0],["2026-05-31",0,0],["2026-06-01",0,0],["2026-06-02",0,0],["2026-06-03",0,0],["2026-06-04",0,0],["2026-06-05",0,0],["2026-06-06",0,0],["2026-06-07",0,0],["2026-06-08",0,0],["2026-06-09",0,0],["2026-06-10",0,0],["2026-06-11",0,0],["2026-06-12",0,0],["2026-06-13",0,0],["2026-06-14",0,0],["2026-06-15",0,0],["2026-06-16",0,0],["2026-06-17",0,0],["2026-06-18",0,0],["2026-06-19",0,0],["2026-06-20",0,0],["2026-06-21",0,0],["2026-06-22",0,0],["2026-06-23",0,0],["2026-06-24",0,0],["2026-06-25",0,0],["2026-06-26",0,0],["2026-06-27",2,2],["2026-06-28",0,0],["2026-06-29",2,2],["2026-06-30",0,0],["2026-07-01",2,2],["2026-07-02",0,0],["2026-07-03",0,0],["2026-07-04",0,0],["2026-07-05",0,0],["2026-07-06",0,0],["2026-07-07",0,0],["2026-07-08",0,0],["2026-07-09",0,0],["2026-07-10",0,0],["2026-07-11",0,0],["2026-07-12",0,0],["2026-07-13",0,0],["2026-07-14",0,0],["2026-07-15",0,0],["2026-07-16",0,0],["2026-07-17",0,0],["2026-07-18",0,0],["2026-07-19",0,0],["2026-07-20",0,0],["2026-07-21",0,0],["2026-07-22",0,0],["2026-07-23",0,0],["2026-07-24",0,0],["2026-07-25",0,0],["2026-07-26",0,0],["2026-07-27",0,0],["2026-07-28",0,0],["2026-07-29",0,0],["2026-07-30",0,0],["2026-07-31",0,0],["2026-08-01",0,0],["2026-08-02",0,0],["2026-08-03",0,0],["2026-08-04",0,0],["2026-08-05",0,0],["2026-08-06",0,0],["2026-08-07",0,0],["2026-08-08",0,0],["2026-08-09",0,0],["2026-08-10",0,0],["2026-08-11",0,0],["2026-08-12",0,0],["2026-08-13",0,0],["2026-08-14",0,0],["2026-08-15",0,0],["2026-08-16",0,0],["2026-08-17",0,0],["2026-08-18",0,0],["2026-08-19",0,0],["2026-08-20",0,0],["2026-08-21",0,0],["2026-08-22",0,0],["2026-08-23",0,0],["2026-08-24",0,0],["2026-08-25",0,0],["2026-08-26",0,0],["2026-08-27",0,0],["2026-08-28",0,0],["2026-08-29",0,0],["2026-08-30",0,0],["2026-08-31",0,0],["2026-09-01",0,0],["2026-09-02",0,0],["2026-09-03",0,0],["2026-09-04",0,0],["2026-09-05",0,0],["2026-09-06",0,0],["2026-09-07",0,0],["2026-09-08",0,0],["2026-09-09",0,0],["2026-09-10",0,0],["2026-09-11",0,0],["2026-09-12",0,0],["2026-09-13",0,0],["2026-09-14",0,0],["2026-09-15",0,0],["2026-09-16",0,0],["2026-09-17",0,0],["2026-09-18",0,0],["2026-09-19",0,0],["2026-09-20",0,0],["2026-09-21",0,0],["2026-09-22",0,0],["2026-09-23",0,0],["2026-09-24",3,2],["2026-09-25",2,2],["2026-09-26",4,3],["2026-09-27",2,2],["2026-09-28",1,1],["2026-09-29",2,2],["2026-09-30",2,2],["2026-10-01",3,2],["2026-10-02",3,2],["2026-10-03",1,1],["2026-10-04",11,4],["2026-10-05",19,4],["2026-10-06",2,2],["2026-10-07",13,4],["2026-10-08",4,3],["2026-10-09",3,2],["2026-10-10",3,2],["2026-10-11",3,2],["2026-10-12",7,3],["2026-10-13",1,1],["2026-10-14",1,1],["2026-10-15",3,2],["2026-10-16",2,2],["2026-10-17",1,1],["2026-10-18",10,4],["2026-10-19",8,4],["2026-10-20",3,2],["2026-10-21",8,4],["2026-10-22",1,1],["2026-10-23",1,1],["2026-10-24",1,1],["2026-10-25",5,3],["2026-10-26",2,2],["2026-10-27",4,3],["2026-10-28",6,3],["2026-10-29",1,1],["2026-10-30",1,1],["2026-10-31",1,1],["2026-11-01",2,2],["2026-11-02",2,2],["2026-11-03",1,1],["2026-11-04",1,1],["2026-11-05",14,4],["2026-11-06",9,4],["2026-11-07",10,4],["2026-11-08",14,4],["2026-11-09",8,4],["2026-11-10",7,3],["2026-11-11",2,2],["2026-11-12",2,2],["2026-11-13",1,1],["2026-11-14",2,2],["2026-11-15",1,1],["2026-11-16",1,1],["2026-11-17",1,1],["2026-11-18",1,1],["2026-11-19",1,1],["2026-11-20",2,2],["2026-11-21",1,1],["2026-11-22",1,1],["2026-11-23",1,1]];
 
-  function seededRandom(s) {
-    var x = Math.sin(s++) * 10000;
-    return x - Math.floor(x);
-  }
-
-  // Pre-generate GitHub distribution summing to exactly 3,370 contributions
-  var githubData = [];
-  var ghSum = 0;
-  for (var i = 0; i < TOTAL_DAYS; i++) {
-    var r = seededRandom(i * 19 + 7);
-    var dayOfWeek = i % 7;
-    var weight = (dayOfWeek === 0 || dayOfWeek === 6) ? 0.75 : 0.95;
-    var count = 0;
-    var lvl = 0;
-
-    if (r < weight) {
-      if (r > 0.88) {
-        count = Math.floor(16 + seededRandom(i * 41) * 13);
-        lvl = 4;
-      } else if (r > 0.65) {
-        count = Math.floor(9 + seededRandom(i * 37) * 7);
-        lvl = 3;
-      } else if (r > 0.35) {
-        count = Math.floor(5 + seededRandom(i * 29) * 4);
-        lvl = 2;
-      } else {
-        count = Math.floor(1 + seededRandom(i * 23) * 4);
-        lvl = 1;
-      }
-    }
-    ghSum += count;
-    githubData.push({ dayIndex: i, count: count, lvl: lvl });
-  }
-
-  // Exact calibration to reach 3,370 contributions
-  var ghDiff = 3370 - ghSum;
-  var calIdx = 0;
-  while (ghDiff !== 0 && calIdx < TOTAL_DAYS) {
-    var step = ghDiff > 0 ? 1 : -1;
-    if (githubData[calIdx].count > 0 || step > 0) {
-      githubData[calIdx].count += step;
-      ghDiff -= step;
-      if (githubData[calIdx].count >= 16) githubData[calIdx].lvl = 4;
-      else if (githubData[calIdx].count >= 9) githubData[calIdx].lvl = 3;
-      else if (githubData[calIdx].count >= 4) githubData[calIdx].lvl = 2;
-      else if (githubData[calIdx].count >= 1) githubData[calIdx].lvl = 1;
-      else githubData[calIdx].lvl = 0;
-    }
-    calIdx = (calIdx + 7) % TOTAL_DAYS;
-  }
-
-  // Pre-generate LeetCode problem solving distribution (450+ solved problems)
-  var leetcodeData = [];
-  var lcSum = 0;
-  for (var j = 0; j < TOTAL_DAYS; j++) {
-    var rLc = seededRandom(j * 31 + 13);
-    var lcCount = 0;
-    var lcLvl = 0;
-    if (rLc > 0.42) {
-      if (rLc > 0.90) {
-        lcCount = Math.floor(4 + seededRandom(j * 53) * 3);
-        lcLvl = 4;
-      } else if (rLc > 0.72) {
-        lcCount = 3;
-        lcLvl = 3;
-      } else if (rLc > 0.55) {
-        lcCount = 2;
-        lcLvl = 2;
-      } else {
-        lcCount = 1;
-        lcLvl = 1;
-      }
-    }
-    lcSum += lcCount;
-    leetcodeData.push({ dayIndex: j, count: lcCount, lvl: lcLvl });
-  }
-
-  var lcDiff = 468 - lcSum;
-  var calLcIdx = 0;
-  while (lcDiff !== 0 && calLcIdx < TOTAL_DAYS) {
-    var lcStep = lcDiff > 0 ? 1 : -1;
-    if (leetcodeData[calLcIdx].count > 0 || lcStep > 0) {
-      leetcodeData[calLcIdx].count += lcStep;
-      lcDiff -= lcStep;
-      if (leetcodeData[calLcIdx].count >= 4) leetcodeData[calLcIdx].lvl = 4;
-      else if (leetcodeData[calLcIdx].count === 3) leetcodeData[calLcIdx].lvl = 3;
-      else if (leetcodeData[calLcIdx].count === 2) leetcodeData[calLcIdx].lvl = 2;
-      else if (leetcodeData[calLcIdx].count === 1) leetcodeData[calLcIdx].lvl = 1;
-      else leetcodeData[calLcIdx].lvl = 0;
-    }
-    calLcIdx = (calLcIdx + 11) % TOTAL_DAYS;
-  }
-
-  function getDateForDay(dayIndex) {
-    var d = new Date(now);
-    d.setDate(d.getDate() - (TOTAL_DAYS - 1 - dayIndex));
-    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  function formatDate(dStr) {
+    var parts = dStr.split("-");
+    var d = new Date(parseInt(parts[0], 10), parseInt(parts[1], 10) - 1, parseInt(parts[2], 10));
+    return d.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
   }
 
   function renderGrid(dataset, isLeetcode) {
-    grid.innerHTML = '';
+    grid.innerHTML = "";
     var frag = document.createDocumentFragment();
 
-    dataset.forEach(function (cellData) {
-      var cell = document.createElement('div');
-      cell.className = 'activity-matrix-cell lvl-' + cellData.lvl;
-      cell.dataset.count = cellData.count;
-      cell.dataset.date = getDateForDay(cellData.dayIndex);
-      cell.dataset.type = isLeetcode ? 'problem' : 'contribution';
+    dataset.forEach(function (item) {
+      var date = item[0];
+      var count = item[1];
+      var lvl = item[2];
+      var cell = document.createElement("div");
+      cell.className = "activity-matrix-cell lvl-" + lvl;
+      cell.dataset.count = count;
+      cell.dataset.date = formatDate(date);
+      cell.dataset.type = isLeetcode ? "problem" : "contribution";
       frag.appendChild(cell);
     });
 
@@ -3316,75 +3224,74 @@
   }
 
   function setView(tab) {
-    var isLc = tab === 'leetcode';
+    var isLc = tab === "leetcode";
 
     if (tabGh && tabLc) {
-      tabGh.classList.toggle('is-active', !isLc);
-      tabGh.setAttribute('aria-selected', !isLc);
-      tabLc.classList.toggle('is-active', isLc);
-      tabLc.setAttribute('aria-selected', isLc);
+      tabGh.classList.toggle("is-active", !isLc);
+      tabGh.setAttribute("aria-selected", !isLc);
+      tabLc.classList.toggle("is-active", isLc);
+      tabLc.setAttribute("aria-selected", isLc);
     }
 
     if (!isLc) {
-      renderGrid(githubData, false);
-      if (caption) caption.textContent = '3,370 CONTRIBUTIONS IN THE LAST YEAR';
-      if (metricTotal) metricTotal.textContent = '3,370';
-      if (metricTotalLbl) metricTotalLbl.textContent = 'Total Contributions';
-      if (metricStreak) metricStreak.textContent = '42 Days';
-      if (metricStreakLbl) metricStreakLbl.textContent = 'Current Streak';
-      if (metricBestStreak) metricBestStreak.textContent = '118 Days';
-      if (metricBestStreakLbl) metricBestStreakLbl.textContent = 'Longest Streak';
-      if (metricRate) metricRate.textContent = 'Top 5%';
-      if (metricRateLbl) metricRateLbl.textContent = 'Consistency Rank';
+      renderGrid(GITHUB_DATA, false);
+      if (caption) caption.textContent = "492 CONTRIBUTIONS IN THE LAST YEAR";
+      if (metricTotal) metricTotal.textContent = "492";
+      if (metricTotalLbl) metricTotalLbl.textContent = "Total Contributions";
+      if (metricStreak) metricStreak.textContent = "48 Days";
+      if (metricStreakLbl) metricStreakLbl.textContent = "Current Streak";
+      if (metricBestStreak) metricBestStreak.textContent = "52 Days";
+      if (metricBestStreakLbl) metricBestStreakLbl.textContent = "Longest Streak";
+      if (metricRate) metricRate.textContent = "11 Repos";
+      if (metricRateLbl) metricRateLbl.textContent = "Public Repositories";
     } else {
-      renderGrid(leetcodeData, true);
-      if (caption) caption.textContent = '468 PROBLEMS SOLVED • 186 ACTIVE DAYS';
-      if (metricTotal) metricTotal.textContent = '468';
-      if (metricTotalLbl) metricTotalLbl.textContent = 'Problems Solved';
-      if (metricStreak) metricStreak.textContent = '26 Days';
-      if (metricStreakLbl) metricStreakLbl.textContent = 'Solving Streak';
-      if (metricBestStreak) metricBestStreak.textContent = '76.4%';
-      if (metricBestStreakLbl) metricBestStreakLbl.textContent = 'Acceptance Rate';
-      if (metricRate) metricRate.textContent = 'Global Top 8%';
-      if (metricRateLbl) metricRateLbl.textContent = 'LeetCode Rating';
+      renderGrid(LEETCODE_DATA, true);
+      if (caption) caption.textContent = "144 PROBLEMS SOLVED • 61 DAY STREAK";
+      if (metricTotal) metricTotal.textContent = "144";
+      if (metricTotalLbl) metricTotalLbl.textContent = "Problems Solved";
+      if (metricStreak) metricStreak.textContent = "61 Days";
+      if (metricStreakLbl) metricStreakLbl.textContent = "Solving Streak";
+      if (metricBestStreak) metricBestStreak.textContent = "82 Days";
+      if (metricBestStreakLbl) metricBestStreakLbl.textContent = "Total Active Days";
+      if (metricRate) metricRate.textContent = "95E / 47M / 2H";
+      if (metricRateLbl) metricRateLbl.textContent = "Easy / Medium / Hard";
     }
   }
 
   // Initial render
-  setView('github');
+  setView("github");
 
-  if (tabGh) tabGh.addEventListener('click', function () { setView('github'); });
-  if (tabLc) tabLc.addEventListener('click', function () { setView('leetcode'); });
+  if (tabGh) tabGh.addEventListener("click", function () { setView("github"); });
+  if (tabLc) tabLc.addEventListener("click", function () { setView("leetcode"); });
 
   // Tooltip interaction
   if (tooltip) {
-    var container = document.getElementById('activityMatrixSection');
-    grid.addEventListener('pointerover', function (e) {
-      var cell = e.target.closest('.activity-matrix-cell');
+    var container = document.getElementById("activityMatrixSection");
+    grid.addEventListener("pointerover", function (e) {
+      var cell = e.target.closest(".activity-matrix-cell");
       if (!cell || !container) return;
       var count = parseInt(cell.dataset.count, 10);
       var date = cell.dataset.date;
-      var isProblem = cell.dataset.type === 'problem';
+      var isProblem = cell.dataset.type === "problem";
 
       var label = count === 0
-        ? ('No ' + (isProblem ? 'problems solved' : 'contributions') + ' on ' + date)
-        : (count + (isProblem ? (count === 1 ? ' problem solved' : ' problems solved') : (count === 1 ? ' contribution' : ' contributions')) + ' on ' + date);
+        ? ("No " + (isProblem ? "problems solved" : "contributions") + " on " + date)
+        : (count + (isProblem ? (count === 1 ? " problem solved" : " problems solved") : (count === 1 ? " contribution" : " contributions")) + " on " + date);
 
       tooltip.textContent = label;
-      tooltip.classList.add('is-visible');
+      tooltip.classList.add("is-visible");
 
       var cRect = container.getBoundingClientRect();
       var cellRect = cell.getBoundingClientRect();
       var left = cellRect.left - cRect.left + cellRect.width / 2;
       var top = cellRect.top - cRect.top;
 
-      tooltip.style.left = left + 'px';
-      tooltip.style.top = top + 'px';
+      tooltip.style.left = left + "px";
+      tooltip.style.top = top + "px";
     });
 
-    grid.addEventListener('pointerleave', function () {
-      tooltip.classList.remove('is-visible');
+    grid.addEventListener("pointerleave", function () {
+      tooltip.classList.remove("is-visible");
     });
   }
 })();
-
