@@ -3295,3 +3295,29 @@
     });
   }
 })();
+
+/* ── Profiles 3D Interactive Spotlight & Tilt ────────────────────── */
+(function initProfiles3DTracking() {
+  var cards = document.querySelectorAll(".profiles__card");
+  if (!cards.length) return;
+
+  cards.forEach(function (card) {
+    card.addEventListener("pointermove", function (e) {
+      var rect = card.getBoundingClientRect();
+      var x = e.clientX - rect.left;
+      var y = e.clientY - rect.top;
+      card.style.setProperty("--mouse-x", x + "px");
+      card.style.setProperty("--mouse-y", y + "px");
+
+      var centerX = rect.width / 2;
+      var centerY = rect.height / 2;
+      var rotateX = ((y - centerY) / centerY) * -6.5;
+      var rotateY = ((x - centerX) / centerX) * 6.5;
+      card.style.transform = "perspective(1000px) rotateX(" + rotateX.toFixed(2) + "deg) rotateY(" + rotateY.toFixed(2) + "deg) translateY(-6px) scale3d(1.02, 1.02, 1.02)";
+    });
+
+    card.addEventListener("pointerleave", function () {
+      card.style.transform = "";
+    });
+  });
+})();

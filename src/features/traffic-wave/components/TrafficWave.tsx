@@ -521,7 +521,10 @@ class TrafficWaveScene {
 
         this.build()
 
-        this.onDown = () => {
+        this.onDown = (e?: PointerEvent) => {
+            if (e && e.target && ((e.target as HTMLElement).closest('a, button, input, textarea, select, [role="button"], [role="tab"]'))) {
+                return;
+            }
             const s = settingsFor(this.cfg)
             this.speedUpTarget = s.boostSpeed
             this.fovTarget = s.boostFov
@@ -531,9 +534,9 @@ class TrafficWaveScene {
             this.speedUpTarget = 0
             this.fovTarget = s.fov
         }
-        container.addEventListener("pointerdown", this.onDown)
-        container.addEventListener("pointerleave", this.onUp)
-        container.addEventListener("pointercancel", this.onUp)
+        window.addEventListener("pointerdown", this.onDown)
+        window.addEventListener("pointerleave", this.onUp)
+        window.addEventListener("pointercancel", this.onUp)
         window.addEventListener("pointerup", this.onUp)
     }
 
@@ -885,9 +888,9 @@ class TrafficWaveScene {
     dispose() {
         this.disposed = true
         cancelAnimationFrame(this.frameId)
-        this.container.removeEventListener("pointerdown", this.onDown)
-        this.container.removeEventListener("pointerleave", this.onUp)
-        this.container.removeEventListener("pointercancel", this.onUp)
+        window.removeEventListener("pointerdown", this.onDown)
+        window.removeEventListener("pointerleave", this.onUp)
+        window.removeEventListener("pointercancel", this.onUp)
         window.removeEventListener("pointerup", this.onUp)
         this.teardown()
         this.quad.geometry.dispose()

@@ -9,7 +9,7 @@
   pointer-events: none;
   z-index: 0;
   overflow: hidden;
-  background-color: var(--color-paper);
+  background-color: transparent !important;
   transition: background-color var(--dur-mid) var(--ease-out);
 }
 
@@ -19,7 +19,7 @@
   background-image: radial-gradient(circle, var(--color-bg-dot) 1px, transparent 1px);
   background-size: 32px 32px;
   background-position: center center;
-  opacity: 0.9;
+  opacity: 0.35;
 }
 
 .portfolio-ambient-bg__aurora-top {
@@ -78,7 +78,7 @@
   width: 100vw;
   height: 100vh;
   z-index: 0;
-  pointer-events: auto;
+  pointer-events: none;
   overflow: hidden;
   opacity: 1;
   transition: opacity 0.6s var(--ease-out);
@@ -90,10 +90,10 @@
   inset: 0;
   pointer-events: none;
   background: radial-gradient(
-    ellipse 85% 70% at 50% 40% in oklab,
-    transparent 15%,
-    rgba(6, 7, 9, 0.4) 55%,
-    rgba(6, 7, 9, 0.88) 100%
+    ellipse 90% 75% at 50% 45%,
+    transparent 35%,
+    rgba(6, 7, 10, 0.25) 75%,
+    rgba(6, 7, 10, 0.6) 100%
   );
   z-index: 2;
 }
@@ -1599,14 +1599,14 @@ html.theme-fade *::after {
   letter-spacing: 0.01em;
 }
 
-/* ── Profiles ─────────────────────────────────────── */
+/* ── Profiles: Cyber Glass & 3D Interactive Cards ──────── */
 
 .profiles {
   content-visibility: auto;
   contain-intrinsic-size: auto 600px;
-  background: var(--color-paper-2);
-  border-top: var(--rule-hair) solid var(--color-rule);
-  border-bottom: var(--rule-hair) solid var(--color-rule);
+  background: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   z-index: 2;
   padding-bottom: var(--space-3xl);
@@ -1615,40 +1615,301 @@ html.theme-fade *::after {
 .profiles__grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: var(--gap-columns);
+  gap: 22px;
+  perspective: 1200px;
 }
 
 .profiles__card {
+  position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--space-xs);
-  padding: var(--space-lg);
-  background: var(--color-paper);
-  border: var(--rule-hair) solid var(--color-rule-strong);
-  border-radius: var(--radius-card);
+  padding: 26px 24px;
+  border-radius: 18px;
+  background: rgba(12, 14, 22, 0.65);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
   text-decoration: none;
-  transition: transform var(--dur-short) var(--ease-out), border-color var(--dur-short) var(--ease-out), background-color var(--dur-short) var(--ease-out), box-shadow var(--dur-short) var(--ease-out);
+  overflow: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.3s cubic-bezier(0.2, 0, 0.2, 1),
+              border-color 0.3s ease,
+              box-shadow 0.3s ease,
+              background 0.3s ease;
+  will-change: transform, box-shadow;
+}
+
+/* Luminous radial spotlight tracking cursor */
+.profiles__card-glow {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    420px circle at var(--mouse-x, 50%) var(--mouse-y, 50%),
+    var(--card-spotlight, rgba(234, 170, 0, 0.22)),
+    transparent 65%
+  );
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+/* Diagonal holographic sheen streak */
+.profiles__card-sheen {
+  position: absolute;
+  top: -100%;
+  left: -100%;
+  width: 300%;
+  height: 300%;
+  background: linear-gradient(
+    135deg,
+    transparent 35%,
+    rgba(255, 255, 255, 0.06) 45%,
+    rgba(255, 255, 255, 0.16) 50%,
+    rgba(255, 255, 255, 0.06) 55%,
+    transparent 65%
+  );
+  transform: rotate(25deg) translateY(-100%);
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+  pointer-events: none;
+  z-index: 2;
+}
+
+.profiles__card:hover .profiles__card-glow {
+  opacity: 1;
+}
+
+.profiles__card:hover .profiles__card-sheen {
+  transform: rotate(25deg) translateY(100%);
 }
 
 .profiles__card:hover {
-  border-color: var(--color-accent);
-  background: var(--color-paper-light);
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
+  transform: translateY(-6px) scale(1.02);
+  background: rgba(16, 20, 32, 0.8);
+}
+
+/* ── Brand Specific Neon Themes ── */
+
+/* GitHub: Ultraviolet & Electric Indigo */
+.profiles__card--github {
+  --card-spotlight: rgba(157, 0, 255, 0.26);
+  --brand-color: #A855F7;
+}
+
+.profiles__card--github:hover {
+  border-color: rgba(168, 85, 247, 0.65);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55),
+              0 0 24px rgba(157, 0, 255, 0.35);
+}
+
+.profiles__card-badge--github {
+  background: rgba(157, 0, 255, 0.14);
+  border: 1px solid rgba(157, 0, 255, 0.35);
+  color: #C084FC;
+}
+
+/* LinkedIn: Electric Azure Cyan */
+.profiles__card--linkedin {
+  --card-spotlight: rgba(0, 160, 220, 0.26);
+  --brand-color: #38BDF8;
+}
+
+.profiles__card--linkedin:hover {
+  border-color: rgba(56, 189, 248, 0.65);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55),
+              0 0 24px rgba(0, 229, 255, 0.35);
+}
+
+.profiles__card-badge--linkedin {
+  background: rgba(0, 160, 220, 0.14);
+  border: 1px solid rgba(0, 160, 220, 0.35);
+  color: #38BDF8;
+}
+
+/* LeetCode: Radiant Molten Amber & Flame */
+.profiles__card--leetcode {
+  --card-spotlight: rgba(255, 133, 27, 0.28);
+  --brand-color: #FFA116;
+}
+
+.profiles__card--leetcode:hover {
+  border-color: rgba(255, 133, 27, 0.7);
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.55),
+              0 0 24px rgba(255, 133, 27, 0.38);
+}
+
+.profiles__card-badge--leetcode {
+  background: rgba(255, 133, 27, 0.14);
+  border: 1px solid rgba(255, 133, 27, 0.35);
+  color: #FFA116;
+}
+
+/* Card Interior Layout */
+.profiles__card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+  position: relative;
+  z-index: 3;
+}
+
+.profiles__card-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.3s var(--ease-out), filter 0.3s var(--ease-out);
+}
+
+.profiles__card:hover .profiles__card-badge {
+  transform: scale(1.1) rotate(-4deg);
+  filter: drop-shadow(0 0 8px currentColor);
+}
+
+.profiles__card-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 4px 11px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-family: var(--font-outlier);
+  font-size: 11px;
+  color: #CBD5E1;
+  font-weight: 500;
+}
+
+/* Pulsing Status Dot */
+.status-pulse-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  position: relative;
+}
+
+.status-pulse-dot::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: 50%;
+  background: inherit;
+  opacity: 0.7;
+  animation: pulse-ring 2s infinite ease-out;
+}
+
+.status-pulse-dot--green {
+  background: #10B981;
+}
+
+.status-pulse-dot--blue {
+  background: #00E5FF;
+}
+
+.status-pulse-dot--amber {
+  background: #FF851B;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+.profiles__card-body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  position: relative;
+  z-index: 3;
 }
 
 .profiles__card-name {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: var(--text-title);
+  font-size: 1.35rem;
   letter-spacing: -0.01em;
-  color: var(--color-ink-deep);
+  color: #FFFFFF;
 }
 
 .profiles__card-handle {
   font-family: var(--font-outlier);
-  font-size: var(--text-sm);
-  color: var(--color-muted);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--brand-color, #EAAA00);
+}
+
+.profiles__card-desc {
+  font-family: var(--font-body);
+  font-size: 12.5px;
+  color: #94A3B8;
+  line-height: 1.45;
+  margin-top: 6px;
+  margin-bottom: 0;
+}
+
+/* Stats Chips */
+.profiles__card-chips {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 16px;
+  position: relative;
+  z-index: 3;
+}
+
+.profile-chip {
+  font-family: var(--font-outlier);
+  font-size: 10.5px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #CBD5E1;
+}
+
+.profile-chip--accent {
+  background: rgba(234, 170, 0, 0.12);
+  border-color: rgba(234, 170, 0, 0.35);
+  color: #EAAA00;
+}
+
+/* Footer Action */
+.profiles__card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  position: relative;
+  z-index: 3;
+}
+
+.profile-action-txt {
+  font-family: var(--font-body);
+  font-size: 12px;
+  font-weight: 600;
+  color: #94A3B8;
+  transition: color 0.2s ease;
+}
+
+.profiles__card:hover .profile-action-txt {
+  color: #FFFFFF;
+}
+
+.profile-action-arrow {
+  color: #64748B;
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+}
+
+.profiles__card:hover .profile-action-arrow {
+  color: var(--brand-color, #EAAA00);
+  transform: translateX(5px);
 }
 
 /* ── Activity Matrix (GitHub & LeetCode Heatmap) ── */
@@ -2616,9 +2877,9 @@ html.theme-fade *::after {
 .about {
   content-visibility: auto;
   contain-intrinsic-size: auto 650px;
-  background: var(--color-paper-2);
-  border-top: var(--rule-hair) solid var(--color-rule);
-  border-bottom: var(--rule-hair) solid var(--color-rule);
+  background: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   z-index: 2;
 }
@@ -2631,15 +2892,33 @@ html.theme-fade *::after {
 
 .about__education {
   grid-column: 1 / 7;
+  background: rgba(12, 14, 22, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 28px 24px;
 }
 
 .about__experience {
   grid-column: 7 / 13;
+  background: rgba(12, 14, 22, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 28px 24px;
 }
 
 .about__certs {
   grid-column: 1 / 13;
   margin-top: var(--space-xl);
+  background: rgba(12, 14, 22, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  padding: 28px 24px;
 }
 
 .about__cert-list {
@@ -2695,6 +2974,8 @@ html.theme-fade *::after {
   position: relative;
   z-index: 2;
   text-align: center;
+  background: transparent !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .contact__text {
