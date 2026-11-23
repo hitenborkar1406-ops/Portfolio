@@ -2274,6 +2274,37 @@
   card.addEventListener('mouseleave', onMouseLeave);
 })();
 
+/* ── Projects Category Filter ──────────────────────────────────────────────── */
+(function () {
+  function initProjectFilters() {
+    var filterBtns = document.querySelectorAll('.filter-btn');
+    var cards = document.querySelectorAll('.detailed-card');
+    if (!filterBtns.length || !cards.length) return;
+
+    filterBtns.forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        filterBtns.forEach(function (b) { b.classList.remove('is-active'); });
+        btn.classList.add('is-active');
+        var filter = btn.getAttribute('data-filter') || 'all';
+        cards.forEach(function (card) {
+          if (filter === 'all') {
+            card.style.display = 'flex';
+          } else {
+            var categories = (card.getAttribute('data-category') || '').split(' ');
+            card.style.display = categories.indexOf(filter) !== -1 ? 'flex' : 'none';
+          }
+        });
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initProjectFilters);
+  } else {
+    initProjectFilters();
+  }
+})();
+
 /* ── Swinging Lanyard Badge (Hero) — Hallmark compliant ─────────────────────── */
 (function () {
   var canvas = document.getElementById('badgeCanvas');

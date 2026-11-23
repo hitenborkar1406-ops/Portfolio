@@ -1,4 +1,8 @@
 {
-  "outputDirectory": "."
+  "outputDirectory": ".",
+  "redirects": [
+    { "source": "/projects.html", "destination": "/#projects", "permanent": true },
+    { "source": "/projects", "destination": "/#projects", "permanent": true }
+  ]
 }
 

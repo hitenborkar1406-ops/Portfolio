@@ -4736,9 +4736,11 @@ html.js .project-card.is-seen .project-card__tag {
 }
 
 .detailed-card {
-  background: var(--color-paper-light);
-  border: 1px solid var(--color-rule);
-  border-radius: 12px;
+  background: rgba(14, 16, 26, 0.78) !important;
+  backdrop-filter: blur(24px) saturate(190%);
+  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 16px;
   padding: var(--space-xl);
   display: flex;
   flex-direction: column;
@@ -4747,12 +4749,31 @@ html.js .project-card.is-seen .project-card__tag {
               box-shadow var(--dur-short) var(--ease-out),
               border-color var(--dur-short) var(--ease-out);
   position: relative;
+  box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.7);
 }
 
 .detailed-card:hover {
   transform: translateY(-4px);
-  box-shadow: var(--shadow-card-hover);
-  border-color: var(--color-accent);
+  border-color: rgba(234, 170, 0, 0.5) !important;
+  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.85), 0 0 35px rgba(234, 170, 0, 0.2);
+}
+
+.detailed-card__panel.graphite {
+  background: rgba(8, 10, 16, 0.85) !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  color: #e0e2ee !important;
+}
+
+.detailed-card h3 {
+  color: #ffffff;
+}
+
+.detailed-card__summary {
+  color: rgba(220, 225, 240, 0.75);
+}
+
+.detailed-card__highlights li {
+  color: rgba(200, 205, 220, 0.85);
 }
 
 .detailed-card__eyebrow {
