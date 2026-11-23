@@ -2234,6 +2234,47 @@
   }
 })();
 
+/* ── Cyber Portrait 3D Tilt ──────────────────────────────────────────────── */
+(function () {
+  var card = document.getElementById('cyberPortraitCard');
+  if (!card) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var rafId = null;
+  var currentX = 0, currentY = 0;
+  var targetX = 0, targetY = 0;
+
+  function update() {
+    currentX += (targetX - currentX) * 0.12;
+    currentY += (targetY - currentY) * 0.12;
+    card.style.transform = 'perspective(1000px) rotateX(' + (-currentY).toFixed(2) + 'deg) rotateY(' + currentX.toFixed(2) + 'deg) translateZ(6px)';
+    if (Math.abs(targetX - currentX) > 0.04 || Math.abs(targetY - currentY) > 0.04) {
+      rafId = requestAnimationFrame(update);
+    } else {
+      rafId = null;
+    }
+  }
+
+  function onMouseMove(e) {
+    var rect = card.getBoundingClientRect();
+    if (rect.width <= 0 || rect.height <= 0) return;
+    var x = (e.clientX - rect.left) / rect.width - 0.5;
+    var y = (e.clientY - rect.top) / rect.height - 0.5;
+    targetX = x * 14;
+    targetY = y * 14;
+    if (!rafId) rafId = requestAnimationFrame(update);
+  }
+
+  function onMouseLeave() {
+    targetX = 0;
+    targetY = 0;
+    if (!rafId) rafId = requestAnimationFrame(update);
+  }
+
+  card.addEventListener('mousemove', onMouseMove);
+  card.addEventListener('mouseleave', onMouseLeave);
+})();
+
 /* ── Swinging Lanyard Badge (Hero) — Hallmark compliant ─────────────────────── */
 (function () {
   var canvas = document.getElementById('badgeCanvas');

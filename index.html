@@ -90,7 +90,10 @@
   <!-- ── Nav ──────────────────────────────────────── -->
   <nav class="nav" role="navigation" aria-label="Main">
     <div class="container nav__inner">
-      <a href="#" class="nav__wordmark">Hiten Borkar</a>
+      <a href="#" class="nav__wordmark nav__wordmark--monogram" aria-label="Hiten Borkar - Home">
+        <span class="brand-monogram">HB</span>
+        <span class="brand-dot"></span>
+      </a>
 
       <!-- GlassDock Navigation Component -->
       <div class="glass-dock" id="glassDock" role="toolbar" aria-label="Main Navigation">
@@ -183,11 +186,48 @@
             <span class="hero__status-text">HYPERDRIVE ACTIVE • 2026</span>
             <span class="hero__status-hint">Click & hold highway to boost</span>
           </div>
-          <h1 class="hero__headline">
-            <span class="mask-line"><span>I build things</span></span>
-            <span class="mask-line"><span>that work.</span></span>
-          </h1>
-          <p class="hero__sentence" data-rv="up">CSE undergraduate at Ramdeobaba University, building software and seeking an SDE internship.</p>
+          <div class="hero__name-container" data-rv="fade">
+            <h1 class="hero__name-display" aria-label="Hiten Borkar">
+              <span class="hero__name-first">HITEN</span>
+              <span class="hero__name-last">BORKAR</span>
+            </h1>
+            <div class="hero__title-row">
+              <span class="hero__title-chip">SYSTEMS ARCHITECT</span>
+              <span class="hero__title-dot" aria-hidden="true">/</span>
+              <span class="hero__title-chip">RESEARCHER</span>
+              <span class="hero__title-dot" aria-hidden="true">/</span>
+              <span class="hero__title-chip">HACKATHON COMPETITOR</span>
+            </div>
+          </div>
+
+          <div class="hero__personality-box" data-rv="up">
+            <p class="hero__personality-lead">
+              Relentless builder driven by high agency and low-level engineering curiosity. From distributed backends and 6G network security to GPU shaders and hardware microcontrollers, I turn complex challenges into robust, production-grade systems that perform at scale.
+            </p>
+            <div class="hero__traits-grid">
+              <div class="hero__trait-item">
+                <div class="hero__trait-header">
+                  <span class="hero__trait-icon">⚡</span>
+                  <span class="hero__trait-label">High-Agency Mindset</span>
+                </div>
+                <p class="hero__trait-text">2nd place at Hacksagon (2,100+ devs) & Ideathon RCOEM TBI. I take complete ownership from architecture to deployment.</p>
+              </div>
+              <div class="hero__trait-item">
+                <div class="hero__trait-header">
+                  <span class="hero__trait-icon">🔬</span>
+                  <span class="hero__trait-label">Research & Depth</span>
+                </div>
+                <p class="hero__trait-text">Co-authoring next-generation 6G network security research; diving deep into cryptographic resilience and low-latency protocols.</p>
+              </div>
+              <div class="hero__trait-item">
+                <div class="hero__trait-header">
+                  <span class="hero__trait-icon">🛠️</span>
+                  <span class="hero__trait-label">Uncompromising Craft</span>
+                </div>
+                <p class="hero__trait-text">Arch Linux daily driver, 140+ LeetCode problems solved, clean code champion, and 60fps physics-driven visual computing.</p>
+              </div>
+            </div>
+          </div>
           <div class="hero__actions" data-rv="up" style="--rv-delay: 100ms;">
             <a href="#contact" class="creepy-btn" id="heroCreepyBtn" role="button" aria-label="Get in Touch">
               <span class="creepy-btn__eyes" aria-hidden="true">
@@ -230,33 +270,45 @@
             <span class="hero__cue-track"><span class="hero__cue-beam"></span></span>
           </div>
         </div>
-        <div class="hero__visual" id="heroBadgeAnchor" aria-label="Interactive ID badge">
-          <canvas id="badgeCanvas" class="badge-canvas"></canvas>
-        </div>
-      </div>
-    </section>
+        <div class="hero__visual hero__visual--portrait" id="heroPortraitVisual" aria-label="Hiten Borkar Cyber Portrait">
+          <div class="cyber-portrait-card" id="cyberPortraitCard">
+            <div class="cyber-portrait-glow" aria-hidden="true"></div>
+            <div class="cyber-portrait-frame">
+              <div class="cyber-hud-corner cyber-hud-corner--tl" aria-hidden="true"></div>
+              <div class="cyber-hud-corner cyber-hud-corner--tr" aria-hidden="true"></div>
+              <div class="cyber-hud-corner cyber-hud-corner--bl" aria-hidden="true"></div>
+              <div class="cyber-hud-corner cyber-hud-corner--br" aria-hidden="true"></div>
 
-    <!-- ── Projects Callout Banner (with Gauze Blaze Interactive Ribbon) ── -->
-    <section class="projects-callout-banner" id="projects">
-      <div class="container">
-        <div class="projects-callout-card projects-callout-card--gauze">
-          <div id="gauzeBlazeMount" class="projects-callout-card__canvas" aria-hidden="true" data-scale="96" data-speed="45" data-center-y="50"></div>
-          <div class="projects-callout-card__scrim" aria-hidden="true"></div>
-          <div class="projects-callout-card__content">
-            <span class="projects-callout-card__eyebrow">PORTFOLIO WORK • 5 PROJECTS</span>
-            <h2 class="projects-callout-card__title">Featured Projects & Systems</h2>
-            <p class="projects-callout-card__desc">Explore deployed GIS routing platforms, hospital IoT prototypes, and interactive WebGL experiences.</p>
-            <div class="projects-callout-card__hint">
-              <span class="projects-callout-card__hint-dot"></span>
-              <span>Interactive Gauze Blaze • Move cursor to heat & stir, click to burst sparks</span>
+              <div class="cyber-portrait-img-wrap">
+                <img src="assets/avatar.jpg" alt="Hiten Borkar" class="cyber-portrait-img" width="400" height="480" loading="eager" decoding="async" />
+                <div class="cyber-portrait-scanline" aria-hidden="true"></div>
+                <div class="cyber-portrait-vignette" aria-hidden="true"></div>
+              </div>
+
+              <div class="cyber-portrait-info-panel">
+                <div class="cyber-portrait-badge">
+                  <span class="cyber-badge-dot"></span>
+                  <span class="cyber-badge-text">SEEKING SDE INTERNSHIPS</span>
+                </div>
+                <div class="cyber-portrait-specs">
+                  <div class="cyber-spec-item">
+                    <span class="cyber-spec-val">8.53</span>
+                    <span class="cyber-spec-lbl">CGPA</span>
+                  </div>
+                  <div class="cyber-spec-sep" aria-hidden="true"></div>
+                  <div class="cyber-spec-item">
+                    <span class="cyber-spec-val">2.1k+</span>
+                    <span class="cyber-spec-lbl">Hacksagon P2</span>
+                  </div>
+                  <div class="cyber-spec-sep" aria-hidden="true"></div>
+                  <div class="cyber-spec-item">
+                    <span class="cyber-spec-val">6G</span>
+                    <span class="cyber-spec-lbl">Security</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
-          <a href="projects.html" class="projects-callout-card__btn" aria-label="Switch to Projects Tab">
-            <span>Explore Projects Tab</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <polyline points="9 18 15 12 9 6"></polyline>
-            </svg>
-          </a>
         </div>
       </div>
     </section>
