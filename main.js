@@ -406,8 +406,7 @@
       if (hero) {
         var hp = heroS.v;
         if (heroContent) {
-          heroContent.style.transform = 'translate3d(0,' + (-hp * 70).toFixed(2) + 'px,0)';
-          heroContent.style.opacity = (1 - smooth(clamp((hp - 0.12) / 0.7, 0, 1))).toFixed(3);
+          heroContent.style.opacity = '1';
         }
         if (heroHeadline) {
           heroHeadline.style.transform = 'translate3d(0,' + (-hp * 36).toFixed(2) + 'px,0)';

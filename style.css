@@ -689,7 +689,6 @@ html.theme-fade *::after {
 
 .hero__content {
   grid-column: 1 / 8;
-  animation: hero-in 600ms var(--ease-out) backwards;
   position: relative;
   z-index: 2;
   padding: clamp(1.5rem, 2.5vw, 2.75rem);
@@ -699,6 +698,23 @@ html.theme-fade *::after {
   -webkit-backdrop-filter: blur(24px) saturate(190%);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7), 0 0 40px -10px rgba(0, 240, 255, 0.15);
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+.hero__status-badge,
+.hero__name-container,
+.hero__name-display,
+.hero__name-first,
+.hero__name-last,
+.hero__title-row,
+.hero__personality-box,
+.hero__personality-lead,
+.hero__traits-grid,
+.hero__trait-item,
+.hero__actions {
+  opacity: 1 !important;
+  visibility: visible !important;
 }
 
 .hero__headline {
@@ -739,6 +755,7 @@ html.theme-fade *::after {
 }
 
 .hero__name-first {
+  color: #ffffff;
   background: linear-gradient(180deg, #ffffff 15%, #e0e2ee 85%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -746,6 +763,7 @@ html.theme-fade *::after {
 }
 
 .hero__name-last {
+  color: #eaaa00;
   background: linear-gradient(180deg, #fff7e0 10%, #eaaa00 60%, #ff8800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -919,7 +937,6 @@ html.theme-fade *::after {
   pointer-events: auto;
   z-index: 5;
   perspective: 1200px;
-  animation: hero-in 600ms var(--ease-out) 150ms backwards;
 }
 
 .cyber-portrait-card {
