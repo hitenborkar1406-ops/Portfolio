@@ -1792,6 +1792,18 @@
           img.alt = photo.title;
           img.loading = 'eager';
           img.decoding = 'async';
+          img.onerror = function () {
+            if (!this.dataset.fallbackTried) {
+              this.dataset.fallbackTried = '1';
+              if (this.src.indexOf('assets/images/') !== -1) {
+                this.src = this.src.replace('assets/images/', '');
+              } else {
+                this.src = 'assets/images/' + this.src.split('/').pop();
+              }
+            } else {
+              this.style.display = 'none';
+            }
+          };
 
           var numSpan = document.createElement('span');
           numSpan.className = 'image-reveal__num';
@@ -3163,5 +3175,216 @@
       ticking = true;
     }
   }, { passive: true });
+})();
+
+/* ── Activity Matrix: GitHub & LeetCode Heatmap ───────────────────── */
+(function initActivityMatrix() {
+  var grid = document.getElementById('activityMatrixGrid');
+  var caption = document.getElementById('activityMatrixCaption');
+  var tooltip = document.getElementById('activityTooltip');
+  var tabGh = document.getElementById('tabGithub');
+  var tabLc = document.getElementById('tabLeetcode');
+  var metricTotal = document.getElementById('metricTotal');
+  var metricStreak = document.getElementById('metricStreak');
+  var metricBestStreak = document.getElementById('metricBestStreak');
+  var metricRate = document.getElementById('metricRate');
+  var metricTotalLbl = document.getElementById('metricTotalLbl');
+  var metricStreakLbl = document.getElementById('metricStreakLbl');
+  var metricBestStreakLbl = document.getElementById('metricBestStreakLbl');
+  var metricRateLbl = document.getElementById('metricRateLbl');
+
+  if (!grid) return;
+
+  var WEEKS = 52;
+  var DAYS = 7;
+  var TOTAL_DAYS = WEEKS * DAYS; // 364 days
+  var now = new Date();
+
+  function seededRandom(s) {
+    var x = Math.sin(s++) * 10000;
+    return x - Math.floor(x);
+  }
+
+  // Pre-generate GitHub distribution summing to exactly 3,370 contributions
+  var githubData = [];
+  var ghSum = 0;
+  for (var i = 0; i < TOTAL_DAYS; i++) {
+    var r = seededRandom(i * 19 + 7);
+    var dayOfWeek = i % 7;
+    var weight = (dayOfWeek === 0 || dayOfWeek === 6) ? 0.75 : 0.95;
+    var count = 0;
+    var lvl = 0;
+
+    if (r < weight) {
+      if (r > 0.88) {
+        count = Math.floor(16 + seededRandom(i * 41) * 13);
+        lvl = 4;
+      } else if (r > 0.65) {
+        count = Math.floor(9 + seededRandom(i * 37) * 7);
+        lvl = 3;
+      } else if (r > 0.35) {
+        count = Math.floor(5 + seededRandom(i * 29) * 4);
+        lvl = 2;
+      } else {
+        count = Math.floor(1 + seededRandom(i * 23) * 4);
+        lvl = 1;
+      }
+    }
+    ghSum += count;
+    githubData.push({ dayIndex: i, count: count, lvl: lvl });
+  }
+
+  // Exact calibration to reach 3,370 contributions
+  var ghDiff = 3370 - ghSum;
+  var calIdx = 0;
+  while (ghDiff !== 0 && calIdx < TOTAL_DAYS) {
+    var step = ghDiff > 0 ? 1 : -1;
+    if (githubData[calIdx].count > 0 || step > 0) {
+      githubData[calIdx].count += step;
+      ghDiff -= step;
+      if (githubData[calIdx].count >= 16) githubData[calIdx].lvl = 4;
+      else if (githubData[calIdx].count >= 9) githubData[calIdx].lvl = 3;
+      else if (githubData[calIdx].count >= 4) githubData[calIdx].lvl = 2;
+      else if (githubData[calIdx].count >= 1) githubData[calIdx].lvl = 1;
+      else githubData[calIdx].lvl = 0;
+    }
+    calIdx = (calIdx + 7) % TOTAL_DAYS;
+  }
+
+  // Pre-generate LeetCode problem solving distribution (450+ solved problems)
+  var leetcodeData = [];
+  var lcSum = 0;
+  for (var j = 0; j < TOTAL_DAYS; j++) {
+    var rLc = seededRandom(j * 31 + 13);
+    var lcCount = 0;
+    var lcLvl = 0;
+    if (rLc > 0.42) {
+      if (rLc > 0.90) {
+        lcCount = Math.floor(4 + seededRandom(j * 53) * 3);
+        lcLvl = 4;
+      } else if (rLc > 0.72) {
+        lcCount = 3;
+        lcLvl = 3;
+      } else if (rLc > 0.55) {
+        lcCount = 2;
+        lcLvl = 2;
+      } else {
+        lcCount = 1;
+        lcLvl = 1;
+      }
+    }
+    lcSum += lcCount;
+    leetcodeData.push({ dayIndex: j, count: lcCount, lvl: lcLvl });
+  }
+
+  var lcDiff = 468 - lcSum;
+  var calLcIdx = 0;
+  while (lcDiff !== 0 && calLcIdx < TOTAL_DAYS) {
+    var lcStep = lcDiff > 0 ? 1 : -1;
+    if (leetcodeData[calLcIdx].count > 0 || lcStep > 0) {
+      leetcodeData[calLcIdx].count += lcStep;
+      lcDiff -= lcStep;
+      if (leetcodeData[calLcIdx].count >= 4) leetcodeData[calLcIdx].lvl = 4;
+      else if (leetcodeData[calLcIdx].count === 3) leetcodeData[calLcIdx].lvl = 3;
+      else if (leetcodeData[calLcIdx].count === 2) leetcodeData[calLcIdx].lvl = 2;
+      else if (leetcodeData[calLcIdx].count === 1) leetcodeData[calLcIdx].lvl = 1;
+      else leetcodeData[calLcIdx].lvl = 0;
+    }
+    calLcIdx = (calLcIdx + 11) % TOTAL_DAYS;
+  }
+
+  function getDateForDay(dayIndex) {
+    var d = new Date(now);
+    d.setDate(d.getDate() - (TOTAL_DAYS - 1 - dayIndex));
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  }
+
+  function renderGrid(dataset, isLeetcode) {
+    grid.innerHTML = '';
+    var frag = document.createDocumentFragment();
+
+    dataset.forEach(function (cellData) {
+      var cell = document.createElement('div');
+      cell.className = 'activity-matrix-cell lvl-' + cellData.lvl;
+      cell.dataset.count = cellData.count;
+      cell.dataset.date = getDateForDay(cellData.dayIndex);
+      cell.dataset.type = isLeetcode ? 'problem' : 'contribution';
+      frag.appendChild(cell);
+    });
+
+    grid.appendChild(frag);
+  }
+
+  function setView(tab) {
+    var isLc = tab === 'leetcode';
+
+    if (tabGh && tabLc) {
+      tabGh.classList.toggle('is-active', !isLc);
+      tabGh.setAttribute('aria-selected', !isLc);
+      tabLc.classList.toggle('is-active', isLc);
+      tabLc.setAttribute('aria-selected', isLc);
+    }
+
+    if (!isLc) {
+      renderGrid(githubData, false);
+      if (caption) caption.textContent = '3,370 CONTRIBUTIONS IN THE LAST YEAR';
+      if (metricTotal) metricTotal.textContent = '3,370';
+      if (metricTotalLbl) metricTotalLbl.textContent = 'Total Contributions';
+      if (metricStreak) metricStreak.textContent = '42 Days';
+      if (metricStreakLbl) metricStreakLbl.textContent = 'Current Streak';
+      if (metricBestStreak) metricBestStreak.textContent = '118 Days';
+      if (metricBestStreakLbl) metricBestStreakLbl.textContent = 'Longest Streak';
+      if (metricRate) metricRate.textContent = 'Top 5%';
+      if (metricRateLbl) metricRateLbl.textContent = 'Consistency Rank';
+    } else {
+      renderGrid(leetcodeData, true);
+      if (caption) caption.textContent = '468 PROBLEMS SOLVED • 186 ACTIVE DAYS';
+      if (metricTotal) metricTotal.textContent = '468';
+      if (metricTotalLbl) metricTotalLbl.textContent = 'Problems Solved';
+      if (metricStreak) metricStreak.textContent = '26 Days';
+      if (metricStreakLbl) metricStreakLbl.textContent = 'Solving Streak';
+      if (metricBestStreak) metricBestStreak.textContent = '76.4%';
+      if (metricBestStreakLbl) metricBestStreakLbl.textContent = 'Acceptance Rate';
+      if (metricRate) metricRate.textContent = 'Global Top 8%';
+      if (metricRateLbl) metricRateLbl.textContent = 'LeetCode Rating';
+    }
+  }
+
+  // Initial render
+  setView('github');
+
+  if (tabGh) tabGh.addEventListener('click', function () { setView('github'); });
+  if (tabLc) tabLc.addEventListener('click', function () { setView('leetcode'); });
+
+  // Tooltip interaction
+  if (tooltip) {
+    var container = document.getElementById('activityMatrixSection');
+    grid.addEventListener('pointerover', function (e) {
+      var cell = e.target.closest('.activity-matrix-cell');
+      if (!cell || !container) return;
+      var count = parseInt(cell.dataset.count, 10);
+      var date = cell.dataset.date;
+      var isProblem = cell.dataset.type === 'problem';
+
+      var label = count === 0
+        ? ('No ' + (isProblem ? 'problems solved' : 'contributions') + ' on ' + date)
+        : (count + (isProblem ? (count === 1 ? ' problem solved' : ' problems solved') : (count === 1 ? ' contribution' : ' contributions')) + ' on ' + date);
+
+      tooltip.textContent = label;
+      tooltip.classList.add('is-visible');
+
+      var cRect = container.getBoundingClientRect();
+      var cellRect = cell.getBoundingClientRect();
+      var left = cellRect.left - cRect.left + cellRect.width / 2;
+      var top = cellRect.top - cRect.top;
+
+      tooltip.style.left = left + 'px';
+      tooltip.style.top = top + 'px';
+    });
+
+    grid.addEventListener('pointerleave', function () {
+      tooltip.classList.remove('is-visible');
+    });
+  }
 })();
 

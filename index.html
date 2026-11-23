@@ -492,14 +492,465 @@
       </div>
     </section>
 
-    <!-- ── Profiles ─────────────────────────────────── -->
+    <!-- ── My Stack (Continuous Flowing Marquee) ──── -->
+    <section class="stack-marquee-section" id="my-stack">
+      <div class="container">
+        <div class="section__head" data-rv="fade">
+          <h2 class="stack-marquee__title">
+            <span class="mask-line"><span>My stack</span></span>
+          </h2>
+          <p class="lead" data-rv="up">Core tools, frameworks, protocols, and infrastructure powering my systems.</p>
+        </div>
+      </div>
+
+      <!-- Marquee Flowing Left-to-Right -->
+      <div class="stack-marquee__wrapper" aria-label="Engineering Technology Stack">
+        <!-- Row 1: Flowing Left to Right -->
+        <div class="stack-marquee__row stack-marquee__row--ltr">
+          <div class="stack-marquee__track">
+            <!-- Express -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--express">
+                <span class="stack-card__badge-txt">ex</span>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Express</div>
+                <div class="stack-card__role">Services</div>
+              </div>
+            </div>
+
+            <!-- FastAPI -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--fastapi">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">FastAPI</div>
+                <div class="stack-card__role">APIs</div>
+              </div>
+            </div>
+
+            <!-- Tauri -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--tauri">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#24C8D8" stroke-width="2.2"><circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Tauri</div>
+                <div class="stack-card__role">Desktop apps</div>
+              </div>
+            </div>
+
+            <!-- Ollama -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--ollama">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#E2E8F0" stroke-width="2"><path d="M9 19c-3 0-5-2-5-5 0-4 3-7 8-7 4 0 6 3 6 6 0 3-2 6-5 6h-4z"/><circle cx="10" cy="13" r="1" fill="#E2E8F0"/><circle cx="14" cy="13" r="1" fill="#E2E8F0"/><path d="M12 15c-1 0-1.5.5-1.5.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Ollama</div>
+                <div class="stack-card__role">Local models</div>
+              </div>
+            </div>
+
+            <!-- Solana -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--solana">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 6.5h13.5l2.5 3H6.5L4 6.5z" fill="#9945FF"/><path d="M6.5 10.5H20l-2.5 3H4l2.5-3z" fill="#14F195"/><path d="M4 14.5h13.5l2.5 3H6.5L4 14.5z" fill="#9945FF"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Solana</div>
+                <div class="stack-card__role">x402 rail</div>
+              </div>
+            </div>
+
+            <!-- Docker -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--docker">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#2496ED"><path d="M13 6h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2H7zm6 3h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2H7zm-3 0h2v2H4zm17.5 2.5c-.3-.2-1.3-.3-2-.1-.4-.6-1.1-1.1-1.9-1.4l-.5-.2-.3.4c-.4.5-.6 1.2-.6 2 0 .4.1.8.2 1.1-1.1.2-2.3.4-3.4.4H2c0 2.2 1.3 4.1 3.5 4.8 1.4.5 3 .6 4.7.6 5.5 0 9.8-3 10.8-7.8.6-.2 1.1-.6 1.4-1.1.3-.5.4-1 .3-1.3z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Docker</div>
+                <div class="stack-card__role">Containers</div>
+              </div>
+            </div>
+
+            <!-- Linux -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--linux">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#FCC624"><path d="M12 2C9.5 2 7.5 3.5 7.5 7v4c-.8.8-1.5 2-1.5 3.5 0 2 1.5 3.5 3.5 3.5h5c2 0 3.5-1.5 3.5-3.5 0-1.5-.7-2.7-1.5-3.5V7c0-3.5-2-5-4.5-5zm-2 5c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm4 0c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Linux</div>
+                <div class="stack-card__role">Arch · daily driver</div>
+              </div>
+            </div>
+
+            <!-- React -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--react">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#61DAFB" stroke-width="1.8"><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(30 12 12)"/><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(90 12 12)"/><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(150 12 12)"/><circle cx="12" cy="12" r="1.8" fill="#61DAFB"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">React</div>
+                <div class="stack-card__role">Frontend & WebGL</div>
+              </div>
+            </div>
+
+            <!-- Three.js -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--three">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EAAA00" stroke-width="2"><polygon points="12 3 2 20 22 20"/><line x1="12" y1="3" x2="12" y2="20"/><line x1="2" y1="20" x2="17" y2="11.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Three.js</div>
+                <div class="stack-card__role">WebGL & Shaders</div>
+              </div>
+            </div>
+
+            <!-- TypeScript -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--ts">
+                <span class="stack-card__badge-txt stack-card__badge-txt--blue">TS</span>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">TypeScript</div>
+                <div class="stack-card__role">Type Safety</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicated track for continuous seamless scroll -->
+          <div class="stack-marquee__track" aria-hidden="true">
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--express">
+                <span class="stack-card__badge-txt">ex</span>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Express</div>
+                <div class="stack-card__role">Services</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--fastapi">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#059669" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">FastAPI</div>
+                <div class="stack-card__role">APIs</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--tauri">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#24C8D8" stroke-width="2.2"><circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Tauri</div>
+                <div class="stack-card__role">Desktop apps</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--ollama">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#E2E8F0" stroke-width="2"><path d="M9 19c-3 0-5-2-5-5 0-4 3-7 8-7 4 0 6 3 6 6 0 3-2 6-5 6h-4z"/><circle cx="10" cy="13" r="1" fill="#E2E8F0"/><circle cx="14" cy="13" r="1" fill="#E2E8F0"/><path d="M12 15c-1 0-1.5.5-1.5.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Ollama</div>
+                <div class="stack-card__role">Local models</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--solana">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M4 6.5h13.5l2.5 3H6.5L4 6.5z" fill="#9945FF"/><path d="M6.5 10.5H20l-2.5 3H4l2.5-3z" fill="#14F195"/><path d="M4 14.5h13.5l2.5 3H6.5L4 14.5z" fill="#9945FF"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Solana</div>
+                <div class="stack-card__role">x402 rail</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--docker">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#2496ED"><path d="M13 6h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2H7zm6 3h2v2h-2zm-3 0h2v2h-2zm-3 0h2v2H7zm-3 0h2v2H4zm17.5 2.5c-.3-.2-1.3-.3-2-.1-.4-.6-1.1-1.1-1.9-1.4l-.5-.2-.3.4c-.4.5-.6 1.2-.6 2 0 .4.1.8.2 1.1-1.1.2-2.3.4-3.4.4H2c0 2.2 1.3 4.1 3.5 4.8 1.4.5 3 .6 4.7.6 5.5 0 9.8-3 10.8-7.8.6-.2 1.1-.6 1.4-1.1.3-.5.4-1 .3-1.3z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Docker</div>
+                <div class="stack-card__role">Containers</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--linux">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#FCC624"><path d="M12 2C9.5 2 7.5 3.5 7.5 7v4c-.8.8-1.5 2-1.5 3.5 0 2 1.5 3.5 3.5 3.5h5c2 0 3.5-1.5 3.5-3.5 0-1.5-.7-2.7-1.5-3.5V7c0-3.5-2-5-4.5-5zm-2 5c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1zm4 0c.6 0 1 .4 1 1s-.4 1-1 1-1-.4-1-1 .4-1 1-1z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Linux</div>
+                <div class="stack-card__role">Arch · daily driver</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--react">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#61DAFB" stroke-width="1.8"><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(30 12 12)"/><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(90 12 12)"/><ellipse cx="12" cy="12" rx="4" ry="10" transform="rotate(150 12 12)"/><circle cx="12" cy="12" r="1.8" fill="#61DAFB"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">React</div>
+                <div class="stack-card__role">Frontend & WebGL</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--three">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#EAAA00" stroke-width="2"><polygon points="12 3 2 20 22 20"/><line x1="12" y1="3" x2="12" y2="20"/><line x1="2" y1="20" x2="17" y2="11.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Three.js</div>
+                <div class="stack-card__role">WebGL & Shaders</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--ts">
+                <span class="stack-card__badge-txt stack-card__badge-txt--blue">TS</span>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">TypeScript</div>
+                <div class="stack-card__role">Type Safety</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Row 2: Flowing Left to Right (offset) -->
+        <div class="stack-marquee__row stack-marquee__row--ltr stack-marquee__row--offset">
+          <div class="stack-marquee__track">
+            <!-- Arduino -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--arduino">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00979D" stroke-width="2"><circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/><line x1="6.5" y1="12" x2="9.5" y2="12"/><line x1="14.5" y1="12" x2="17.5" y2="12"/><line x1="16" y1="10.5" x2="16" y2="13.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Arduino</div>
+                <div class="stack-card__role">IoT · ESP32</div>
+              </div>
+            </div>
+
+            <!-- LangGraph -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--langgraph">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F97316" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="8.5" y1="7.5" x2="10" y2="15"/><line x1="15.5" y1="7.5" x2="14" y2="15"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">LangGraph</div>
+                <div class="stack-card__role">Agents</div>
+              </div>
+            </div>
+
+            <!-- MCP -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--mcp">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#CBD5E1" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><polygon points="12 7 17 12 12 17 7 12"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">MCP</div>
+                <div class="stack-card__role">Agent tooling</div>
+              </div>
+            </div>
+
+            <!-- PostgreSQL -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--postgres">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#336791"><path d="M12 2C6.5 2 4 4.5 4 8c0 3 1.5 5 3 6.5V20c0 1 1 2 2 2h6c1 0 2-1 2-2v-5.5c1.5-1.5 3-3.5 3-6.5 0-3.5-2.5-6-8-6zm0 3c3 0 4 1.5 4 3 0 1-.5 2-1.5 2.5V8.5h-1V11h-3V8.5h-1v2C8.5 10 8 9 8 8c0-1.5 1-3 4-3z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">PostgreSQL</div>
+                <div class="stack-card__role">Database</div>
+              </div>
+            </div>
+
+            <!-- Redis -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--redis">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#DC382D"><path d="M2 17l10 5 10-5-10-5-10 5zm0-5l10 5 10-5-10-5-10 5zm10-10L2 7l10 5 10-5-10-5z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Redis</div>
+                <div class="stack-card__role">Cache & queues</div>
+              </div>
+            </div>
+
+            <!-- OpenSearch -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--opensearch">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#005EB8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/><path d="M11 7a4 4 0 0 0-4 4"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">OpenSearch</div>
+                <div class="stack-card__role">Vector search</div>
+              </div>
+            </div>
+
+            <!-- AWS -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--aws">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#FF9900"><path d="M18.8 15.6c-2.3 1.7-5.5 2.6-8.4 2.6-4 0-7.6-1.5-10.4-4-.2-.2 0-.5.2-.3 2.9 1.7 6.4 2.7 10 2.7 2.6 0 5.4-.7 7.9-2.1.4-.2.7.2.3.5zm1.5-1.1c-.3-.4-1.9-.2-2.6-.1-.2 0-.3-.2-.1-.3 1.2-.9 3.2-.6 3.5-.3.3.4-.1 2.3-1.3 3.3-.2.1-.3 0-.3-.2.3-.7.9-1.9.8-2.4z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">AWS</div>
+                <div class="stack-card__role">Cloud</div>
+              </div>
+            </div>
+
+            <!-- Python -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--python">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M11.9 2c-3.1 0-5.9.3-5.9 2.5v2.5h6v.8H3.8C2.3 7.8 1 9.4 1 11.9c0 2.6 1.1 4.1 2.8 4.1h1.7V13.8c0-2.3 2-4.2 4.3-4.2h6.1c1.9 0 3.4-1.5 3.4-3.4V4.5C19.3 2.3 15 2 11.9 2z" fill="#3776AB"/><path d="M12.1 22c3.1 0 5.9-.3 5.9-2.5V17h-6v-.8h8.2c1.5 0 2.8-1.6 2.8-4.1 0-2.6-1.1-4.1-2.8-4.1h-1.7v2.2c0 2.3-2 4.2-4.3 4.2H8.1c-1.9 0-3.4 1.5-3.4 3.4v1.7c0 2.2 4.3 2.5 7.4 2.5z" fill="#FFD43B"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Python</div>
+                <div class="stack-card__role">ML & Automation</div>
+              </div>
+            </div>
+
+            <!-- Leaflet -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--leaflet">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 2C8 6 4 11 4 16a8 8 0 0 0 16 0c0-5-4-10-8-14z"/><line x1="12" y1="6" x2="12" y2="20"/><path d="M12 11l4-2m-4 5l4-2m-4 5l3-1.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Leaflet</div>
+                <div class="stack-card__role">GIS Routing</div>
+              </div>
+            </div>
+
+            <!-- C++ -->
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--cpp">
+                <span class="stack-card__badge-txt stack-card__badge-txt--cyan">C++</span>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">C++</div>
+                <div class="stack-card__role">Embedded & Systems</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Duplicated track for continuous seamless scroll -->
+          <div class="stack-marquee__track" aria-hidden="true">
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--arduino">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00979D" stroke-width="2"><circle cx="8" cy="12" r="4"/><circle cx="16" cy="12" r="4"/><line x1="6.5" y1="12" x2="9.5" y2="12"/><line x1="14.5" y1="12" x2="17.5" y2="12"/><line x1="16" y1="10.5" x2="16" y2="13.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Arduino</div>
+                <div class="stack-card__role">IoT · ESP32</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--langgraph">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#F97316" stroke-width="2"><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><circle cx="12" cy="18" r="3"/><line x1="8.5" y1="7.5" x2="10" y2="15"/><line x1="15.5" y1="7.5" x2="14" y2="15"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">LangGraph</div>
+                <div class="stack-card__role">Agents</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--mcp">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#CBD5E1" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="4"/><polygon points="12 7 17 12 12 17 7 12"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">MCP</div>
+                <div class="stack-card__role">Agent tooling</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--postgres">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#336791"><path d="M12 2C6.5 2 4 4.5 4 8c0 3 1.5 5 3 6.5V20c0 1 1 2 2 2h6c1 0 2-1 2-2v-5.5c1.5-1.5 3-3.5 3-6.5 0-3.5-2.5-6-8-6zm0 3c3 0 4 1.5 4 3 0 1-.5 2-1.5 2.5V8.5h-1V11h-3V8.5h-1v2C8.5 10 8 9 8 8c0-1.5 1-3 4-3z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">PostgreSQL</div>
+                <div class="stack-card__role">Database</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--redis">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#DC382D"><path d="M2 17l10 5 10-5-10-5-10 5zm0-5l10 5 10-5-10-5-10 5zm10-10L2 7l10 5 10-5-10-5z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Redis</div>
+                <div class="stack-card__role">Cache & queues</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--opensearch">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#005EB8" stroke-width="2.2"><circle cx="11" cy="11" r="7"/><line x1="16.5" y1="16.5" x2="21" y2="21"/><path d="M11 7a4 4 0 0 0-4 4"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">OpenSearch</div>
+                <div class="stack-card__role">Vector search</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--aws">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="#FF9900"><path d="M18.8 15.6c-2.3 1.7-5.5 2.6-8.4 2.6-4 0-7.6-1.5-10.4-4-.2-.2 0-.5.2-.3 2.9 1.7 6.4 2.7 10 2.7 2.6 0 5.4-.7 7.9-2.1.4-.2.7.2.3.5zm1.5-1.1c-.3-.4-1.9-.2-2.6-.1-.2 0-.3-.2-.1-.3 1.2-.9 3.2-.6 3.5-.3.3.4-.1 2.3-1.3 3.3-.2.1-.3 0-.3-.2.3-.7.9-1.9.8-2.4z"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">AWS</div>
+                <div class="stack-card__role">Cloud</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--python">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none"><path d="M11.9 2c-3.1 0-5.9.3-5.9 2.5v2.5h6v.8H3.8C2.3 7.8 1 9.4 1 11.9c0 2.6 1.1 4.1 2.8 4.1h1.7V13.8c0-2.3 2-4.2 4.3-4.2h6.1c1.9 0 3.4-1.5 3.4-3.4V4.5C19.3 2.3 15 2 11.9 2z" fill="#3776AB"/><path d="M12.1 22c3.1 0 5.9-.3 5.9-2.5V17h-6v-.8h8.2c1.5 0 2.8-1.6 2.8-4.1 0-2.6-1.1-4.1-2.8-4.1h-1.7v2.2c0 2.3-2 4.2-4.3 4.2H8.1c-1.9 0-3.4 1.5-3.4 3.4v1.7c0 2.2 4.3 2.5 7.4 2.5z" fill="#FFD43B"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Python</div>
+                <div class="stack-card__role">ML & Automation</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--leaflet">
+                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#16A34A" stroke-width="2"><path d="M12 2C8 6 4 11 4 16a8 8 0 0 0 16 0c0-5-4-10-8-14z"/><line x1="12" y1="6" x2="12" y2="20"/><path d="M12 11l4-2m-4 5l4-2m-4 5l3-1.5"/></svg>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">Leaflet</div>
+                <div class="stack-card__role">GIS Routing</div>
+              </div>
+            </div>
+
+            <div class="stack-card">
+              <div class="stack-card__icon stack-card__icon--cpp">
+                <span class="stack-card__badge-txt stack-card__badge-txt--cyan">C++</span>
+              </div>
+              <div class="stack-card__info">
+                <div class="stack-card__name">C++</div>
+                <div class="stack-card__role">Embedded & Systems</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ── Profiles & Contributions ─────────────────── -->
     <section class="profiles" id="profiles">
       <div class="container">
         <div class="section__head" data-rv="fade">
           <h2>
             <span class="mask-line"><span>Profiles</span></span>
           </h2>
-          <p class="lead" data-rv="up">Where I practice and compete.</p>
+          <p class="lead" data-rv="up">Where I practice, ship code, and compete.</p>
         </div>
 
         <div class="profiles__grid">
@@ -515,6 +966,69 @@
             <div class="profiles__card-name">LeetCode</div>
             <div class="profiles__card-handle">Hiten-1406</div>
           </a>
+        </div>
+
+        <!-- Interactive Heatmap / Activity Matrix (GitHub & LeetCode) -->
+        <div class="activity-matrix-container" id="activityMatrixSection">
+          <div class="activity-matrix-header">
+            <div class="activity-matrix-tabs" role="tablist">
+              <button type="button" class="activity-matrix-tab is-active" id="tabGithub" role="tab" aria-selected="true" data-tab="github">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z"/></svg>
+                <span>GitHub</span>
+                <span class="activity-matrix-badge">3,370 Activity</span>
+              </button>
+              <button type="button" class="activity-matrix-tab" id="tabLeetcode" role="tab" aria-selected="false" data-tab="leetcode">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 4.818 3.655c.299.034.6.051.9.051.445 0 .89-.037 1.33-.111l4.05-1.018a1.378 1.378 0 0 0 .688-2.228 1.38 1.38 0 0 0-1.637-.215l-3.86 1.012c-.225.048-.456.072-.686.072-.154 0-.308-.011-.461-.033a3.195 3.195 0 0 1-2.583-1.956 3.14 3.14 0 0 1-.186-.543 2.784 2.784 0 0 1-.033-1.267 2.827 2.827 0 0 1 .65-1.127l3.85-4.12 5.4-5.787a1.376 1.376 0 0 0-.25-2.073A1.374 1.374 0 0 0 13.483 0zm-2.88 5.39a1.376 1.376 0 0 0-.99.414l-3.666 3.92a1.38 1.38 0 0 0 .034 1.95 1.378 1.378 0 0 0 1.95-.034l3.667-3.92a1.377 1.377 0 0 0-.995-2.33zm7.098 7.411a1.374 1.374 0 0 0-.987.416l-3.854 4.126-1.04 1.114a1.38 1.38 0 0 0 2.012 1.88l1.04-1.114 3.854-4.126a1.378 1.378 0 0 0-1.025-2.416z"/></svg>
+                <span>LeetCode</span>
+                <span class="activity-matrix-badge">450+ Solved</span>
+              </button>
+            </div>
+
+            <div class="activity-matrix-legend">
+              <span class="legend-text">Less</span>
+              <span class="legend-cell lvl-0"></span>
+              <span class="legend-cell lvl-1"></span>
+              <span class="legend-cell lvl-2"></span>
+              <span class="legend-cell lvl-3"></span>
+              <span class="legend-cell lvl-4"></span>
+              <span class="legend-text">More</span>
+            </div>
+          </div>
+
+          <!-- Heatmap Matrix Grid (52 weeks x 7 days) -->
+          <div class="activity-matrix-scroll">
+            <div class="activity-matrix-grid" id="activityMatrixGrid" role="grid" aria-label="Contribution Activity Matrix">
+              <!-- Rendered via JS -->
+            </div>
+          </div>
+
+          <!-- Monospace Caption matching user attachment 1 -->
+          <div class="activity-matrix-caption" id="activityMatrixCaption">
+            3,370 CONTRIBUTIONS IN THE LAST YEAR
+          </div>
+
+          <!-- Quick Metrics Bar -->
+          <div class="activity-matrix-metrics" id="activityMatrixMetrics">
+            <div class="matrix-metric">
+              <span class="matrix-metric__val" id="metricTotal">3,370</span>
+              <span class="matrix-metric__lbl" id="metricTotalLbl">Total Contributions</span>
+            </div>
+            <div class="matrix-metric">
+              <span class="matrix-metric__val" id="metricStreak">42 Days</span>
+              <span class="matrix-metric__lbl" id="metricStreakLbl">Current Streak</span>
+            </div>
+            <div class="matrix-metric">
+              <span class="matrix-metric__val" id="metricBestStreak">118 Days</span>
+              <span class="matrix-metric__lbl" id="metricBestStreakLbl">Longest Streak</span>
+            </div>
+            <div class="matrix-metric">
+              <span class="matrix-metric__val" id="metricRate">Top 5%</span>
+              <span class="matrix-metric__lbl" id="metricRateLbl">Consistency Rank</span>
+            </div>
+          </div>
+
+          <!-- Sleek tooltip -->
+          <div class="activity-tooltip" id="activityTooltip" role="tooltip" aria-hidden="true"></div>
         </div>
       </div>
     </section>

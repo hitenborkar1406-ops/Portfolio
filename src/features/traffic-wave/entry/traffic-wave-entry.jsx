@@ -15,3 +15,4 @@ if (document.readyState === 'loading') {
 } else {
   mountTrafficWave();
 }
+
