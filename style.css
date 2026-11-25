@@ -81,6 +81,7 @@
   pointer-events: none;
   overflow: hidden;
   opacity: 1;
+  background: radial-gradient(ellipse 100% 70% at 50% 15%, #0b0e18 0%, #05060a 70%, #030407 100%);
   transition: opacity 0.6s var(--ease-out);
 }
 
@@ -691,13 +692,14 @@ html.theme-fade *::after {
   grid-column: 1 / 8;
   position: relative;
   z-index: 2;
-  padding: clamp(1.5rem, 2.5vw, 2.75rem);
-  border-radius: 20px;
-  background: rgba(9, 10, 15, 0.62);
-  backdrop-filter: blur(24px) saturate(190%);
-  -webkit-backdrop-filter: blur(24px) saturate(190%);
+  padding: clamp(1.5rem, 2.5vw, 2.5rem);
+  border-radius: 22px;
+  background: linear-gradient(165deg, rgba(10, 13, 22, 0.84) 0%, rgba(6, 8, 14, 0.76) 100%);
+  backdrop-filter: blur(22px) saturate(160%);
+  -webkit-backdrop-filter: blur(22px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.7), 0 0 40px -10px rgba(0, 240, 255, 0.15);
+  border-top-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 28px 64px -14px rgba(0, 0, 0, 0.85), 0 0 40px -12px rgba(234, 170, 0, 0.14);
   opacity: 1 !important;
   visibility: visible !important;
 }
@@ -710,8 +712,8 @@ html.theme-fade *::after {
 .hero__title-row,
 .hero__personality-box,
 .hero__personality-lead,
-.hero__traits-grid,
-.hero__trait-item,
+.hero__highlights-strip,
+.hero__highlight-pill,
 .hero__actions {
   opacity: 1 !important;
   visibility: visible !important;
@@ -797,83 +799,96 @@ html.theme-fade *::after {
   font-size: 0.8rem;
 }
 
-/* ── Hero Personality Box & Traits Grid ───────────── */
+/* ── Hero Personality Box & Highlights Strip ──────── */
 .hero__personality-box {
   margin-block: var(--space-md) var(--space-xl);
 }
 
 .hero__personality-lead {
   font-family: var(--font-body);
-  font-size: clamp(0.95rem, 1.2vw, 1.05rem);
-  line-height: 1.68;
-  color: rgba(240, 240, 250, 0.9);
-  max-width: 58ch;
-  margin-bottom: var(--space-md);
+  font-size: clamp(0.98rem, 1.2vw, 1.08rem);
+  line-height: 1.65;
+  color: rgba(241, 245, 249, 0.92);
+  max-width: 56ch;
+  margin-bottom: 16px;
   text-wrap: pretty;
 }
 
-.hero__traits-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 12px;
-  margin-top: 14px;
-}
-
-.hero__trait-item {
-  background: rgba(14, 16, 26, 0.6);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  padding: 12px 14px;
-  transition: border-color 0.25s ease, transform 0.25s ease, background 0.25s ease, box-shadow 0.25s ease;
-}
-
-.hero__trait-item:hover {
-  background: rgba(24, 26, 42, 0.8);
-  border-color: rgba(234, 170, 0, 0.35);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 24px -6px rgba(0, 0, 0, 0.5), 0 0 20px rgba(234, 170, 0, 0.15);
-}
-
-.hero__trait-header {
+.hero__highlights-strip {
   display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hero__highlight-pill {
+  display: inline-flex;
   align-items: center;
   gap: 8px;
-  margin-bottom: 6px;
-}
-
-.hero__trait-icon {
-  font-size: 1rem;
-  line-height: 1;
-}
-
-.hero__trait-label {
-  font-family: var(--font-display);
-  font-size: 0.82rem;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.01em;
-}
-
-.hero__trait-text {
+  padding: 7px 13px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   font-family: var(--font-body);
-  font-size: 0.76rem;
-  line-height: 1.45;
-  color: rgba(200, 205, 220, 0.72);
-  margin: 0;
+  font-size: 0.78rem;
+  color: #CBD5E1;
+  transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
-@media (max-width: 900px) {
-  .hero__traits-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
-  }
+.hero__highlight-pill strong {
+  color: #FFFFFF;
+  font-weight: 600;
+}
+
+.hero__highlight-pill:hover {
+  background: rgba(234, 170, 0, 0.09);
+  border-color: rgba(234, 170, 0, 0.38);
+  transform: translateY(-2px);
+}
+
+.hero__highlight-icon {
+  font-size: 0.9rem;
+  line-height: 1;
 }
 
 .hero__actions {
   display: flex;
   align-items: center;
-  gap: var(--space-md);
+  gap: 12px;
   flex-wrap: wrap;
+}
+
+.hero__actions .key {
+  background: rgba(18, 22, 34, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #F8FAFC;
+  border-radius: 10px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+}
+
+.hero__actions .key:hover {
+  background: rgba(28, 34, 52, 0.95);
+  border-color: rgba(234, 170, 0, 0.55);
+  color: #FFFFFF;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.45), 0 0 16px rgba(234, 170, 0, 0.2);
+}
+
+.hero__actions .key--resume {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: 0;
+}
+
+.hero__actions .key--resume-dl {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: 1px solid rgba(255, 255, 255, 0.14);
+  color: #CBD5E1;
+}
+
+.hero__actions .key--resume-dl:hover {
+  background: var(--color-accent);
+  border-color: var(--color-accent);
+  color: #090A0F;
 }
 
 .hero__cue {
@@ -974,9 +989,9 @@ html.theme-fade *::after {
 
 .cyber-hud-corner {
   position: absolute;
-  width: 14px;
-  height: 14px;
-  border-color: #eaaa00;
+  width: 12px;
+  height: 12px;
+  border-color: rgba(234, 170, 0, 0.65);
   border-style: solid;
   z-index: 4;
   pointer-events: none;
@@ -1041,17 +1056,17 @@ html.theme-fade *::after {
 .cyber-portrait-vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 50%, transparent 45%, rgba(10, 12, 18, 0.85) 100%),
-              linear-gradient(180deg, transparent 65%, rgba(12, 14, 22, 0.98) 100%);
+  background: radial-gradient(circle at 50% 42%, transparent 48%, rgba(7, 9, 15, 0.72) 100%),
+              linear-gradient(180deg, transparent 52%, rgba(7, 9, 15, 0.94) 88%, #07090F 100%);
   pointer-events: none;
 }
 
 .cyber-portrait-info-panel {
-  padding: 16px 20px 20px;
-  background: rgba(12, 14, 22, 0.95);
+  padding: 28px 18px 18px;
+  margin-top: -54px;
+  background: linear-gradient(180deg, transparent 0%, rgba(7, 9, 15, 0.94) 36%, #07090F 100%);
   position: relative;
   z-index: 3;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .cyber-portrait-badge {
@@ -1970,10 +1985,11 @@ html.theme-fade *::after {
   flex-direction: column;
   padding: 26px 24px;
   border-radius: 18px;
-  background: rgba(12, 14, 22, 0.65);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
+  background: linear-gradient(175deg, rgba(13, 16, 26, 0.9) 0%, rgba(8, 10, 17, 0.86) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  box-shadow: 0 18px 40px -12px rgba(0, 0, 0, 0.65);
   text-decoration: none;
   overflow: hidden;
   transform-style: preserve-3d;
@@ -1982,6 +1998,24 @@ html.theme-fade *::after {
               box-shadow 0.3s ease,
               background 0.3s ease;
   will-change: transform, box-shadow;
+}
+
+.profiles__card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand-color, #EAAA00), transparent);
+  opacity: 0.75;
+  transition: opacity 0.3s ease, height 0.3s ease;
+  z-index: 4;
+}
+
+.profiles__card:hover::before {
+  opacity: 1;
+  height: 3px;
 }
 
 /* Luminous radial spotlight tracking cursor */
@@ -2188,9 +2222,9 @@ html.theme-fade *::after {
 
 .profiles__card-desc {
   font-family: var(--font-body);
-  font-size: 12.5px;
-  color: #94A3B8;
-  line-height: 1.45;
+  font-size: 13px;
+  color: #CBD5E1;
+  line-height: 1.5;
   margin-top: 6px;
   margin-bottom: 0;
 }

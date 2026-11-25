@@ -5,7 +5,7 @@
   <meta name="color-scheme" content="light dark">
   <script>
     try {
-      var storedTheme = localStorage.getItem('portfolio-theme');
+      var storedTheme = localStorage.getItem('portfolio-theme') || 'dark';
       var meta = document.querySelector('meta[name="color-scheme"]');
       if (storedTheme === 'dark' || storedTheme === 'light') {
         document.documentElement.dataset.theme = storedTheme;
@@ -47,7 +47,7 @@
 
   <link rel="stylesheet" href="tokens.css?v=3.0.0">
   <link rel="stylesheet" href="base.css?v=2.3.3">
-  <link rel="stylesheet" href="style.css?v=3.2.0">
+  <link rel="stylesheet" href="style.css?v=3.3.0">
   <link rel="stylesheet" href="assets/portfolio-intro.bundle.css?v=3.0.0">
 </head>
 <body>
@@ -202,29 +202,20 @@
 
           <div class="hero__personality-box">
             <p class="hero__personality-lead">
-              Relentless builder driven by high agency and low-level engineering curiosity. From distributed backends and 6G network security to GPU shaders and hardware microcontrollers, I turn complex challenges into robust, production-grade systems that perform at scale.
+              CSE undergraduate building resilient distributed backends, 6G network security systems, and real-time WebGL &amp; IoT prototypes.
             </p>
-            <div class="hero__traits-grid">
-              <div class="hero__trait-item">
-                <div class="hero__trait-header">
-                  <span class="hero__trait-icon">⚡</span>
-                  <span class="hero__trait-label">High-Agency Mindset</span>
-                </div>
-                <p class="hero__trait-text">2nd place at Hacksagon (2,100+ devs) & Ideathon RCOEM TBI. I take complete ownership from architecture to deployment.</p>
+            <div class="hero__highlights-strip">
+              <div class="hero__highlight-pill">
+                <span class="hero__highlight-icon" aria-hidden="true">⚡</span>
+                <span><strong>2nd Place</strong> Hacksagon (2.1k+ devs)</span>
               </div>
-              <div class="hero__trait-item">
-                <div class="hero__trait-header">
-                  <span class="hero__trait-icon">🔬</span>
-                  <span class="hero__trait-label">Research & Depth</span>
-                </div>
-                <p class="hero__trait-text">Co-authoring next-generation 6G network security research; diving deep into cryptographic resilience and low-latency protocols.</p>
+              <div class="hero__highlight-pill">
+                <span class="hero__highlight-icon" aria-hidden="true">🔬</span>
+                <span><strong>6G Security</strong> Co-Author</span>
               </div>
-              <div class="hero__trait-item">
-                <div class="hero__trait-header">
-                  <span class="hero__trait-icon">🛠️</span>
-                  <span class="hero__trait-label">Uncompromising Craft</span>
-                </div>
-                <p class="hero__trait-text">Arch Linux daily driver, 140+ LeetCode problems solved, clean code champion, and 60fps physics-driven visual computing.</p>
+              <div class="hero__highlight-pill">
+                <span class="hero__highlight-icon" aria-hidden="true">🛠️</span>
+                <span><strong>Arch Linux</strong> &amp; 140+ LeetCode</span>
               </div>
             </div>
           </div>
