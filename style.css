@@ -5991,3 +5991,42 @@ html.js .project-card.is-seen .project-card__tag {
     transform: translateX(60px) scale(0.84);
   }
 }
+
+/* ==========================================================================
+   LIGHT SHAFT TEXT — HERO NAME DISPLAY
+   ========================================================================== */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.light-shaft-name-mount {
+  width: 100%;
+  max-width: 720px;
+  margin: 4px 0 12px;
+}
+
+.light-shaft-name-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+}
+
+.light-shaft-name-row {
+  width: 100%;
+  height: clamp(104px, 14vw, 168px);
+}
+
+@media (max-width: 768px) {
+  .light-shaft-name-row {
+    height: clamp(76px, 18vw, 118px);
+  }
+}
