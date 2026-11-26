@@ -5032,6 +5032,68 @@ html.js .project-card.is-seen .project-card__tag {
   }
 }
 
+/* ── Stack Spiral Vortex Integration ─────────────── */
+.stack-spiral-mount {
+  width: 100%;
+  margin-top: var(--space-lg);
+}
+
+.stack-spiral-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: center;
+}
+
+.stack-spiral-stage {
+  width: 100%;
+  height: clamp(460px, 64vh, 640px);
+  border-radius: 24px;
+  background: radial-gradient(circle at 50% 50%, rgba(12, 16, 28, 0.55) 0%, rgba(6, 8, 14, 0.35) 68%, transparent 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow: 0 24px 60px -14px rgba(0, 0, 0, 0.65);
+  overflow: hidden;
+  position: relative;
+}
+
+.stack-spiral-legend {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+  max-width: 980px;
+}
+
+.stack-spiral-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 13px;
+  border-radius: 999px;
+  background: rgba(12, 15, 24, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: var(--font-body);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #E2E8F0;
+  transition: transform 0.2s ease, border-color 0.2s ease;
+}
+
+.stack-spiral-pill:hover {
+  transform: translateY(-2px);
+  border-color: rgba(234, 170, 0, 0.45);
+  color: #FFFFFF;
+}
+
+.stack-spiral-pill__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
 
 
 
