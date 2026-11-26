@@ -5041,8 +5041,41 @@ html.js .project-card.is-seen .project-card__tag {
 .stack-spiral-wrapper {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
   align-items: center;
+}
+
+.stack-mode-bar {
+  display: inline-flex;
+  gap: 8px;
+  padding: 4px;
+  border-radius: 12px;
+  background: rgba(12, 15, 24, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stack-mode-btn {
+  padding: 7px 14px;
+  border-radius: 8px;
+  border: none;
+  background: transparent;
+  color: #94A3B8;
+  font-family: var(--font-outlier);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.stack-mode-btn:hover {
+  color: #F8FAFC;
+}
+
+.stack-mode-btn.is-active {
+  background: rgba(234, 170, 0, 0.16);
+  color: #EAAA00;
+  box-shadow: 0 0 14px rgba(234, 170, 0, 0.18);
 }
 
 .stack-spiral-stage {
