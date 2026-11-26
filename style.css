@@ -5892,3 +5892,28 @@ html.js .project-card.is-seen .project-card__tag {
     height: clamp(76px, 18vw, 118px);
   }
 }
+
+/* ==========================================================================
+   FOOTER ASCII FLAME BACKDROP
+   ========================================================================== */
+.footer {
+  position: relative;
+  overflow: hidden;
+  padding: 72px 0 38px;
+  border-top: 1px solid rgba(245, 195, 108, 0.14);
+}
+
+.footer > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.footer__flame-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  opacity: 0.78;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 38%, #000 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.55) 38%, #000 100%);
+}
