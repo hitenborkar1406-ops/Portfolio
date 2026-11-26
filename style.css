@@ -5987,3 +5987,25 @@ html.js .project-card.is-seen .project-card__tag {
     gap: 14px;
   }
 }
+
+/* ==========================================================================
+   ABOUT — FORMULA STREAM BACKDROP
+   ========================================================================== */
+.about {
+  position: relative;
+  overflow: hidden;
+}
+
+.about > .container {
+  position: relative;
+  z-index: 2;
+}
+
+.about__formula-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
+}
