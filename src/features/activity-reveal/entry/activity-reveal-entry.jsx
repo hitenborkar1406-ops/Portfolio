@@ -42,3 +42,4 @@ if (document.readyState === 'loading') {
 } else {
   mountActivityReveal();
 }
+

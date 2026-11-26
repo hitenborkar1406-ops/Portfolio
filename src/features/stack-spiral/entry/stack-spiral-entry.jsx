@@ -1,7 +1,6 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { createRoot } from 'react-dom/client';
 import SpiralImages from '../components/SpiralImages';
-import RubberSpheres from '../components/RubberSpheres';
 
 const REAL_STACK = [
   {
@@ -140,90 +139,27 @@ function makeTechCardWithSymbolDataUri(item) {
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
 }
 
-function makeSphereDecalDataUri(item) {
-  const color = item.color;
-  const name = escapeXml(item.name);
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 256 256">
-    <rect width="256" height="256" fill="transparent"/>
-    <g transform="translate(36, 22) scale(1.44)">
-      ${item.svg}
-    </g>
-    <text x="128" y="218" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="26" font-weight="800" fill="#FFFFFF">${name}</text>
-  </svg>`;
-  return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
-}
-
 function StackSpiralSection() {
-  const [mode, setMode] = useState('spheres');
-
   const spiralImages = useMemo(
     () => REAL_STACK.map((item) => ({ src: makeTechCardWithSymbolDataUri(item) })),
     []
   );
 
-  const sphereImages = useMemo(
-    () =>
-      REAL_STACK.map((item) => ({
-        fit: 'Contain',
-        image: { src: makeSphereDecalDataUri(item) },
-        offsetX: 0,
-        offsetY: 0,
-      })),
-    []
-  );
-
   return (
     <div className="stack-spiral-wrapper">
-      <div className="stack-mode-bar" role="tablist" aria-label="Choose stack visualization">
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === 'spheres'}
-          className={`stack-mode-btn ${mode === 'spheres' ? 'is-active' : ''}`}
-          onClick={() => setMode('spheres')}
-        >
-          3D Rubber Spheres
-        </button>
-        <button
-          type="button"
-          role="tab"
-          aria-selected={mode === 'spiral'}
-          className={`stack-mode-btn ${mode === 'spiral' ? 'is-active' : ''}`}
-          onClick={() => setMode('spiral')}
-        >
-          Spiral Vortex
-        </button>
-      </div>
-
-      <div className="stack-spiral-stage" aria-label="Interactive technical skills showcase">
-        {mode === 'spheres' ? (
-          <RubberSpheres
-            sourceMode="Images"
-            images={sphereImages}
-            background="transparent"
-            colorMode="Multi"
-            balloonColors={['#111626', '#151D33', '#19223B', '#0D1220']}
-            density={28}
-            dotSize={165}
-            lighting="Cinematic Drama"
-            field={{ spreadX: 170, spreadY: 95 }}
-            material={{ roughness: 75, gloss: 95, transparency: 0 }}
-            motion={{ gravityAnchor: 'Center', bounciness: 100, mouseForce: 100, parallax: 60 }}
-          />
-        ) : (
-          <SpiralImages
-            images={spiralImages}
-            turns={3.3}
-            speed={2.1}
-            spacing={5.0}
-            spread={5.6}
-            sizeAttenuation={1.45}
-            imageSize={126}
-            fadeIn={16}
-            fadeOut={12}
-            cornerRadius={7}
-          />
-        )}
+      <div className="stack-spiral-stage" aria-label="Interactive 2D spiral of technical skill cards">
+        <SpiralImages
+          images={spiralImages}
+          turns={3.3}
+          speed={2.1}
+          spacing={5.0}
+          spread={5.6}
+          sizeAttenuation={1.45}
+          imageSize={126}
+          fadeIn={16}
+          fadeOut={12}
+          cornerRadius={7}
+        />
       </div>
     </div>
   );
