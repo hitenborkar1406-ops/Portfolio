@@ -5,8 +5,8 @@ import SpiralImages from '../components/SpiralImages';
 const REAL_STACK = [
   {
     name: 'C++',
-    color: '#00599C',
-    svg: `<polygon points="64,18 104,41 104,87 64,110 24,87 24,41" fill="#00599C" fill-opacity="0.2" stroke="#38BDF8" stroke-width="4"/><text x="64" y="75" text-anchor="middle" font-family="ui-monospace,monospace" font-size="34" font-weight="800" fill="#E0F2FE">C++</text>`,
+    color: '#38BDF8',
+    svg: `<polygon points="64,18 104,41 104,87 64,110 24,87 24,41" fill="#00599C" fill-opacity="0.25" stroke="#38BDF8" stroke-width="4"/><text x="64" y="75" text-anchor="middle" font-family="ui-monospace,monospace" font-size="34" font-weight="800" fill="#E0F2FE">C++</text>`,
   },
   {
     name: 'Python',
@@ -49,7 +49,7 @@ const REAL_STACK = [
     svg: `<g fill="none" stroke="#EAAA00" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"><polyline points="24,90 48,66 68,76 100,34"/><polyline points="80,34 100,34 100,54"/><circle cx="48" cy="66" r="5" fill="#EAAA00"/><circle cx="68" cy="76" r="5" fill="#EAAA00"/></g>`,
   },
   {
-    name: 'Leaflet & OSRM',
+    name: 'Leaflet',
     color: '#22C55E',
     svg: `<path d="M64 22c-18 14-30 32-30 50a30 30 0 0 0 60 0c0-18-12-36-30-50z" fill="#22C55E" fill-opacity="0.2" stroke="#22C55E" stroke-width="5"/><line x1="64" y1="38" x2="64" y2="98" stroke="#22C55E" stroke-width="4" stroke-linecap="round"/><path d="M64 60l16-8M64 78l16-8" stroke="#22C55E" stroke-width="4" stroke-linecap="round"/>`,
   },
@@ -99,29 +99,41 @@ const REAL_STACK = [
     svg: `<g fill="none" stroke="#34D399" stroke-width="4.5"><line x1="64" y1="34" x2="38" y2="74"/><line x1="64" y1="34" x2="90" y2="74"/><line x1="38" y1="74" x2="26" y2="98"/><line x1="38" y1="74" x2="50" y2="98"/><circle cx="64" cy="30" r="10" fill="#0B0E17"/><circle cx="38" cy="74" r="9" fill="#0B0E17"/><circle cx="90" cy="74" r="9" fill="#0B0E17"/><circle cx="26" cy="98" r="7" fill="#34D399"/><circle cx="50" cy="98" r="7" fill="#34D399"/></g>`,
   },
   {
-    name: 'Networks & 6G',
+    name: 'Networks 6G',
     color: '#C084FC',
     svg: `<g fill="none" stroke="#C084FC" stroke-width="4.5"><line x1="34" y1="38" x2="94" y2="38"/><line x1="34" y1="38" x2="64" y2="92"/><line x1="94" y1="38" x2="64" y2="92"/><circle cx="34" cy="38" r="10" fill="#0B0E17"/><circle cx="94" cy="38" r="10" fill="#0B0E17"/><circle cx="64" cy="92" r="10" fill="#0B0E17"/><text x="64" y="64" text-anchor="middle" font-family="ui-monospace,monospace" font-size="16" font-weight="800" fill="#E9D5FF">6G</text></g>`,
   },
 ];
 
-function makeTechSymbolDataUri(item) {
+function escapeXml(str) {
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+function makeTechCardWithSymbolDataUri(item) {
   const color = item.color;
-  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128">
+  const name = escapeXml(item.name);
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="168" height="148" viewBox="0 0 168 148">
     <defs>
       <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
         <stop offset="0%" stop-color="#13192B"/>
         <stop offset="100%" stop-color="#07090F"/>
       </linearGradient>
-      <radialGradient id="gl" cx="50%" cy="50%" r="55%">
-        <stop offset="0%" stop-color="${color}" stop-opacity="0.22"/>
+      <radialGradient id="gl" cx="50%" cy="38%" r="60%">
+        <stop offset="0%" stop-color="${color}" stop-opacity="0.24"/>
         <stop offset="100%" stop-color="${color}" stop-opacity="0"/>
       </radialGradient>
     </defs>
-    <rect width="128" height="128" rx="28" fill="url(#bg)"/>
-    <rect width="128" height="128" rx="28" fill="url(#gl)"/>
-    <rect x="2" y="2" width="124" height="124" rx="26" fill="none" stroke="${color}" stroke-opacity="0.5" stroke-width="3"/>
-    ${item.svg}
+    <rect width="168" height="148" rx="22" fill="url(#bg)"/>
+    <rect width="168" height="148" rx="22" fill="url(#gl)"/>
+    <rect x="1.5" y="1.5" width="165" height="145" rx="20.5" fill="none" stroke="${color}" stroke-opacity="0.48" stroke-width="2.5"/>
+    <g transform="translate(36, 12) scale(0.75)">
+      ${item.svg}
+    </g>
+    <text x="84" y="128" text-anchor="middle" font-family="system-ui, -apple-system, sans-serif" font-size="18" font-weight="700" fill="#F8FAFC">${name}</text>
   </svg>`;
 
   return `data:image/svg+xml;charset=utf-8,${encodeURIComponent(svg)}`;
@@ -129,24 +141,24 @@ function makeTechSymbolDataUri(item) {
 
 function StackSpiralSection() {
   const spiralImages = useMemo(
-    () => REAL_STACK.map((item) => ({ src: makeTechSymbolDataUri(item) })),
+    () => REAL_STACK.map((item) => ({ src: makeTechCardWithSymbolDataUri(item) })),
     []
   );
 
   return (
     <div className="stack-spiral-wrapper">
-      <div className="stack-spiral-stage" aria-label="Interactive 2D spiral of technical skill symbols">
+      <div className="stack-spiral-stage" aria-label="Interactive 2D spiral of technical skill cards">
         <SpiralImages
           images={spiralImages}
-          turns={3.4}
+          turns={3.3}
           speed={2.1}
-          spacing={4.2}
+          spacing={4.7}
           spread={5.2}
-          sizeAttenuation={1.55}
-          imageSize={82}
+          sizeAttenuation={1.5}
+          imageSize={110}
           fadeIn={16}
           fadeOut={12}
-          cornerRadius={8}
+          cornerRadius={7}
         />
       </div>
 
