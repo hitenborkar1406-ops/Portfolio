@@ -5989,19 +5989,19 @@ html.js .project-card.is-seen .project-card__tag {
 }
 
 /* ==========================================================================
-   ABOUT — FORMULA STREAM BACKDROP
+   PROFILES — TECH STREAM BACKDROP
    ========================================================================== */
-.about {
+.profiles {
   position: relative;
   overflow: hidden;
 }
 
-.about > .container {
+.profiles > .container {
   position: relative;
   z-index: 2;
 }
 
-.about__formula-bg {
+.profiles__formula-bg {
   position: absolute;
   inset: 0;
   z-index: 0;
