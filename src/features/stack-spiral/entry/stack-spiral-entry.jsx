@@ -161,19 +161,6 @@ function StackSpiralSection() {
           cornerRadius={7}
         />
       </div>
-
-      <div className="stack-spiral-legend" aria-label="Complete technical stack list">
-        {REAL_STACK.map((item) => (
-          <div key={item.name} className="stack-spiral-pill">
-            <span
-              className="stack-spiral-pill__dot"
-              style={{ backgroundColor: item.color, boxShadow: `0 0 8px ${item.color}` }}
-              aria-hidden="true"
-            />
-            <span className="stack-spiral-pill__name">{item.name}</span>
-          </div>
-        ))}
-      </div>
     </div>
   );
 }

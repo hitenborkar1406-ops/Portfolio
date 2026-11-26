@@ -5055,42 +5055,6 @@ html.js .project-card.is-seen .project-card__tag {
   position: relative;
 }
 
-.stack-spiral-legend {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 10px;
-  max-width: 980px;
-}
-
-.stack-spiral-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 13px;
-  border-radius: 999px;
-  background: rgba(12, 15, 24, 0.8);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  font-family: var(--font-body);
-  font-size: 0.78rem;
-  font-weight: 500;
-  color: #E2E8F0;
-  transition: transform 0.2s ease, border-color 0.2s ease;
-}
-
-.stack-spiral-pill:hover {
-  transform: translateY(-2px);
-  border-color: rgba(234, 170, 0, 0.45);
-  color: #FFFFFF;
-}
-
-.stack-spiral-pill__dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
 
 
 
