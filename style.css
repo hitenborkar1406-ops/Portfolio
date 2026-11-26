@@ -1961,7 +1961,6 @@ html.theme-fade *::after {
   contain-intrinsic-size: auto 600px;
   background: transparent !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   z-index: 2;
   padding-bottom: var(--space-3xl);
@@ -3253,7 +3252,6 @@ html.theme-fade *::after {
   contain-intrinsic-size: auto 650px;
   background: transparent !important;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
   position: relative;
   z-index: 2;
 }
@@ -3349,7 +3347,6 @@ html.theme-fade *::after {
   z-index: 2;
   text-align: center;
   background: transparent !important;
-  border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .contact__text {
