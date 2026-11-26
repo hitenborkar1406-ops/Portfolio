@@ -4865,48 +4865,41 @@ html.js .project-card.is-seen .project-card__tag {
 }
 
 .projects-bookshelf-layout {
-  display: grid;
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
-  gap: 28px;
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
 }
 
 .projects-bookshelf-stage {
   width: 100%;
-  height: clamp(360px, 46vh, 460px);
-  border-radius: 20px;
-  background: linear-gradient(165deg, rgba(10, 13, 22, 0.72) 0%, rgba(6, 8, 14, 0.58) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  box-shadow: 0 24px 60px -14px rgba(0, 0, 0, 0.75);
+  height: clamp(480px, 60vh, 620px);
+  border-radius: 22px;
+  background: linear-gradient(165deg, rgba(10, 13, 22, 0.56) 0%, rgba(6, 8, 14, 0.42) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  box-shadow: 0 24px 60px -14px rgba(0, 0, 0, 0.7);
   overflow: hidden;
   position: relative;
-}
-
-.projects-bookshelf-detail {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
 }
 
 .projects-bookshelf-tabs {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
 }
 
 .projects-bookshelf-tab {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 14px;
+  padding: 9px 16px;
   border-radius: 10px;
   background: rgba(14, 17, 26, 0.78);
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: #94A3B8;
   font-family: var(--font-body);
-  font-size: 0.8rem;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -4926,23 +4919,116 @@ html.js .project-card.is-seen .project-card__tag {
 
 .projects-bookshelf-tab__num {
   font-family: var(--font-outlier);
-  font-size: 0.72rem;
+  font-size: 0.75rem;
   color: #EAAA00;
 }
 
-.projects-bookshelf-card {
-  min-height: 360px;
+/* Inline open book right-side content spread */
+.book-spread-page {
+  background: linear-gradient(155deg, rgba(13, 17, 28, 0.96) 0%, rgba(8, 11, 18, 0.98) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-left: none;
+  border-radius: 0 14px 14px 0;
+  box-shadow: inset 18px 0 28px -14px rgba(0, 0, 0, 0.85),
+              0 18px 40px -10px rgba(0, 0, 0, 0.75);
+  padding: clamp(18px, 2.2vw, 28px) clamp(20px, 2.5vw, 32px);
+  box-sizing: border-box;
+  overflow-y: auto;
 }
 
-@media (max-width: 960px) {
-  .projects-bookshelf-layout {
-    grid-template-columns: 1fr;
-  }
+.book-spread-inner {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.book-spread__eyebrow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+  font-family: var(--font-outlier);
+  font-size: 0.75rem;
+  color: #94A3B8;
+}
+
+.book-spread__title {
+  font-family: var(--font-display);
+  font-size: clamp(1.35rem, 2vw, 1.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  color: #FFFFFF;
+  margin: 0 0 10px 0;
+}
+
+.book-spread__summary {
+  font-family: var(--font-body);
+  font-size: clamp(0.88rem, 1.05vw, 0.98rem);
+  line-height: 1.55;
+  color: rgba(226, 232, 240, 0.86);
+  margin: 0 0 14px 0;
+}
+
+.book-spread__highlights {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.book-spread__highlights li {
+  position: relative;
+  padding-left: 18px;
+  font-family: var(--font-body);
+  font-size: clamp(0.84rem, 0.98vw, 0.92rem);
+  line-height: 1.45;
+  color: rgba(203, 213, 225, 0.92);
+}
+
+.book-spread__highlights li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  top: 0;
+  color: #EAAA00;
+  font-weight: 700;
+}
+
+.book-spread__footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.book-spread__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.projects-bookshelf-mobile-detail {
+  display: none;
+}
+
+@media (max-width: 719px) {
   .projects-bookshelf-stage {
     height: 360px;
   }
-  .projects-bookshelf-card {
-    min-height: auto;
+  .projects-bookshelf-mobile-detail {
+    display: block;
+  }
+  .book-spread-page--mobile {
+    border-left: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 14px;
   }
 }
 

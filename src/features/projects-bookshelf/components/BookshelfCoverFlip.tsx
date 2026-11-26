@@ -6,16 +6,15 @@
 import * as React from "react"
 import { useEffect, useRef, useState } from "react"
 
-/** Tuning values. */
 export const ADVANCED_DEFAULTS = {
     openMs: 530,
     closeMs: 670,
-    holdMs: 2600,
+    holdMs: 3600,
     idleMs: 2600,
     autoPlay: true,
     coverScale: 118,
-    coverAspect: 69,
-    gap: 3,
+    coverAspect: 72,
+    gap: 4,
     heightJitter: 0,
     perspective: 1600,
     lift: 3,
@@ -32,10 +31,10 @@ export const ADVANCED_DEFAULTS = {
     shade: 12,
     highlight: 8,
     shadowOpacity: 55,
-    floorColor: "#FFFFFF",
-    floorOpacity: 10,
+    floorColor: "#EAAA00",
+    floorOpacity: 16,
     rowOffset: 0,
-    starColor: "#D9A55A",
+    starColor: "#EAAA00",
     hover: 50,
     grain: 0,
     vignette: 0,
@@ -51,13 +50,6 @@ function withMovedControls(props: any): any {
     }
     return out
 }
-
-const DEFAULT_BOOKS = [
-    { title: "United States", subtitle: "18M reads", spineColor: "#181924", textColor: "#FFFFFF", coverColor: "#1C2538" },
-    { title: "J. Robert Oppenheimer", subtitle: "9.4M reads", spineColor: "#EDE3CF", textColor: "#2A2A2A", coverColor: "#E4D9C2" },
-    { title: "Wikipedia", subtitle: "12M reads", spineColor: "#E6DABE", textColor: "#2A2A2A", coverColor: "#E9DFC6" },
-    { title: "Elon Musk", subtitle: "21M reads", spineColor: "#A9482A", textColor: "#FFFFFF", coverColor: "#A9482A" },
-]
 
 const FALLBACK_BOOK = { title: "Untitled", subtitle: "1M reads", spineColor: "#3D4D6C", textColor: "#FFFFFF", coverColor: "#3D4D6C" }
 const DEFAULT_LABEL = "Portfolio"
@@ -198,36 +190,6 @@ function CoverArt({ variant, ink, star, bg, uid }: { variant: number; ink: strin
             </g>
         )
     }
-    if (variant === 1) {
-        const clip = `${uid}-head`
-        return svg(
-            <g>
-                <defs>
-                    <clipPath id={clip}>
-                        <ellipse cx={50} cy={46} rx={14} ry={18} />
-                    </clipPath>
-                </defs>
-                <path d="M14 100 C18 78 34 70 50 70 C66 70 82 78 86 100 Z" fill={c2} />
-                {Array.from({ length: 10 }).map((_, k) => (
-                    <line key={k} x1={20 + k * 7} y1={100} x2={30 + k * 6} y2={76} stroke={c3} strokeWidth={0.5} opacity={0.5} />
-                ))}
-                <path d="M42 70 L50 84 L58 70" fill={c1} stroke={c3} strokeWidth={0.6} />
-                <rect x={45} y={58} width={10} height={13} fill={c1} />
-                <ellipse cx={50} cy={46} rx={14} ry={18} fill={c1} stroke={c3} strokeWidth={0.8} />
-                <g clipPath={`url(#${clip})`}>
-                    {Array.from({ length: 9 }).map((_, k) => (
-                        <line key={k} x1={53 + k * 2} y1={28} x2={45 + k * 2} y2={66} stroke={c3} strokeWidth={0.45} opacity={0.6} />
-                    ))}
-                </g>
-                <path d="M42 44 h5 M53 44 h5" stroke={c3} strokeWidth={0.9} />
-                <path d="M50 46 L48 53 L51 53" fill="none" stroke={c3} strokeWidth={0.6} />
-                <path d="M45 58 Q50 60 55 58" fill="none" stroke={c3} strokeWidth={0.6} />
-                <path d="M34 30 C34 12 66 12 66 30 Z" fill={c3} />
-                <ellipse cx={50} cy={30} rx={26} ry={4.5} fill={c3} />
-                <path d="M35 26 h30" stroke={c2} strokeWidth={1.2} opacity={0.7} />
-            </g>
-        )
-    }
     if (variant === 2) {
         const grad = `${uid}-globe`
         const clip = `${uid}-gclip`
@@ -276,10 +238,10 @@ function CoverArt({ variant, ink, star, bg, uid }: { variant: number; ink: strin
 }
 
 type Geom = {
-    n: number; hs: number; sw: number; cw: number; gap: number; k: number
+    n: number; hs: number; sw: number; cw: number; gap: number; k: number; pageW: number
     W: number; H: number; heights: number[]; startX: number; floorY: number; boxH: number; P: number
 }
-type Slot = { x: number; w: number; th: number; m: number; e: number }
+type Slot = { x: number; w: number; bookW: number; spreadW: number; th: number; m: number; e: number }
 
 function rowLayout(g: Geom, es: number[]): Slot[] {
     const out: Slot[] = []
@@ -288,8 +250,10 @@ function rowLayout(g: Geom, es: number[]): Slot[] {
         const e = es[i] ?? 0
         const th = (e * Math.PI) / 2
         const m = 1 + (g.k - 1) * e
-        const w = m * (g.sw * Math.cos(th) + g.cw * Math.sin(th))
-        out.push({ x, w, th, m, e })
+        const bookW = m * (g.sw * Math.cos(th) + g.cw * Math.sin(th))
+        const spreadW = g.pageW > 0 ? e * g.pageW : 0
+        const w = bookW + spreadW
+        out.push({ x, w, bookW, spreadW, th, m, e })
         x += w + g.gap
     }
     return out
@@ -318,7 +282,7 @@ function slotStyles(g: Geom, L: Slot, liftPx: number, tiltDeg: number, shadowOp:
             width: `${Math.max(1, L.w)}px`,
             height: `${g.boxH}px`,
             perspective: flat ? "none" : `${g.P}px`,
-            perspectiveOrigin: `${L.w / 2}px ${g.boxH * 0.55}px`,
+            perspectiveOrigin: `${L.bookW / 2}px ${g.boxH * 0.55}px`,
         },
         book: {
             transform: flat
@@ -329,9 +293,16 @@ function slotStyles(g: Geom, L: Slot, liftPx: number, tiltDeg: number, shadowOp:
         coverVisibility: (closed ? "hidden" : "visible") as "hidden" | "visible",
         coverTransform: open ? `translateX(${1 - g.sw}px)` : "rotateY(90deg)",
         spineVisibility: (open ? "hidden" : "visible") as "hidden" | "visible",
+        spread: {
+            left: `${Math.max(0, L.bookW - 2)}px`,
+            width: `${Math.max(0, L.spreadW + 2)}px`,
+            height: `${g.hs * g.k}px`,
+            opacity: `${Math.max(0, Math.min(1, (L.e - 0.15) / 0.65))}`,
+            pointerEvents: (L.e > 0.75 ? "auto" : "none") as "auto" | "none",
+        },
         shadow: {
-            transform: `translate3d(${L.x - L.w * 0.08}px, ${g.floorY - g.hs * 0.035}px, 0px)`,
-            width: `${L.w * 1.16}px`,
+            transform: `translate3d(${L.x - L.w * 0.05}px, ${g.floorY - g.hs * 0.035}px, 0px)`,
+            width: `${L.w * 1.1}px`,
             height: `${g.hs * (0.07 + 0.03 * L.e)}px`,
             opacity: `${shadowOp * (0.6 + 0.4 * L.e)}`,
         },
@@ -341,7 +312,7 @@ function slotStyles(g: Geom, L: Slot, liftPx: number, tiltDeg: number, shadowOp:
 
 function faceOpacities(g: Geom, L: Slot) {
     const c = Math.cos(L.th), s = Math.sin(L.th)
-    const x0 = L.w / 2
+    const x0 = L.bookW / 2
     const proj = (x: number, z: number) => x0 + ((x - x0) * g.P) / Math.max(1, g.P - z)
     const dz = g.sw * s
     const xh = L.m * g.sw * c, zh = L.m * g.sw * s - dz
@@ -357,8 +328,8 @@ export default function BookshelfCoverFlip(props: any) {
         imageFit = "window",
         imageFocus = "center",
         monogram = "HB",
-        size = 440,
-        spineWidth = 14,
+        size = 540,
+        spineWidth = 15,
         speed = 50,
         font = { fontFamily: "Georgia", variant: "Regular", fontWeight: 400, fontSize: 16, lineHeight: "1em", letterSpacing: "0em", textAlign: "left" },
         spineWeight = 500,
@@ -366,13 +337,14 @@ export default function BookshelfCoverFlip(props: any) {
         activeIndex,
         onActiveBookChange,
         onBookClick,
+        renderDetail,
     } = props
 
     const adv = { ...ADVANCED_DEFAULTS, ...(props.advanced ?? {}) }
     const background = props.background || "#00000000"
     const floorColor = adv.floorColor
 
-    const rawBooks = Array.isArray(props.books) && props.books.length ? props.books : DEFAULT_BOOKS
+    const rawBooks = Array.isArray(props.books) && props.books.length ? props.books : []
     const shelfLabel = typeof props.label === "string" ? props.label : DEFAULT_LABEL
     const books = rawBooks.slice(0, 6).map((b: any) => ({
         ...FALLBACK_BOOK,
@@ -390,7 +362,8 @@ export default function BookshelfCoverFlip(props: any) {
     const spineEls = useRef<(HTMLDivElement | null)[]>([])
     const coverFaceEls = useRef<(HTMLDivElement | null)[]>([])
     const spineFaceEls = useRef<(HTMLDivElement | null)[]>([])
-    const [dims, setDims] = useState({ w: 800, h: 460 })
+    const spreadEls = useRef<(HTMLDivElement | null)[]>([])
+    const [dims, setDims] = useState({ w: 1200, h: 580 })
     const [loaded, setLoaded] = useState<Record<string, boolean>>({})
 
     const stRef = useRef<any>(null)
@@ -415,7 +388,6 @@ export default function BookshelfCoverFlip(props: any) {
     if (st.active >= n) st.active = 0
     if (st.autoIdx >= n) st.autoIdx = 0
 
-    // Sync external activeIndex when user clicks selector buttons
     useEffect(() => {
         if (typeof activeIndex === "number" && activeIndex >= 0 && activeIndex < n) {
             stRef.current.active = activeIndex
@@ -425,16 +397,19 @@ export default function BookshelfCoverFlip(props: any) {
         }
     }, [activeIndex, n])
 
-    const W = dims.w || 800
-    const H = dims.h || 460
+    const W = dims.w || 1200
+    const H = dims.h || 580
     const k = adv.coverScale / 100
     const sw0 = (size * spineWidth) / 100
     const cw0 = (size * adv.coverAspect) / 100
     const gap0 = (size * adv.gap) / 100
-    const rowOpen0 = (n - 1) * (sw0 + gap0) + k * cw0
+    const hasDetail = typeof renderDetail === "function"
+    // Allocate a wide right-side spread page next to the opened book on desktop/tablet
+    const pageAspect = hasDetail && W >= 720 ? cw0 * 1.38 : 0
+    const rowOpen0 = (n - 1) * (sw0 + gap0) + k * cw0 + pageAspect
     const jMax = 1 + (0.8 * adv.heightJitter) / 100
-    const hsMax = Math.max(1, Math.min((W * 0.9) / Math.max(1e-6, rowOpen0 / size), (H * 0.82) / (k * jMax)))
-    const hsDef = Math.min(SIZE_DEFAULT, hsMax * 0.88)
+    const hsMax = Math.max(1, Math.min((W * 0.94) / Math.max(1e-6, rowOpen0 / size), (H * 0.86) / (k * jMax)))
+    const hsDef = Math.min(SIZE_DEFAULT, hsMax * 0.92)
     const hs = Math.max(
         1,
         size <= SIZE_DEFAULT
@@ -445,13 +420,14 @@ export default function BookshelfCoverFlip(props: any) {
     const sw = sw0 * fit
     const cw = cw0 * fit
     const gap = gap0 * fit
+    const pageW = pageAspect * fit
     const rowOpenW = rowOpen0 * fit
     const heights = books.map((_: any, i: number) => hs * (1 + (JITTER[i % JITTER.length] * adv.heightJitter) / 100))
     const startX = (W - rowOpenW) / 2
     const floorY = H / 2 + (hs * k) / 2 + (H * adv.rowOffset) / 100
     const g: Geom = {
-        n, hs, sw, cw, gap, k, W, H, heights, startX, floorY,
-        boxH: hs * k * jMax * 1.1,
+        n, hs, sw, cw, gap, k, pageW, W, H, heights, startX, floorY,
+        boxH: hs * k * jMax * 1.06,
         P: adv.perspective * (hs / 440),
     }
     const geomRef = useRef(g)
@@ -589,6 +565,8 @@ export default function BookshelfCoverFlip(props: any) {
                 if (sf && sf.style.visibility !== ss.spineVisibility) sf.style.visibility = ss.spineVisibility
                 const pe = spineEls.current[i]
                 if (pe && pe.style.opacity !== ss.spineOpacity) pe.style.opacity = ss.spineOpacity
+                const sp = spreadEls.current[i]
+                if (sp) Object.assign(sp.style, ss.spread)
             }
         }
         const root = rootRef.current
@@ -655,7 +633,9 @@ export default function BookshelfCoverFlip(props: any) {
         s.idleT = 0
         s.py = 0
     }
-    const onClick = () => {
+    const onClick = (e: React.MouseEvent<HTMLDivElement>) => {
+        // Do not hijack clicks on interactive links inside the open book spread
+        if ((e.target as HTMLElement)?.closest("a, button")) return
         const s = stRef.current
         if (s.hovered >= 0) {
             s.active = s.hovered
@@ -692,7 +672,7 @@ export default function BookshelfCoverFlip(props: any) {
                 width: "100%",
                 height: "100%",
                 minWidth: 0,
-                minHeight: 360,
+                minHeight: 440,
                 cursor: "pointer",
                 ...style,
                 background,
@@ -700,21 +680,21 @@ export default function BookshelfCoverFlip(props: any) {
                 isolation: "isolate",
             }}
         >
-            <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }}>
+            <div style={{ position: "absolute", inset: 0 }}>
               <div style={{ position: "absolute", inset: 0, transform: placeTransform, transformOrigin: `${W / 2}px ${floorY - (hs * k) / 2}px` }}>
                 {/* floor */}
                 <div
                     style={{
                         position: "absolute", left: floorX, top: floorY, width: floorW, height: hs * 0.16,
                         background: `linear-gradient(180deg, ${rgba(floorColor, (adv.floorOpacity / 100) * 0.6)} 0%, ${rgba(floorColor, 0)} 100%)`,
-                        WebkitMaskImage: fade, maskImage: fade,
+                        WebkitMaskImage: fade, maskImage: fade, pointerEvents: "none",
                     }}
                 />
                 <div
                     style={{
                         position: "absolute", left: floorX, top: floorY, width: floorW, height: 1,
                         background: rgba(floorColor, Math.min(1, (adv.floorOpacity / 100) * 1.5)),
-                        WebkitMaskImage: fade, maskImage: fade,
+                        WebkitMaskImage: fade, maskImage: fade, pointerEvents: "none",
                     }}
                 />
                 {/* contact shadows */}
@@ -723,7 +703,7 @@ export default function BookshelfCoverFlip(props: any) {
                         key={"sh" + i}
                         ref={(el) => { shadowEls.current[i] = el }}
                         style={{
-                            position: "absolute", left: 0, top: 0,
+                            position: "absolute", left: 0, top: 0, pointerEvents: "none",
                             background: "radial-gradient(ellipse at center, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0) 72%)",
                             ...initStyles[i].shadow,
                         }}
@@ -751,6 +731,7 @@ export default function BookshelfCoverFlip(props: any) {
                                 style={{
                                     position: "absolute", left: 0, bottom: 0, width: sw, height: h,
                                     transformStyle: "preserve-3d", transformOrigin: "0px 100% 0px",
+                                    pointerEvents: "none",
                                     ...initStyles[i].book,
                                 }}
                             >
@@ -916,27 +897,28 @@ export default function BookshelfCoverFlip(props: any) {
                                 </div>
                                 </div>
                             </div>
+
+                            {/* Inline right-side content spread when this book opens */}
+                            {hasDetail && (
+                                <div
+                                    ref={(el) => { spreadEls.current[i] = el }}
+                                    className="book-spread-slot"
+                                    style={{
+                                        position: "absolute",
+                                        bottom: 0,
+                                        overflow: "hidden",
+                                        ...initStyles[i].spread,
+                                    }}
+                                >
+                                    <div className="book-spread-page" style={{ width: `${Math.max(260, g.pageW)}px`, height: "100%" }}>
+                                        {renderDetail(b, i)}
+                                    </div>
+                                </div>
+                            )}
                         </div>
                     )
                 })}
               </div>
-                {adv.grain > 0 && (
-                    <div
-                        style={{
-                            position: "absolute", inset: 0, opacity: (adv.grain / 100) * 0.5, mixBlendMode: "overlay",
-                            backgroundImage:
-                                "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>\")",
-                        }}
-                    />
-                )}
-                {adv.vignette > 0 && (
-                    <div
-                        style={{
-                            position: "absolute", inset: 0,
-                            background: `radial-gradient(ellipse at center, rgba(0,0,0,0) 45%, rgba(0,0,0,${adv.vignette / 100}) 100%)`,
-                        }}
-                    />
-                )}
             </div>
         </div>
     )
