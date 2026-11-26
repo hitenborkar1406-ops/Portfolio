@@ -429,10 +429,10 @@ export default function PixelRunGame(props: PixelRunGameProps) {
       }
     };
     const pad = (n: number) => String(Math.floor(n)).padStart(5, "0").slice(-5);
-    const rightBest = w - 77 * S;
-    const rightScore = rightBest - 190 * S;
-    const labelY = h * 0.07;
-    const valueY = h * 0.133;
+    const rightBest = w - 48 * S;
+    const rightScore = rightBest - 170 * S;
+    const labelY = Math.max(66, h * 0.24);
+    const valueY = labelY + 18 * Math.max(S, 0.65);
     text("SCORE", rightScore, labelY, A_HUD_LABEL);
     text(pad(world.score), rightScore, valueY, A_HUD_VALUE);
     text("BEST", rightBest, labelY, A_HUD_LABEL);

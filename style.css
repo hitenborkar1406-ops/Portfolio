@@ -5894,17 +5894,18 @@ html.js .project-card.is-seen .project-card__tag {
 }
 
 /* ==========================================================================
-   FOOTER PIXEL RUN GAME (UNIFIED)
+   FOOTER PIXEL RUN GAME (UNIFIED & SYSTEMATIC)
    ========================================================================== */
 .footer {
   position: relative;
   overflow: hidden;
-  min-height: 290px;
-  padding: 24px 0 14px;
+  min-height: 300px;
+  padding: 0 0 14px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  border-top: 1px solid rgba(245, 195, 108, 0.16);
+  background: #060910;
+  border-top: 1px solid rgba(245, 195, 108, 0.18);
 }
 
 .footer__pixel-run {
@@ -5915,23 +5916,54 @@ html.js .project-card.is-seen .project-card__tag {
   z-index: 1;
 }
 
-.footer__overlay-top,
+.footer__overlay-top {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  padding: 16px 0;
+  background: linear-gradient(180deg, rgba(6, 9, 16, 0.85) 0%, rgba(6, 9, 16, 0.35) 75%, transparent 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  pointer-events: none;
+}
+
 .footer__overlay-bottom {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
 }
 
 .footer__overlay-top .footer__inner {
-  justify-content: flex-start;
-  gap: 32px;
-  padding-right: 210px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding-right: 0;
+}
+
+.footer__overlay-top .footer__wordmark {
+  color: #f6f3ec;
+  pointer-events: auto;
+}
+
+.footer__overlay-top .footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 22px;
 }
 
 .footer__wordmark,
 .footer__links a,
 .footer__links button {
   pointer-events: auto;
+}
+
+.footer__overlay-top .footer__link {
+  color: rgba(235, 232, 224, 0.82);
+}
+
+.footer__overlay-top .footer__link:hover {
+  color: #f5c36c;
 }
 
 .footer__overlay-bottom .footer__copy {
@@ -5941,11 +5973,17 @@ html.js .project-card.is-seen .project-card__tag {
 
 @media (max-width: 900px) {
   .footer {
-    min-height: 250px;
+    min-height: 270px;
   }
 
   .footer__overlay-top .footer__inner {
-    padding-right: 0;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .footer__overlay-top .footer__links {
+    justify-content: center;
     gap: 14px;
   }
 }
