@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import BookshelfCoverFlip, { ADVANCED_DEFAULTS } from '../components/BookshelfCoverFlip';
+import InteractiveBook from '../components/InteractiveBook';
 
 const PROJECTS = [
   {
@@ -11,6 +12,7 @@ const PROJECTS = [
     subtitle: 'React · FastAPI · XGBoost',
     spineColor: '#131C31',
     coverColor: '#16223C',
+    coverAccent: '#38BDF8',
     textColor: '#F8FAFC',
     artVariant: 2,
     summary:
@@ -31,6 +33,7 @@ const PROJECTS = [
     subtitle: 'ESP32 · C++ · MQTT',
     spineColor: '#7C2D12',
     coverColor: '#69220D',
+    coverAccent: '#EAAA00',
     textColor: '#F8FAFC',
     artVariant: 3,
     summary:
@@ -46,7 +49,77 @@ const PROJECTS = [
   },
 ];
 
-function ProjectSpreadContent({ project }) {
+function buildBookPages(project) {
+  return [
+    {
+      pageNumber: 1,
+      title: 'Overview & Architecture',
+      content: (
+        <div className="ibook-page-content">
+          <div className="ibook-badge-row">
+            <span className="ibook-idx">{project.index}</span>
+            <span className="ibook-badge">{project.badge}</span>
+          </div>
+          <p className="ibook-summary">{project.summary}</p>
+          <div className="ibook-section-lbl">Core Stack</div>
+          <div className="ibook-tags">
+            {project.tags.map((tag) => (
+              <span key={tag} className="ibook-tag">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      ),
+      backContent: (
+        <div className="ibook-page-content">
+          <div className="ibook-section-lbl">Key Capabilities</div>
+          <ul className="ibook-highlights">
+            {project.highlights.map((h) => (
+              <li key={h}>{h}</li>
+            ))}
+          </ul>
+        </div>
+      ),
+    },
+    {
+      pageNumber: 2,
+      title: 'Deployment & Links',
+      content: (
+        <div className="ibook-page-content">
+          <p className="ibook-summary">
+            Explore the source code, architecture notes, and live deployment for{' '}
+            <strong>{project.title}</strong>.
+          </p>
+          <div className="ibook-links">
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener"
+                className="ibook-link ibook-link--primary"
+              >
+                <span>View Live Demo</span>
+                <span>↗</span>
+              </a>
+            )}
+            <a
+              href={project.githubUrl}
+              target="_blank"
+              rel="noopener"
+              className="ibook-link"
+            >
+              <span>View on GitHub</span>
+              <span>↗</span>
+            </a>
+          </div>
+        </div>
+      ),
+    },
+  ];
+}
+
+function ProjectSpreadContent({ project, onOpenBook }) {
   return (
     <div className="book-spread-inner">
       <div>
@@ -72,6 +145,15 @@ function ProjectSpreadContent({ project }) {
           ))}
         </div>
         <div className="detailed-card__links">
+          <button
+            type="button"
+            className="card-link-btn"
+            style={{ background: 'rgba(234, 170, 0, 0.16)', borderColor: 'rgba(234, 170, 0, 0.45)', color: '#EAAA00' }}
+            onClick={onOpenBook}
+          >
+            <span>Open Book</span>
+            <span>📖</span>
+          </button>
           {project.liveUrl && (
             <a
               href={project.liveUrl}
@@ -111,7 +193,9 @@ function ProjectSpreadContent({ project }) {
 
 function ProjectsBookshelfSection() {
   const [activeIdx, setActiveIdx] = useState(0);
+  const [openReaderIdx, setOpenReaderIdx] = useState(null);
   const activeProject = PROJECTS[activeIdx] || PROJECTS[0];
+  const readerProject = openReaderIdx !== null ? PROJECTS[openReaderIdx] : null;
 
   return (
     <div className="projects-bookshelf-layout">
@@ -123,7 +207,10 @@ function ProjectsBookshelfSection() {
             role="tab"
             aria-selected={idx === activeIdx}
             className={`projects-bookshelf-tab ${idx === activeIdx ? 'is-active' : ''}`}
-            onClick={() => setActiveIdx(idx)}
+            onClick={() => {
+              setActiveIdx(idx);
+              if (openReaderIdx !== null) setOpenReaderIdx(idx);
+            }}
           >
             <span className="projects-bookshelf-tab__num">0{idx + 1}</span>
             <span>{p.title}</span>
@@ -131,36 +218,58 @@ function ProjectsBookshelfSection() {
         ))}
       </div>
 
-      <div className="projects-bookshelf-stage">
-        <BookshelfCoverFlip
-          books={PROJECTS}
-          monogram="HB"
-          size={560}
-          spineWidth={15}
-          speed={50}
-          background="#00000000"
-          activeIndex={activeIdx}
-          onActiveBookChange={(idx) => setActiveIdx(idx)}
-          onBookClick={(idx) => setActiveIdx(idx)}
-          renderDetail={(project) => <ProjectSpreadContent project={project} />}
-          advanced={{
-            ...ADVANCED_DEFAULTS,
-            coverScale: 120,
-            coverAspect: 72,
-            floorColor: '#EAAA00',
-            floorOpacity: 20,
-            starColor: '#EAAA00',
-            holdMs: 3800,
-          }}
-        />
-      </div>
+      {readerProject ? (
+        <div className="projects-bookshelf-stage projects-bookshelf-stage--reader">
+          <InteractiveBook
+            coverColor={readerProject.coverColor}
+            coverAccent={readerProject.coverAccent}
+            bookTitle={readerProject.title}
+            bookAuthor={readerProject.subtitle}
+            bookBadge={readerProject.badge}
+            pages={buildBookPages(readerProject)}
+            defaultOpen={true}
+            onClose={() => setOpenReaderIdx(null)}
+          />
+        </div>
+      ) : (
+        <div className="projects-bookshelf-stage">
+          <BookshelfCoverFlip
+            books={PROJECTS}
+            monogram="HB"
+            size={560}
+            spineWidth={15}
+            speed={50}
+            background="#00000000"
+            activeIndex={activeIdx}
+            onActiveBookChange={(idx) => setActiveIdx(idx)}
+            onBookClick={(idx) => {
+              setActiveIdx(idx);
+              setOpenReaderIdx(idx);
+            }}
+            renderDetail={(project, i) => (
+              <ProjectSpreadContent project={project} onOpenBook={() => setOpenReaderIdx(i)} />
+            )}
+            advanced={{
+              ...ADVANCED_DEFAULTS,
+              coverScale: 120,
+              coverAspect: 72,
+              floorColor: '#EAAA00',
+              floorOpacity: 20,
+              starColor: '#EAAA00',
+              holdMs: 3800,
+            }}
+          />
+        </div>
+      )}
 
       {/* Mobile-only fallback detail card when viewport < 720px */}
-      <div className="projects-bookshelf-mobile-detail">
-        <div className="book-spread-page book-spread-page--mobile">
-          <ProjectSpreadContent project={activeProject} />
+      {!readerProject && (
+        <div className="projects-bookshelf-mobile-detail">
+          <div className="book-spread-page book-spread-page--mobile">
+            <ProjectSpreadContent project={activeProject} onOpenBook={() => setOpenReaderIdx(activeIdx)} />
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 }

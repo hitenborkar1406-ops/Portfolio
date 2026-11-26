@@ -5197,3 +5197,792 @@ html.js .project-card.is-seen .project-card__tag {
 
 
 
+
+/* ==========================================================================
+   PERSIMMON WAFT — FULL-PORTFOLIO CURSOR COMPANION
+   ========================================================================== */
+.persimmon-companion-stage {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 4;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+/* ==========================================================================
+   STAGGERED GRID PROFILES SECTION
+   ========================================================================== */
+.staggered-grid-root {
+  position: relative;
+  width: 100%;
+  margin: 18px 0 36px;
+}
+
+.staggered-grid__headline {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.04em;
+  margin-bottom: 24px;
+  font-family: var(--font-display, "Instrument Serif", Georgia, serif);
+  font-size: clamp(2.1rem, 4.5vw, 3.6rem);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: rgba(244, 240, 232, 0.92);
+  user-select: none;
+  overflow: hidden;
+}
+
+.staggered-char {
+  display: inline-block;
+  will-change: transform, opacity;
+}
+
+.staggered-grid__matrix {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  gap: 10px;
+  align-items: stretch;
+  width: 100%;
+}
+
+.staggered-bento-group {
+  grid-column: span 3;
+  display: flex;
+  gap: 10px;
+  min-height: 220px;
+}
+
+.staggered-bento-card {
+  position: relative;
+  width: 20%;
+  min-width: 64px;
+  border-radius: 16px;
+  background: rgba(12, 15, 22, 0.86);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  overflow: hidden;
+  cursor: pointer;
+  transition: width 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.35s ease,
+    background 0.35s ease;
+  backdrop-filter: blur(12px);
+}
+
+.staggered-bento-card:hover {
+  border-color: rgba(245, 195, 108, 0.35);
+}
+
+.staggered-bento-card.is-active {
+  width: 60%;
+  border-color: rgba(245, 195, 108, 0.45);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45), 0 0 24px rgba(245, 195, 108, 0.08);
+  background: rgba(16, 20, 29, 0.94);
+}
+
+.staggered-bento-card__border {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}
+
+.staggered-bento-card__expanded {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 10px;
+  height: 100%;
+  padding: 16px 18px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+
+.staggered-bento-card.is-active .staggered-bento-card__expanded {
+  opacity: 1;
+  pointer-events: auto;
+  transition-delay: 0.14s;
+}
+
+.staggered-bento-card__compact {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 12px 8px;
+  opacity: 1;
+  transition: opacity 0.2s ease;
+}
+
+.staggered-bento-card.is-active .staggered-bento-card__compact {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.staggered-bento-card__compact-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.05);
+  color: #f5c36c;
+}
+
+.staggered-bento-card__compact-title {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(235, 232, 224, 0.78);
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.staggered-bento-card__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.staggered-bento-card__icon-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 10px;
+  background: rgba(245, 195, 108, 0.12);
+  color: #f5c36c;
+  flex-shrink: 0;
+}
+
+.staggered-bento-card__status {
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 3px 9px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(236, 233, 226, 0.85);
+  white-space: nowrap;
+}
+
+.staggered-bento-card__body {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.staggered-bento-card__title {
+  margin: 0;
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #f6f3ec;
+}
+
+.staggered-bento-card__handle {
+  font-size: 0.78rem;
+  font-family: var(--font-mono, monospace);
+  color: #f5c36c;
+}
+
+.staggered-bento-card__desc {
+  margin: 4px 0 0;
+  font-size: 0.82rem;
+  line-height: 1.45;
+  color: rgba(215, 214, 210, 0.78);
+}
+
+.staggered-bento-card__chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.staggered-bento-chip {
+  font-size: 0.7rem;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: rgba(235, 232, 224, 0.85);
+}
+
+.staggered-bento-card__cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  align-self: flex-start;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #f5c36c;
+  text-decoration: none;
+  padding: 5px 10px;
+  border-radius: 8px;
+  background: rgba(245, 195, 108, 0.1);
+  border: 1px solid rgba(245, 195, 108, 0.28);
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.staggered-bento-card__cta:hover {
+  background: rgba(245, 195, 108, 0.2);
+  transform: translateX(2px);
+}
+
+.staggered-tile {
+  position: relative;
+  min-height: 112px;
+  border-radius: 14px;
+  background: rgba(12, 15, 22, 0.72);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px;
+  backdrop-filter: blur(8px);
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.staggered-tile:hover {
+  transform: translateY(-3px);
+  border-color: rgba(245, 195, 108, 0.28);
+  background: rgba(18, 22, 32, 0.88);
+}
+
+.staggered-tile__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.staggered-tile__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: rgba(245, 195, 108, 0.85);
+}
+
+.staggered-tile__label {
+  font-size: 0.72rem;
+  font-family: var(--font-mono, monospace);
+  letter-spacing: 0.04em;
+  color: rgba(220, 218, 212, 0.72);
+}
+
+@media (max-width: 960px) {
+  .staggered-grid__matrix {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .staggered-bento-group {
+    grid-column: span 3;
+    flex-direction: column;
+    min-height: auto;
+  }
+
+  .staggered-bento-card,
+  .staggered-bento-card.is-active {
+    width: 100%;
+    min-height: 76px;
+  }
+
+  .staggered-bento-card.is-active {
+    min-height: 200px;
+  }
+
+  .staggered-bento-card__compact {
+    flex-direction: row;
+    justify-content: flex-start;
+    padding: 12px 16px;
+  }
+
+  .staggered-bento-card__compact-title {
+    writing-mode: horizontal-tb;
+    transform: none;
+  }
+}
+
+/* ==========================================================================
+   INTERACTIVE BOOK READER (PROJECTS BOOKSHELF)
+   ========================================================================== */
+.projects-bookshelf-stage--reader {
+  min-height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 16px;
+}
+
+.ibook-stage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 18px;
+}
+
+.ibook-close-btn {
+  align-self: flex-end;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  background: rgba(16, 20, 29, 0.88);
+  border: 1px solid rgba(245, 195, 108, 0.3);
+  color: #f5c36c;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.ibook-close-btn:hover {
+  background: rgba(245, 195, 108, 0.16);
+  transform: translateY(-1px);
+}
+
+.ibook-perspective {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  perspective: 1800px;
+  padding: 8px 0;
+}
+
+.ibook-wrapper {
+  position: relative;
+  width: 330px;
+  height: 410px;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ibook-wrapper.is-open {
+  transform: translateX(165px);
+}
+
+.ibook-cover {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+  z-index: 30;
+  cursor: pointer;
+}
+
+.ibook-cover.is-hovering {
+  transform: rotateY(-12deg);
+}
+
+.ibook-cover.is-open {
+  transform: rotateY(-180deg);
+  z-index: 5;
+}
+
+.ibook-cover__front,
+.ibook-cover__back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  border-radius: 4px 14px 14px 4px;
+  overflow: hidden;
+}
+
+.ibook-cover__front {
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 22px 48px rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px;
+}
+
+.ibook-cover__spine-shade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 18px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.55), transparent);
+}
+
+.ibook-cover__inner {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  text-align: left;
+  width: 100%;
+}
+
+.ibook-cover__badge {
+  align-self: flex-start;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid currentColor;
+  background: rgba(0, 0, 0, 0.25);
+}
+
+.ibook-cover__title {
+  margin: 0;
+  font-family: var(--font-display, "Instrument Serif", Georgia, serif);
+  font-size: 1.9rem;
+  line-height: 1.15;
+  color: #f8f5ef;
+}
+
+.ibook-cover__author {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(236, 232, 224, 0.72);
+}
+
+.ibook-cover__back {
+  transform: rotateY(180deg);
+  background: linear-gradient(160deg, #121722 0%, #0b0e15 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 14px 4px 4px 14px;
+  padding: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ibook-inner-cover {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  text-align: center;
+}
+
+.ibook-inner-cover__eyebrow {
+  font-size: 0.68rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #f5c36c;
+}
+
+.ibook-inner-cover__title {
+  margin: 0;
+  font-family: var(--font-display, "Instrument Serif", Georgia, serif);
+  font-size: 1.55rem;
+  color: #f6f3ec;
+}
+
+.ibook-inner-cover__rule {
+  width: 48px;
+  height: 1px;
+  margin: 4px auto;
+  background: rgba(245, 195, 108, 0.45);
+}
+
+.ibook-inner-cover__sub {
+  margin: 0;
+  font-size: 0.82rem;
+  color: rgba(220, 218, 212, 0.72);
+}
+
+.ibook-page-hint {
+  margin-top: 10px;
+  font-size: 0.74rem;
+  color: rgba(245, 195, 108, 0.85);
+}
+
+.ibook-pages-stack {
+  position: absolute;
+  inset: 6px 6px 6px 2px;
+  transform-style: preserve-3d;
+}
+
+.ibook-page {
+  position: absolute;
+  inset: 0;
+  transform-origin: left center;
+  transform-style: preserve-3d;
+  transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ibook-page.is-flipped {
+  transform: rotateY(-180deg);
+}
+
+.ibook-page__front,
+.ibook-page__back,
+.ibook-back-cover {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  padding: 24px 22px;
+  background: linear-gradient(165deg, #151a26 0%, #0d1119 100%);
+  border: 1px solid rgba(255, 255, 255, 0.11);
+  border-radius: 3px 12px 12px 3px;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.ibook-page__back {
+  transform: rotateY(180deg);
+  border-radius: 12px 3px 3px 12px;
+}
+
+.ibook-back-cover {
+  z-index: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  cursor: default;
+}
+
+.ibook-page__num {
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-size: 0.7rem;
+  font-family: var(--font-mono, monospace);
+  color: rgba(220, 218, 212, 0.45);
+}
+
+.ibook-page__num--left {
+  right: auto;
+  left: 16px;
+}
+
+.ibook-page__title {
+  margin: 0 0 10px;
+  font-family: var(--font-display, "Instrument Serif", Georgia, serif);
+  font-size: 1.3rem;
+  color: #f6f3ec;
+}
+
+.ibook-page__body {
+  flex: 1;
+  overflow-y: auto;
+  font-size: 0.85rem;
+  line-height: 1.55;
+  color: rgba(228, 225, 218, 0.88);
+}
+
+.ibook-page__spine-shadow-left {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 14px;
+  background: linear-gradient(90deg, rgba(0, 0, 0, 0.38), transparent);
+  pointer-events: none;
+}
+
+.ibook-page__spine-shadow-right {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 14px;
+  background: linear-gradient(-90deg, rgba(0, 0, 0, 0.38), transparent);
+  pointer-events: none;
+}
+
+.ibook-page__watermark {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display, "Instrument Serif", Georgia, serif);
+  font-size: 4rem;
+  color: rgba(255, 255, 255, 0.04);
+  user-select: none;
+}
+
+.ibook-page-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ibook-badge-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ibook-idx {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.72rem;
+  color: #f5c36c;
+}
+
+.ibook-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: rgba(245, 195, 108, 0.14);
+  border: 1px solid rgba(245, 195, 108, 0.3);
+  color: #f5c36c;
+}
+
+.ibook-summary {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: rgba(226, 224, 218, 0.88);
+}
+
+.ibook-section-lbl {
+  margin-top: 4px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(245, 195, 108, 0.85);
+}
+
+.ibook-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.ibook-tag {
+  font-size: 0.7rem;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #eeeae2;
+}
+
+.ibook-highlights {
+  margin: 0;
+  padding-left: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 0.82rem;
+  color: rgba(226, 224, 218, 0.88);
+}
+
+.ibook-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.ibook-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  text-decoration: none;
+  color: #f4f1ea;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.ibook-link--primary {
+  background: rgba(245, 195, 108, 0.16);
+  border-color: rgba(245, 195, 108, 0.4);
+  color: #f5c36c;
+}
+
+.ibook-link:hover {
+  background: rgba(245, 195, 108, 0.26);
+  border-color: rgba(245, 195, 108, 0.55);
+}
+
+.ibook-back-cover__end {
+  margin: 0;
+  font-family: var(--font-display, "Instrument Serif", Georgia, serif);
+  font-size: 1.25rem;
+  color: rgba(235, 232, 224, 0.7);
+}
+
+.ibook-restart-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  border-radius: 8px;
+  background: rgba(245, 195, 108, 0.14);
+  border: 1px solid rgba(245, 195, 108, 0.35);
+  color: #f5c36c;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.ibook-controls {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.ibook-nav-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: rgba(16, 20, 29, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #f4f1ea;
+  cursor: pointer;
+  transition: border-color 0.2s ease, background 0.2s ease;
+}
+
+.ibook-nav-btn:hover:not(:disabled) {
+  border-color: rgba(245, 195, 108, 0.5);
+  background: rgba(245, 195, 108, 0.14);
+}
+
+.ibook-nav-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.ibook-page-indicator {
+  font-size: 0.76rem;
+  font-family: var(--font-mono, monospace);
+  color: rgba(226, 224, 218, 0.72);
+  min-width: 90px;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .ibook-wrapper {
+    width: 270px;
+    height: 360px;
+  }
+
+  .ibook-wrapper.is-open {
+    transform: translateX(60px) scale(0.84);
+  }
+}
