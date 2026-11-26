@@ -5894,25 +5894,58 @@ html.js .project-card.is-seen .project-card__tag {
 }
 
 /* ==========================================================================
-   FOOTER PIXEL RUN GAME
+   FOOTER PIXEL RUN GAME (UNIFIED)
    ========================================================================== */
 .footer {
   position: relative;
   overflow: hidden;
-  padding: 52px 0 28px;
-  border-top: 1px solid rgba(245, 195, 108, 0.14);
+  min-height: 290px;
+  padding: 24px 0 14px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-top: 1px solid rgba(245, 195, 108, 0.16);
 }
 
 .footer__pixel-run {
+  position: absolute;
+  inset: 0;
   width: 100%;
-  height: 220px;
-  margin: 26px 0 20px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  height: 100%;
+  z-index: 1;
 }
 
-@media (max-width: 768px) {
-  .footer__pixel-run {
-    height: 170px;
+.footer__overlay-top,
+.footer__overlay-bottom {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.footer__overlay-top .footer__inner {
+  justify-content: flex-start;
+  gap: 32px;
+  padding-right: 210px;
+}
+
+.footer__wordmark,
+.footer__links a,
+.footer__links button {
+  pointer-events: auto;
+}
+
+.footer__overlay-bottom .footer__copy {
+  margin: 0;
+  opacity: 0.72;
+}
+
+@media (max-width: 900px) {
+  .footer {
+    min-height: 250px;
+  }
+
+  .footer__overlay-top .footer__inner {
+    padding-right: 0;
+    gap: 14px;
   }
 }

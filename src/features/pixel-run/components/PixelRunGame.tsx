@@ -239,6 +239,7 @@ export type PixelRunGameProps = {
   gravity?: number;
   jump?: number;
   showHud?: boolean;
+  showClouds?: boolean;
   attract?: boolean;
   farDashSpeed?: number;
   style?: React.CSSProperties;
@@ -253,6 +254,7 @@ export default function PixelRunGame(props: PixelRunGameProps) {
     gravity = 4780,
     jump = 1480,
     showHud = true,
+    showClouds = true,
     attract = true,
     farDashSpeed = 100,
     style,
@@ -353,8 +355,10 @@ export default function PixelRunGame(props: PixelRunGameProps) {
       }
     };
 
-    for (const cl of world.clouds) {
-      blit(CLOUD, cl.x, cl.y * h, px * cl.scale, A_CLOUD * (0.7 + 0.3 * cl.depth));
+    if (p.showClouds ?? showClouds) {
+      for (const cl of world.clouds) {
+        blit(CLOUD, cl.x, cl.y * h, px * cl.scale, A_CLOUD * (0.7 + 0.3 * cl.depth));
+      }
     }
 
     ctx.fillStyle = inkAt(A_HORIZON);
@@ -723,3 +727,4 @@ export default function PixelRunGame(props: PixelRunGameProps) {
     </div>
   );
 }
+

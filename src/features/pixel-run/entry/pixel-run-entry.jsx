@@ -16,6 +16,7 @@ function mountFooterPixelRun() {
         gravity={4780}
         jump={1480}
         showHud={true}
+        showClouds={false}
         attract={true}
         farDashSpeed={65}
       />
