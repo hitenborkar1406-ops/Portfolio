@@ -152,10 +152,10 @@ function StackSpiralSection() {
           images={spiralImages}
           turns={3.3}
           speed={2.1}
-          spacing={4.7}
-          spread={5.2}
-          sizeAttenuation={1.5}
-          imageSize={110}
+          spacing={5.0}
+          spread={5.6}
+          sizeAttenuation={1.45}
+          imageSize={126}
           fadeIn={16}
           fadeOut={12}
           cornerRadius={7}
