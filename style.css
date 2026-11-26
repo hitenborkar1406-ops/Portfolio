@@ -4859,6 +4859,93 @@ html.js .project-card.is-seen .project-card__tag {
   }
 }
 
+/* ── Projects Bookshelf Cover Flip Integration ───── */
+.projects-bookshelf-mount {
+  width: 100%;
+}
+
+.projects-bookshelf-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+  gap: 28px;
+  align-items: center;
+}
+
+.projects-bookshelf-stage {
+  width: 100%;
+  height: clamp(360px, 46vh, 460px);
+  border-radius: 20px;
+  background: linear-gradient(165deg, rgba(10, 13, 22, 0.72) 0%, rgba(6, 8, 14, 0.58) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  box-shadow: 0 24px 60px -14px rgba(0, 0, 0, 0.75);
+  overflow: hidden;
+  position: relative;
+}
+
+.projects-bookshelf-detail {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.projects-bookshelf-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.projects-bookshelf-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 14px;
+  border-radius: 10px;
+  background: rgba(14, 17, 26, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94A3B8;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.projects-bookshelf-tab:hover {
+  border-color: rgba(234, 170, 0, 0.45);
+  color: #F8FAFC;
+}
+
+.projects-bookshelf-tab.is-active {
+  background: rgba(234, 170, 0, 0.14);
+  border-color: rgba(234, 170, 0, 0.55);
+  color: #FFFFFF;
+  box-shadow: 0 0 18px rgba(234, 170, 0, 0.18);
+}
+
+.projects-bookshelf-tab__num {
+  font-family: var(--font-outlier);
+  font-size: 0.72rem;
+  color: #EAAA00;
+}
+
+.projects-bookshelf-card {
+  min-height: 360px;
+}
+
+@media (max-width: 960px) {
+  .projects-bookshelf-layout {
+    grid-template-columns: 1fr;
+  }
+  .projects-bookshelf-stage {
+    height: 360px;
+  }
+  .projects-bookshelf-card {
+    min-height: auto;
+  }
+}
+
 
 
 
