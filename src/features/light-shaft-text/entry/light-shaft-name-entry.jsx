@@ -15,21 +15,21 @@ function HeroNameLightShaft() {
             letterSpacing: '-0.02em',
           }}
           background="transparent"
-          textColor="#090c14"
-          lineColor="#FFFFFF"
-          speed={52}
+          textColor="#182238"
+          lineColor="#7DD3FC"
+          speed={54}
           offsetY={0}
           interactive={true}
-          pointerIntensity={26}
+          pointerIntensity={34}
           transparent={true}
           fitWidth={true}
           lines={{
-            density: 155,
-            width: 26,
-            softness: 86,
-            depth: 26,
-            overshoot: 32,
-            flicker: 96,
+            density: 150,
+            width: 34,
+            softness: 80,
+            depth: 52,
+            overshoot: 28,
+            flicker: 62,
           }}
         />
       </div>
@@ -43,21 +43,21 @@ function HeroNameLightShaft() {
             letterSpacing: '-0.02em',
           }}
           background="transparent"
-          textColor="#090c14"
+          textColor="#1f1b14"
           lineColor="#F5C36C"
-          speed={48}
+          speed={50}
           offsetY={0}
           interactive={true}
-          pointerIntensity={26}
+          pointerIntensity={34}
           transparent={true}
           fitWidth={true}
           lines={{
-            density: 155,
-            width: 26,
-            softness: 86,
-            depth: 26,
-            overshoot: 32,
-            flicker: 96,
+            density: 150,
+            width: 34,
+            softness: 80,
+            depth: 52,
+            overshoot: 28,
+            flicker: 62,
           }}
         />
       </div>
@@ -79,4 +79,3 @@ if (document.readyState === 'loading') {
 } else {
   mountLightShaftName();
 }
-

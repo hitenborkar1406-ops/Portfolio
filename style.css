@@ -5911,3 +5911,16 @@ html.js .project-card.is-seen .project-card__tag {
   -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
   mask-image: linear-gradient(to bottom, transparent 0%, #000 18%, #000 82%, transparent 100%);
 }
+
+/* ==========================================================================
+   SECTION HEADINGS — COHESIVE IVORY-TO-GOLD ACCENT
+   ========================================================================== */
+.section__head h2,
+.projects-header h2,
+.stack-marquee-header h2,
+.contact__text h2 {
+  background: linear-gradient(135deg, #f8f5ef 32%, #f5c36c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
