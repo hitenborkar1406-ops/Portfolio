@@ -699,3 +699,4 @@ export default function LightShaftText(props: Partial<Props>) {
 }
 
 LightShaftText.displayName = "Light Shaft Text"
+
