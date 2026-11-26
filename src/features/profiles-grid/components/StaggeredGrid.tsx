@@ -29,7 +29,7 @@ export interface StaggeredGridProps {
 
 export function StaggeredGrid({
   bentoItems,
-  centerText = "PROFILES",
+  centerText = "",
   tileIcons,
   className = "",
 }: StaggeredGridProps) {
@@ -64,10 +64,10 @@ export function StaggeredGrid({
             scrollTrigger: {
               trigger: gridFullRef.current,
               start: "top 92%",
-              end: "center 55%",
-              scrub: 1.2,
+              end: "center 62%",
+              scrub: 1.1,
             },
-            yPercent: 60 + distFromCenter * 25,
+            yPercent: 40 + distFromCenter * 18,
             autoAlpha: 0,
             ease: "sine.out",
           });
@@ -78,22 +78,24 @@ export function StaggeredGrid({
     return () => ctx.revert();
   }, []);
 
-  // 21 slots in a 7-column grid; index 10 (center of row 2) holds the 3-col Bento Group
-  const slots = Array.from({ length: 19 }, (_, i) => i);
+  // 21 slots in a 7-column x 3-row grid; indices 8..12 (center 5 cols of row 2) hold the Bento Group
+  const slots = Array.from({ length: 21 }, (_, i) => i);
 
   return (
     <div className={`staggered-grid-root ${className}`}>
-      <div ref={textRef} className="staggered-grid__headline" aria-hidden="true">
-        {centerText.split("").map((char, i) => (
-          <span key={i} className="staggered-char">
-            {char === " " ? "\u00A0" : char}
-          </span>
-        ))}
-      </div>
+      {centerText ? (
+        <div ref={textRef} className="staggered-grid__headline" aria-hidden="true">
+          {centerText.split("").map((char, i) => (
+            <span key={i} className="staggered-char">
+              {char === " " ? "\u00A0" : char}
+            </span>
+          ))}
+        </div>
+      ) : null}
 
       <div ref={gridFullRef} className="staggered-grid__matrix">
         {slots.map((slotIdx) => {
-          if (slotIdx === 10) {
+          if (slotIdx === 8) {
             return (
               <div key="bento-group" className="staggered-bento-group">
                 {bentoItems.map((item, idx) => {
@@ -150,7 +152,7 @@ export function StaggeredGrid({
             );
           }
 
-          if (slotIdx === 11 || slotIdx === 12) return null;
+          if (slotIdx >= 9 && slotIdx <= 12) return null;
 
           const tile = tileIcons[slotIdx % tileIcons.length];
           return (

@@ -20,6 +20,12 @@ const LeetcodeIcon = () => (
   </svg>
 );
 
+const StrokeIcon = ({ d }) => (
+  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+    <path d={d} />
+  </svg>
+);
+
 const BENTO_ITEMS = [
   {
     id: 'github',
@@ -60,9 +66,20 @@ const BENTO_ITEMS = [
 ];
 
 const TILE_ICONS = [
-  { label: 'GitHub', color: '#A855F7', icon: <GithubIcon /> },
-  { label: 'LinkedIn', color: '#38BDF8', icon: <LinkedinIcon /> },
-  { label: 'LeetCode', color: '#FFA116', icon: <LeetcodeIcon /> },
+  { label: '492 Contribs', color: '#A855F7', icon: <StrokeIcon d="M6 3v12M18 9a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM6 21a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM18 9a9 9 0 0 1-9 9" /> },
+  { label: '144 Solved', color: '#FFA116', icon: <StrokeIcon d="M16 18l6-6-6-6M8 6l-6 6 6 6" /> },
+  { label: '48d Streak', color: '#34D399', icon: <StrokeIcon d="M12 2c1 4-2 6-2 10a4 4 0 0 0 8 0c0-3-2-5-2-8-1 2-2 3-4-2z" /> },
+  { label: '11 Repos', color: '#A855F7', icon: <StrokeIcon d="M3 7v10a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V9a2 2 0 0 0-2-2h-6l-2-2H5a2 2 0 0 0-2 2z" /> },
+  { label: '6G Security', color: '#38BDF8', icon: <StrokeIcon d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /> },
+  { label: 'Ideathon 2nd', color: '#F5C36C', icon: <StrokeIcon d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4z" /> },
+  { label: '76.4% Acc', color: '#FFA116', icon: <StrokeIcon d="M22 11.08V12a10 10 0 1 1-5.93-9.14M22 4L12 14.01l-3-3" /> },
+  { label: 'GIS & ML', color: '#38BDF8', icon: <StrokeIcon d="M12 2a10 10 0 1 0 10 10A10 10 0 0 0 12 2zm0 0v20M2 12h20" /> },
+  { label: 'Edge IoT', color: '#34D399', icon: <StrokeIcon d="M9 9h6v6H9zM9 2v3M15 2v3M9 19v3M15 19v3M2 9h3M2 15h3M19 9h3M19 15h3" /> },
+  { label: 'C++ / DSA', color: '#F5C36C', icon: <StrokeIcon d="M4 17l6-6-6-6M12 19h8" /> },
+  { label: 'FastAPI', color: '#34D399', icon: <StrokeIcon d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /> },
+  { label: 'B.Tech CSE', color: '#38BDF8', icon: <StrokeIcon d="M22 10v6M2 10l10-5 10 5-10 5z" /> },
+  { label: '61d LC Streak', color: '#FFA116', icon: <StrokeIcon d="M12 8v4l3 3m6-3a9 9 0 1 1-18 0 9 9 0 0 1 18 0z" /> },
+  { label: 'Open Source', color: '#A855F7', icon: <StrokeIcon d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" /> },
 ];
 
 function mountProfilesGrid() {
@@ -73,7 +90,7 @@ function mountProfilesGrid() {
     root.render(
       <StaggeredGrid
         bentoItems={BENTO_ITEMS}
-        centerText="PROFILES"
+        centerText=""
         tileIcons={TILE_ICONS}
       />
     );

@@ -5245,21 +5245,22 @@ html.js .project-card.is-seen .project-card__tag {
   display: grid;
   grid-template-columns: repeat(7, minmax(0, 1fr));
   gap: 10px;
-  align-items: stretch;
+  align-items: center;
   width: 100%;
 }
 
 .staggered-bento-group {
-  grid-column: span 3;
+  grid-column: span 5;
   display: flex;
   gap: 10px;
-  min-height: 220px;
+  height: 244px;
 }
 
 .staggered-bento-card {
   position: relative;
-  width: 20%;
-  min-width: 64px;
+  width: 18%;
+  min-width: 68px;
+  height: 100%;
   border-radius: 16px;
   background: rgba(12, 15, 22, 0.86);
   border: 1px solid rgba(255, 255, 255, 0.09);
@@ -5273,13 +5274,13 @@ html.js .project-card.is-seen .project-card__tag {
 }
 
 .staggered-bento-card:hover {
-  border-color: rgba(245, 195, 108, 0.35);
+  border-color: color-mix(in srgb, var(--bento-accent, #f5c36c) 45%, transparent);
 }
 
 .staggered-bento-card.is-active {
-  width: 60%;
-  border-color: rgba(245, 195, 108, 0.45);
-  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.45), 0 0 24px rgba(245, 195, 108, 0.08);
+  width: 64%;
+  border-color: color-mix(in srgb, var(--bento-accent, #f5c36c) 55%, transparent);
+  box-shadow: 0 18px 42px rgba(0, 0, 0, 0.48), 0 0 26px color-mix(in srgb, var(--bento-accent, #f5c36c) 14%, transparent);
   background: rgba(16, 20, 29, 0.94);
 }
 
@@ -5442,29 +5443,31 @@ html.js .project-card.is-seen .project-card__tag {
 
 .staggered-tile {
   position: relative;
-  min-height: 112px;
+  height: 104px;
   border-radius: 14px;
-  background: rgba(12, 15, 22, 0.72);
-  border: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(12, 15, 22, 0.62);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 12px;
+  padding: 10px;
   backdrop-filter: blur(8px);
-  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+  opacity: 0.78;
+  transition: transform 0.3s ease, border-color 0.3s ease, background 0.3s ease, opacity 0.3s ease;
 }
 
 .staggered-tile:hover {
   transform: translateY(-3px);
-  border-color: rgba(245, 195, 108, 0.28);
+  border-color: color-mix(in srgb, var(--tile-color, #f5c36c) 45%, transparent);
   background: rgba(18, 22, 32, 0.88);
+  opacity: 1;
 }
 
 .staggered-tile__inner {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   text-align: center;
 }
 
@@ -5472,7 +5475,7 @@ html.js .project-card.is-seen .project-card__tag {
   display: flex;
   align-items: center;
   justify-content: center;
-  color: rgba(245, 195, 108, 0.85);
+  color: var(--tile-color, rgba(245, 195, 108, 0.85));
 }
 
 .staggered-tile__label {
@@ -5490,12 +5493,14 @@ html.js .project-card.is-seen .project-card__tag {
   .staggered-bento-group {
     grid-column: span 3;
     flex-direction: column;
+    height: auto;
     min-height: auto;
   }
 
   .staggered-bento-card,
   .staggered-bento-card.is-active {
     width: 100%;
+    height: auto;
     min-height: 76px;
   }
 
