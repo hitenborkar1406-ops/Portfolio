@@ -6200,3 +6200,66 @@ html.js .project-card.is-seen .project-card__tag {
 .hero-term-live {
   color: #34d399;
 }
+
+/* ==========================================================================
+   GLOBAL SMOOTH ANCHOR OFFSET, MOBILE HERO GUARD & CONTACT DIRECT BAR
+   ========================================================================== */
+html {
+  scroll-padding-top: 84px;
+}
+
+@media (max-width: 960px) {
+  .hero__content::before {
+    inset: -16px -14px;
+  }
+
+  .hero-right-card-mount {
+    margin-inline: auto;
+  }
+
+  .ok-link-preview-card {
+    max-width: calc(100vw - 32px);
+  }
+}
+
+.contact__direct-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.contact__copy-btn,
+.contact__resume-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #f6f3ec;
+  background: rgba(14, 18, 28, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  text-decoration: none;
+  cursor: pointer;
+  transition: border-color 0.25s ease, color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+}
+
+.contact__copy-btn:hover,
+.contact__resume-btn:hover {
+  border-color: rgba(245, 195, 108, 0.55);
+  color: #f5c36c;
+  background: rgba(245, 195, 108, 0.1);
+  transform: translateY(-2px);
+}
+
+.contact__loc-tag {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 0.74rem;
+  color: rgba(215, 214, 210, 0.65);
+  padding: 6px 12px;
+}

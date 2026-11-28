@@ -27,8 +27,8 @@
   <meta property="og:title" content="Hiten Borkar — Developer">
   <meta property="og:description" content="CSE undergraduate at Ramdeobaba University seeking an SDE internship. Software, web, databases, and machine learning.">
   <meta property="og:type" content="website">
-  <meta property="og:url" content="https://hitenborkar1406-ops.github.io/Portfolio/">
-  <meta property="og:image" content="https://hitenborkar1406-ops.github.io/Portfolio/assets/avatar.jpg">
+  <meta property="og:url" content="https://portfolio-hiten16.vercel.app/">
+  <meta property="og:image" content="https://portfolio-hiten16.vercel.app/assets/avatar.jpg">
 
   <link rel="icon" type="image/png" href="favicon.png?v=20261114">
   <link rel="shortcut icon" href="favicon.ico?v=20261114">
@@ -640,6 +640,27 @@
               </a>
 
             </div>
+          </div>
+
+          <div class="contact__direct-bar">
+            <button
+              type="button"
+              class="contact__copy-btn"
+              id="copyEmailBtn"
+              data-email="hitenborkar1406@gmail.com"
+              onclick="navigator.clipboard&&navigator.clipboard.writeText(this.dataset.email).then(()=>{var l=this.querySelector('span');if(l){var o=l.textContent;l.textContent='Copied! ✓';setTimeout(()=>l.textContent=o,1800)}})"
+            >
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+              </svg>
+              <span>hitenborkar1406@gmail.com</span>
+            </button>
+            <a href="assets/downloads/HITEN_RESUME.pdf?v=20261124" target="_blank" rel="noopener noreferrer" class="contact__resume-btn">
+              <span>Resume (PDF)</span>
+              <span aria-hidden="true">↗</span>
+            </a>
+            <span class="contact__loc-tag">Nagpur, India &bull; B.Tech CSE &apos;28</span>
           </div>
         </div>
       </div>
